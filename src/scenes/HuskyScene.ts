@@ -1,0 +1,458 @@
+import Phaser from "phaser";
+import { MathEngine, MathQuestion } from "../systems/MathEngine";
+import { edges, MapNodeId, nodes, RouteKind } from "../systems/MapGraph";
+
+type RouteVisual = {
+  edge: (typeof edges)[number];
+  graphics: Phaser.GameObjects.Graphics;
+};
+
+export class HuskyScene extends Phaser.Scene {
+  private math = new MathEngine();
+  private currentNode: MapNodeId = "start";
+  private kiki!: Phaser.GameObjects.Container;
+  private routeVisuals: RouteVisual[] = [];
+  private nodeObjects = new Map<MapNodeId, Phaser.GameObjects.Container>();
+  private busy = false;
+  private prompt?: Phaser.GameObjects.Container;
+  private status!: Phaser.GameObjects.Text;
+
+  constructor() {
+    super("HuskyScene");
+  }
+
+  create(): void {
+    this.cameras.main.setBackgroundColor("#dff3ff");
+    this.drawEnvironment();
+    this.drawTitle();
+    this.drawGraph();
+    this.createKiki();
+    this.status = this.add.text(28, 676, "Explore Snowy Peaks", {
+      fontFamily: "Arial",
+      fontSize: "24px",
+      color: "#17324d",
+      backgroundColor: "#ffffffcc",
+      padding: { x: 14, y: 8 },
+    }).setDepth(20);
+
+    this.time.delayedCall(450, () => this.highlightForwardChoices());
+  }
+
+  private drawEnvironment(): void {
+    const g = this.add.graphics();
+    g.fillStyle(0xcaf0ff, 1);
+    g.fillRect(0, 0, 1280, 720);
+
+    g.fillStyle(0xffffff, 0.95);
+    g.fillRoundedRect(50, 115, 1180, 520, 36);
+
+    g.fillStyle(0xe6f7ff, 1);
+    g.fillEllipse(260, 215, 500, 230);
+    g.fillEllipse(780, 170, 620, 250);
+    g.fillEllipse(1080, 260, 400, 230);
+
+    g.fillStyle(0x9bd7ef, 1);
+    g.fillTriangle(120, 360, 320, 120, 500, 360);
+    g.fillTriangle(430, 365, 720, 85, 970, 365);
+    g.fillTriangle(790, 380, 1050, 135, 1220, 380);
+
+    g.fillStyle(0xf7fcff, 1);
+    g.fillTriangle(188, 278, 320, 120, 398, 278);
+    g.fillTriangle(570, 232, 720, 85, 840, 232);
+    g.fillTriangle(932, 252, 1050, 135, 1130, 252);
+
+    for (let i = 0; i < 24; i++) {
+      const x = 90 + (i * 47) % 1100;
+      const y = 240 + ((i * 83) % 330);
+      this.drawPine(x, y, 0.75 + ((i % 4) * 0.08));
+    }
+
+    this.add.rectangle(640, 70, 1280, 140, 0x59b9ef, 0.28);
+  }
+
+  private drawPine(x: number, y: number, s: number): void {
+    const g = this.add.graphics().setDepth(1);
+    g.fillStyle(0x285a4a, 1);
+    g.fillTriangle(x, y - 34 * s, x - 24 * s, y + 10 * s, x + 24 * s, y + 10 * s);
+    g.fillStyle(0x2f775e, 1);
+    g.fillTriangle(x, y - 18 * s, x - 30 * s, y + 28 * s, x + 30 * s, y + 28 * s);
+    g.fillStyle(0xffffff, 0.9);
+    g.fillTriangle(x, y - 32 * s, x - 10 * s, y - 12 * s, x + 10 * s, y - 12 * s);
+  }
+
+  private drawTitle(): void {
+    this.add.text(40, 28, "HUSKY ADVENTURE", {
+      fontFamily: "Arial Black, Arial",
+      fontSize: "44px",
+      color: "#ffffff",
+      stroke: "#15538a",
+      strokeThickness: 8,
+    }).setDepth(10);
+
+    this.add.text(44, 82, "A real playable map prototype", {
+      fontFamily: "Arial",
+      fontSize: "20px",
+      color: "#174c72",
+    }).setDepth(10);
+  }
+
+  private drawGraph(): void {
+    for (const edge of edges) {
+      const graphics = this.add.graphics().setDepth(4);
+      this.routeVisuals.push({ edge, graphics });
+      this.redrawEdge(edge.from, edge.to, edge.kind, graphics, false);
+    }
+
+    for (const node of Object.values(nodes)) {
+      const container = this.add.container(node.x, node.y).setDepth(8);
+      const ring = this.add.circle(0, 0, node.id === "goal" ? 30 : 25, 0xffffff, 0.92)
+        .setStrokeStyle(5, node.id === "goal" ? 0xf3b61f : 0x4a83b8, 1);
+      const dot = this.add.circle(0, 0, 11, node.id === "goal" ? 0xffc933 : 0x4a83b8, 1);
+      const label = this.add.text(0, 40, node.label, {
+        fontFamily: "Arial",
+        fontSize: "17px",
+        color: "#17324d",
+        backgroundColor: "#ffffffdd",
+        padding: { x: 8, y: 5 },
+      }).setOrigin(0.5);
+      container.add([ring, dot, label]);
+      container.setVisible(node.revealed);
+      container.setAlpha(node.id === "start" ? 1 : 0.78);
+      this.nodeObjects.set(node.id, container);
+    }
+  }
+
+  private redrawEdge(
+    fromId: MapNodeId,
+    toId: MapNodeId,
+    kind: RouteKind,
+    graphics: Phaser.GameObjects.Graphics,
+    highlighted: boolean,
+  ): void {
+    const from = nodes[fromId];
+    const to = nodes[toId];
+    const visible = from.revealed && to.revealed;
+
+    graphics.clear();
+    if (!visible) return;
+
+    const color = kind === "challenge" ? 0x8e5bda : 0x3a8fcb;
+    graphics.lineStyle(highlighted ? 12 : 7, color, highlighted ? 1 : 0.58);
+    graphics.beginPath();
+    graphics.moveTo(from.x, from.y);
+    const cx = (from.x + to.x) / 2;
+    const cy = Math.min(from.y, to.y) - (kind === "challenge" ? 65 : 18);
+    graphics.quadraticBezierTo(cx, cy, to.x, to.y);
+    graphics.strokePath();
+
+    if (kind === "challenge") {
+      const star = this.add.star(cx, cy - 18, 5, 8, 17, 0xffd34e, 1).setDepth(6);
+      star.setData("edge-star", `${fromId}-${toId}`);
+    }
+  }
+
+  private createKiki(): void {
+    this.kiki = this.add.container(nodes.start.x, nodes.start.y - 26).setDepth(15);
+    const body = this.add.ellipse(0, 0, 58, 38, 0xd88936, 1).setStrokeStyle(3, 0x8e5227, 1);
+    const chest = this.add.ellipse(17, 2, 23, 30, 0xffffff, 1);
+    const head = this.add.circle(24, -18, 23, 0xd88936, 1).setStrokeStyle(3, 0x8e5227, 1);
+    const blaze = this.add.triangle(25, -26, 18, -39, 31, -39, 25, -10, 0xffffff, 1);
+    const ear1 = this.add.triangle(9, -36, 3, -57, 18, -40, 0xd88936, 1);
+    const ear2 = this.add.triangle(37, -36, 45, -58, 31, -40, 0xd88936, 1);
+    const eye = this.add.circle(31, -20, 3, 0x15202c, 1);
+    const nose = this.add.circle(45, -12, 4, 0x15202c, 1);
+    const pack = this.add.roundedRect ? null : undefined;
+    this.kiki.add([body, chest, head, blaze, ear1, ear2, eye, nose]);
+
+    const backpack = this.add.rectangle(-15, -17, 24, 24, 0x315c9a, 1).setStrokeStyle(2, 0x1d365e, 1);
+    this.kiki.add(backpack);
+  }
+
+  private highlightForwardChoices(): void {
+    this.clearHighlights();
+    if (this.busy) return;
+
+    const forward = edges.filter((e) => e.from === this.currentNode && nodes[e.to].revealed);
+    if (forward.length === 0) {
+      if (this.currentNode === "goal") {
+        this.status.setText("Prototype complete — Kiki reached the lookout!");
+      }
+      return;
+    }
+
+    for (const choice of forward) {
+      const visual = this.routeVisuals.find((v) => v.edge === choice.edge);
+      if (visual) this.redrawEdge(choice.edge.from, choice.edge.to, choice.edge.kind, visual.graphics, true);
+      const nodeObj = this.nodeObjects.get(choice.to);
+      if (!nodeObj) continue;
+
+      nodeObj.setAlpha(1);
+      this.tweens.add({
+        targets: nodeObj,
+        scale: 1.1,
+        duration: 700,
+        yoyo: true,
+        repeat: -1,
+        ease: "Sine.inOut",
+      });
+
+      nodeObj.setSize(90, 90);
+      nodeObj.setInteractive(new Phaser.Geom.Circle(0, 0, 42), Phaser.Geom.Circle.Contains);
+      nodeObj.once("pointerdown", () => this.previewRoute(choice.to, choice.kind));
+    }
+
+    if (forward.length > 1) {
+      this.status.setText("Choose a route: blue = safe, purple star = harder shortcut");
+    } else {
+      this.status.setText("Tap the next glowing destination");
+    }
+  }
+
+  private previewRoute(to: MapNodeId, kind: RouteKind): void {
+    if (this.busy) return;
+    const label = kind === "challenge" ? "Harder Math • Shortcut" : "Current Math • Safe Trail";
+
+    const destination = this.nodeObjects.get(to);
+    if (!destination) return;
+
+    const tip = this.add.container(destination.x, destination.y - 92).setDepth(40);
+    const panel = this.add.rectangle(0, 0, 220, 54, kind === "challenge" ? 0x5f3a98 : 0x1f6f9f, 0.96)
+      .setStrokeStyle(3, 0xffffff, 1);
+    const text = this.add.text(0, 0, label, {
+      fontFamily: "Arial",
+      fontStyle: "bold",
+      fontSize: "18px",
+      color: "#ffffff",
+      align: "center",
+    }).setOrigin(0.5);
+    tip.add([panel, text]);
+
+    this.tweens.add({ targets: tip, y: tip.y - 8, duration: 500, yoyo: true, repeat: -1 });
+
+    const confirm = () => {
+      destination.off("pointerdown", confirm);
+      tip.destroy();
+      this.takeRoute(to, kind);
+    };
+    destination.once("pointerdown", confirm);
+
+    this.status.setText("Tap the same destination again to go there");
+  }
+
+  private async takeRoute(to: MapNodeId, kind: RouteKind): Promise<void> {
+    if (this.busy) return;
+    this.busy = true;
+    this.disableAllNodes();
+    this.clearHighlights();
+
+    if (this.currentNode === "start" && to === "math1") {
+      const ok = await this.runMathEncounter("normal", "A broken bridge blocks the trail.");
+      if (!ok) {
+        this.busy = false;
+        this.highlightForwardChoices();
+        return;
+      }
+    }
+
+    if (this.currentNode === "fork" && kind === "challenge") {
+      const ok = await this.runMathEncounter("challenge", "Ice Shortcut Challenge");
+      if (!ok) {
+        this.busy = false;
+        this.highlightForwardChoices();
+        return;
+      }
+    }
+
+    await this.walkKiki(to);
+
+    this.currentNode = to;
+
+    if (to === "math1") {
+      this.revealNode("fork");
+    } else if (to === "fork") {
+      this.revealNode("safe");
+      this.revealNode("challenge");
+    } else if (to === "safe" || to === "challenge") {
+      this.revealNode("goal");
+    }
+
+    this.busy = false;
+    this.highlightForwardChoices();
+  }
+
+  private walkKiki(to: MapNodeId): Promise<void> {
+    const destination = nodes[to];
+    this.status.setText("Kiki is walking…");
+
+    return new Promise((resolve) => {
+      const startX = this.kiki.x;
+      const startY = this.kiki.y;
+      const flip = destination.x < startX;
+      this.kiki.setScale(flip ? -1 : 1, 1);
+
+      this.tweens.add({
+        targets: this.kiki,
+        x: destination.x,
+        y: destination.y - 26,
+        duration: 2200,
+        ease: "Sine.inOut",
+        onUpdate: (_tween, target) => {
+          const phase = (this.time.now / 120) % Math.PI;
+          target.y = Phaser.Math.Linear(startY, destination.y - 26, _tween.progress) + Math.sin(phase) * 4;
+        },
+        onComplete: () => {
+          this.kiki.setScale(1);
+          this.tweens.add({
+            targets: this.kiki,
+            scaleX: 1.08,
+            scaleY: 1.08,
+            yoyo: true,
+            duration: 180,
+            repeat: 1,
+            onComplete: () => resolve(),
+          });
+        },
+      });
+
+      const stepEvent = this.time.addEvent({
+        delay: 320,
+        repeat: 5,
+        callback: () => {
+          const puff = this.add.circle(this.kiki.x - 20, this.kiki.y + 18, 6, 0xffffff, 0.7).setDepth(13);
+          this.tweens.add({
+            targets: puff,
+            alpha: 0,
+            scale: 2,
+            duration: 450,
+            onComplete: () => puff.destroy(),
+          });
+        },
+      });
+
+      this.time.delayedCall(2250, () => stepEvent.remove(false));
+    });
+  }
+
+  private revealNode(id: MapNodeId): void {
+    if (nodes[id].revealed) return;
+    nodes[id].revealed = true;
+
+    const obj = this.nodeObjects.get(id);
+    if (obj) {
+      obj.setVisible(true).setAlpha(0).setScale(0.75);
+      this.tweens.add({
+        targets: obj,
+        alpha: 1,
+        scale: 1,
+        duration: 650,
+        ease: "Back.out",
+      });
+    }
+
+    for (const v of this.routeVisuals) {
+      if (v.edge.from === id || v.edge.to === id) {
+        this.redrawEdge(v.edge.from, v.edge.to, v.edge.kind, v.graphics, false);
+      }
+    }
+
+    const fog = this.add.circle(nodes[id].x, nodes[id].y, 110, 0xffffff, 0.95).setDepth(14);
+    this.tweens.add({
+      targets: fog,
+      alpha: 0,
+      scale: 1.7,
+      duration: 850,
+      onComplete: () => fog.destroy(),
+    });
+  }
+
+  private runMathEncounter(difficulty: "normal" | "challenge", title: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      const q = this.math.nextQuestion(difficulty);
+      this.showMathPrompt(q, title, resolve);
+    });
+  }
+
+  private showMathPrompt(
+    q: MathQuestion,
+    title: string,
+    resolve: (value: boolean) => void,
+  ): void {
+    this.prompt?.destroy(true);
+
+    const c = this.add.container(640, 360).setDepth(100);
+    const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.58);
+    const panel = this.add.rectangle(0, 0, 620, 430, 0xfffbef, 1).setStrokeStyle(7, q.difficulty === "challenge" ? 0x7a4ab2 : 0x3f83b9, 1);
+
+    const header = this.add.text(0, -158, title, {
+      fontFamily: "Arial Black, Arial",
+      fontSize: "26px",
+      color: q.difficulty === "challenge" ? "#64359a" : "#1b5d8b",
+      align: "center",
+      wordWrap: { width: 520 },
+    }).setOrigin(0.5);
+
+    const prompt = this.add.text(0, -80, q.prompt, {
+      fontFamily: "Arial Black, Arial",
+      fontSize: "58px",
+      color: "#17324d",
+    }).setOrigin(0.5);
+
+    c.add([shade, panel, header, prompt]);
+
+    q.answers.forEach((answer, index) => {
+      const x = index % 2 === 0 ? -150 : 150;
+      const y = 40 + Math.floor(index / 2) * 110;
+      const btn = this.add.rectangle(x, y, 240, 76, index % 2 === 0 ? 0x4ca7e6 : 0xf2bd43, 1)
+        .setStrokeStyle(4, 0xffffff, 1)
+        .setInteractive({ useHandCursor: true });
+      const label = this.add.text(x, y, String(answer), {
+        fontFamily: "Arial Black, Arial",
+        fontSize: "34px",
+        color: "#ffffff",
+        stroke: "#17324d",
+        strokeThickness: 4,
+      }).setOrigin(0.5);
+
+      btn.on("pointerdown", () => {
+        if (answer === q.correct) {
+          this.status.setText("Correct!");
+          c.destroy(true);
+          this.prompt = undefined;
+          resolve(true);
+        } else {
+          this.cameras.main.shake(120, 0.004);
+          label.setColor("#ffdddd");
+          this.time.delayedCall(280, () => label.setColor("#ffffff"));
+        }
+      });
+
+      c.add([btn, label]);
+    });
+
+    this.prompt = c;
+  }
+
+  private clearHighlights(): void {
+    for (const visual of this.routeVisuals) {
+      this.redrawEdge(
+        visual.edge.from,
+        visual.edge.to,
+        visual.edge.kind,
+        visual.graphics,
+        false,
+      );
+    }
+
+    for (const node of this.nodeObjects.values()) {
+      this.tweens.killTweensOf(node);
+      node.setScale(1);
+      node.disableInteractive();
+    }
+  }
+
+  private disableAllNodes(): void {
+    for (const node of this.nodeObjects.values()) {
+      node.disableInteractive();
+    }
+  }
+}

@@ -172,7 +172,8 @@ export class HuskyScene extends Phaser.Scene {
     const forward = edges.filter((e) => e.from === this.currentNode && nodes[e.to].revealed);
     if (forward.length === 0) {
       if (this.currentNode === "goal") {
-        this.status.setText("Prototype complete — Kiki reached the lookout!");
+        this.status.setText("Race unlocked — get ready!");
+        this.time.delayedCall(700, () => this.scene.start("RaceScene"));
       }
       return;
     }

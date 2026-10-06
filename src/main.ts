@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { HuskyScene } from "./scenes/HuskyScene";
+import { RaceScene } from "./scenes/RaceScene";
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -7,7 +8,7 @@ const game = new Phaser.Game({
   backgroundColor: "#dff3ff",
   width: 1280,
   height: 720,
-  scene: [HuskyScene],
+  scene: [HuskyScene, RaceScene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,

@@ -161,7 +161,6 @@ export class HuskyScene extends Phaser.Scene {
     const ear2 = this.add.triangle(37, -36, 45, -58, 31, -40, 0xd88936, 1);
     const eye = this.add.circle(31, -20, 3, 0x15202c, 1);
     const nose = this.add.circle(45, -12, 4, 0x15202c, 1);
-    const pack = this.add.roundedRect ? null : undefined;
     this.kiki.add([body, chest, head, blaze, ear1, ear2, eye, nose]);
 
     const backpack = this.add.rectangle(-15, -17, 24, 24, 0x315c9a, 1).setStrokeStyle(2, 0x1d365e, 1);
@@ -198,45 +197,14 @@ export class HuskyScene extends Phaser.Scene {
 
       nodeObj.setSize(90, 90);
       nodeObj.setInteractive(new Phaser.Geom.Circle(0, 0, 42), Phaser.Geom.Circle.Contains);
-      nodeObj.once("pointerdown", () => this.previewRoute(choice.to, choice.kind));
+      nodeObj.once("pointerdown", () => this.takeRoute(choice.to, choice.kind));
     }
 
     if (forward.length > 1) {
-      this.status.setText("Choose a route: blue = safe, purple star = harder shortcut");
+      this.status.setText("Two paths discovered — choose the trail or the star shortcut");
     } else {
-      this.status.setText("Tap the next glowing destination");
+      this.status.setText("Tap the glowing destination to move Kiki");
     }
-  }
-
-  private previewRoute(to: MapNodeId, kind: RouteKind): void {
-    if (this.busy) return;
-    const label = kind === "challenge" ? "Harder Math • Shortcut" : "Current Math • Safe Trail";
-
-    const destination = this.nodeObjects.get(to);
-    if (!destination) return;
-
-    const tip = this.add.container(destination.x, destination.y - 92).setDepth(40);
-    const panel = this.add.rectangle(0, 0, 220, 54, kind === "challenge" ? 0x5f3a98 : 0x1f6f9f, 0.96)
-      .setStrokeStyle(3, 0xffffff, 1);
-    const text = this.add.text(0, 0, label, {
-      fontFamily: "Arial",
-      fontStyle: "bold",
-      fontSize: "18px",
-      color: "#ffffff",
-      align: "center",
-    }).setOrigin(0.5);
-    tip.add([panel, text]);
-
-    this.tweens.add({ targets: tip, y: tip.y - 8, duration: 500, yoyo: true, repeat: -1 });
-
-    const confirm = () => {
-      destination.off("pointerdown", confirm);
-      tip.destroy();
-      this.takeRoute(to, kind);
-    };
-    destination.once("pointerdown", confirm);
-
-    this.status.setText("Tap the same destination again to go there");
   }
 
   private async takeRoute(to: MapNodeId, kind: RouteKind): Promise<void> {

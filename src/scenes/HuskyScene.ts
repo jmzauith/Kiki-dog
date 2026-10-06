@@ -16,6 +16,7 @@ export class HuskyScene extends Phaser.Scene {
   private busy = false;
   private prompt?: Phaser.GameObjects.Container;
   private status!: Phaser.GameObjects.Text;
+  private fogZones = new Map<"middle" | "right", Phaser.GameObjects.Rectangle>();
 
   constructor() {
     super("HuskyScene");
@@ -26,6 +27,7 @@ export class HuskyScene extends Phaser.Scene {
     this.drawEnvironment();
     this.drawTitle();
     this.drawGraph();
+    this.createDiscoveryFog();
     this.createKiki();
     this.status = this.add.text(28, 676, "Explore Snowy Peaks", {
       fontFamily: "Arial",
@@ -81,21 +83,45 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private drawTitle(): void {
-    const banner = this.add.rectangle(250, 62, 430, 84, 0x2d76a8, 0.93)
-      .setStrokeStyle(4, 0xffffff, 0.9)
+    this.add.rectangle(190, 48, 300, 62, 0x2d76a8, 0.9)
+      .setStrokeStyle(3, 0xffffff, 0.85)
       .setDepth(9);
-    this.add.text(48, 34, "SNOWY PEAKS", {
+    this.add.text(48, 27, "SNOWY PEAKS", {
       fontFamily: "Arial Black, Arial",
-      fontSize: "40px",
+      fontSize: "28px",
       color: "#ffffff",
       stroke: "#164b71",
-      strokeThickness: 6,
+      strokeThickness: 5,
     }).setDepth(10);
-    this.add.text(50, 81, "Husky Adventure", {
+    this.add.text(50, 58, "Husky Adventure", {
       fontFamily: "Arial",
-      fontSize: "19px",
+      fontSize: "16px",
       color: "#eaf8ff",
     }).setDepth(10);
+  }
+
+  private createDiscoveryFog(): void {
+    const middle = this.add.rectangle(760, 390, 500, 500, 0xffffff, 0.84)
+      .setDepth(7)
+      .setStrokeStyle(3, 0xdaf1fb, 0.6);
+    const right = this.add.rectangle(1110, 390, 300, 500, 0xffffff, 0.9)
+      .setDepth(7)
+      .setStrokeStyle(3, 0xdaf1fb, 0.6);
+
+    this.fogZones.set("middle", middle);
+    this.fogZones.set("right", right);
+
+    this.add.text(760, 390, "?", {
+      fontFamily: "Arial Black, Arial",
+      fontSize: "72px",
+      color: "#8fc7df",
+    }).setOrigin(0.5).setDepth(7.2).setData("fog-label", "middle");
+
+    this.add.text(1110, 390, "?", {
+      fontFamily: "Arial Black, Arial",
+      fontSize: "72px",
+      color: "#8fc7df",
+    }).setOrigin(0.5).setDepth(7.2).setData("fog-label", "right");
   }
 
   private drawGraph(): void {
@@ -188,7 +214,6 @@ export class HuskyScene extends Phaser.Scene {
     if (!visible) return;
 
     const color = kind === "challenge" ? 0x8e5bda : 0x84b7d6;
-    graphics.lineStyle(highlighted ? 10 : 6, color, highlighted ? 0.98 : 0.48);
     const cx = (from.x + to.x) / 2;
     const cy = Math.min(from.y, to.y) - (kind === "challenge" ? 65 : 18);
     const curve = new Phaser.Curves.QuadraticBezier(
@@ -196,11 +221,23 @@ export class HuskyScene extends Phaser.Scene {
       new Phaser.Math.Vector2(cx, cy),
       new Phaser.Math.Vector2(to.x, to.y),
     );
-    graphics.strokePoints(curve.getPoints(24), false, false);
+    const points = curve.getPoints(28);
+
+    graphics.lineStyle(highlighted ? 16 : 12, 0xffffff, highlighted ? 0.7 : 0.45);
+    graphics.strokePoints(points, false, false);
+    graphics.lineStyle(highlighted ? 8 : 5, color, highlighted ? 0.95 : 0.5);
+    graphics.strokePoints(points, false, false);
+
+    for (let i = 4; i < points.length - 2; i += 5) {
+      const p = points[i];
+      graphics.fillStyle(kind === "challenge" ? 0xffd24d : 0xffffff, highlighted ? 0.95 : 0.65);
+      graphics.fillCircle(p.x, p.y, highlighted ? 4 : 3);
+    }
   }
 
   private createKiki(): void {
-    this.kiki = this.add.container(nodes.start.x, nodes.start.y - 26).setDepth(15);
+    const start = this.getKikiTarget("start");
+    this.kiki = this.add.container(start.x, start.y).setDepth(15);
     const body = this.add.ellipse(0, 0, 58, 38, 0xd88936, 1).setStrokeStyle(3, 0x8e5227, 1);
     const chest = this.add.ellipse(17, 2, 23, 30, 0xffffff, 1);
     const head = this.add.circle(24, -18, 23, 0xd88936, 1).setStrokeStyle(3, 0x8e5227, 1);
@@ -297,11 +334,13 @@ export class HuskyScene extends Phaser.Scene {
     this.currentNode = to;
 
     if (to === "math1") {
+      this.revealFogZone("middle");
       this.revealNode("fork");
     } else if (to === "fork") {
       this.revealNode("safe");
       this.revealNode("challenge");
     } else if (to === "safe" || to === "challenge") {
+      this.revealFogZone("right");
       this.revealNode("goal");
     }
 
@@ -311,23 +350,24 @@ export class HuskyScene extends Phaser.Scene {
 
   private walkKiki(to: MapNodeId): Promise<void> {
     const destination = nodes[to];
+    const target = this.getKikiTarget(to);
     this.status.setText("Kiki is walking…");
 
     return new Promise((resolve) => {
       const startX = this.kiki.x;
       const startY = this.kiki.y;
-      const flip = destination.x < startX;
+      const flip = target.x < startX;
       this.kiki.setScale(flip ? -1 : 1, 1);
 
       this.tweens.add({
         targets: this.kiki,
-        x: destination.x,
-        y: destination.y - 26,
+        x: target.x,
+        y: target.y,
         duration: 2200,
         ease: "Sine.inOut",
         onUpdate: (_tween, target) => {
           const phase = (this.time.now / 120) % Math.PI;
-          target.y = Phaser.Math.Linear(startY, destination.y - 26, _tween.progress) + Math.sin(phase) * 4;
+          target.y = Phaser.Math.Linear(startY, this.getKikiTarget(to).y, _tween.progress) + Math.sin(phase) * 4;
         },
         onComplete: () => {
           this.kiki.setScale(1);
@@ -359,6 +399,40 @@ export class HuskyScene extends Phaser.Scene {
       });
 
       this.time.delayedCall(2250, () => stepEvent.remove(false));
+    });
+  }
+
+  private getKikiTarget(id: MapNodeId): { x: number; y: number } {
+    const node = nodes[id];
+    const offsets: Partial<Record<MapNodeId, { x: number; y: number }>> = {
+      start: { x: 0, y: -26 },
+      math1: { x: -70, y: -22 },
+      fork: { x: -42, y: -18 },
+      safe: { x: -28, y: -28 },
+      challenge: { x: -28, y: -28 },
+      goal: { x: -38, y: -26 },
+    };
+    const offset = offsets[id] ?? { x: 0, y: -26 };
+    return { x: node.x + offset.x, y: node.y + offset.y };
+  }
+
+  private revealFogZone(zone: "middle" | "right"): void {
+    const fog = this.fogZones.get(zone);
+    if (!fog || !fog.active) return;
+
+    const labels = this.children.list.filter(
+      (child) => child.getData && child.getData("fog-label") === zone,
+    );
+
+    this.tweens.add({
+      targets: [fog, ...labels],
+      alpha: 0,
+      duration: 900,
+      ease: "Sine.out",
+      onComplete: () => {
+        fog.destroy();
+        labels.forEach((label) => label.destroy());
+      },
     });
   }
 

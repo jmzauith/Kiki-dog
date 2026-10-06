@@ -81,18 +81,20 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private drawTitle(): void {
-    this.add.text(40, 28, "HUSKY ADVENTURE", {
+    const banner = this.add.rectangle(250, 62, 430, 84, 0x2d76a8, 0.93)
+      .setStrokeStyle(4, 0xffffff, 0.9)
+      .setDepth(9);
+    this.add.text(48, 34, "SNOWY PEAKS", {
       fontFamily: "Arial Black, Arial",
-      fontSize: "44px",
+      fontSize: "40px",
       color: "#ffffff",
-      stroke: "#15538a",
-      strokeThickness: 8,
+      stroke: "#164b71",
+      strokeThickness: 6,
     }).setDepth(10);
-
-    this.add.text(44, 82, "A real playable map prototype", {
+    this.add.text(50, 81, "Husky Adventure", {
       fontFamily: "Arial",
-      fontSize: "20px",
-      color: "#174c72",
+      fontSize: "19px",
+      color: "#eaf8ff",
     }).setDepth(10);
   }
 
@@ -105,20 +107,68 @@ export class HuskyScene extends Phaser.Scene {
 
     for (const node of Object.values(nodes)) {
       const container = this.add.container(node.x, node.y).setDepth(8);
-      const ring = this.add.circle(0, 0, node.id === "goal" ? 30 : 25, 0xffffff, 0.92)
-        .setStrokeStyle(5, node.id === "goal" ? 0xf3b61f : 0x4a83b8, 1);
-      const dot = this.add.circle(0, 0, 11, node.id === "goal" ? 0xffc933 : 0x4a83b8, 1);
-      const displayLabel = node.id === "challenge" ? "★ Ice Shortcut" : node.label;
-      const label = this.add.text(0, 40, displayLabel, {
-        fontFamily: "Arial",
-        fontSize: "17px",
-        color: "#17324d",
-        backgroundColor: "#ffffffdd",
-        padding: { x: 8, y: 5 },
-      }).setOrigin(0.5);
-      container.add([ring, dot, label]);
+
+      if (node.id === "start") {
+        const paw = this.add.text(0, 18, "PAW TRAILHEAD", {
+          fontFamily: "Arial Black, Arial",
+          fontSize: "15px",
+          color: "#315a77",
+          backgroundColor: "#ffffffb8",
+          padding: { x: 8, y: 4 },
+        }).setOrigin(0.5);
+        container.add(paw);
+      } else if (node.id === "math1") {
+        const postL = this.add.rectangle(-28, 4, 8, 42, 0x8d5a32, 1);
+        const postR = this.add.rectangle(28, 4, 8, 42, 0x8d5a32, 1);
+        const plank1 = this.add.rectangle(0, -7, 66, 10, 0xb97940, 1).setAngle(-8);
+        const plank2 = this.add.rectangle(3, 7, 60, 10, 0xb97940, 1).setAngle(6);
+        const gap = this.add.rectangle(0, 1, 12, 34, 0xffffff, 0.85);
+        const label = this.add.text(0, 42, "Broken Bridge", {
+          fontFamily: "Arial Black, Arial",
+          fontSize: "16px",
+          color: "#3a5265",
+          backgroundColor: "#ffffffcc",
+          padding: { x: 8, y: 4 },
+        }).setOrigin(0.5);
+        container.add([postL, postR, plank1, plank2, gap, label]);
+      } else if (node.id === "fork") {
+        const pole = this.add.rectangle(0, 0, 9, 56, 0x8d5a32, 1);
+        const signL = this.add.rectangle(-34, -12, 58, 20, 0xb97940, 1).setAngle(-8);
+        const signR = this.add.rectangle(34, 5, 58, 20, 0xb97940, 1).setAngle(8);
+        const cap = this.add.circle(0, -31, 7, 0x6b4325, 1);
+        container.add([pole, signL, signR, cap]);
+      } else if (node.id === "safe") {
+        const trail = this.add.ellipse(0, 0, 74, 40, 0xeaf8ff, 1).setStrokeStyle(4, 0x4a8db8, 0.7);
+        const sign = this.add.text(0, 0, "SNOW TRAIL", {
+          fontFamily: "Arial Black, Arial",
+          fontSize: "15px",
+          color: "#2c5d7b",
+        }).setOrigin(0.5);
+        container.add([trail, sign]);
+      } else if (node.id === "challenge") {
+        const ice = this.add.ellipse(0, 0, 84, 46, 0xd9f4ff, 1).setStrokeStyle(4, 0x7751b5, 0.85);
+        const star = this.add.star(-29, -2, 5, 5, 12, 0xffd24d, 1);
+        const sign = this.add.text(12, 0, "SHORTCUT", {
+          fontFamily: "Arial Black, Arial",
+          fontSize: "14px",
+          color: "#65449b",
+        }).setOrigin(0.5);
+        container.add([ice, star, sign]);
+      } else if (node.id === "goal") {
+        const flagPole = this.add.rectangle(0, -7, 6, 62, 0x6d8493, 1);
+        const flag = this.add.triangle(20, -31, 0, -41, 0, -10, 42, -25, 0xf4c542, 1);
+        const label = this.add.text(0, 38, "Sled Race", {
+          fontFamily: "Arial Black, Arial",
+          fontSize: "16px",
+          color: "#5a4a14",
+          backgroundColor: "#fff6c8cc",
+          padding: { x: 8, y: 4 },
+        }).setOrigin(0.5);
+        container.add([flagPole, flag, label]);
+      }
+
       container.setVisible(node.revealed);
-      container.setAlpha(node.id === "start" ? 1 : 0.78);
+      container.setAlpha(node.id === "start" ? 1 : 0.92);
       this.nodeObjects.set(node.id, container);
     }
   }
@@ -137,8 +187,8 @@ export class HuskyScene extends Phaser.Scene {
     graphics.clear();
     if (!visible) return;
 
-    const color = kind === "challenge" ? 0x8e5bda : 0x3a8fcb;
-    graphics.lineStyle(highlighted ? 12 : 7, color, highlighted ? 1 : 0.58);
+    const color = kind === "challenge" ? 0x8e5bda : 0x84b7d6;
+    graphics.lineStyle(highlighted ? 10 : 6, color, highlighted ? 0.98 : 0.48);
     const cx = (from.x + to.x) / 2;
     const cy = Math.min(from.y, to.y) - (kind === "challenge" ? 65 : 18);
     const curve = new Phaser.Curves.QuadraticBezier(
@@ -185,24 +235,36 @@ export class HuskyScene extends Phaser.Scene {
       if (!nodeObj) continue;
 
       nodeObj.setAlpha(1);
+      const arrow = this.add.triangle(
+        nodeObj.x,
+        nodeObj.y - 68,
+        -14, 0,
+        14, 0,
+        0, 20,
+        choice.kind === "challenge" ? 0xffd24d : 0xffffff,
+        1,
+      ).setStrokeStyle(3, choice.kind === "challenge" ? 0x7b55b2 : 0x2f78aa, 1)
+        .setDepth(18)
+        .setData("route-arrow", true);
+
       this.tweens.add({
-        targets: nodeObj,
-        scale: 1.1,
-        duration: 700,
+        targets: [nodeObj, arrow],
+        y: "-=7",
+        duration: 650,
         yoyo: true,
         repeat: -1,
         ease: "Sine.inOut",
       });
 
-      nodeObj.setSize(90, 90);
+      nodeObj.setSize(110, 100);
       nodeObj.setInteractive(new Phaser.Geom.Circle(0, 0, 42), Phaser.Geom.Circle.Contains);
       nodeObj.once("pointerdown", () => this.takeRoute(choice.to, choice.kind));
     }
 
     if (forward.length > 1) {
-      this.status.setText("Two paths discovered — choose the trail or the star shortcut");
+      this.status.setText("Choose your path");
     } else {
-      this.status.setText("Tap the glowing destination to move Kiki");
+      this.status.setText("Follow the arrow");
     }
   }
 
@@ -415,6 +477,10 @@ export class HuskyScene extends Phaser.Scene {
       node.setScale(1);
       node.disableInteractive();
     }
+
+    this.children.list
+      .filter((child) => child.getData && child.getData("route-arrow"))
+      .forEach((child) => child.destroy());
   }
 
   private disableAllNodes(): void {

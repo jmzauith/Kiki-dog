@@ -108,7 +108,8 @@ export class HuskyScene extends Phaser.Scene {
       const ring = this.add.circle(0, 0, node.id === "goal" ? 30 : 25, 0xffffff, 0.92)
         .setStrokeStyle(5, node.id === "goal" ? 0xf3b61f : 0x4a83b8, 1);
       const dot = this.add.circle(0, 0, 11, node.id === "goal" ? 0xffc933 : 0x4a83b8, 1);
-      const label = this.add.text(0, 40, node.label, {
+      const displayLabel = node.id === "challenge" ? "★ Ice Shortcut" : node.label;
+      const label = this.add.text(0, 40, displayLabel, {
         fontFamily: "Arial",
         fontSize: "17px",
         color: "#17324d",
@@ -138,17 +139,14 @@ export class HuskyScene extends Phaser.Scene {
 
     const color = kind === "challenge" ? 0x8e5bda : 0x3a8fcb;
     graphics.lineStyle(highlighted ? 12 : 7, color, highlighted ? 1 : 0.58);
-    graphics.beginPath();
-    graphics.moveTo(from.x, from.y);
     const cx = (from.x + to.x) / 2;
     const cy = Math.min(from.y, to.y) - (kind === "challenge" ? 65 : 18);
-    graphics.quadraticBezierTo(cx, cy, to.x, to.y);
-    graphics.strokePath();
-
-    if (kind === "challenge") {
-      const star = this.add.star(cx, cy - 18, 5, 8, 17, 0xffd34e, 1).setDepth(6);
-      star.setData("edge-star", `${fromId}-${toId}`);
-    }
+    const curve = new Phaser.Curves.QuadraticBezier(
+      new Phaser.Math.Vector2(from.x, from.y),
+      new Phaser.Math.Vector2(cx, cy),
+      new Phaser.Math.Vector2(to.x, to.y),
+    );
+    graphics.strokePoints(curve.getPoints(24), false, false);
   }
 
   private createKiki(): void {
@@ -180,8 +178,8 @@ export class HuskyScene extends Phaser.Scene {
     }
 
     for (const choice of forward) {
-      const visual = this.routeVisuals.find((v) => v.edge === choice.edge);
-      if (visual) this.redrawEdge(choice.edge.from, choice.edge.to, choice.edge.kind, visual.graphics, true);
+      const visual = this.routeVisuals.find((v) => v.edge === choice);
+      if (visual) this.redrawEdge(choice.from, choice.to, choice.kind, visual.graphics, true);
       const nodeObj = this.nodeObjects.get(choice.to);
       if (!nodeObj) continue;
 

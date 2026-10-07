@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 190">
+  <defs>
+    <linearGradient id="tbw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9a06a"/>
+      <stop offset="1" stop-color="#8a5a30"/>
+    </linearGradient>
+  </defs>
+  <!-- toy collection basket (empty): relay drop-off -->
+  <ellipse cx="100" cy="172" rx="70" ry="10" fill="#7ab648" opacity="0.35"/>
+  <path d="M45,70 L155,70 L142,160 Q100,172 58,160 Z" fill="url(#tbw)" stroke="#5f3d22" stroke-width="4"/>
+  <g stroke="#5f3d22" stroke-width="3" opacity="0.45">
+    <path d="M48,95 L152,95 M51,118 L149,118 M55,140 L145,140"/>
+  </g>
+  <g stroke="#8a5a30" stroke-width="3" opacity="0.5">
+    <path d="M75,72 L68,160 M100,72 L100,164 M125,72 L132,160"/>
+  </g>
+  <rect x="38" y="58" width="124" height="22" rx="11" fill="#a5713f" stroke="#5f3d22" stroke-width="4"/>
+  <path d="M55,58 Q100,10 145,58" fill="none" stroke="#5f3d22" stroke-width="8" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Kiki's fluffy tail, drawn pointing up. Origin for wag rotation: (0.5, 0.9). -->
+  <path d="M32,62 C18,52 14,32 27,15 C31,25 37,27 35,15 C47,25 51,47 43,62 Z"
+        fill="#d98f3e" stroke="#8e5227" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="31" cy="17" r="7" fill="#ffffff"/>
+</svg>

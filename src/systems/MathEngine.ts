@@ -3,6 +3,12 @@ export type MathQuestion = {
   answers: number[];
   correct: number;
   difficulty: "normal" | "challenge";
+  /**
+   * Small hint revealed after repeated wrong answers (never a punishment,
+   * just a nudge). Curriculum content is unchanged — this is a presentation
+   * aid so later topics can plug hints in per encounter.
+   */
+  hint: string;
 };
 
 const between = (min: number, max: number): number =>
@@ -45,6 +51,7 @@ export class MathEngine {
       ]),
       correct,
       difficulty,
+      hint: `Try counting by ${a}s, ${b} times.`,
     };
   }
 }

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 260">
+  <defs>
+    <radialGradient id="bwgr" cx="0.5" cy="0.55" r="0.6">
+      <stop offset="0" stop-color="#ffe89a" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- warm interior reward cue (overlay for the open boathouse doorway) -->
+  <ellipse cx="170" cy="150" rx="130" ry="105" fill="url(#bwgr)"/>
+  <!-- canoe prow silhouette in the glow -->
+  <g fill="#7a4f2a" stroke="#4e3319" stroke-width="3" opacity="0.95">
+    <path d="M120,190 Q170,150 220,190 Q170,178 120,190 Z"/>
+    <rect x="163" y="150" width="14" height="44" rx="6"/>
+  </g>
+  <g fill="#ffffff" opacity="0.95">
+    <polygon points="170,70 173,79 182,80 173,83 170,92 167,83 158,80 167,79"/>
+    <polygon points="110,110 112,116 118,117 112,119 110,125 108,119 102,117 108,116"/>
+    <polygon points="230,110 232,116 238,117 232,119 230,125 228,119 222,117 228,116"/>
+    <polygon points="140,200 142,205 147,206 142,208 140,213 138,208 133,206 138,205"/>
+    <polygon points="200,200 202,205 207,206 202,208 200,213 198,208 193,206 198,205"/>
+  </g>
+</svg>

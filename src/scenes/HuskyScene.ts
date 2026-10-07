@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import { MathEngine, MathQuestion } from "../systems/MathEngine";
-import { edges, MapNodeId, nodes, RouteKind } from "../systems/MapGraph";
+import { createMapState, edges, getForwardChoices, MapNode, MapNodeId, RouteKind } from "../systems/MapGraph";
 
 type RouteVisual = {
   edge: (typeof edges)[number];
@@ -9,6 +9,7 @@ type RouteVisual = {
 
 export class HuskyScene extends Phaser.Scene {
   private math = new MathEngine();
+  private mapNodes: Record<MapNodeId, MapNode> = createMapState();
   private currentNode: MapNodeId = "start";
   private kiki!: Phaser.GameObjects.Container;
   private routeVisuals: RouteVisual[] = [];
@@ -23,6 +24,19 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Reset all mutable scene state FIRST: Phaser reuses the same Scene
+    // instance on restart, so without this a replay would inherit the
+    // previous run's node reveals, route visuals, and progress.
+    // mapNodes is an instance-local copy (see createMapState) so the shared
+    // module state in MapGraph is never mutated.
+    this.mapNodes = createMapState();
+    this.currentNode = "start";
+    this.busy = false;
+    this.prompt = undefined;
+    this.routeVisuals = [];
+    this.nodeObjects.clear();
+    this.fogZones.clear();
+
     this.cameras.main.setBackgroundColor("#dff3ff");
     this.drawEnvironment();
     this.drawTitle();
@@ -131,7 +145,7 @@ export class HuskyScene extends Phaser.Scene {
       this.redrawEdge(edge.from, edge.to, edge.kind, graphics, false);
     }
 
-    for (const node of Object.values(nodes)) {
+    for (const node of Object.values(this.mapNodes)) {
       const container = this.add.container(node.x, node.y).setDepth(8);
 
       if (node.id === "start") {
@@ -206,8 +220,8 @@ export class HuskyScene extends Phaser.Scene {
     graphics: Phaser.GameObjects.Graphics,
     highlighted: boolean,
   ): void {
-    const from = nodes[fromId];
-    const to = nodes[toId];
+    const from = this.mapNodes[fromId];
+    const to = this.mapNodes[toId];
     const visible = from.revealed && to.revealed;
 
     graphics.clear();
@@ -256,7 +270,7 @@ export class HuskyScene extends Phaser.Scene {
     this.clearHighlights();
     if (this.busy) return;
 
-    const forward = edges.filter((e) => e.from === this.currentNode && nodes[e.to].revealed);
+    const forward = getForwardChoices(this.currentNode, this.mapNodes);
     if (forward.length === 0) {
       if (this.currentNode === "goal") {
         this.status.setText("Race unlocked — get ready!");
@@ -349,7 +363,6 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private walkKiki(to: MapNodeId): Promise<void> {
-    const destination = nodes[to];
     const target = this.getKikiTarget(to);
     this.status.setText("Kiki is walking…");
 
@@ -403,7 +416,7 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private getKikiTarget(id: MapNodeId): { x: number; y: number } {
-    const node = nodes[id];
+    const node = this.mapNodes[id];
     const offsets: Partial<Record<MapNodeId, { x: number; y: number }>> = {
       start: { x: 0, y: -26 },
       math1: { x: -70, y: -22 },
@@ -437,8 +450,10 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private revealNode(id: MapNodeId): void {
-    if (nodes[id].revealed) return;
-    nodes[id].revealed = true;
+    // Mutates only this scene's instance-local copy; the shared MapGraph
+    // module state is never touched, so restarts start unrevealed.
+    if (this.mapNodes[id].revealed) return;
+    this.mapNodes[id].revealed = true;
 
     const obj = this.nodeObjects.get(id);
     if (obj) {
@@ -458,7 +473,7 @@ export class HuskyScene extends Phaser.Scene {
       }
     }
 
-    const fog = this.add.circle(nodes[id].x, nodes[id].y, 110, 0xffffff, 0.95).setDepth(14);
+    const fog = this.add.circle(this.mapNodes[id].x, this.mapNodes[id].y, 110, 0xffffff, 0.95).setDepth(14);
     this.tweens.add({
       targets: fog,
       alpha: 0,
@@ -502,6 +517,11 @@ export class HuskyScene extends Phaser.Scene {
 
     c.add([shade, panel, header, prompt]);
 
+    // A 9-year-old will double-tap the correct answer. Guard so the
+    // encounter resolves exactly once even if two pointerdown events land
+    // before the prompt is destroyed.
+    let resolved = false;
+
     q.answers.forEach((answer, index) => {
       const x = index % 2 === 0 ? -150 : 150;
       const y = 40 + Math.floor(index / 2) * 110;
@@ -517,7 +537,9 @@ export class HuskyScene extends Phaser.Scene {
       }).setOrigin(0.5);
 
       btn.on("pointerdown", () => {
+        if (resolved) return;
         if (answer === q.correct) {
+          resolved = true;
           this.status.setText("Correct!");
           c.destroy(true);
           this.prompt = undefined;
@@ -550,6 +572,12 @@ export class HuskyScene extends Phaser.Scene {
       this.tweens.killTweensOf(node);
       node.setScale(1);
       node.disableInteractive();
+      // Drop any stale pointerdown listeners (e.g. a `once` registered on a
+      // node the player never tapped). Without this, repeated highlight
+      // cycles accumulate listeners and one tap would call takeRoute multiple
+      // times. The busy guard already prevents harm, but this keeps input
+      // handling clean and predictable.
+      node.off("pointerdown");
     }
 
     this.children.list

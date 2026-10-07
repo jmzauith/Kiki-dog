@@ -3,13 +3,21 @@ import { MathEngine, MathQuestion } from "../systems/MathEngine";
 import { RaceProgressState } from "../systems/RaceProgress";
 import { KikiCharacter } from "../systems/KikiCharacter";
 import { KikiMover } from "../systems/KikiMover";
+import { HUSKY_ADVENTURE, HUSKY_SAVE_KEY } from "../systems/HuskyAdventure";
+import { markRaceComplete } from "../systems/AdventurePersistence";
+import { AdventureEvents } from "../systems/AdventureEvents";
 
 type MoveMode = "steady" | "turbo";
 
+/** Husky race length: 3 (all-turbo) to 5 (all-steady) math decisions. */
+const HUSKY_RACE_FINISH = 5;
+
 export class RaceScene extends Phaser.Scene {
   private math = new MathEngine();
-  private race = new RaceProgressState();
+  private race = new RaceProgressState(HUSKY_RACE_FINISH);
   private busy = false;
+  private turns = 0;
+  private turbos = 0;
   private kiki!: Phaser.GameObjects.Container;
   private kikiChar!: KikiCharacter;
   private kikiMover!: KikiMover;
@@ -29,6 +37,8 @@ export class RaceScene extends Phaser.Scene {
   create(): void {
     this.race.reset();
     this.busy = false;
+    this.turns = 0;
+    this.turbos = 0;
     this.prompt = undefined;
 
     this.cameras.main.setBackgroundColor("#bde8ff");
@@ -197,6 +207,8 @@ export class RaceScene extends Phaser.Scene {
 
     const success = await this.askMath(mode === "turbo" ? "challenge" : "normal", mode);
     if (success) {
+      this.turns += 1;
+      if (mode === "turbo") this.turbos += 1;
       this.race.playerMove(mode);
       await this.moveKiki(this.race.kiki, mode === "turbo");
     }
@@ -385,13 +397,44 @@ export class RaceScene extends Phaser.Scene {
     }
 
     await this.timeDelay(1500);
-    this.add.text(640, 585, "Husky Adventure complete!", {
+
+    // Clean completion state: persist the win, announce it on the event bus,
+    // and hand the player a real continuation (the Husky reward screen) —
+    // the race no longer dead-ends on text.
+    markRaceComplete(
+      HUSKY_SAVE_KEY,
+      HUSKY_ADVENTURE,
+      { turns: this.turns, turbos: this.turbos },
+    );
+    AdventureEvents.emitRaceComplete({
+      adventureId: HUSKY_ADVENTURE.id,
+      turns: this.turns,
+      turbos: this.turbos,
+    });
+
+    const c = this.add.container(640, 470).setDepth(40);
+    const label = this.add.text(
+      0, 0,
+      `Kiki wins in ${this.turns} turns!`,
+      {
+        fontFamily: "Arial Black, Arial",
+        fontSize: "28px",
+        color: "#17324d",
+        backgroundColor: "#ffffffee",
+        padding: { x: 18, y: 12 },
+      },
+    ).setOrigin(0.5);
+    const btn = this.add.rectangle(0, 90, 320, 70, 0x2f84b8, 1)
+      .setStrokeStyle(4, 0xffffff, 1)
+      .setInteractive({ useHandCursor: true });
+    const btnLabel = this.add.text(0, 90, "Continue  →", {
       fontFamily: "Arial Black, Arial",
-      fontSize: "28px",
-      color: "#17324d",
-      backgroundColor: "#ffffffee",
-      padding: { x: 18, y: 12 },
-    }).setOrigin(0.5).setDepth(40);
+      fontSize: "24px",
+      color: "#ffffff",
+    }).setOrigin(0.5);
+    btn.once("pointerdown", () => this.scene.start("HuskyScene"));
+    c.add([label, btn, btnLabel]);
+    this.status.setText("");
   }
 
   private timeDelay(ms: number): Promise<void> {

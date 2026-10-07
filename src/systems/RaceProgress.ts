@@ -9,11 +9,19 @@
 export type RaceMoveMode = "steady" | "turbo";
 
 export class RaceProgressState {
-  /** Spaces needed to win. */
-  readonly finish = 6;
+  /**
+   * Spaces needed to win. Configurable per adventure: the Husky race uses 5
+   * (3–5 turns of Steady/Turbo decisions); default 6 preserves the original
+   * track length.
+   */
+  readonly finish: number;
 
   kiki = 0;
   rival = 0;
+
+  constructor(finish = 6) {
+    this.finish = finish;
+  }
 
   /** True once Kiki has reached the finish. Sticky: never unsets. */
   get over(): boolean {

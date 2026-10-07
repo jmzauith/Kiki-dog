@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150">
+  <defs>
+    <linearGradient id="bko" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9a85e"/>
+      <stop offset="1" stop-color="#a5713f"/>
+    </linearGradient>
+    <radialGradient id="bkg" cx="0.5" cy="0.5" r="0.55">
+      <stop offset="0" stop-color="#fff7d6" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="100" cy="138" rx="85" ry="9" fill="#7ab648" opacity="0.4"/>
+  <circle cx="100" cy="80" r="66" fill="url(#bkg)"/>
+  <!-- dug open: basket revealed -->
+  <ellipse cx="100" cy="110" rx="62" ry="24" fill="#6da33a"/>
+  <ellipse cx="100" cy="106" rx="52" ry="18" fill="#4d7a2a"/>
+  <path d="M55,70 L145,70 L134,124 L66,124 Z" fill="url(#bko)" stroke="#7a4f2a" stroke-width="4"/>
+  <g stroke="#7a4f2a" stroke-width="3" opacity="0.55">
+    <path d="M58,86 L142,86 M61,102 L139,102"/>
+  </g>
+  <circle cx="85" cy="64" r="11" fill="#e8823a"/>
+  <rect x="105" y="54" width="26" height="16" rx="6" fill="#f2f0e4"/>
+  <g fill="#ffd24d">
+    <polygon points="60,40 62,46 68,47 62,49 60,55 58,49 52,47 58,46"/>
+    <polygon points="140,42 142,48 148,49 142,51 140,57 138,51 132,49 138,48"/>
+  </g>
+</svg>

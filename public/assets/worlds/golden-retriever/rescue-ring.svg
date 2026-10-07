@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <!-- rescue ring -->
+  <circle cx="80" cy="80" r="62" fill="#ffffff"/>
+  <circle cx="80" cy="80" r="62" fill="none" stroke="#e8e2d0" stroke-width="3"/>
+  <g fill="#e2574c">
+    <path d="M80,18 a62,62 0 0 1 44,18 L100,62 L74,48 Z"/>
+    <path d="M80,142 a62,62 0 0 1 -44,-18 L60,98 L86,112 Z"/>
+    <path d="M18,80 a62,62 0 0 1 18,-44 L62,60 L48,86 Z"/>
+    <path d="M142,80 a62,62 0 0 1 -18,44 L98,100 L112,74 Z"/>
+  </g>
+  <circle cx="80" cy="80" r="34" fill="#4fc3d9" opacity="0.35"/>
+  <circle cx="80" cy="80" r="62" fill="none" stroke="#d8d0c0" stroke-width="4"/>
+  <!-- hanging rope -->
+  <path d="M80,18 Q80,4 80,4" stroke="#c9a06a" stroke-width="6"/>
+</svg>

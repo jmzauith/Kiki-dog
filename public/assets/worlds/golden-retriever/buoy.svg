@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 170">
+  <defs>
+    <linearGradient id="byb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8a6b"/>
+      <stop offset="0.5" stop-color="#e2574c"/>
+      <stop offset="1" stop-color="#b03a30"/>
+    </linearGradient>
+  </defs>
+  <!-- course buoy -->
+  <ellipse cx="60" cy="150" rx="44" ry="10" fill="#4fc3d9" opacity="0.5"/>
+  <path d="M35,150 Q40,70 60,60 Q80,70 85,150 Z" fill="url(#byb)"/>
+  <rect x="35" y="105" width="50" height="16" fill="#ffffff" opacity="0.9"/>
+  <circle cx="60" cy="52" r="10" fill="#ffd24d" stroke="#c9930a" stroke-width="3"/>
+  <rect x="56" y="58" width="8" height="12" fill="#8a5a34"/>
+  <!-- bobbing ripples -->
+  <g stroke="#a8e6f2" stroke-width="4" fill="none" opacity="0.8" stroke-linecap="round">
+    <path d="M16,150 Q38,156 60,150 M60,150 Q82,156 104,150"/>
+  </g>
+</svg>

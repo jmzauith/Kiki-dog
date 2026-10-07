@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 180">
+  <defs>
+    <linearGradient id="dvw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c08a4d"/>
+      <stop offset="1" stop-color="#8a5a30"/>
+    </linearGradient>
+  </defs>
+  <!-- dive platform at the dock end -->
+  <rect x="20" y="90" width="220" height="26" rx="8" fill="url(#dvw)" stroke="#6b4423" stroke-width="3"/>
+  <rect x="40" y="40" width="18" height="60" rx="8" fill="#6b4423"/>
+  <rect x="202" y="40" width="18" height="60" rx="8" fill="#6b4423"/>
+  <!-- springboard -->
+  <g transform="rotate(-6 130 60)">
+    <rect x="60" y="48" width="150" height="18" rx="9" fill="#4fc3d9" stroke="#1e7a94" stroke-width="3"/>
+    <rect x="60" y="48" width="150" height="6" rx="3" fill="#a8e6f2" opacity="0.8"/>
+  </g>
+  <!-- height marker -->
+  <rect x="222" y="10" width="10" height="90" fill="#ffffff" stroke="#999" stroke-width="2"/>
+  <g stroke="#e2574c" stroke-width="4">
+    <path d="M222,30 L232,30 M222,50 L232,50 M222,70 L232,70"/>
+  </g>
+  <!-- pennant -->
+  <rect x="36" y="8" width="8" height="36" fill="#6b4423"/>
+  <polygon points="44,10 44,30 76,20" fill="#ffd24d"/>
+</svg>

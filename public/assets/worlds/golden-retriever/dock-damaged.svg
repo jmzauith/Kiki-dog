@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160">
+  <defs>
+    <linearGradient id="ddw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a5713f"/>
+      <stop offset="1" stop-color="#7a4f2a"/>
+    </linearGradient>
+  </defs>
+  <!-- damaged dock: missing planks, tilted section -->
+  <g fill="url(#ddw)" stroke="#5f3d22" stroke-width="3">
+    <rect x="0" y="20" width="98" height="58" rx="6"/>
+    <rect x="102" y="20" width="98" height="58" rx="6"/>
+  </g>
+  <g transform="rotate(9 280 50)">
+    <rect x="204" y="20" width="98" height="58" rx="6" fill="url(#ddw)" stroke="#5f3d22" stroke-width="3"/>
+  </g>
+  <!-- gap with broken ends -->
+  <polygon points="302,30 318,24 312,70 300,66" fill="#4e3319"/>
+  <rect x="318" y="34" width="82" height="52" rx="6" fill="#c9b18a" stroke="#8a7a5a" stroke-width="3" stroke-dasharray="10 6" opacity="0.7"/>
+  <!-- one plank dangling into water -->
+  <g transform="rotate(52 250 90)">
+    <rect x="228" y="60" width="90" height="26" rx="6" fill="url(#ddw)" stroke="#5f3d22" stroke-width="3"/>
+  </g>
+  <g fill="#4fc3d9" opacity="0.5">
+    <ellipse cx="250" cy="130" rx="40" ry="10"/>
+    <ellipse cx="350" cy="135" rx="30" ry="8"/>
+  </g>
+</svg>

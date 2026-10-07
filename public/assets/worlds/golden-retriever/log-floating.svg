@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 110">
+  <defs>
+    <linearGradient id="lfw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a5713f"/>
+      <stop offset="1" stop-color="#6b4423"/>
+    </linearGradient>
+  </defs>
+  <!-- floating log -->
+  <ellipse cx="120" cy="80" rx="110" ry="18" fill="#4fc3d9" opacity="0.45"/>
+  <rect x="15" y="52" width="210" height="44" rx="20" fill="url(#lfw)"/>
+  <rect x="15" y="52" width="210" height="13" rx="6" fill="#d9b98a" opacity="0.5"/>
+  <ellipse cx="225" cy="74" rx="10" ry="22" fill="#e8d3a8"/>
+  <ellipse cx="225" cy="74" rx="5" ry="13" fill="#c9a06a"/>
+  <!-- moss -->
+  <g fill="#7ab648" opacity="0.85">
+    <ellipse cx="70" cy="56" rx="22" ry="8"/>
+    <ellipse cx="150" cy="58" rx="18" ry="7"/>
+  </g>
+  <!-- ripples -->
+  <g stroke="#a8e6f2" stroke-width="4" fill="none" opacity="0.8" stroke-linecap="round">
+    <path d="M40,96 Q70,102 100,96 M140,98 Q170,104 200,98"/>
+  </g>
+</svg>

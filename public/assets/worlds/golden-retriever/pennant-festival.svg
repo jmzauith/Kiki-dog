@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 130">
+  <!-- festival pennant string -->
+  <path d="M0,18 Q100,52 200,52 Q300,52 400,18" stroke="#7a4f2a" stroke-width="5" fill="none"/>
+  <g>
+    <polygon points="48,30 66,34 54,50" fill="#e2574c"/>
+    <polygon points="100,38 118,40 108,56" fill="#ffd24d"/>
+    <polygon points="152,41 170,42 160,58" fill="#4fc3d9"/>
+    <polygon points="204,42 222,42 212,58" fill="#8abd4a"/>
+    <polygon points="256,40 274,38 264,54" fill="#f2a0b5"/>
+    <polygon points="308,34 326,30 316,46" fill="#e2574c"/>
+    <polygon points="356,26 372,20 364,36" fill="#ffd24d"/>
+  </g>
+  <circle cx="0" cy="18" r="8" fill="#7a4f2a"/>
+  <circle cx="400" cy="18" r="8" fill="#7a4f2a"/>
+</svg>

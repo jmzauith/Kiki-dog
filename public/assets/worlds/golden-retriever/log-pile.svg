@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
+  <defs>
+    <linearGradient id="lpw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a5713f"/>
+      <stop offset="1" stop-color="#6b4423"/>
+    </linearGradient>
+  </defs>
+  <!-- blocking log pile -->
+  <ellipse cx="160" cy="166" rx="140" ry="10" fill="#7ab648" opacity="0.4"/>
+  <g>
+    <rect x="40" y="120" width="200" height="40" rx="18" fill="url(#lpw)"/>
+    <rect x="80" y="82" width="180" height="40" rx="18" fill="url(#lpw)"/>
+    <rect x="50" y="82" width="44" height="40" rx="16" fill="#8a5a34"/>
+  </g>
+  <g fill="#d9b98a" opacity="0.5">
+    <rect x="40" y="120" width="200" height="12" rx="6"/>
+    <rect x="80" y="82" width="180" height="12" rx="6"/>
+  </g>
+  <ellipse cx="240" cy="140" rx="9" ry="20" fill="#e8d3a8"/>
+  <ellipse cx="260" cy="102" rx="9" ry="20" fill="#e8d3a8"/>
+  <!-- block cue -->
+  <circle cx="160" cy="40" r="18" fill="#e2574c"/>
+  <rect x="156" y="31" width="8" height="13" rx="3" fill="#ffffff"/>
+  <circle cx="160" cy="49" r="4" fill="#ffffff"/>
+</svg>

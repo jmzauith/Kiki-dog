@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 300">
+  <defs>
+    <linearGradient id="wvc" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7ab648"/>
+      <stop offset="1" stop-color="#5d9a38"/>
+    </linearGradient>
+  </defs>
+  <!-- willow curtain: hidden grove entrance (partable strands) -->
+  <g stroke="url(#wvc)" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M40,10 Q34,120 44,240"/>
+    <path d="M80,10 Q76,130 86,260"/>
+    <path d="M120,10 Q118,140 126,270"/>
+    <path d="M160,10 Q162,140 156,270"/>
+    <path d="M200,10 Q202,130 194,260"/>
+    <path d="M240,10 Q244,120 236,240"/>
+    <path d="M280,10 Q284,110 276,220"/>
+  </g>
+  <g stroke="#a8d05e" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.8">
+    <path d="M60,10 Q56,120 64,230"/>
+    <path d="M140,10 Q140,130 136,250"/>
+    <path d="M220,10 Q222,120 216,240"/>
+  </g>
+  <!-- glimpse of the grove beyond -->
+  <ellipse cx="160" cy="270" rx="90" ry="24" fill="#ffd24d" opacity="0.35"/>
+  <polygon points="160,240 163,248 171,249 163,251 160,259 157,251 149,249 157,248" fill="#ffd24d" opacity="0.9"/>
+</svg>

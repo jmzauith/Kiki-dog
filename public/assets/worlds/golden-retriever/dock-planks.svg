@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+  <defs>
+    <linearGradient id="dkw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c08a4d"/>
+      <stop offset="1" stop-color="#96622f"/>
+    </linearGradient>
+  </defs>
+  <!-- tileable dock deck (posts separate) -->
+  <g fill="url(#dkw)" stroke="#6b4423" stroke-width="3">
+    <rect x="0" y="18" width="98" height="60" rx="6"/>
+    <rect x="102" y="18" width="98" height="60" rx="6"/>
+    <rect x="204" y="18" width="98" height="60" rx="6"/>
+    <rect x="306" y="18" width="98" height="60" rx="6"/>
+  </g>
+  <g fill="#6b4423">
+    <circle cx="24" cy="36" r="4"/><circle cx="76" cy="36" r="4"/>
+    <circle cx="126" cy="36" r="4"/><circle cx="178" cy="36" r="4"/>
+    <circle cx="228" cy="36" r="4"/><circle cx="280" cy="36" r="4"/>
+    <circle cx="330" cy="36" r="4"/><circle cx="382" cy="36" r="4"/>
+  </g>
+  <rect x="0" y="18" width="400" height="10" rx="5" fill="#e8c98a" opacity="0.5"/>
+  <rect x="0" y="78" width="400" height="16" rx="6" fill="#6b4423" opacity="0.85"/>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+  <defs>
+    <linearGradient id="ssr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8c4c9"/>
+      <stop offset="1" stop-color="#7d8f96"/>
+    </linearGradient>
+  </defs>
+  <!-- stepping stones across a stream -->
+  <g>
+    <ellipse cx="40" cy="70" rx="46" ry="24" fill="url(#ssr)"/>
+    <ellipse cx="140" cy="60" rx="50" ry="26" fill="url(#ssr)"/>
+    <ellipse cx="250" cy="66" rx="48" ry="25" fill="url(#ssr)"/>
+    <ellipse cx="355" cy="60" rx="44" ry="24" fill="url(#ssr)"/>
+  </g>
+  <g fill="#dfe7ea" opacity="0.8">
+    <ellipse cx="30" cy="62" rx="18" ry="9"/>
+    <ellipse cx="130" cy="52" rx="20" ry="10"/>
+    <ellipse cx="245" cy="58" rx="18" ry="9"/>
+  </g>
+  <g stroke="#a8e6f2" stroke-width="4" fill="none" opacity="0.8" stroke-linecap="round">
+    <path d="M86,70 Q113,66 140,70 M190,64 Q220,60 250,66 M298,64 Q326,60 355,64"/>
+  </g>
+  <!-- hop sparkles on the safe stones -->
+  <g fill="#ffd24d" opacity="0.9">
+    <polygon points="140,30 142,36 148,37 142,39 140,45 138,39 132,37 138,36"/>
+    <polygon points="250,36 252,42 258,43 252,45 250,51 248,45 242,43 248,42"/>
+  </g>
+</svg>

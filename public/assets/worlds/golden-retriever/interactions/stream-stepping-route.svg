@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180">
+  <defs>
+    <linearGradient id="sssr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8c4c9"/>
+      <stop offset="1" stop-color="#7d8f96"/>
+    </linearGradient>
+  </defs>
+  <!-- stepping solution: calm creek, hop-order glints, dotted route -->
+  <rect x="0" y="50" width="400" height="90" rx="18" fill="#4fc3d9" opacity="0.55"/>
+  <g>
+    <ellipse cx="60" cy="100" rx="44" ry="22" fill="url(#sssr)"/>
+    <ellipse cx="160" cy="92" rx="46" ry="23" fill="url(#sssr)"/>
+    <ellipse cx="260" cy="98" rx="46" ry="23" fill="url(#sssr)"/>
+    <ellipse cx="355" cy="92" rx="42" ry="22" fill="url(#sssr)"/>
+  </g>
+  <g fill="#dfe7ea" opacity="0.8">
+    <ellipse cx="50" cy="93" rx="17" ry="8"/>
+    <ellipse cx="150" cy="85" rx="18" ry="9"/>
+    <ellipse cx="252" cy="91" rx="17" ry="8"/>
+  </g>
+  <!-- dotted hop route -->
+  <g stroke="#ffffff" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round" fill="none" opacity="0.9">
+    <path d="M60,78 Q110,50 160,70"/>
+    <path d="M160,70 Q210,48 260,76"/>
+    <path d="M260,76 Q308,50 355,70"/>
+  </g>
+  <!-- hop-order glints, growing 1-2-3 -->
+  <g fill="#ffd24d" opacity="0.95">
+    <polygon points="160,26 162,31 167,32 162,34 160,39 158,34 153,32 158,31"/>
+    <polygon points="260,20 263,27 270,28 263,31 260,38 257,31 250,28 257,27"/>
+    <polygon points="355,14 359,23 368,24 359,28 355,37 351,28 342,24 351,23"/>
+  </g>
+</svg>

@@ -13,6 +13,13 @@ import { KikiMover } from "../systems/KikiMover";
 import { SnowyWorld } from "../visuals/SnowyWorld";
 import { Landmarks, preloadLandmarks } from "../visuals/Landmarks";
 import { DiscoveryFog, FogZone } from "../visuals/DiscoveryFog";
+import {
+  CAMERA,
+  FOG_ZONES,
+  SCENERY_SPOTS,
+  WORLD_H,
+  WORLD_W,
+} from "../worlds/husky/HuskyWorldLayout";
 
 type RouteVisual = {
   edge: (typeof edges)[number];
@@ -56,6 +63,10 @@ export class HuskyScene extends Phaser.Scene {
     this.discoveredIgloo = false;
 
     this.cameras.main.setBackgroundColor("#9fd4f5");
+    // scrolling world: camera travels with Kiki across the 3360-wide level
+    // (reset scroll in case a previous run left it parked elsewhere)
+    this.cameras.main.setBounds(0, 0, WORLD_W, WORLD_H);
+    this.cameras.main.setScroll(0, 0);
     new SnowyWorld(this).build();
 
     this.drawTitlePlaque();
@@ -64,21 +75,30 @@ export class HuskyScene extends Phaser.Scene {
     this.buildFog();
     this.buildKiki();
     this.buildIglooOccluders();
+    this.setupCamera();
 
-    const pill = this.add.graphics().setDepth(20);
+    const pill = this.add.graphics().setDepth(20).setScrollFactor(0);
     pill.fillStyle(0x17324d, 0.82);
     pill.fillRoundedRect(450, 668, 380, 40, 20);
     this.status = this.add.text(640, 688, "Explore Snowy Peaks", {
       fontFamily: "Arial",
       fontSize: "20px",
       color: "#ffffff",
-    }).setOrigin(0.5).setDepth(21);
+    }).setOrigin(0.5).setDepth(21).setScrollFactor(0);
 
     this.time.delayedCall(450, () => this.highlightForwardChoices());
   }
 
+  /** Camera follows Kiki with a gentle lerp and lookahead. */
+  private setupCamera(): void {
+    const cam = this.cameras.main;
+    cam.startFollow(this.kiki.container, false, CAMERA.followLerpX, CAMERA.followLerpY);
+    cam.setFollowOffset(CAMERA.lookAheadX, CAMERA.lookAheadY);
+  }
+
   private drawTitlePlaque(): void {
-    const g = this.add.graphics().setDepth(9);
+    // pinned to the camera: UI must not scroll with the world
+    const g = this.add.graphics().setDepth(9).setScrollFactor(0);
     g.fillStyle(0x8d5a32, 0.95);
     g.lineStyle(3, 0x5a3a1e, 1);
     g.fillRoundedRect(232, 18, 208, 58, 12);
@@ -89,12 +109,12 @@ export class HuskyScene extends Phaser.Scene {
       fontFamily: "Arial Black, Arial",
       fontSize: "21px",
       color: "#fff6e3",
-    }).setOrigin(0.5).setDepth(10);
+    }).setOrigin(0.5).setDepth(10).setScrollFactor(0);
     this.add.text(336, 63, "Husky Adventure", {
       fontFamily: "Arial",
       fontSize: "13px",
       color: "#ffe9c4",
-    }).setOrigin(0.5).setDepth(10);
+    }).setOrigin(0.5).setDepth(10).setScrollFactor(0);
   }
 
   private drawRoutes(): void {
@@ -120,8 +140,10 @@ export class HuskyScene extends Phaser.Scene {
 
   private buildFog(): void {
     this.fog = new DiscoveryFog(this);
-    this.fog.buildZone("middle", 760, 390, 500, 500);
-    this.fog.buildZone("right", 1110, 390, 300, 500);
+    const vg = FOG_ZONES.valleyGate;
+    const sv = FOG_ZONES.summitVeil;
+    this.fog.buildZone("valleyGate", vg.x, vg.y, vg.w, vg.h);
+    this.fog.buildZone("summitVeil", sv.x, sv.y, sv.w, sv.h);
   }
 
   private buildKiki(): void {
@@ -135,9 +157,12 @@ export class HuskyScene extends Phaser.Scene {
     this.mover = new KikiMover(this, this.kiki);
   }
 
+  /** Ice rocks that half-hide the secret igloo until the valley is explored. */
   private buildIglooOccluders(): void {
-    this.add.image(992, 218, "pine").setScale(1.15).setDepth(7).setAlpha(0.98);
-    this.add.image(1168, 206, "pine").setScale(1.32).setDepth(7).setAlpha(0.98);
+    const { x, y } = SCENERY_SPOTS.igloo;
+    this.add.image(x - 78, y + 26, "wlm-rock-ice").setScale(1.05).setDepth(7).setAlpha(0.98);
+    this.add.image(x + 84, y + 18, "wlm-rock-ice").setScale(0.85).setDepth(7).setAlpha(0.98).setFlipX(true);
+    this.add.image(x + 30, y - 58, "wlm-pine-snowy").setScale(0.8).setDepth(7).setAlpha(0.98);
   }
 
   private routeControl(fromId: MapNodeId, toId: MapNodeId, kind: RouteKind): Phaser.Math.Vector2 {
@@ -271,6 +296,8 @@ export class HuskyScene extends Phaser.Scene {
     this.busy = true;
     this.disableAllNodes();
     this.clearHighlights();
+    // a cinematic pan may have parked the camera elsewhere; follow Kiki again
+    this.resumeFollow();
 
     let alreadyMoved = false;
 
@@ -297,13 +324,13 @@ export class HuskyScene extends Phaser.Scene {
     this.currentNode = to;
 
     if (to === "math1") {
-      void this.revealFogZone("middle");
+      void this.revealFogZone("valleyGate");
       this.revealNode("fork");
     } else if (to === "fork") {
       this.revealNode("safe");
       this.revealNode("challenge");
     } else if (to === "safe" || to === "challenge") {
-      void this.revealFogZone("right").then(() => this.revealIgloo());
+      void this.revealFogZone("summitVeil").then(() => this.revealIgloo());
       this.revealNode("goal");
     }
 
@@ -458,6 +485,40 @@ export class HuskyScene extends Phaser.Scene {
       duration: 850,
       onComplete: () => reveal.destroy(),
     });
+
+    // Cinematic reveal: if the new node is off-screen, pan the camera to it
+    // so the player sees where the journey continues. Follow resumes when
+    // Kiki starts walking (takeRoute).
+    const cam = this.cameras.main;
+    const margin = 140;
+    if (n.x < cam.scrollX + margin || n.x > cam.scrollX + 1280 - margin) {
+      void this.panCameraTo(n.x);
+    }
+  }
+
+  /** Smooth cinematic pan to a world x position; follow resumes on next walk. */
+  private async panCameraTo(x: number): Promise<void> {
+    const cam = this.cameras.main;
+    cam.stopFollow();
+    const targetX = Phaser.Math.Clamp(x - 640, 0, WORLD_W - 1280);
+    await new Promise<void>((resolve) => {
+      this.tweens.add({
+        targets: cam,
+        scrollX: targetX,
+        duration: 1100,
+        ease: "Sine.inOut",
+        onComplete: () => resolve(),
+      });
+    });
+    // hold so the player can take in the new area
+    await this.delay(1200);
+  }
+
+  /** Re-attach the camera to Kiki (after a cinematic pan). */
+  private resumeFollow(): void {
+    const cam = this.cameras.main;
+    cam.startFollow(this.kiki.container, false, CAMERA.followLerpX, CAMERA.followLerpY);
+    cam.setFollowOffset(CAMERA.lookAheadX, CAMERA.lookAheadY);
   }
 
   private runMathEncounter(difficulty: "normal" | "challenge", title: string): Promise<boolean> {
@@ -471,7 +532,14 @@ export class HuskyScene extends Phaser.Scene {
     this.prompt?.destroy(true);
 
     const c = this.add.container(640, 360).setDepth(100);
+    // pinned to the camera: the prompt must stay centered on screen while the
+    // world scrolls behind it (scrollFactor does not inherit into containers)
+    c.setScrollFactor(0);
+    const pinToCamera = (o: { setScrollFactor(x: number, y?: number): unknown }): void => {
+      o.setScrollFactor(0);
+    };
     const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.58);
+    pinToCamera(shade);
     const panelG = this.add.graphics();
     panelG.fillStyle(0xfffbef, 1);
     panelG.lineStyle(7, q.difficulty === "challenge" ? 0x7a4ab2 : 0x3f83b9, 1);
@@ -522,7 +590,14 @@ export class HuskyScene extends Phaser.Scene {
         }
       });
       c.add([btn, label]);
+      pinToCamera(btn);
+      pinToCamera(label);
     });
+
+    // panel + texts (created before the buttons)
+    for (const o of c.getAll()) {
+      pinToCamera(o as unknown as { setScrollFactor(x: number, y?: number): unknown });
+    }
 
     this.prompt = c;
   }

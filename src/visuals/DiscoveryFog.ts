@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
-export type FogZone = "middle" | "right";
+/** Fog banks hide unrevealed regions of the scrolling world (see HuskyWorldLayout.FOG_ZONES). */
+export type FogZone = "valleyGate" | "summitVeil";
 
 /**
  * Blowing-snow fog banks that hide unrevealed areas.

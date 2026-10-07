@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 210">
+  <defs>
+    <linearGradient id="pn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5d8a72"/>
+      <stop offset="1" stop-color="#3c6350"/>
+    </linearGradient>
+    <linearGradient id="pns" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfe6fa"/>
+    </linearGradient>
+  </defs>
+  <rect x="77" y="160" width="16" height="42" rx="6" fill="#5f4128"/>
+  <polygon points="85,14 33,108 137,108" fill="url(#pn)"/>
+  <polygon points="85,58 22,152 148,152" fill="url(#pn)"/>
+  <polygon points="85,104 14,196 156,196" fill="url(#pn)"/>
+  <polygon points="85,14 60,60 85,50 110,60" fill="url(#pns)"/>
+  <polygon points="52,88 85,74 118,88 106,108 64,108" fill="url(#pns)"/>
+  <polygon points="38,134 85,116 132,134 118,156 52,156" fill="url(#pns)"/>
+  <polygon points="30,172 85,152 140,172 124,192 46,192" fill="url(#pns)"/>
+  <circle cx="60" cy="120" r="7" fill="#ffffff" opacity="0.85"/>
+  <circle cx="108" cy="150" r="6" fill="#ffffff" opacity="0.85"/>
+</svg>

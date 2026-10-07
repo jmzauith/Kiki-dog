@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 170">
+  <defs>
+    <linearGradient id="lhw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8a5a34"/>
+      <stop offset="1" stop-color="#5f3d22"/>
+    </linearGradient>
+    <linearGradient id="lhs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d9ecfc"/>
+    </linearGradient>
+    <radialGradient id="lhw2" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#ffe9a8"/>
+      <stop offset="1" stop-color="#f5b942"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="100" cy="156" rx="80" ry="11" fill="#a9c8e6" opacity="0.55"/>
+  <!-- stilts over the ice -->
+  <rect x="52" y="120" width="12" height="32" rx="4" fill="#4e3319"/>
+  <rect x="136" y="120" width="12" height="32" rx="4" fill="#4e3319"/>
+  <!-- hut body -->
+  <rect x="44" y="62" width="112" height="64" rx="10" fill="url(#lhw)"/>
+  <line x1="66" y1="70" x2="66" y2="120" stroke="#4e3319" stroke-width="4" opacity="0.6"/>
+  <line x1="100" y1="70" x2="100" y2="120" stroke="#4e3319" stroke-width="4" opacity="0.6"/>
+  <line x1="134" y1="70" x2="134" y2="120" stroke="#4e3319" stroke-width="4" opacity="0.6"/>
+  <!-- snow roof -->
+  <path d="M36,68 Q100,18 164,68 L152,68 Q100,30 48,68 Z" fill="url(#lhs)"/>
+  <rect x="36" y="62" width="128" height="10" rx="5" fill="url(#lhs)"/>
+  <!-- warm window -->
+  <rect x="82" y="84" width="36" height="30" rx="6" fill="#3a2a18"/>
+  <rect x="86" y="88" width="28" height="22" rx="4" fill="url(#lhw2)"/>
+  <line x1="100" y1="88" x2="100" y2="110" stroke="#3a2a18" stroke-width="3"/>
+  <line x1="86" y1="99" x2="114" y2="99" stroke="#3a2a18" stroke-width="3"/>
+  <!-- door -->
+  <rect x="126" y="92" width="20" height="34" rx="8" fill="#4e3319"/>
+  <circle cx="142" cy="110" r="3" fill="#ffd97a"/>
+  <!-- chimney + smoke -->
+  <rect x="58" y="30" width="16" height="30" rx="4" fill="#6b4a2e"/>
+  <circle cx="66" cy="18" r="7" fill="#ffffff" opacity="0.75"/>
+  <circle cx="72" cy="6" r="9" fill="#ffffff" opacity="0.5"/>
+  <!-- ice cracks beneath -->
+  <path d="M20,158 L60,150 L96,160 M120,162 L160,152" stroke="#bcd9f2" stroke-width="3" fill="none" opacity="0.8" stroke-linecap="round"/>
+</svg>

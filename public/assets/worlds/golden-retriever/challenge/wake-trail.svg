@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 100">
+  <!-- swim wake trail: V ripples trailing a swimmer -->
+  <g stroke="#a8e6f2" fill="none" stroke-linecap="round" opacity="0.85">
+    <path d="M330,50 L250,22" stroke-width="5"/>
+    <path d="M330,50 L250,78" stroke-width="5"/>
+    <path d="M268,50 L200,28" stroke-width="4" opacity="0.7"/>
+    <path d="M268,50 L200,72" stroke-width="4" opacity="0.7"/>
+    <path d="M206,50 L150,34" stroke-width="3" opacity="0.5"/>
+    <path d="M206,50 L150,66" stroke-width="3" opacity="0.5"/>
+  </g>
+  <g fill="#e8fbff" opacity="0.9">
+    <ellipse cx="300" cy="50" rx="26" ry="10"/>
+    <ellipse cx="240" cy="50" rx="18" ry="7" opacity="0.7"/>
+  </g>
+</svg>

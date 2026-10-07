@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6fb8ec"/>
+      <stop offset="0.6" stop-color="#a9d7f5"/>
+      <stop offset="1" stop-color="#dcebfb"/>
+    </linearGradient>
+    <linearGradient id="bmt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#93aed6"/>
+      <stop offset="1" stop-color="#7d9cc6"/>
+    </linearGradient>
+    <linearGradient id="bsnow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d9e9fa"/>
+    </linearGradient>
+    <linearGradient id="bwood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b07a3e"/>
+      <stop offset="1" stop-color="#7a4f2a"/>
+    </linearGradient>
+    <radialGradient id="brepair" cx="0.5" cy="0.5" r="0.55">
+      <stop offset="0" stop-color="#fff3c4" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1280" height="720" fill="url(#bsky)"/>
+  <g fill="#ffffff" opacity="0.9">
+    <ellipse cx="200" cy="100" rx="80" ry="24"/><ellipse cx="1050" cy="90" rx="90" ry="26"/>
+  </g>
+  <!-- mountains -->
+  <path d="M0,400 L0,240 L180,110 L340,260 L520,130 L700,270 L880,140 L1060,270 L1220,160 L1280,230 L1280,400 Z" fill="url(#bmt)"/>
+  <g fill="#f4faff">
+    <polygon points="180,110 156,142 204,142"/><polygon points="520,130 496,162 544,162"/><polygon points="880,140 856,172 904,172"/>
+  </g>
+  <!-- snowy banks -->
+  <path d="M0,460 Q320,410 640,450 Q960,490 1280,440 L1280,720 L0,720 Z" fill="url(#bsnow)"/>
+  <!-- pines -->
+  <g>
+    <g transform="translate(110,420) scale(1.1)">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+      <polygon points="-30,12 0,-1 30,12 21,25 -21,25" fill="#ffffff" opacity="0.92"/>
+    </g>
+    <g transform="translate(1170,410) scale(1.2)">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+      <polygon points="-30,12 0,-1 30,12 21,25 -21,25" fill="#ffffff" opacity="0.92"/>
+    </g>
+    <g transform="translate(1050,470) scale(0.8)">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+    </g>
+  </g>
+
+  <!-- THE GORGE: a jagged chasm in the snowfield -->
+  <g>
+    <polygon points="505,470 775,445 760,600 520,620" fill="#2c3e54"/>
+    <polygon points="540,468 740,448 730,590 555,605" fill="#182635"/>
+    <polygon points="505,470 560,460 545,485 495,490" fill="#ffffff"/>
+    <polygon points="775,445 720,452 735,475 785,468" fill="#ffffff"/>
+    <polygon points="520,620 575,612 565,632 510,636" fill="#ffffff"/>
+    <polygon points="760,600 710,592 720,612 770,608" fill="#ffffff"/>
+    <polygon points="600,500 640,495 620,540" fill="#0f1826"/>
+    <polygon points="660,520 700,515 680,560" fill="#0f1826"/>
+  </g>
+
+  <!-- BROKEN BRIDGE: left half on the lip, right half sagging, gap in middle -->
+  <g>
+    <g fill="url(#bwood)" stroke="#5f3d22" stroke-width="3">
+      <rect x="360" y="446" width="46" height="26" rx="6"/><rect x="410" y="444" width="46" height="26" rx="6"/><rect x="460" y="442" width="46" height="26" rx="6"/>
+    </g>
+    <rect x="352" y="468" width="162" height="14" rx="7" fill="#5f3d22"/>
+    <rect x="352" y="430" width="162" height="10" rx="5" fill="#ffffff" opacity="0.8"/>
+    <g transform="rotate(9 800 450)">
+      <g fill="url(#bwood)" stroke="#5f3d22" stroke-width="3">
+        <rect x="774" y="444" width="46" height="26" rx="6"/><rect x="824" y="446" width="46" height="26" rx="6"/><rect x="874" y="448" width="46" height="26" rx="6"/>
+      </g>
+      <rect x="766" y="468" width="162" height="14" rx="7" fill="#5f3d22"/>
+      <rect x="766" y="430" width="162" height="10" rx="5" fill="#ffffff" opacity="0.8"/>
+    </g>
+    <g transform="rotate(42 540 480)">
+      <rect x="518" y="468" width="54" height="24" rx="6" fill="#8a5a34" stroke="#5f3d22" stroke-width="3"/>
+    </g>
+    <polygon points="506,442 522,438 516,468 504,464" fill="#4e3319"/>
+    <polygon points="774,444 790,448 782,470 770,466" fill="#4e3319"/>
+    <g>
+      <ellipse cx="640" cy="455" rx="110" ry="44" fill="url(#brepair)" opacity="0.55"/>
+      <g opacity="0.6">
+        <rect x="548" y="446" width="46" height="26" rx="6" fill="#ffe1a8" stroke="#ffd24d" stroke-width="3" stroke-dasharray="8 6"/>
+        <rect x="598" y="446" width="46" height="26" rx="6" fill="#ffe1a8" stroke="#ffd24d" stroke-width="3" stroke-dasharray="8 6"/>
+        <rect x="648" y="446" width="46" height="26" rx="6" fill="#ffe1a8" stroke="#ffd24d" stroke-width="3" stroke-dasharray="8 6"/>
+        <rect x="698" y="446" width="46" height="26" rx="6" fill="#ffe1a8" stroke="#ffd24d" stroke-width="3" stroke-dasharray="8 6"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- KIKI — worried, looking at the gap -->
+  <g transform="translate(95,420) scale(1.25)">
+    <ellipse cx="130" cy="184" rx="98" ry="14" fill="#a9c8e6" opacity="0.55"/>
+    <circle cx="46" cy="106" r="15" fill="#fff6ea"/>
+    <circle cx="46" cy="106" r="15" fill="none" stroke="#e8963f" stroke-width="4" opacity="0.4"/>
+    <rect x="70" y="140" width="20" height="36" rx="10" fill="#c97a28"/>
+    <rect x="150" y="140" width="20" height="36" rx="10" fill="#c97a28"/>
+    <ellipse cx="120" cy="118" rx="78" ry="48" fill="#e8963f"/>
+    <path d="M60,96 Q110,72 170,88 Q130,84 100,96 Q80,102 60,96 Z" fill="#c97a28" opacity="0.55"/>
+    <ellipse cx="132" cy="132" rx="58" ry="32" fill="#fff6ea"/>
+    <rect x="52" y="142" width="22" height="38" rx="11" fill="#e8963f"/>
+    <rect x="168" y="142" width="22" height="38" rx="11" fill="#e8963f"/>
+    <ellipse cx="63" cy="180" rx="13" ry="7" fill="#fff6ea"/>
+    <ellipse cx="179" cy="180" rx="13" ry="7" fill="#fff6ea"/>
+    <circle cx="198" cy="70" r="50" fill="#e8963f"/>
+    <path d="M166,42 Q160,6 180,2 Q194,12 190,38 Z" fill="#e8963f"/>
+    <path d="M172,34 Q169,12 181,8 Q190,16 187,34 Z" fill="#f2a0a0"/>
+    <path d="M226,38 Q236,4 254,6 Q256,24 244,42 Z" fill="#e8963f"/>
+    <path d="M232,32 Q238,14 248,14 Q249,28 242,38 Z" fill="#f2a0a0"/>
+    <path d="M198,30 Q178,48 176,72 Q174,98 198,110 Q222,98 220,72 Q218,48 198,30 Z" fill="#fff6ea"/>
+    <!-- worried eyebrows -->
+    <path d="M172,52 L196,58" stroke="#8a5a28" stroke-width="5" stroke-linecap="round"/>
+    <path d="M224,52 L200,58" stroke="#8a5a28" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="186" cy="70" rx="9" ry="11" fill="#3a2c22"/>
+    <ellipse cx="210" cy="70" rx="9" ry="11" fill="#3a2c22"/>
+    <circle cx="189" cy="66" r="3.5" fill="#ffffff"/>
+    <circle cx="213" cy="66" r="3.5" fill="#ffffff"/>
+    <ellipse cx="172" cy="88" rx="8" ry="5" fill="#f2a0a0" opacity="0.6"/>
+    <ellipse cx="224" cy="88" rx="8" ry="5" fill="#f2a0a0" opacity="0.6"/>
+    <ellipse cx="198" cy="90" rx="9" ry="7" fill="#3a2c22"/>
+    <!-- small worried mouth -->
+    <path d="M188,104 Q198,100 208,104" stroke="#3a2c22" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- question mark above Kiki -->
+  <text x="345" y="420" font-family="Arial Black, Arial" font-size="64" fill="#4c8de2" stroke="#ffffff" stroke-width="8" paint-order="stroke">?</text>
+
+  <!-- WOODEN SIGN with the math question (hangs from a post) -->
+  <g transform="translate(950,180)">
+    <rect x="-12" y="0" width="24" height="220" rx="10" fill="#7a4f2a"/>
+    <rect x="-20" y="-8" width="40" height="16" rx="8" fill="#a8d05e"/>
+    <g>
+      <rect x="-150" y="30" width="300" height="130" rx="22" fill="url(#bwood)" stroke="#5f3d22" stroke-width="5"/>
+      <rect x="-150" y="30" width="300" height="24" rx="12" fill="#c99a5e" opacity="0.6"/>
+      <text x="0" y="88" text-anchor="middle" font-family="Arial Black, Arial" font-size="52" fill="#fff7e0">8 × 7 = ?</text>
+      <text x="0" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#ffe1a8">Fix the bridge, Kiki!</text>
+    </g>
+    <g stroke="#5f3d22" stroke-width="6">
+      <path d="M-90,30 L-90,4 M90,30 L90,4"/>
+    </g>
+  </g>
+
+  <!-- ANSWER STONES (tappable, part of the world) -->
+  <g id="answers">
+    <g transform="translate(880,600)">
+      <ellipse cx="0" cy="10" rx="70" ry="14" fill="#a9c8e6" opacity="0.5"/>
+      <ellipse cx="0" cy="-20" rx="62" ry="48" fill="#b8c4c9"/>
+      <ellipse cx="0" cy="-28" rx="62" ry="48" fill="#dfe7ea"/>
+      <ellipse cx="-18" cy="-40" rx="28" ry="16" fill="#ffffff" opacity="0.7"/>
+      <text x="0" y="-4" text-anchor="middle" font-family="Arial Black, Arial" font-size="44" fill="#4a5a66">54</text>
+    </g>
+    <g transform="translate(1060,590)">
+      <ellipse cx="0" cy="10" rx="70" ry="14" fill="#a9c8e6" opacity="0.5"/>
+      <ellipse cx="0" cy="-20" rx="62" ry="48" fill="#ffd24d"/>
+      <ellipse cx="0" cy="-28" rx="62" ry="48" fill="#ffe89a"/>
+      <ellipse cx="-18" cy="-40" rx="28" ry="16" fill="#ffffff" opacity="0.8"/>
+      <text x="0" y="-4" text-anchor="middle" font-family="Arial Black, Arial" font-size="44" fill="#7a5a10">56</text>
+      <!-- correct one glows subtly -->
+      <ellipse cx="0" cy="-24" rx="72" ry="56" fill="none" stroke="#ffd24d" stroke-width="5" opacity="0.8"/>
+    </g>
+    <g transform="translate(1230,600)">
+      <ellipse cx="0" cy="10" rx="70" ry="14" fill="#a9c8e6" opacity="0.5"/>
+      <ellipse cx="0" cy="-20" rx="62" ry="48" fill="#b8c4c9"/>
+      <ellipse cx="0" cy="-28" rx="62" ry="48" fill="#dfe7ea"/>
+      <ellipse cx="-18" cy="-40" rx="28" ry="16" fill="#ffffff" opacity="0.7"/>
+      <text x="0" y="-4" text-anchor="middle" font-family="Arial Black, Arial" font-size="44" fill="#4a5a66">63</text>
+    </g>
+  </g>
+  <!-- tap hint -->
+  <g opacity="0.95">
+    <text x="1055" y="690" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#4a6a8a">Tap the stone with the right answer</text>
+  </g>
+
+  <!-- birds -->
+  <g stroke="#5d7a99" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M620,150 q12,-12 24,0 q12,-12 24,0"/>
+  </g>
+</svg>

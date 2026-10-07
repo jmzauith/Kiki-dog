@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6fb8ec"/>
+      <stop offset="0.55" stop-color="#a5d6f5"/>
+      <stop offset="1" stop-color="#dcecfa"/>
+    </linearGradient>
+    <radialGradient id="sunglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff7d6" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#fff7d6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mtfar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b4c9e8"/>
+      <stop offset="1" stop-color="#9ab4da"/>
+    </linearGradient>
+    <linearGradient id="mtmid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#87a5d1"/>
+      <stop offset="1" stop-color="#7493c2"/>
+    </linearGradient>
+    <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d9e9fa"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2f8fe"/>
+      <stop offset="1" stop-color="#cfe2f6"/>
+    </linearGradient>
+    <radialGradient id="palaceglow" cx="0.5" cy="0.5" r="0.55">
+      <stop offset="0" stop-color="#a8dcff" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#a8dcff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- SKY -->
+  <rect x="0" y="0" width="1280" height="720" fill="url(#sky)"/>
+  <circle cx="1060" cy="105" r="160" fill="url(#sunglow)"/>
+  <circle cx="1060" cy="105" r="44" fill="#fff3c4"/>
+  <g fill="#ffffff" opacity="0.92">
+    <ellipse cx="230" cy="118" rx="92" ry="28"/><ellipse cx="292" cy="103" rx="68" ry="23"/><ellipse cx="172" cy="106" rx="58" ry="19"/>
+    <ellipse cx="690" cy="76" rx="82" ry="24"/><ellipse cx="752" cy="64" rx="54" ry="17"/>
+  </g>
+
+  <!-- FAR MOUNTAINS -->
+  <path d="M0,430 L0,270 L120,150 L220,250 L340,120 L470,260 L600,160 L730,270 L860,140 L990,260 L1120,170 L1220,250 L1280,210 L1280,430 Z" fill="url(#mtfar)"/>
+  <g fill="#f6faff">
+    <polygon points="120,150 96,182 144,182"/><polygon points="340,120 314,154 366,154"/>
+    <polygon points="600,160 576,192 624,192"/><polygon points="860,140 836,172 884,172"/>
+    <polygon points="1120,170 1098,200 1142,200"/>
+  </g>
+  <!-- MID MOUNTAINS -->
+  <path d="M0,470 L0,340 L160,220 L300,350 L480,230 L640,360 L820,250 L980,370 L1140,260 L1280,350 L1280,470 Z" fill="url(#mtmid)"/>
+  <g fill="#f0f6fd">
+    <polygon points="160,220 132,256 188,256"/><polygon points="480,230 452,266 508,266"/>
+    <polygon points="820,250 794,284 846,284"/><polygon points="1140,260 1116,292 1164,292"/>
+  </g>
+
+  <!-- ICE PALACE (destination) — bigger, glowing -->
+  <g transform="translate(1010,235)">
+    <ellipse cx="0" cy="30" rx="190" ry="140" fill="url(#palaceglow)"/>
+    <g fill="#7fb8e8" stroke="#eaf6ff" stroke-width="4">
+      <polygon points="-70,110 -52,-40 -34,110"/>
+      <polygon points="-30,110 -8,-80 14,110"/>
+      <polygon points="18,110 36,-50 54,110"/>
+      <polygon points="-100,110 -88,20 -76,110"/>
+      <polygon points="70,110 82,20 94,110"/>
+    </g>
+    <g fill="#eaf6ff">
+      <polygon points="-52,-40 -60,-12 -44,-12"/><polygon points="-8,-80 -17,-50 1,-50"/><polygon points="36,-50 28,-24 44,-24"/>
+    </g>
+    <rect x="-11" y="-118" width="7" height="42" fill="#5f3d22"/>
+    <polygon points="-4,-116 -4,-98 26,-107" fill="#e2574c"/>
+    <polygon points="0,-140 5,-124 21,-123 5,-119 0,-103 -5,-119 -21,-123 -5,-124" fill="#ffd24d"/>
+    <ellipse cx="0" cy="60" rx="60" ry="46" fill="#bfe6ff" opacity="0.45"/>
+  </g>
+
+  <!-- ROLLING SNOW HILLS -->
+  <path d="M0,500 Q240,440 480,490 Q720,540 960,480 Q1140,440 1280,490 L1280,720 L0,720 Z" fill="url(#hill)"/>
+  <path d="M0,560 Q300,520 620,560 Q940,600 1280,560 L1280,720 L0,720 Z" fill="url(#snow)" opacity="0.65"/>
+
+  <!-- PINE CLUSTERS -->
+  <g id="pines">
+    <g transform="translate(150,500) scale(1.15)">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+      <polygon points="-30,12 0,-1 30,12 21,25 -21,25" fill="#ffffff" opacity="0.92"/>
+      <polygon points="-36,44 0,30 36,44 26,56 -26,56" fill="#ffffff" opacity="0.85"/>
+    </g>
+    <g transform="translate(270,540) scale(0.8)">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+      <polygon points="-30,12 0,-1 30,12 21,25 -21,25" fill="#ffffff" opacity="0.92"/>
+    </g>
+    <g transform="translate(60,560) scale(0.65)">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+    </g>
+    <g transform="translate(880,470) scale(1.25)">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+      <polygon points="-30,12 0,-1 30,12 21,25 -21,25" fill="#ffffff" opacity="0.92"/>
+      <polygon points="-36,44 0,30 36,44 26,56 -26,56" fill="#ffffff" opacity="0.85"/>
+    </g>
+    <g transform="translate(1010,510) scale(0.85)">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+    </g>
+    <g transform="translate(1200,500) scale(1.05)">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+      <polygon points="-30,12 0,-1 30,12 21,25 -21,25" fill="#ffffff" opacity="0.92"/>
+    </g>
+    <g transform="translate(760,540) scale(0.55)" opacity="0.95">
+      <rect x="-10" y="34" width="20" height="56" rx="8" fill="#6b4a2e"/>
+      <polygon points="0,-76 -48,34 48,34" fill="#3d7a52"/><polygon points="0,-32 -58,66 58,66" fill="#356b46"/>
+      <polygon points="0,-76 -19,-38 0,-46 19,-38" fill="#ffffff"/>
+    </g>
+  </g>
+
+  <!-- WINDING TRAIL (narrow, sits on the hills; broken at the gorge) -->
+  <g>
+    <path d="M180,720 Q260,650 360,630 Q480,605 580,580 Q630,568 655,545" stroke="#c9a86a" stroke-width="40" fill="none" stroke-linecap="round" opacity="0.45"/>
+    <path d="M180,720 Q260,650 360,630 Q480,605 580,580 Q630,568 655,545" stroke="#f0dfb2" stroke-width="32" fill="none" stroke-linecap="round"/>
+    <path d="M775,515 Q830,480 880,470 Q920,462 945,420" stroke="#c9a86a" stroke-width="30" fill="none" stroke-linecap="round" opacity="0.45"/>
+    <path d="M775,515 Q830,480 880,470 Q920,462 945,420" stroke="#f0dfb2" stroke-width="24" fill="none" stroke-linecap="round"/>
+    <g fill="#c49a5e" opacity="0.8">
+      <ellipse cx="300" cy="648" rx="9" ry="7"/><ellipse cx="340" cy="638" rx="9" ry="7"/>
+      <ellipse cx="480" cy="606" rx="9" ry="7"/><ellipse cx="518" cy="598" rx="9" ry="7"/>
+      <ellipse cx="830" cy="474" rx="8" ry="6"/><ellipse cx="862" cy="468" rx="8" ry="6"/>
+    </g>
+  </g>
+
+  <!-- GORGE (jagged crack in the hillside) -->
+  <g>
+    <polygon points="640,540 790,508 782,528 700,540 720,556 660,560 676,576 630,572" fill="#2c3e54"/>
+    <polygon points="640,540 700,528 690,544 750,534 790,508 782,528 700,540" fill="#ffffff"/>
+    <polygon points="630,572 676,576 660,560 720,556 700,572 640,584" fill="#ffffff" opacity="0.92"/>
+    <polygon points="690,536 706,534 700,548" fill="#16222f"/>
+  </g>
+
+  <!-- BRIDGE spanning the gorge -->
+  <g transform="translate(705,478) scale(1.35)">
+    <g fill="#a5713f" stroke="#6b4423" stroke-width="2.5">
+      <rect x="-70" y="6" width="30" height="22" rx="5"/><rect x="-36" y="4" width="30" height="22" rx="5"/>
+      <rect x="-2" y="2" width="30" height="22" rx="5"/><rect x="32" y="2" width="30" height="22" rx="5"/>
+      <rect x="66" y="4" width="30" height="22" rx="5"/>
+    </g>
+    <rect x="-76" y="26" width="178" height="12" rx="6" fill="#6b4423"/>
+    <path d="M-70,6 Q0,-8 100,-6" stroke="#c9a06a" stroke-width="6" fill="none"/>
+    <g stroke="#6b4423" stroke-width="5">
+      <path d="M-48,6 L-48,-16 M10,2 L10,-20 M68,4 L68,-18"/>
+    </g>
+    <path d="M-48,-16 Q10,-28 68,-18" stroke="#c9a06a" stroke-width="5" fill="none"/>
+    <rect x="-76" y="-8" width="178" height="7" rx="3.5" fill="#ffffff" opacity="0.65"/>
+  </g>
+
+  <!-- KIKI — fully visible, hero of the frame -->
+  <g transform="translate(205,445) scale(1.3)">
+    <ellipse cx="130" cy="184" rx="98" ry="14" fill="#a9c8e6" opacity="0.55"/>
+    <circle cx="46" cy="106" r="15" fill="#fff6ea"/>
+    <circle cx="46" cy="106" r="15" fill="none" stroke="#e8963f" stroke-width="4" opacity="0.4"/>
+    <rect x="70" y="140" width="20" height="36" rx="10" fill="#c97a28"/>
+    <rect x="150" y="140" width="20" height="36" rx="10" fill="#c97a28"/>
+    <ellipse cx="120" cy="118" rx="78" ry="48" fill="#e8963f"/>
+    <path d="M60,96 Q110,72 170,88 Q130,84 100,96 Q80,102 60,96 Z" fill="#c97a28" opacity="0.55"/>
+    <ellipse cx="132" cy="132" rx="58" ry="32" fill="#fff6ea"/>
+    <rect x="52" y="142" width="22" height="38" rx="11" fill="#e8963f"/>
+    <rect x="168" y="142" width="22" height="38" rx="11" fill="#e8963f"/>
+    <ellipse cx="63" cy="180" rx="13" ry="7" fill="#fff6ea"/>
+    <ellipse cx="179" cy="180" rx="13" ry="7" fill="#fff6ea"/>
+    <circle cx="198" cy="70" r="50" fill="#e8963f"/>
+    <path d="M166,42 Q160,6 180,2 Q194,12 190,38 Z" fill="#e8963f"/>
+    <path d="M172,34 Q169,12 181,8 Q190,16 187,34 Z" fill="#f2a0a0"/>
+    <path d="M226,38 Q236,4 254,6 Q256,24 244,42 Z" fill="#e8963f"/>
+    <path d="M232,32 Q238,14 248,14 Q249,28 242,38 Z" fill="#f2a0a0"/>
+    <path d="M198,30 Q178,48 176,72 Q174,98 198,110 Q222,98 220,72 Q218,48 198,30 Z" fill="#fff6ea"/>
+    <ellipse cx="186" cy="66" rx="9" ry="11" fill="#3a2c22"/>
+    <ellipse cx="210" cy="66" rx="9" ry="11" fill="#3a2c22"/>
+    <circle cx="189" cy="62" r="3.5" fill="#ffffff"/>
+    <circle cx="213" cy="62" r="3.5" fill="#ffffff"/>
+    <ellipse cx="172" cy="84" rx="9" ry="5.5" fill="#f2a0a0" opacity="0.7"/>
+    <ellipse cx="224" cy="84" rx="9" ry="5.5" fill="#f2a0a0" opacity="0.7"/>
+    <ellipse cx="198" cy="86" rx="10" ry="8" fill="#3a2c22"/>
+    <ellipse cx="195" cy="84" rx="3" ry="2" fill="#6b5a4a" opacity="0.6"/>
+    <path d="M198,94 Q198,102 189,104 M198,94 Q198,102 207,104" stroke="#3a2c22" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M190,104 Q188,124 198,126 Q208,124 206,104 Q198,109 190,104 Z" fill="#f27a7a"/>
+    <path d="M198,110 L198,122" stroke="#d95f5f" stroke-width="2.5"/>
+  </g>
+  <!-- excitement marks -->
+  <g stroke="#ffd24d" stroke-width="7" stroke-linecap="round">
+    <path d="M440,440 l16,-20 M458,470 l22,-10"/>
+  </g>
+  <!-- Kiki looking toward the palace: gaze cue -->
+  <g fill="#ffffff" opacity="0.0"><circle cx="0" cy="0" r="1"/></g>
+
+  <!-- FOREGROUND: thin snowbank along the very bottom -->
+  <path d="M0,668 Q260,640 520,664 Q780,688 1040,662 Q1170,652 1280,666 L1280,720 L0,720 Z" fill="url(#snow)"/>
+  <g fill="#ffffff" opacity="0.85">
+    <circle cx="200" cy="692" r="6"/><circle cx="640" cy="700" r="7"/><circle cx="1050" cy="694" r="6"/>
+  </g>
+  <!-- pine branch framing top-left -->
+  <g transform="translate(70,26)">
+    <path d="M0,0 Q70,30 160,24" stroke="#2f5f40" stroke-width="13" fill="none" stroke-linecap="round"/>
+    <path d="M36,12 Q104,36 190,28" stroke="#3d7a52" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.92">
+      <ellipse cx="48" cy="6" rx="26" ry="9" transform="rotate(10 48 6)"/>
+      <ellipse cx="126" cy="20" rx="30" ry="10" transform="rotate(3 126 20)"/>
+    </g>
+    <g fill="#356b46">
+      <polygon points="60,-6 48,14 72,14"/><polygon points="110,2 98,22 122,22"/>
+    </g>
+  </g>
+  <!-- birds -->
+  <g stroke="#5d7a99" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M500,170 q12,-12 24,0 q12,-12 24,0"/>
+    <path d="M572,202 q9,-9 18,0 q9,-9 18,0"/>
+  </g>
+  <!-- distant flag on the trail -->
+  <g transform="translate(925,435)">
+    <rect x="-4" y="-70" width="8" height="70" fill="#6b4423"/>
+    <polygon points="4,-68 4,-44 38,-56" fill="#4c8de2"/>
+  </g>
+
+  <!-- SUBTLE UI -->
+  <g>
+    <rect x="36" y="100" width="300" height="72" rx="20" fill="#17324d" opacity="0.85"/>
+    <text x="60" y="130" font-family="Arial Black, Arial" font-size="24" fill="#ffffff">❄ SNOWY PEAKS</text>
+    <text x="60" y="156" font-family="Arial, sans-serif" font-size="15" fill="#bfe0f7">Follow the trail to the Husky Palace</text>
+  </g>
+  <g>
+    <circle cx="1220" cy="64" r="26" fill="#ffffff" opacity="0.92"/>
+    <text x="1220" y="74" text-anchor="middle" font-family="Arial" font-size="26" fill="#4a6a8a">⚙</text>
+  </g>
+  <g opacity="0.9">
+    <polygon points="1236,350 1258,372 1236,394 1236,382 1224,382 1224,362 1236,362" fill="#ffffff"/>
+  </g>
+</svg>

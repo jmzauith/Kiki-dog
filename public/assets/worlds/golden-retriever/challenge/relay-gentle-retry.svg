@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200">
+  <!-- gentle retry cue: soft ripples + friendly curved arrow (no harsh fail) -->
+  <g stroke="#a8e6f2" fill="none" stroke-linecap="round">
+    <ellipse cx="110" cy="130" rx="70" ry="20" stroke-width="5" opacity="0.9"/>
+    <ellipse cx="110" cy="130" rx="48" ry="14" stroke-width="4" opacity="0.65"/>
+    <ellipse cx="110" cy="130" rx="26" ry="8" stroke-width="3" opacity="0.45"/>
+  </g>
+  <g fill="none" stroke="#4fc3d9" stroke-width="10" stroke-linecap="round">
+    <path d="M70,80 Q110,40 150,74"/>
+  </g>
+  <polygon points="150,74 132,70 140,88" fill="#4fc3d9"/>
+  <g fill="#ffd24d" opacity="0.9">
+    <polygon points="60,140 62,146 68,147 62,149 60,155 58,149 52,147 58,146"/>
+  </g>
+</svg>

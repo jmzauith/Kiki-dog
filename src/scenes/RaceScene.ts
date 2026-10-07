@@ -1,13 +1,14 @@
 import Phaser from "phaser";
 import { MathEngine, MathQuestion } from "../systems/MathEngine";
+import { RaceMoveMode, RaceProgressState } from "../systems/RaceProgress";
 
 type MoveMode = "steady" | "turbo";
 
 export class RaceScene extends Phaser.Scene {
   private math = new MathEngine();
-  private kikiProgress = 0;
-  private rivalProgress = 0;
-  private readonly finish = 6;
+  // All race progression rules live in this pure, tested state machine.
+  // The scene only mirrors its values to the track visuals.
+  private race = new RaceProgressState();
   private busy = false;
   private kiki!: Phaser.GameObjects.Container;
   private rival!: Phaser.GameObjects.Container;
@@ -20,6 +21,13 @@ export class RaceScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Reset mutable state: Phaser reuses the Scene instance on restart, so
+    // without this a replayed race would start already finished (soft lock:
+    // showPaceChoices would bail and no buttons would appear).
+    this.race.reset();
+    this.busy = false;
+    this.prompt = undefined;
+
     this.cameras.main.setBackgroundColor("#bde8ff");
     this.drawTrack();
     this.drawHeader();
@@ -65,12 +73,12 @@ export class RaceScene extends Phaser.Scene {
       g.lineStyle(5, lane === 0 ? 0x7ca0bd : 0x4a83b8, 0.35);
       g.lineBetween(140, y, 1120, y);
 
-      for (let i = 0; i <= this.finish; i++) {
+      for (let i = 0; i <= this.race.finish; i++) {
         const x = 155 + i * 155;
-        g.fillStyle(i === this.finish ? 0xf4c542 : 0xffffff, 1);
-        g.fillCircle(x, y, i === this.finish ? 21 : 15);
-        g.lineStyle(4, i === this.finish ? 0xc28c13 : 0x6ea2c8, 1);
-        g.strokeCircle(x, y, i === this.finish ? 21 : 15);
+        g.fillStyle(i === this.race.finish ? 0xf4c542 : 0xffffff, 1);
+        g.fillCircle(x, y, i === this.race.finish ? 21 : 15);
+        g.lineStyle(4, i === this.race.finish ? 0xc28c13 : 0x6ea2c8, 1);
+        g.strokeCircle(x, y, i === this.race.finish ? 21 : 15);
       }
     }
 
@@ -115,7 +123,7 @@ export class RaceScene extends Phaser.Scene {
   }
 
   private showPaceChoices(): void {
-    if (this.busy || this.kikiProgress >= this.finish) return;
+    if (this.busy || this.race.over) return;
     this.choiceGroup?.destroy(true);
 
     const c = this.add.container(640, 615).setDepth(30);
@@ -164,20 +172,21 @@ export class RaceScene extends Phaser.Scene {
 
     const success = await this.askMath(mode === "turbo" ? "challenge" : "normal", mode);
     if (success) {
-      const spaces = mode === "turbo" ? 2 : 1;
-      this.kikiProgress = Math.min(this.finish, this.kikiProgress + spaces);
-      await this.moveRacer(this.kiki, this.kikiProgress, mode === "turbo");
+      // Progression rules (spaces, clamping, victory) live in the tested
+      // RaceProgressState; the scene only mirrors values to visuals.
+      this.race.playerMove(mode);
+      await this.moveRacer(this.kiki, this.race.kiki, mode === "turbo");
     }
 
-    if (this.kikiProgress >= this.finish) {
+    if (this.race.over) {
       await this.finishRace();
       return;
     }
 
     this.status.setText("The Husky takes a turn…");
     await this.timeDelay(350);
-    this.rivalProgress = Math.min(this.finish - 1, this.rivalProgress + 1);
-    await this.moveRacer(this.rival, this.rivalProgress, false);
+    this.race.rivalMove();
+    await this.moveRacer(this.rival, this.race.rival, false);
 
     this.busy = false;
     this.status.setText("Choose your pace");
@@ -216,6 +225,9 @@ export class RaceScene extends Phaser.Scene {
 
     c.add([shade, panel, header, prompt]);
 
+    // Same double-tap guard as HuskyScene: the race math resolves once.
+    let resolved = false;
+
     q.answers.forEach((answer, index) => {
       const x = index % 2 === 0 ? -150 : 150;
       const y = 35 + Math.floor(index / 2) * 110;
@@ -231,7 +243,9 @@ export class RaceScene extends Phaser.Scene {
       }).setOrigin(0.5);
 
       btn.on("pointerdown", () => {
+        if (resolved) return;
         if (answer === q.correct) {
+          resolved = true;
           c.destroy(true);
           this.prompt = undefined;
           resolve(true);

@@ -33,3 +33,33 @@ export const edges: MapEdge[] = [
   { from: "safe", to: "goal", kind: "safe" },
   { from: "challenge", to: "goal", kind: "challenge" },
 ];
+
+/**
+ * Alias for the initial map state. Treat as a read-only template: scenes must
+ * call createMapState() to get their own copy and must NEVER mutate this
+ * export. Mutating it leaks reveal state across scene restarts (the map would
+ * stay revealed when HuskyScene is re-entered).
+ */
+export const initialNodes: Record<MapNodeId, MapNode> = nodes;
+
+/**
+ * Create a fresh, independent copy of the map state for one scene instance.
+ * Each scene owns its copy, so restarting a scene can never inherit stale
+ * reveal state from a previous run.
+ */
+export function createMapState(): Record<MapNodeId, MapNode> {
+  return Object.fromEntries(
+    Object.entries(nodes).map(([id, node]) => [id, { ...node }]),
+  ) as Record<MapNodeId, MapNode>;
+}
+
+/**
+ * Pure helper: which edges can the player take right now from `currentNode`?
+ * Only edges whose destination node has been revealed are offered.
+ */
+export function getForwardChoices(
+  currentNode: MapNodeId,
+  state: Record<MapNodeId, MapNode>,
+): MapEdge[] {
+  return edges.filter((e) => e.from === currentNode && state[e.to].revealed);
+}

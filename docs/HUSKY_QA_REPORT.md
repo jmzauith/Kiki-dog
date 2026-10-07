@@ -219,3 +219,177 @@ no browser access. What ran instead:
    analysis assumes his replacement keeps the resolve/unlock contract.
 4. **Playtest with the actual audience** (the two 9-year-olds): a kid will
    find paths no matrix covers. Watch one full session before calling it done.
+
+---
+
+# Husky Level Expansion — full mini-adventure (2026-10-07)
+
+**Agent:** McCartney (gameplay systems, progression, QA)
+**Branch:** `mccartney/husky-level-expansion`
+**Brief:** the Husky level ended after ~2 math interactions. It is now a
+complete mini-adventure targeting ~12–18 minutes of first play: 5–7 required
+encounters, 2–3 optional/challenge encounters, 3–5 race decisions — with
+~60% exploration/gameplay and ~40% explicit educational interaction. Math
+changes the world; the level is deeper through exploration, route choice,
+environmental interaction, and optional discovery — not more math popups.
+
+## New systems
+
+- **`src/systems/AdventureState.ts`** — reusable, Phaser-free progression
+  system for all dog worlds. `AdventureDefinition` (nodes, edges, encounter
+  metadata, route-aware requirements) + `AdventureProgress` (completions,
+  route choice, secrets, bonus counters, sticker gating, reset,
+  serialization) + `auditDefinition()` static graph check. Unlock rule uses
+  rejoin/OR semantics; route-gated edges (`requiresRoute`) keep the wrong
+  branch uncompletable even if driven directly. The sticker rule lives here:
+  **all required encounters + race won** — scenes cannot get it wrong.
+- **`src/systems/HuskyAdventure.ts`** — the Husky definition: 12 nodes
+  (10 map + 2 virtual), positions, encounter metadata, curriculum plug-in
+  points, landmark→art mapping, Kiki stand offsets.
+- **`src/systems/AdventurePersistence.ts`** — sessionStorage save/load with
+  versioning and defensive reads (corrupt/version-mismatch/foreign saves →
+  null, never a crash). Injectable store for tests. `markRaceComplete()`
+  records the race outcome into the save.
+- **`src/systems/AdventureEvents.ts`** — tiny typed event bus
+  (`adventure:race-complete`, `adventure:sticker-unlocked`); persistence
+  remains the source of truth.
+- **`src/visuals/AdventureMarkers.ts`** — lightweight placeholder markers
+  for new nodes without dedicated art (forest, frozen lake, fallen tree,
+  snow pass, bone cache). Style-consistent with the world's UI; Harrison
+  can reskin them. NOT an environment art redesign.
+
+## Encounter design (safe path shown; challenge path in parentheses)
+
+| # | Node | Encounter | What happens |
+|---|------|-----------|--------------|
+| 1 | Trailhead | checkpoint | Adventure begins (auto) |
+| 2 | Broken Bridge | math-normal | Math repairs the bridge; planks swing back |
+| 3 | Whisper Forest | choice | Read the clues: paw prints (Safe Trail) vs glittering ice (Shortcut ★) |
+| 4 | Frozen Lake | math-normal | Math lights the safe stepping stones |
+| 4′ | Ice Cave | math-challenge | Harder shortcut math (challenge route) |
+| 5 | Fallen Tree | discovery | Tap 5× to clear the path — no fail state |
+| 6 | Snow Pass | checkpoint | Rest stop (auto) |
+| 7 | Summit Gate | math-normal | Solve to swing the gate open |
+| 8 | Sled Race | race | 3–5 Steady/Turbo math decisions (finish=5) |
+| 9 | Husky Reward | reward | Sticker celebration overlay |
+| S1 | Secret Igloo | secret | Discovery + optional bonus math-challenge → Golden progress |
+| S2 | Bone Cache | secret | Hidden discovery → Golden progress |
+
+Required: 6 (safe) / 5 (challenge) + race. Optional: 2 secrets. Math
+questions carry hints after 2 wrong answers; wrong answers never remove
+progress and never loop punitively.
+
+## Expanded route matrix
+
+| # | Playthrough | Level | Result |
+|---|-------------|-------|--------|
+| PT-1 | Safe path, all correct, no secrets | Logic simulation | ✅ Pass |
+| PT-2 | Safe path, wrong answers + retries | Logic simulation | ✅ Pass |
+| PT-3 | Challenge path, all correct | Logic simulation | ✅ Pass |
+| PT-4 | Challenge path, wrong-answer retries | Logic simulation | ✅ Pass |
+| PT-5 | Safe path + both secrets + bonus challenge | Logic simulation | ✅ Pass |
+| PT-6 | Refresh mid-adventure (frozen-lake) → resume | Persistence round-trip | ✅ Pass |
+| PT-7 | Refresh during fog reveal → secrets not lost | Logic + persistence | ✅ Pass |
+| PT-8 | Reset mid-run → clean state | Logic simulation | ✅ Pass |
+| PT-9 | Steady-only race (5 turns) | Logic simulation | ✅ Pass |
+| PT-10 | Turbo-heavy race (3 turns) | Logic simulation | ✅ Pass |
+| PT-11 | Mixed race (3–5 turns fuzz, 50 runs) | Automated | ✅ Pass |
+| PT-12 | Full replay after sticker | Logic simulation | ✅ Pass |
+| PT-13 | Invalid action fuzz (200 walks) — no early unlock, no corruption | Automated | ✅ Pass |
+| PT-14 | In-browser manual playthroughs | — | ⏳ Not performed (no browser access) |
+
+## Expected first-run encounter count
+
+Safe path: 6 required encounters + race (3–5 decisions) + 0–2 optional
+secrets = **9–13 interactions**. Challenge path: 5 + race + 0–2 secrets =
+**8–12 interactions**. At a 9-year-old's pace (reading, thinking, watching
+Kiki walk, celebrating), this targets the 12–18 minute brief.
+
+## Persistence behavior (resolves old bug #6)
+
+- Saves on every encounter completion: current node, completed encounters,
+  chosen route, secrets, bonus counters, race result, sticker state.
+- Refresh mid-adventure resumes at the saved checkpoint with visuals
+  restored (revealed nodes, repaired bridge, cleared tree, discovered
+  secrets). Refresh mid-race restarts the race only — pre-race progress is
+  kept. Secrets reveal synchronously with their unlock (not after the fog
+  tween) so a refresh during the reveal animation can't lose them.
+- Corrupt/version-mismatched/foreign saves degrade to a fresh run.
+- Player-safe reset: the ↺ button wipes the save and restarts cleanly
+  (for testing and "play again").
+
+## Sticker unlock conditions
+
+`AdventureProgress.canUnlockSticker()` — enforced in the state module:
+1. Every required encounter complete (route-aware: safe needs lake+tree,
+   challenge needs cave; bridge+forest+summit always).
+2. `raceCompleted` (set by RaceScene via `markRaceComplete`).
+3. Secrets and bonus challenges are NEVER required — they feed Golden
+   Husky progression (`secretsFound`, `bonusChallengesCompleted`,
+   `challengeSuccesses`) instead.
+Regression-tested: no sticker after two questions, even with the race flag
+forced.
+
+## Race changes
+
+- `RaceProgressState` gains a configurable `finish` (default 6, unchanged
+  for existing tests); the Husky race uses 5 → 3 (all-turbo) to 5
+  (all-steady) decisions. Track visuals adapt automatically.
+- `finishRace()` now persists the win, emits `adventure:race-complete`
+  with `{turns, turbos}`, and shows a **Continue →** button back to
+  HuskyScene (reward overlay) — the race no longer dead-ends on text.
+
+## Known risks
+
+1. **No in-browser verification** — same limitation as the QA pass:
+   rendering, real pointer input, tween timing, and the new modal panels
+   (forest choice, fallen-tree taps, secret encounters, reward overlay)
+   need a real-browser playthrough, ideally the kid-playtest.
+2. **Scene diff size** — HuskyScene's progression flow was restructured
+   (same visual methods, new adventure-driven flow). If Harrison is
+   mid-edit on HuskyScene, the lead dev should merge carefully; the new
+   code is organized in clearly-marked sections.
+3. **Placeholder markers** — forest/lake/tree/pass/cache use simple
+   plaque markers until Harrison provides real art (tracked in PR).
+4. **Legacy MapGraph** — `MapGraph.ts` remains (tested, untouched) but
+   HuskyScene no longer uses it; the new `AdventureState` supersedes it.
+   The lead dev may retire MapGraph or keep it for simpler worlds.
+5. **CI tests** — still pending the Workflows permission (unchanged);
+   `.github/workflows/build.yml` was NOT touched in this branch.
+6. **Duration** is a design estimate (encounter counts × kid pace), not a
+   measured 12–18 minutes — the kid-playtest should time a real first run.
+
+## Future breed reuse notes
+
+- A new world = one `AdventureDefinition` + art + encounter copy. The
+  `AdventureProgress`, persistence, sticker rule, audit, and test patterns
+  transfer unchanged.
+- Encounter vocabulary is fixed (`walk`/`math-*`/`choice`/`discovery`/
+  `secret`/`checkpoint`/`race`/`reward`); new worlds should reuse these
+  before inventing types.
+- Curriculum plug-in: math encounters carry `curriculum: string[]` and
+  `mathDifficulty`; `MathEngine.nextQuestion()` can grow a topic parameter
+  later without touching encounter flow.
+- Golden sticker progression already has its counters
+  (`secretsFound`, `bonusChallengesCompleted`, `challengeSuccesses`) —
+  the final Golden screen is the remaining piece.
+
+## Automated tests added (62 new, 105 total, all passing)
+
+- `AdventureState.test.ts` (28) — definition audit, unlock/completion
+  rules, route-gated edges, secrets, sticker gating (both routes, early-
+  unlock regression, secrets-never-required), reset, serialization
+  round-trip incl. stale-save pruning, challenge counters, 100-walk fuzz
+  (sticker rule exactness), 200-action invalid-input fuzz.
+- `HuskyAdventure.test.ts` (17) — audit passes, landmark-mapping
+  completeness, Kiki offsets, marker spacing, encounter budget (5–7
+  required, 2–3 optional, exploration majority, curriculum tags), full
+  playthroughs per route ± secrets, no-skip regression, wrong-branch
+  isolation, reset, 200-walk Husky fuzz, BFS reachability of every
+  required encounter on both routes.
+- `AdventurePersistence.test.ts` (11) — round-trip, no-save/corrupt/
+  version-mismatch/foreign-adventure → null, clear/reset, simulated
+  mid-adventure refresh, `markRaceComplete` (incl. no-save case, sticker
+  stays locked), null/throwing stores degrade gracefully.
+- `RaceProgress.test.ts` (+6) — configurable finish, 3/5-turn Husky races,
+  50-run mixed-turn fuzz (3–5), rival cap at finish=5, reset keeps finish.

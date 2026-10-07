@@ -25,7 +25,7 @@
  * art via LANDMARK_FOR. Nodes mapped to null get a lightweight placeholder
  * marker (AdventureMarkers) that Harrison can reskin later.
  */
-import { NODE_POSITIONS, FUTURE_NODE_SPOTS, SCENERY_SPOTS } from "../worlds/husky/HuskyWorldLayout";
+import { NODE_POSITIONS, FUTURE_NODE_SPOTS, SCENERY_SPOTS, WORLD_W, WORLD_H } from "../worlds/husky/HuskyWorldLayout";
 import {
   AdventureDefinition,
   AdventureNodeDef,
@@ -43,6 +43,7 @@ const N = (
 ): AdventureNodeDef => ({ id, label, x, y, encounter, ...extra });
 
 export const HUSKY_ADVENTURE: AdventureDefinition = {
+  worldSize: { width: WORLD_W, height: WORLD_H },
   id: "husky",
   name: "Snowy Peaks — Husky Adventure",
   stickerName: "Husky",

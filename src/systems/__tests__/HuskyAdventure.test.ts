@@ -44,6 +44,12 @@ function playthrough(route: "safe" | "challenge", secrets: boolean): AdventurePr
 }
 
 describe("Husky definition audit", () => {
+  it("validates the scrolling world bounds without accepting off-world nodes", () => {
+    expect(HUSKY_ADVENTURE.worldSize).toEqual({ width: 3360, height: 720 });
+    const invalid = { ...HUSKY_ADVENTURE, nodes: HUSKY_ADVENTURE.nodes.map((n) =>
+      n.id === "forest" ? { ...n, x: 3361 } : n) };
+    expect(auditDefinition(invalid)).toContain('node "forest" is off-map (3361,520)');
+  });
   it("passes the static graph audit", () => {
     expect(auditDefinition(HUSKY_ADVENTURE)).toEqual([]);
   });

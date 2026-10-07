@@ -135,14 +135,14 @@ export class HuskyScene extends Phaser.Scene {
     const x = obj.x - cam.scrollX;
     if (x < 100 || x > 1150) {
       cam.stopFollow();
-      cam.pan(obj.x - 200, 360, 850, "Sine.inOut", true);
+      cam.pan(obj.x - 200, 360, 850, Phaser.Math.Easing.Sine.InOut, true);
     }
   }
 
   private pinOverlay(c: Phaser.GameObjects.Container): void {
     c.setScrollFactor(0);
     c.iterate((child: Phaser.GameObjects.GameObject) => {
-      (child as Phaser.GameObjects.Components.ScrollFactor).setScrollFactor(0);
+      (child as unknown as Phaser.GameObjects.Components.ScrollFactor).setScrollFactor(0);
     });
   }
 

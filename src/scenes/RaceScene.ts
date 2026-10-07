@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { MathEngine, MathQuestion } from "../systems/MathEngine";
 import { RaceProgressState } from "../systems/RaceProgress";
 import { KikiCharacter } from "../systems/KikiCharacter";
+import { HuskyCharacter } from "../systems/HuskyCharacter";
 import { KikiMover } from "../systems/KikiMover";
 import { HUSKY_ADVENTURE, HUSKY_SAVE_KEY } from "../systems/HuskyAdventure";
 import { markRaceComplete } from "../systems/AdventurePersistence";
@@ -21,6 +22,7 @@ export class RaceScene extends Phaser.Scene {
   private kiki!: Phaser.GameObjects.Container;
   private kikiChar!: KikiCharacter;
   private kikiMover!: KikiMover;
+  private rivalChar!: HuskyCharacter;
   private rival!: Phaser.GameObjects.Container;
   private status!: Phaser.GameObjects.Text;
   private prompt?: Phaser.GameObjects.Container;
@@ -32,6 +34,7 @@ export class RaceScene extends Phaser.Scene {
 
   preload(): void {
     KikiCharacter.preload(this);
+    HuskyCharacter.preload(this);
   }
 
   create(): void {
@@ -45,7 +48,7 @@ export class RaceScene extends Phaser.Scene {
     this.drawTrack();
     this.drawHeader();
     this.createKikiRacer();
-    this.rival = this.createDog(155, 300, 0x51657c, 0xf5f8ff, "HUSKY");
+    this.rival = this.createHuskyRacer();
     this.status = this.add.text(640, 640, "Choose your pace", {
       fontFamily: "Arial Black, Arial",
       fontSize: "24px",
@@ -71,12 +74,12 @@ export class RaceScene extends Phaser.Scene {
 
     this.kikiChar = new KikiCharacter(this, 0, -4, {
       depth: 0,
-      scale: 0.6,
+      scale: 0.72,
       footprints: false,
       puffs: true,
     });
-    this.kikiChar.setIdlePose("race");
-    this.kikiChar.setPose("race");
+    this.kikiChar.setIdlePose("sled-ready");
+    this.kikiChar.setPose("sled-ready");
     this.kiki.add([runner, sled, this.kikiChar.container, tag]);
     this.kikiMover = new KikiMover(this, this.kikiChar, this.kiki);
   }
@@ -97,6 +100,10 @@ export class RaceScene extends Phaser.Scene {
     }).setOrigin(0.5).setDepth(10);
   }
 
+  private trackX(progress: number): number {
+    return 155 + progress * (945 / this.race.finish);
+  }
+
   private drawTrack(): void {
     const g = this.add.graphics();
     g.fillStyle(0xc9efff, 1);
@@ -111,7 +118,7 @@ export class RaceScene extends Phaser.Scene {
       g.lineBetween(140, y, 1120, y);
 
       for (let i = 0; i <= this.race.finish; i++) {
-        const x = 155 + i * 155;
+        const x = this.trackX(i);
         g.fillStyle(i === this.race.finish ? 0xf4c542 : 0xffffff, 1);
         g.fillCircle(x, y, i === this.race.finish ? 21 : 15);
         g.lineStyle(4, i === this.race.finish ? 0xc28c13 : 0x6ea2c8, 1);
@@ -129,33 +136,18 @@ export class RaceScene extends Phaser.Scene {
     }
   }
 
-  private createDog(
-    x: number,
-    y: number,
-    primary: number,
-    secondary: number,
-    label: string,
-  ): Phaser.GameObjects.Container {
-    const c = this.add.container(x, y - 44).setDepth(12);
+  private createHuskyRacer(): Phaser.GameObjects.Container {
+    const c = this.add.container(155, 256).setDepth(12);
     const sled = this.add.rectangle(-8, 29, 92, 14, 0x9b5a2f, 1).setStrokeStyle(3, 0x63371c);
-    const runner1 = this.add.line(0, 0, -55, 42, 40, 42, 0x5c6f7f, 1).setLineWidth(4);
-    const body = this.add.ellipse(0, 0, 58, 38, primary, 1).setStrokeStyle(3, 0x26384a);
-    const chest = this.add.ellipse(17, 3, 22, 30, secondary, 1);
-    const head = this.add.circle(25, -18, 23, primary, 1).setStrokeStyle(3, 0x26384a);
-    const muzzle = this.add.ellipse(38, -7, 20, 14, secondary, 1);
-    const ear1 = this.add.triangle(10, -35, 4, -58, 19, -40, primary, 1);
-    const ear2 = this.add.triangle(37, -36, 45, -59, 31, -40, primary, 1);
-    const eye = this.add.circle(31, -21, 3, 0x101820, 1);
-    const nose = this.add.circle(48, -8, 4, 0x101820, 1);
-    const tag = this.add.text(0, 62, label, {
-      fontFamily: "Arial Black, Arial",
-      fontSize: "18px",
-      color: "#17324d",
-      backgroundColor: "#ffffffcc",
-      padding: { x: 7, y: 4 },
+    const runner = this.add.line(0, 0, -55, 42, 40, 42, 0x5c6f7f, 1).setLineWidth(4);
+    const tag = this.add.text(0, 62, "HUSKY", {
+      fontFamily: "Arial Black, Arial", fontSize: "18px", color: "#17324d",
+      backgroundColor: "#ffffffcc", padding: { x: 7, y: 4 },
     }).setOrigin(0.5);
-
-    c.add([runner1, sled, body, chest, head, muzzle, ear1, ear2, eye, nose, tag]);
+    this.rivalChar = new HuskyCharacter(this, 0, -4, { scale: 0.72, depth: 0, footprints: false, puffs: true });
+    this.rivalChar.setIdlePose("race");
+    this.rivalChar.setPose("race");
+    c.add([runner, sled, this.rivalChar.container, tag]);
     return c;
   }
 
@@ -259,6 +251,9 @@ export class RaceScene extends Phaser.Scene {
     }).setOrigin(0.5);
     c.add([shade, panel, header, prompt]);
 
+    const hint = this.add.text(0, 195, "", { fontFamily: "Arial", fontSize: "18px", color: "#5a6b7d" }).setOrigin(0.5);
+    c.add(hint);
+    let wrongCount = 0;
     let resolved = false;
     q.answers.forEach((answer, index) => {
       const x = index % 2 === 0 ? -150 : 150;
@@ -282,6 +277,8 @@ export class RaceScene extends Phaser.Scene {
           this.prompt = undefined;
           resolve(true);
         } else {
+          wrongCount += 1;
+          if (wrongCount >= 2 && q.hint) hint.setText(q.hint);
           this.cameras.main.shake(150, 0.005);
           label.setColor("#ffd6d6");
           this.time.delayedCall(260, () => label.setColor("#ffffff"));
@@ -294,7 +291,9 @@ export class RaceScene extends Phaser.Scene {
   }
 
   private moveKiki(progress: number, turbo: boolean): Promise<void> {
-    const targetX = 155 + progress * 155;
+    this.kikiChar.setIdlePose(turbo ? "race-turbo" : "race-steady");
+    this.kikiChar.setPose(turbo ? "race-turbo" : "race-steady");
+    const targetX = this.trackX(progress);
     if (turbo) this.createTurboBurst(this.kiki.x, this.kiki.y);
 
     const curve = new Phaser.Curves.Line(
@@ -315,7 +314,7 @@ export class RaceScene extends Phaser.Scene {
     progress: number,
     turbo: boolean,
   ): Promise<void> {
-    const targetX = 155 + progress * 155;
+    const targetX = this.trackX(progress);
     if (turbo) this.createTurboBurst(racer.x, racer.y);
 
     return new Promise((resolve) => {
@@ -361,11 +360,16 @@ export class RaceScene extends Phaser.Scene {
   }
 
   private async finishRace(): Promise<void> {
+    markRaceComplete(HUSKY_SAVE_KEY, HUSKY_ADVENTURE, { turns: this.turns, turbos: this.turbos });
     this.choiceGroup?.destroy(true);
+    this.kikiChar.setIdlePose("race-celebrate");
+    this.kikiChar.setPose("race-celebrate");
+    this.rivalChar.setIdlePose("celebrate");
+    this.rivalChar.setPose("celebrate");
     this.status.setText("KIKI WINS!");
     this.cameras.main.flash(450, 255, 245, 180);
 
-    this.kikiChar.react("happy", 2600);
+
     for (let i = 0; i < 3; i++) {
       this.tweens.add({
         targets: this.kiki,
@@ -401,11 +405,7 @@ export class RaceScene extends Phaser.Scene {
     // Clean completion state: persist the win, announce it on the event bus,
     // and hand the player a real continuation (the Husky reward screen) —
     // the race no longer dead-ends on text.
-    markRaceComplete(
-      HUSKY_SAVE_KEY,
-      HUSKY_ADVENTURE,
-      { turns: this.turns, turbos: this.turbos },
-    );
+
     AdventureEvents.emitRaceComplete({
       adventureId: HUSKY_ADVENTURE.id,
       turns: this.turns,

@@ -75,6 +75,8 @@ export interface AdventureEdgeDef {
 }
 
 export interface AdventureDefinition {
+  /** World bounds for spatial validation; older single-screen worlds use 1280×720. */
+  worldSize?: { width: number; height: number };
   id: string;
   name: string;
   stickerName: string;
@@ -345,7 +347,8 @@ export function auditDefinition(def: AdventureDefinition): string[] {
   for (const n of def.nodes) {
     if (seen.has(n.id)) problems.push(`duplicate node id "${n.id}"`);
     seen.add(n.id);
-    if (n.x < 0 || n.x > 1280 || n.y < 0 || n.y > 720) {
+    const size = def.worldSize ?? { width: 1280, height: 720 };
+    if (n.x < 0 || n.x > size.width || n.y < 0 || n.y > size.height) {
       problems.push(`node "${n.id}" is off-map (${n.x},${n.y})`);
     }
   }

@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { KikiCharacter, KikiReaction } from "./KikiCharacter";
+import { DogCharacter, DogReaction } from "./DogCharacter";
 
 /**
  * KikiMover — reusable curve-following movement controller for Kiki.
@@ -47,7 +47,7 @@ export interface KikiWalkSpec {
   fromT?: number;
   toT?: number;
   /** Reaction to play on arrival ("none" = settle quietly). */
-  arrivalReaction?: KikiReaction | "none";
+  arrivalReaction?: DogReaction | "none";
   /** Keep the current pose while moving (race) instead of the walk cycle. */
   keepPose?: boolean;
   /** Skip footstep FX (footprints / puffs / sound hooks). Default false. */
@@ -63,7 +63,7 @@ const STRIDE_PX_PER_CYCLE = 54;
 
 export class KikiMover {
   private scene: Phaser.Scene;
-  private kiki: KikiCharacter;
+  private kiki: DogCharacter;
   /** The object actually positioned along the curve (defaults to Kiki herself). */
   private root: Phaser.GameObjects.Container;
   private moving = false;
@@ -73,7 +73,7 @@ export class KikiMover {
 
   constructor(
     scene: Phaser.Scene,
-    kiki: KikiCharacter,
+    kiki: DogCharacter,
     root?: Phaser.GameObjects.Container,
   ) {
     this.scene = scene;

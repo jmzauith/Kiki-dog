@@ -140,3 +140,61 @@ describe("race playthrough simulations (logic level)", () => {
     expect(r.over).toBe(true);
   });
 });
+
+describe("configurable race length (Husky: 3–5 turns)", () => {
+  it("defaults to finish=6 (original track)", () => {
+    expect(new RaceProgressState().finish).toBe(6);
+  });
+
+  it("finish=5: all-turbo wins in 3 turns", () => {
+    const r = new RaceProgressState(5);
+    let turns = 0;
+    while (!r.over && turns < 10) {
+      r.playerMove("turbo");
+      turns++;
+    }
+    expect(r.over).toBe(true);
+    expect(turns).toBe(3);
+  });
+
+  it("finish=5: all-steady wins in 5 turns", () => {
+    const r = new RaceProgressState(5);
+    let turns = 0;
+    while (!r.over && turns < 10) {
+      r.playerMove("steady");
+      turns++;
+    }
+    expect(turns).toBe(5);
+    expect(r.kiki).toBe(5);
+  });
+
+  it("finish=5: mixed play wins in 3–5 turns", () => {
+    for (let t = 0; t < 50; t++) {
+      const r = new RaceProgressState(5);
+      let turns = 0;
+      while (!r.over && turns < 10) {
+        r.playerMove(Math.random() < 0.5 ? "steady" : "turbo");
+        turns++;
+      }
+      expect(turns).toBeGreaterThanOrEqual(3);
+      expect(turns).toBeLessThanOrEqual(5);
+    }
+  });
+
+  it("finish=5: rival still capped below the finish (Kiki always can win)", () => {
+    const r = new RaceProgressState(5);
+    for (let i = 0; i < 20; i++) r.rivalMove();
+    expect(r.rival).toBe(4);
+    for (let i = 0; i < 5; i++) r.playerMove("steady");
+    expect(r.over).toBe(true);
+  });
+
+  it("reset() restores a custom-finish race cleanly", () => {
+    const r = new RaceProgressState(5);
+    r.playerMove("turbo");
+    r.reset();
+    expect(r.kiki).toBe(0);
+    expect(r.over).toBe(false);
+    expect(r.finish).toBe(5);
+  });
+});

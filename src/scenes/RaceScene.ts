@@ -1,16 +1,18 @@
 import Phaser from "phaser";
 import { MathEngine, MathQuestion } from "../systems/MathEngine";
-import { RaceMoveMode, RaceProgressState } from "../systems/RaceProgress";
+import { RaceProgressState } from "../systems/RaceProgress";
+import { KikiCharacter } from "../systems/KikiCharacter";
+import { KikiMover } from "../systems/KikiMover";
 
 type MoveMode = "steady" | "turbo";
 
 export class RaceScene extends Phaser.Scene {
   private math = new MathEngine();
-  // All race progression rules live in this pure, tested state machine.
-  // The scene only mirrors its values to the track visuals.
   private race = new RaceProgressState();
   private busy = false;
   private kiki!: Phaser.GameObjects.Container;
+  private kikiChar!: KikiCharacter;
+  private kikiMover!: KikiMover;
   private rival!: Phaser.GameObjects.Container;
   private status!: Phaser.GameObjects.Text;
   private prompt?: Phaser.GameObjects.Container;
@@ -20,10 +22,11 @@ export class RaceScene extends Phaser.Scene {
     super("RaceScene");
   }
 
+  preload(): void {
+    KikiCharacter.preload(this);
+  }
+
   create(): void {
-    // Reset mutable state: Phaser reuses the Scene instance on restart, so
-    // without this a replayed race would start already finished (soft lock:
-    // showPaceChoices would bail and no buttons would appear).
     this.race.reset();
     this.busy = false;
     this.prompt = undefined;
@@ -31,7 +34,7 @@ export class RaceScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#bde8ff");
     this.drawTrack();
     this.drawHeader();
-    this.kiki = this.createDog(155, 470, 0xd88936, 0xffffff, "KIKI");
+    this.createKikiRacer();
     this.rival = this.createDog(155, 300, 0x51657c, 0xf5f8ff, "HUSKY");
     this.status = this.add.text(640, 640, "Choose your pace", {
       fontFamily: "Arial Black, Arial",
@@ -42,6 +45,30 @@ export class RaceScene extends Phaser.Scene {
     }).setOrigin(0.5).setDepth(20);
 
     this.showPaceChoices();
+  }
+
+  private createKikiRacer(): void {
+    this.kiki = this.add.container(155, 426).setDepth(12);
+    const sled = this.add.rectangle(-8, 29, 92, 14, 0x9b5a2f, 1).setStrokeStyle(3, 0x63371c);
+    const runner = this.add.line(0, 0, -55, 42, 40, 42, 0x5c6f7f, 1).setLineWidth(4);
+    const tag = this.add.text(0, 62, "KIKI", {
+      fontFamily: "Arial Black, Arial",
+      fontSize: "18px",
+      color: "#17324d",
+      backgroundColor: "#ffffffcc",
+      padding: { x: 7, y: 4 },
+    }).setOrigin(0.5);
+
+    this.kikiChar = new KikiCharacter(this, 0, -4, {
+      depth: 0,
+      scale: 0.6,
+      footprints: false,
+      puffs: true,
+    });
+    this.kikiChar.setIdlePose("race");
+    this.kikiChar.setPose("race");
+    this.kiki.add([runner, sled, this.kikiChar.container, tag]);
+    this.kikiMover = new KikiMover(this, this.kikiChar, this.kiki);
   }
 
   private drawHeader(): void {
@@ -127,14 +154,12 @@ export class RaceScene extends Phaser.Scene {
     this.choiceGroup?.destroy(true);
 
     const c = this.add.container(640, 615).setDepth(30);
-
     const steady = this.createChoiceButton(-180, "STEADY", "Current math • +1", 0x2f84b8, () =>
       this.beginTurn("steady"),
     );
     const turbo = this.createChoiceButton(180, "TURBO ★", "Harder math • +2", 0x7651b3, () =>
       this.beginTurn("turbo"),
     );
-
     c.add([steady, turbo]);
     this.choiceGroup = c;
   }
@@ -172,10 +197,8 @@ export class RaceScene extends Phaser.Scene {
 
     const success = await this.askMath(mode === "turbo" ? "challenge" : "normal", mode);
     if (success) {
-      // Progression rules (spaces, clamping, victory) live in the tested
-      // RaceProgressState; the scene only mirrors values to visuals.
       this.race.playerMove(mode);
-      await this.moveRacer(this.kiki, this.race.kiki, mode === "turbo");
+      await this.moveKiki(this.race.kiki, mode === "turbo");
     }
 
     if (this.race.over) {
@@ -222,12 +245,9 @@ export class RaceScene extends Phaser.Scene {
       fontSize: "58px",
       color: "#17324d",
     }).setOrigin(0.5);
-
     c.add([shade, panel, header, prompt]);
 
-    // Same double-tap guard as HuskyScene: the race math resolves once.
     let resolved = false;
-
     q.answers.forEach((answer, index) => {
       const x = index % 2 === 0 ? -150 : 150;
       const y = 35 + Math.floor(index / 2) * 110;
@@ -259,6 +279,23 @@ export class RaceScene extends Phaser.Scene {
     });
 
     this.prompt = c;
+  }
+
+  private moveKiki(progress: number, turbo: boolean): Promise<void> {
+    const targetX = 155 + progress * 155;
+    if (turbo) this.createTurboBurst(this.kiki.x, this.kiki.y);
+
+    const curve = new Phaser.Curves.Line(
+      new Phaser.Math.Vector2(this.kiki.x, this.kiki.y),
+      new Phaser.Math.Vector2(targetX, this.kiki.y),
+    );
+    return this.kikiMover.walk({
+      curve,
+      gait: turbo ? "dash" : "trot",
+      durationMs: turbo ? 650 : 950,
+      arrivalReaction: turbo ? "happy" : "none",
+      keepPose: true,
+    });
   }
 
   private moveRacer(
@@ -298,11 +335,7 @@ export class RaceScene extends Phaser.Scene {
       const star = this.add.star(
         x + Phaser.Math.Between(-30, 30),
         y + Phaser.Math.Between(-35, 35),
-        5,
-        4,
-        9,
-        0xffd85a,
-        1,
+        5, 4, 9, 0xffd85a, 1,
       ).setDepth(20);
       this.tweens.add({
         targets: star,
@@ -320,13 +353,23 @@ export class RaceScene extends Phaser.Scene {
     this.status.setText("KIKI WINS!");
     this.cameras.main.flash(450, 255, 245, 180);
 
+    this.kikiChar.react("happy", 2600);
+    for (let i = 0; i < 3; i++) {
+      this.tweens.add({
+        targets: this.kiki,
+        y: this.kiki.y - 22,
+        duration: 210,
+        yoyo: true,
+        ease: "Quad.out",
+      });
+      await this.timeDelay(460);
+    }
+
     for (let i = 0; i < 28; i++) {
       const star = this.add.star(
         Phaser.Math.Between(120, 1160),
         Phaser.Math.Between(130, 580),
-        5,
-        4,
-        11,
+        5, 4, 11,
         i % 2 === 0 ? 0xffd64f : 0x7ed6ff,
         1,
       ).setDepth(30);
@@ -342,7 +385,7 @@ export class RaceScene extends Phaser.Scene {
     }
 
     await this.timeDelay(1500);
-    this.add.text(640, 585, "Husky Adventure prototype complete!", {
+    this.add.text(640, 585, "Husky Adventure complete!", {
       fontFamily: "Arial Black, Arial",
       fontSize: "28px",
       color: "#17324d",
@@ -352,8 +395,6 @@ export class RaceScene extends Phaser.Scene {
   }
 
   private timeDelay(ms: number): Promise<void> {
-    return new Promise((resolve) => {
-      this.time.delayedCall(ms, resolve);
-    });
+    return new Promise((resolve) => this.time.delayedCall(ms, resolve));
   }
 }

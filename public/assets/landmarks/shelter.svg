@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 150" width="170" height="150">
+  <defs>
+    <radialGradient id="warm" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd97a" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ffd97a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- ground snow -->
+  <ellipse cx="85" cy="136" rx="72" ry="12" fill="#ffffff" opacity="0.95"/>
+  <!-- lean-to shelter -->
+  <polygon points="18,136 18,74 96,74 96,136" fill="#8d5a32" stroke="#63371c" stroke-width="3"/>
+  <polygon points="10,78 104,78 92,52 22,52" fill="#a06a3c" stroke="#63371c" stroke-width="3" stroke-linejoin="round"/>
+  <polygon points="14,72 100,72 90,54 24,54" fill="#ffffff" opacity="0.9"/>
+  <!-- warm window glow -->
+  <circle cx="57" cy="105" r="30" fill="url(#warm)" opacity="0.55"/>
+  <rect x="42" y="90" width="30" height="30" rx="6" fill="#ffd97a" stroke="#63371c" stroke-width="3"/>
+  <line x1="57" y1="90" x2="57" y2="120" stroke="#63371c" stroke-width="2.5"/>
+  <line x1="42" y1="105" x2="72" y2="105" stroke="#63371c" stroke-width="2.5"/>
+  <!-- firewood stack -->
+  <g>
+    <circle cx="118" cy="128" r="9" fill="#a06a3c" stroke="#63371c" stroke-width="2"/>
+    <circle cx="136" cy="128" r="9" fill="#a06a3c" stroke="#63371c" stroke-width="2"/>
+    <circle cx="127" cy="113" r="9" fill="#b97940" stroke="#63371c" stroke-width="2"/>
+    <circle cx="118" cy="128" r="3.5" fill="#e8c896"/>
+    <circle cx="136" cy="128" r="3.5" fill="#e8c896"/>
+    <circle cx="127" cy="113" r="3.5" fill="#e8c896"/>
+  </g>
+  <!-- lantern post -->
+  <rect x="146" y="82" width="9" height="54" rx="4" fill="#5a3a1e"/>
+  <rect x="138" y="66" width="24" height="20" rx="5" fill="#3a4a5a" stroke="#22303d" stroke-width="2"/>
+  <rect x="143" y="70" width="14" height="12" rx="3" fill="#ffd97a"/>
+  <circle cx="150" cy="76" r="20" fill="url(#warm)" opacity="0.5"/>
+  <!-- wide calm path hint -->
+  <ellipse cx="85" cy="140" rx="46" ry="7" fill="#e8f4fc" opacity="0.9"/>
+</svg>

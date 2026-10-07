@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220">
+  <defs>
+    <linearGradient id="wtb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6fd4e8"/>
+      <stop offset="0.55" stop-color="#4fc3d9"/>
+      <stop offset="1" stop-color="#2a9ab5"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="800" height="220" fill="url(#wtb)"/>
+  <!-- wave lines -->
+  <g stroke="#a8e6f2" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.8">
+    <path d="M0,50 Q100,42 200,50 T400,50 T600,50 T800,50"/>
+    <path d="M0,110 Q100,102 200,110 T400,110 T600,110 T800,110"/>
+    <path d="M0,170 Q100,162 200,170 T400,170 T600,170 T800,170"/>
+  </g>
+  <g stroke="#e8fbff" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7">
+    <path d="M60,80 Q130,74 200,80 M340,140 Q410,134 480,140 M620,60 Q690,54 760,60"/>
+  </g>
+  <!-- sun sparkles -->
+  <g fill="#ffffff" opacity="0.9">
+    <polygon points="150,60 152,66 158,67 152,69 150,75 148,69 142,67 148,66"/>
+    <polygon points="470,90 472,96 478,97 472,99 470,105 468,99 462,97 468,96"/>
+    <polygon points="700,140 702,146 708,147 702,149 700,155 698,149 692,147 698,146"/>
+  </g>
+</svg>

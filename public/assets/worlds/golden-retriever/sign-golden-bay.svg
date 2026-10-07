@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 240">
+  <defs>
+    <linearGradient id="sgw" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7a4f2a"/>
+      <stop offset="0.5" stop-color="#9c6a3a"/>
+      <stop offset="1" stop-color="#7a4f2a"/>
+    </linearGradient>
+    <linearGradient id="sgb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb84d"/>
+      <stop offset="1" stop-color="#e8823a"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="230" cy="226" rx="200" ry="12" fill="#7ab648" opacity="0.4"/>
+  <!-- posts -->
+  <rect x="40" y="70" width="30" height="150" rx="12" fill="url(#sgw)"/>
+  <rect x="390" y="70" width="30" height="150" rx="12" fill="url(#sgw)"/>
+  <rect x="34" y="60" width="42" height="16" rx="8" fill="#a8d05e"/>
+  <rect x="384" y="60" width="42" height="16" rx="8" fill="#a8d05e"/>
+  <!-- arch beam -->
+  <path d="M40,90 Q230,10 420,90 L420,116 Q230,36 40,116 Z" fill="url(#sgw)"/>
+  <!-- hanging sign -->
+  <rect x="130" y="96" width="200" height="64" rx="14" fill="url(#sgb)" stroke="#ffffff" stroke-width="5"/>
+  <text x="230" y="136" text-anchor="middle" font-family="Arial Black, Arial" font-size="27" fill="#ffffff" letter-spacing="1">GOLDEN BAY</text>
+  <g stroke="#7a4f2a" stroke-width="5">
+    <path d="M170,96 L170,74 M290,96 L290,74"/>
+  </g>
+  <!-- sun emblem -->
+  <circle cx="230" cy="52" r="20" fill="#ffd24d" stroke="#c9930a" stroke-width="3"/>
+  <g stroke="#ffd24d" stroke-width="5" stroke-linecap="round">
+    <path d="M230,22 L230,12 M204,32 L197,25 M256,32 L263,25"/>
+  </g>
+  <!-- paw print accents -->
+  <g fill="#ffffff" opacity="0.9">
+    <ellipse cx="150" cy="128" rx="8" ry="6.5"/><circle cx="142" cy="120" r="3"/><circle cx="158" cy="120" r="3"/>
+    <ellipse cx="310" cy="128" rx="8" ry="6.5"/><circle cx="302" cy="120" r="3"/><circle cx="318" cy="120" r="3"/>
+  </g>
+</svg>

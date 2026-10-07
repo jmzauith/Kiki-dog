@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 260">
+  <defs>
+    <linearGradient id="bow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b07a3e"/>
+      <stop offset="1" stop-color="#7a4f2a"/>
+    </linearGradient>
+    <linearGradient id="bor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8a5a48"/>
+      <stop offset="1" stop-color="#5f3d30"/>
+    </linearGradient>
+    <radialGradient id="bog" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#fff3c4"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="170" cy="246" rx="150" ry="12" fill="#7ab648" opacity="0.4"/>
+  <rect x="60" y="80" width="220" height="130" rx="10" fill="url(#bow)" stroke="#5f3d22" stroke-width="4"/>
+  <g stroke="#5f3d22" stroke-width="3" opacity="0.5">
+    <path d="M60,110 L280,110 M60,140 L280,140 M60,170 L280,170"/>
+  </g>
+  <polygon points="40,90 170,20 300,90" fill="url(#bor)" stroke="#4a2e20" stroke-width="4"/>
+  <!-- open doorway: canoe visible inside -->
+  <rect x="120" y="130" width="100" height="80" rx="8" fill="#2a1c12"/>
+  <ellipse cx="170" cy="176" rx="34" ry="12" fill="#e2574c"/>
+  <ellipse cx="170" cy="172" rx="26" ry="8" fill="#8e2b24"/>
+  <circle cx="170" cy="112" r="16" fill="#4fc3d9" stroke="#e8fbff" stroke-width="5"/>
+  <!-- warm light spilling -->
+  <ellipse cx="170" cy="190" rx="60" ry="30" fill="url(#bog)"/>
+  <!-- doors swung open -->
+  <g transform="rotate(-32 120 170)">
+    <rect x="96" y="130" width="48" height="80" rx="8" fill="#8a5a34" stroke="#3a2418" stroke-width="3"/>
+  </g>
+  <g transform="rotate(32 224 170)">
+    <rect x="200" y="130" width="48" height="80" rx="8" fill="#8a5a34" stroke="#3a2418" stroke-width="3"/>
+  </g>
+  <g fill="#6b4423">
+    <rect x="80" y="210" width="18" height="40" rx="6"/>
+    <rect x="242" y="210" width="18" height="40" rx="6"/>
+  </g>
+  <ellipse cx="170" cy="250" rx="140" ry="12" fill="#4fc3d9" opacity="0.6"/>
+</svg>

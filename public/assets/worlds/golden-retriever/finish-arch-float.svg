@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 260">
+  <defs>
+    <linearGradient id="faf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8a6b"/>
+      <stop offset="1" stop-color="#e2574c"/>
+    </linearGradient>
+  </defs>
+  <!-- floating finish arch -->
+  <ellipse cx="110" cy="230" rx="80" ry="12" fill="#4fc3d9" opacity="0.5"/>
+  <ellipse cx="350" cy="230" rx="80" ry="12" fill="#4fc3d9" opacity="0.5"/>
+  <g>
+    <rect x="80" y="120" width="60" height="26" rx="10" fill="url(#faf)"/>
+    <rect x="320" y="120" width="60" height="26" rx="10" fill="url(#faf)"/>
+    <polygon points="80,146 140,146 130,170 90,170" fill="#b03a30"/>
+    <polygon points="320,146 380,146 370,170 330,170" fill="#b03a30"/>
+  </g>
+  <rect x="60" y="40" width="26" height="90" rx="10" fill="#7a4f2a"/>
+  <rect x="374" y="40" width="26" height="90" rx="10" fill="#7a4f2a"/>
+  <!-- checkered banner -->
+  <rect x="86" y="44" width="288" height="52" rx="10" fill="#ffffff" stroke="#2b2b2b" stroke-width="4"/>
+  <g fill="#222">
+    <rect x="100" y="52" width="24" height="16"/><rect x="148" y="52" width="24" height="16"/><rect x="196" y="52" width="24" height="16"/><rect x="244" y="52" width="24" height="16"/><rect x="292" y="52" width="24" height="16"/><rect x="340" y="52" width="24" height="16"/>
+    <rect x="124" y="72" width="24" height="16"/><rect x="172" y="72" width="24" height="16"/><rect x="220" y="72" width="24" height="16"/><rect x="268" y="72" width="24" height="16"/><rect x="316" y="72" width="24" height="16"/>
+  </g>
+  <text x="230" y="80" text-anchor="middle" font-family="Arial Black, Arial" font-size="0" fill="#222"></text>
+  <g stroke="#a8e6f2" stroke-width="4" fill="none" opacity="0.8" stroke-linecap="round">
+    <path d="M30,230 Q70,236 110,230 M350,230 Q390,236 430,230"/>
+  </g>
+</svg>

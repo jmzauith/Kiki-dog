@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 380">
+  <defs>
+    <radialGradient id="okc" cx="0.42" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="#8abd4a"/>
+      <stop offset="1" stop-color="#5d9a38"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="150" cy="364" rx="90" ry="12" fill="#7ab648" opacity="0.45"/>
+  <rect x="136" y="220" width="28" height="140" rx="12" fill="#7a4f2a"/>
+  <path d="M150,260 Q120,240 100,210 M150,270 Q180,250 200,220" stroke="#7a4f2a" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <g fill="url(#okc)">
+    <circle cx="110" cy="150" r="62"/>
+    <circle cx="190" cy="140" r="68"/>
+    <circle cx="150" cy="90" r="60"/>
+    <circle cx="80" cy="100" r="44"/>
+    <circle cx="220" cy="100" r="44"/>
+  </g>
+  <g fill="#a8d05e" opacity="0.7">
+    <circle cx="120" cy="100" r="20"/>
+    <circle cx="180" cy="80" r="16"/>
+  </g>
+  <!-- apples? no — acorns -->
+  <g fill="#c98a3a">
+    <circle cx="140" cy="150" r="7"/><circle cx="175" cy="120" r="7"/><circle cx="105" cy="115" r="7"/>
+  </g>
+</svg>

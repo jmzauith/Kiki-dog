@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <defs>
+    <radialGradient id="gbg" cx="0.5" cy="0.5" r="0.55">
+      <stop offset="0" stop-color="#fff7d6" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gbb" cx="0.38" cy="0.35" r="0.8">
+      <stop offset="0" stop-color="#ffe89a"/>
+      <stop offset="1" stop-color="#e8a90c"/>
+    </radialGradient>
+  </defs>
+  <circle cx="80" cy="80" r="76" fill="url(#gbg)"/>
+  <!-- the hidden golden tennis ball -->
+  <circle cx="80" cy="80" r="44" fill="url(#gbb)"/>
+  <path d="M44,60 Q65,80 44,100" stroke="#fff3c4" stroke-width="8" fill="none"/>
+  <path d="M116,60 Q95,80 116,100" stroke="#fff3c4" stroke-width="8" fill="none"/>
+  <g fill="#ffffff">
+    <polygon points="40,40 42,46 48,47 42,49 40,55 38,49 32,47 38,46" opacity="0.95"/>
+    <polygon points="120,40 122,46 128,47 122,49 120,55 118,49 112,47 118,46" opacity="0.95"/>
+    <polygon points="80,120 82,126 88,127 82,129 80,135 78,129 72,127 78,126" opacity="0.9"/>
+  </g>
+</svg>

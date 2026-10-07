@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 140">
+  <defs>
+    <linearGradient id="ptb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9b96e"/>
+      <stop offset="1" stop-color="#b98f4e"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="800" height="140" fill="url(#ptb)"/>
+  <!-- winding edges implied by darker border -->
+  <rect x="0" y="0" width="800" height="10" fill="#8abd4a" opacity="0.85"/>
+  <rect x="0" y="130" width="800" height="10" fill="#8abd4a" opacity="0.85"/>
+  <g fill="#a37f42" opacity="0.55">
+    <ellipse cx="100" cy="60" rx="20" ry="8"/><ellipse cx="300" cy="90" rx="24" ry="9"/>
+    <ellipse cx="520" cy="60" rx="20" ry="8"/><ellipse cx="700" cy="90" rx="24" ry="9"/>
+  </g>
+  <!-- pebbles -->
+  <g fill="#e8d3a8">
+    <circle cx="180" cy="70" r="5"/><circle cx="420" cy="100" r="6"/><circle cx="620" cy="75" r="5"/>
+  </g>
+  <!-- paw prints -->
+  <g fill="#8a6a3a" opacity="0.5">
+    <ellipse cx="250" cy="65" rx="8" ry="6"/><ellipse cx="450" cy="85" rx="8" ry="6"/><ellipse cx="650" cy="65" rx="8" ry="6"/>
+  </g>
+</svg>

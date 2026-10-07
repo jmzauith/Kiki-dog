@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 160">
+  <defs>
+    <linearGradient id="pkw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9a85e"/>
+      <stop offset="1" stop-color="#a5713f"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="90" cy="148" rx="70" ry="10" fill="#7ab648" opacity="0.4"/>
+  <!-- wicker basket -->
+  <path d="M35,70 L145,70 L132,140 L48,140 Z" fill="url(#pkw)" stroke="#7a4f2a" stroke-width="4"/>
+  <g stroke="#7a4f2a" stroke-width="3" opacity="0.55">
+    <path d="M38,88 L142,88 M41,106 L139,106 M44,124 L136,124"/>
+    <path d="M70,70 L64,140 M110,70 L116,140"/>
+  </g>
+  <!-- lid ajar, goodies peeking -->
+  <g transform="rotate(-14 90 66)">
+    <rect x="34" y="52" width="112" height="22" rx="11" fill="url(#pkw)" stroke="#7a4f2a" stroke-width="4"/>
+  </g>
+  <circle cx="70" cy="56" r="11" fill="#e8823a"/>
+  <rect x="96" y="46" width="26" height="16" rx="6" fill="#f2f0e4"/>
+  <!-- handle -->
+  <path d="M55,58 Q90,10 125,58" stroke="#7a4f2a" stroke-width="9" fill="none" stroke-linecap="round"/>
+</svg>

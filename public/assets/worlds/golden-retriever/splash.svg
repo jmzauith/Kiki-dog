@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160">
+  <!-- water splash -->
+  <g fill="#e8fbff">
+    <path d="M100,150 Q90,100 60,80 Q80,90 88,70 Q92,50 100,30 Q108,50 112,70 Q120,90 140,80 Q110,100 100,150 Z"/>
+  </g>
+  <g fill="#a8e6f2">
+    <circle cx="60" cy="60" r="9"/>
+    <circle cx="140" cy="60" r="9"/>
+    <circle cx="45" cy="95" r="7"/>
+    <circle cx="155" cy="95" r="7"/>
+    <circle cx="100" cy="25" r="7"/>
+  </g>
+  <g fill="#ffffff">
+    <circle cx="80" cy="110" r="8"/>
+    <circle cx="120" cy="110" r="8"/>
+    <circle cx="100" cy="90" r="6"/>
+  </g>
+</svg>

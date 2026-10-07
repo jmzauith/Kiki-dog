@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180">
+  <defs>
+    <linearGradient id="sccr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8c4c9"/>
+      <stop offset="1" stop-color="#7d8f96"/>
+    </linearGradient>
+  </defs>
+  <!-- completed safe crossing: calm creek, settled stones, gentle glints -->
+  <rect x="0" y="50" width="400" height="90" rx="18" fill="#4fc3d9" opacity="0.5"/>
+  <g>
+    <ellipse cx="60" cy="100" rx="44" ry="22" fill="url(#sccr)"/>
+    <ellipse cx="160" cy="92" rx="46" ry="23" fill="url(#sccr)"/>
+    <ellipse cx="260" cy="98" rx="46" ry="23" fill="url(#sccr)"/>
+    <ellipse cx="355" cy="92" rx="42" ry="22" fill="url(#sccr)"/>
+  </g>
+  <!-- gentle ripple rings around stones -->
+  <g stroke="#a8e6f2" stroke-width="3" fill="none" opacity="0.7">
+    <ellipse cx="60" cy="112" rx="52" ry="10"/>
+    <ellipse cx="160" cy="106" rx="54" ry="10"/>
+    <ellipse cx="260" cy="112" rx="54" ry="10"/>
+    <ellipse cx="355" cy="106" rx="50" ry="10"/>
+  </g>
+  <g fill="#ffd24d" opacity="0.9">
+    <polygon points="110,40 112,46 118,47 112,49 110,55 108,49 102,47 108,46"/>
+    <polygon points="310,36 312,42 318,43 312,45 310,51 308,45 302,43 308,42"/>
+  </g>
+  <!-- small pennant on the far bank -->
+  <rect x="372" y="34" width="6" height="60" rx="3" fill="#7a4f2a"/>
+  <polygon points="378,36 408,44 378,54" fill="#e2574c" stroke="#b03a30" stroke-width="3" stroke-linejoin="round"/>
+</svg>

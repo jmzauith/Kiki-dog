@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 160">
+  <defs>
+    <linearGradient id="tbb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.6" stop-color="#e3f1fd"/>
+      <stop offset="1" stop-color="#c3ddf4"/>
+    </linearGradient>
+  </defs>
+  <!-- raised snow bank, tileable: flat bottom edge sits on the track -->
+  <path d="M0,160 L0,70 Q60,30 140,52 Q220,74 300,44 Q380,14 460,44 Q540,74 620,50 Q700,28 800,56 L800,160 Z" fill="url(#tbb)"/>
+  <path d="M0,70 Q60,30 140,52 Q220,74 300,44 Q380,14 460,44 Q540,74 620,50 Q700,28 800,56" stroke="#ffffff" stroke-width="8" fill="none" opacity="0.9"/>
+  <!-- blue shadow under the crest -->
+  <path d="M0,86 Q60,48 140,68 Q220,88 300,60 Q380,32 460,60 Q540,88 620,66 Q700,46 800,72 L800,92 Q700,66 620,86 Q540,108 460,80 Q380,52 300,80 Q220,108 140,88 Q60,68 0,106 Z" fill="#b9d4ec" opacity="0.65"/>
+  <!-- sparkles on the crest -->
+  <g fill="#ffffff" opacity="0.95">
+    <polygon points="140,52 143,58 149,59 143,61 140,67 137,61 131,59 137,58"/>
+    <polygon points="460,44 463,50 469,51 463,53 460,59 457,53 451,51 457,50"/>
+    <polygon points="700,40 703,46 709,47 703,49 700,55 697,49 691,47 697,46"/>
+  </g>
+  <ellipse cx="240" cy="120" rx="60" ry="12" fill="#a9c8e6" opacity="0.4"/>
+  <ellipse cx="560" cy="126" rx="70" ry="13" fill="#a9c8e6" opacity="0.4"/>
+</svg>

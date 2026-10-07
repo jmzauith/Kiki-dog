@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 140">
+  <defs>
+    <linearGradient id="spw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c08a4d"/>
+      <stop offset="1" stop-color="#8a5a30"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="110" cy="128" rx="96" ry="10" fill="#a9c8e6" opacity="0.55"/>
+  <!-- runners -->
+  <path d="M20,108 Q20,128 44,128 M200,108 Q200,128 176,128" stroke="#5f3d22" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <rect x="20" y="96" width="180" height="12" rx="6" fill="#5f3d22"/>
+  <!-- slats -->
+  <g fill="url(#spw)">
+    <rect x="28" y="66" width="26" height="34" rx="6"/>
+    <rect x="58" y="62" width="26" height="38" rx="6"/>
+    <rect x="88" y="62" width="26" height="38" rx="6"/>
+    <rect x="118" y="62" width="26" height="38" rx="6"/>
+    <rect x="148" y="66" width="26" height="34" rx="6"/>
+  </g>
+  <!-- backrest -->
+  <rect x="170" y="30" width="14" height="70" rx="7" fill="url(#spw)" transform="rotate(12 170 30)"/>
+  <rect x="164" y="24" width="26" height="10" rx="5" fill="#ffffff"/>
+  <!-- rope coil -->
+  <circle cx="52" cy="84" r="12" fill="none" stroke="#c9a06a" stroke-width="6"/>
+  <circle cx="52" cy="84" r="12" fill="none" stroke="#8a5a30" stroke-width="2"/>
+  <rect x="30" y="56" width="164" height="8" rx="4" fill="#ffffff" opacity="0.7"/>
+</svg>

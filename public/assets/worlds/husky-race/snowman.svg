@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 200">
+  <defs>
+    <radialGradient id="smb" cx="0.4" cy="0.35" r="0.9">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dcebfb"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="70" cy="190" rx="48" ry="9" fill="#a9c8e6" opacity="0.55"/>
+  <circle cx="70" cy="150" r="38" fill="url(#smb)"/>
+  <circle cx="70" cy="92" r="28" fill="url(#smb)"/>
+  <circle cx="70" cy="48" r="20" fill="url(#smb)"/>
+  <!-- coal eyes + carrot nose -->
+  <circle cx="63" cy="44" r="3.5" fill="#2b2b2b"/>
+  <circle cx="77" cy="44" r="3.5" fill="#2b2b2b"/>
+  <polygon points="70,50 70,58 86,54" fill="#e8823a"/>
+  <!-- button coals -->
+  <circle cx="70" cy="88" r="4" fill="#2b2b2b"/>
+  <circle cx="70" cy="104" r="4" fill="#2b2b2b"/>
+  <circle cx="70" cy="146" r="4" fill="#2b2b2b"/>
+  <circle cx="70" cy="162" r="4" fill="#2b2b2b"/>
+  <!-- twig arms -->
+  <path d="M44,90 Q28,80 20,66 M96,90 Q112,80 120,66" stroke="#6b4a2e" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <!-- scarf -->
+  <path d="M50,66 Q70,78 90,66 L90,58 Q70,70 50,58 Z" fill="#e2574c"/>
+  <rect x="82" y="66" width="14" height="30" rx="6" fill="#e2574c" transform="rotate(8 82 66)"/>
+  <!-- bobble hat -->
+  <path d="M52,36 Q70,10 88,36 L84,32 Q70,16 56,32 Z" fill="#4c8de2"/>
+  <circle cx="70" cy="12" r="7" fill="#ffffff"/>
+</svg>

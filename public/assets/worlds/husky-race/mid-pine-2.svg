@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 280">
+  <defs>
+    <linearGradient id="mp2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#47855c"/>
+      <stop offset="1" stop-color="#2e5f40"/>
+    </linearGradient>
+    <linearGradient id="mp2s" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d5e9fa"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="130" cy="266" rx="100" ry="12" fill="#a9c8e6" opacity="0.5"/>
+  <g>
+    <rect x="36" y="200" width="15" height="60" rx="5" fill="#6b4a2e"/>
+    <polygon points="43,50 5,160 81,160" fill="url(#mp2)"/>
+    <polygon points="43,105 -3,210 89,210" fill="url(#mp2)"/>
+    <polygon points="43,50 29,82 43,76 57,82" fill="url(#mp2s)"/>
+    <polygon points="22,132 43,122 64,132 58,144 28,144" fill="url(#mp2s)" opacity="0.9"/>
+  </g>
+  <g>
+    <rect x="200" y="210" width="15" height="56" rx="5" fill="#6b4a2e"/>
+    <polygon points="207,70 169,180 245,180" fill="url(#mp2)"/>
+    <polygon points="207,125 161,230 253,230" fill="url(#mp2)"/>
+    <polygon points="207,70 193,102 207,96 221,102" fill="url(#mp2s)"/>
+  </g>
+  <g>
+    <rect x="118" y="215" width="13" height="55" rx="5" fill="#5f4128"/>
+    <polygon points="124,100 92,195 156,195" fill="url(#mp2)"/>
+    <polygon points="124,150 88,235 160,235" fill="url(#mp2)"/>
+    <polygon points="124,100 112,128 124,122 136,128" fill="url(#mp2s)"/>
+  </g>
+</svg>

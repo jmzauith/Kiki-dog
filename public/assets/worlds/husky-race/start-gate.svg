@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 260">
+  <defs>
+    <linearGradient id="sgw" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7a4f2a"/>
+      <stop offset="0.5" stop-color="#9c6a3a"/>
+      <stop offset="1" stop-color="#7a4f2a"/>
+    </linearGradient>
+    <linearGradient id="sgs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d9ecfc"/>
+    </linearGradient>
+    <linearGradient id="sgb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#58b368"/>
+      <stop offset="1" stop-color="#3d8a4e"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="210" cy="244" rx="180" ry="14" fill="#a9c8e6" opacity="0.55"/>
+  <!-- posts -->
+  <rect x="36" y="60" width="26" height="180" rx="10" fill="url(#sgw)"/>
+  <rect x="358" y="60" width="26" height="180" rx="10" fill="url(#sgw)"/>
+  <rect x="30" y="50" width="38" height="18" rx="9" fill="url(#sgs)"/>
+  <rect x="352" y="50" width="38" height="18" rx="9" fill="url(#sgs)"/>
+  <polygon points="36,90 62,90 56,150 42,150" fill="#4e3319" opacity="0.4"/>
+  <polygon points="358,90 384,90 378,150 364,150" fill="#4e3319" opacity="0.4"/>
+  <!-- crossbeam -->
+  <rect x="36" y="66" width="348" height="26" rx="10" fill="url(#sgw)"/>
+  <rect x="36" y="62" width="348" height="10" rx="5" fill="url(#sgs)" opacity="0.95"/>
+  <!-- START banner -->
+  <rect x="120" y="96" width="180" height="56" rx="12" fill="url(#sgb)" stroke="#ffffff" stroke-width="5"/>
+  <text x="210" y="133" text-anchor="middle" font-family="Arial Black, Arial" font-size="34" fill="#ffffff" letter-spacing="6">START</text>
+  <!-- hanging bunting -->
+  <path d="M62,92 Q210,130 358,92" stroke="#5f3d22" stroke-width="4" fill="none"/>
+  <polygon points="130,108 142,112 132,122" fill="#e2574c"/>
+  <polygon points="168,114 180,116 171,126" fill="#4c8de2"/>
+  <polygon points="206,116 218,116 209,126" fill="#ffd24d"/>
+  <polygon points="244,114 256,112 247,122" fill="#58b368"/>
+  <polygon points="282,108 294,104 285,114" fill="#e2574c"/>
+  <!-- side pennants -->
+  <polygon points="49,110 49,150 78,130" fill="#e2574c"/>
+  <polygon points="371,110 371,150 342,130" fill="#4c8de2"/>
+  <circle cx="120" cy="200" r="5" fill="#ffffff" opacity="0.8"/>
+  <circle cx="310" cy="216" r="6" fill="#ffffff" opacity="0.8"/>
+</svg>

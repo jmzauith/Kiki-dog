@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 420">
+  <defs>
+    <linearGradient id="bgm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c3d9f2"/>
+      <stop offset="1" stop-color="#a9c8e8"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="2000" height="420" fill="#d8e9fa" opacity="0"/>
+  <path d="M0,420 L0,240 L140,120 L260,220 L400,90 L540,230 L680,140 L820,250 L960,100 L1100,230 L1240,150 L1380,240 L1520,110 L1660,220 L1800,130 L1940,220 L2000,180 L2000,420 Z" fill="url(#bgm)"/>
+  <!-- snow caps -->
+  <g fill="#f2f9ff">
+    <polygon points="140,120 108,158 172,158"/>
+    <polygon points="400,90 366,130 434,130"/>
+    <polygon points="960,100 928,138 992,138"/>
+    <polygon points="1520,110 1490,146 1550,146"/>
+    <polygon points="1800,130 1772,164 1828,164"/>
+  </g>
+  <!-- atmospheric haze at base -->
+  <rect x="0" y="300" width="2000" height="120" fill="#e8f3fd" opacity="0.75"/>
+  <g fill="#9cc3ea" opacity="0.5">
+    <polygon points="680,140 660,170 700,170"/>
+    <polygon points="1240,150 1220,180 1260,180"/>
+  </g>
+</svg>

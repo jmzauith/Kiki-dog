@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="768" viewBox="0 0 1024 768">
+<!-- transparent background: integrator composites cells onto slot cards.
+     cells 256x256 in roster order: husky, golden, beagle, dachshund, bordercollie,
+     dalmatian, shiba, bernese, cavalier, labrador, chowchow, pug -->
+<!-- breed 1: husky -->
+<g transform="translate(0,0)">
+<path d="M72 142 C 38 136, 42 98, 70 102 C 56 112, 54 124, 68 122" fill="none" stroke="#141c26" stroke-width="17" stroke-linecap="round"/>
+<path d="M89.4 168.7 L 82.4 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="82.4" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M105.4 168.7 L 110.4 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="110.4" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M132.6 168.7 L 127.6 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="127.6" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M148.6 168.7 L 155.6 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="155.6" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="52" ry="34" fill="#141c26"/>
+<polygon points="144.9,157.0 191.0,135.9 173.6,98.1 127.5,119.2" fill="#141c26"/>
+<circle cx="194" cy="104" r="26" fill="#141c26"/>
+<ellipse cx="223.3" cy="111.28" rx="17.36" ry="9.3" fill="#141c26"/>
+<circle cx="237.3" cy="109.03" r="6.3" fill="#141c26"/>
+<polygon points="179.7,84.5 174.5,58.5 192.7,76.7" fill="#141c26"/>
+<polygon points="197.9,81.9 201.28,55.9 213.5,78.0" fill="#141c26"/>
+</g>
+<!-- breed 2: golden -->
+<g transform="translate(256,0)">
+<path d="M68 142 C 38 122, 24 90, 50 64 C 38 86, 48 98, 62 90" fill="#141c26"/>
+<path d="M68 142 C 44 112, 34 80, 60 58" fill="none" stroke="#141c26" stroke-width="17" stroke-linecap="round"/>
+<path d="M87.19999999999999 169.25 L 80.19999999999999 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="80.19999999999999" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M103.19999999999999 169.25 L 108.19999999999999 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="108.19999999999999" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M134.8 169.25 L 129.8 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="129.8" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M150.8 169.25 L 157.8 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="157.8" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="56" ry="35" fill="#141c26"/>
+<polygon points="145.0,158.1 195.2,139.8 180.5,99.2 130.2,117.4" fill="#141c26"/>
+<circle cx="200" cy="106" r="27" fill="#141c26"/>
+<ellipse cx="230.75" cy="113.56" rx="18.6" ry="9.3" fill="#141c26"/>
+<circle cx="245.75" cy="111.31" r="6.3" fill="#141c26"/>
+<ellipse cx="179.75" cy="115.45" rx="11.34" ry="22.95" fill="#141c26" transform="rotate(18 179.75 115.45)"/>
+</g>
+<!-- breed 3: beagle -->
+<g transform="translate(512,0)">
+<path d="M80 142 C 60 108, 66 84, 86 76" fill="none" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<path d="M93.8 166.5 L 86.8 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="86.8" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M109.8 166.5 L 114.8 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="114.8" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M128.2 166.5 L 123.19999999999999 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="123.19999999999999" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M144.2 166.5 L 151.2 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="151.2" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="44" ry="30" fill="#141c26"/>
+<polygon points="140.4,157.4 180.2,141.9 166.2,106.1 126.4,121.6" fill="#141c26"/>
+<circle cx="184" cy="112" r="24" fill="#141c26"/>
+<ellipse cx="211.1" cy="118.72" rx="16.12" ry="9.3" fill="#141c26"/>
+<circle cx="224.1" cy="116.47" r="6.3" fill="#141c26"/>
+<ellipse cx="164.8" cy="130.0" rx="10.8" ry="30.0" fill="#141c26" transform="rotate(14 164.8 130.0)"/>
+</g>
+<!-- breed 4: dachshund -->
+<g transform="translate(768,0)">
+<path d="M62 160 C 42 126, 48 102, 68 94" fill="none" stroke="#141c26" stroke-width="11" stroke-linecap="round"/>
+<path d="M83.9 182.3 L 76.9 204" stroke="#141c26" stroke-width="11" stroke-linecap="round"/>
+<ellipse cx="76.9" cy="206" rx="9.35" ry="6" fill="#141c26"/>
+<path d="M99.9 182.3 L 104.9 204" stroke="#141c26" stroke-width="11" stroke-linecap="round"/>
+<ellipse cx="104.9" cy="206" rx="9.35" ry="6" fill="#141c26"/>
+<path d="M138.1 182.3 L 133.1 204" stroke="#141c26" stroke-width="11" stroke-linecap="round"/>
+<ellipse cx="133.1" cy="206" rx="9.35" ry="6" fill="#141c26"/>
+<path d="M154.1 182.3 L 161.1 204" stroke="#141c26" stroke-width="11" stroke-linecap="round"/>
+<ellipse cx="161.1" cy="206" rx="9.35" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="168" rx="62" ry="26" fill="#141c26"/>
+<polygon points="144.8,175.7 197.2,159.8 187.0,126.2 134.6,142.1" fill="#141c26"/>
+<circle cx="202" cy="132" r="22" fill="#141c26"/>
+<ellipse cx="229.0" cy="138.16" rx="18.6" ry="9.3" fill="#141c26"/>
+<circle cx="244.0" cy="135.91" r="6.3" fill="#141c26"/>
+<ellipse cx="184.4" cy="148.5" rx="9.9" ry="27.5" fill="#141c26" transform="rotate(14 184.4 148.5)"/>
+</g>
+<!-- breed 5: bordercollie -->
+<g transform="translate(0,256)">
+<path d="M74 142 C 34 132, 22 98, 56 84" fill="none" stroke="#141c26" stroke-width="14" stroke-linecap="round"/>
+<path d="M90.5 167.6 L 83.5 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="83.5" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M106.5 167.6 L 111.5 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="111.5" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M131.5 167.6 L 126.5 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="126.5" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M147.5 167.6 L 154.5 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="154.5" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="50" ry="32" fill="#141c26"/>
+<polygon points="143.5,156.3 189.2,135.5 173.2,100.5 127.5,121.3" fill="#141c26"/>
+<circle cx="192" cy="106" r="24" fill="#141c26"/>
+<ellipse cx="219.8" cy="112.72" rx="17.36" ry="9.3" fill="#141c26"/>
+<circle cx="233.8" cy="110.47" r="6.3" fill="#141c26"/>
+<polygon points="180.0,86.8 177.12,70.0 191.52,82.0" fill="#141c26"/>
+<ellipse cx="200.4" cy="80.8" rx="7.199999999999999" ry="12.0" fill="#141c26" transform="rotate(35 200.4 80.8)"/>
+</g>
+<!-- breed 6: dalmatian -->
+<g transform="translate(256,256)">
+<path d="M74 142 C 54 108, 60 84, 80 76" fill="none" stroke="#141c26" stroke-width="10" stroke-linecap="round"/>
+<path d="M90.5 167.05 L 83.5 204" stroke="#141c26" stroke-width="11" stroke-linecap="round"/>
+<ellipse cx="83.5" cy="206" rx="9.35" ry="6" fill="#141c26"/>
+<path d="M106.5 167.05 L 111.5 204" stroke="#141c26" stroke-width="11" stroke-linecap="round"/>
+<ellipse cx="111.5" cy="206" rx="9.35" ry="6" fill="#141c26"/>
+<path d="M131.5 167.05 L 126.5 204" stroke="#141c26" stroke-width="11" stroke-linecap="round"/>
+<ellipse cx="126.5" cy="206" rx="9.35" ry="6" fill="#141c26"/>
+<path d="M147.5 167.05 L 154.5 204" stroke="#141c26" stroke-width="11" stroke-linecap="round"/>
+<ellipse cx="154.5" cy="206" rx="9.35" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="50" ry="31" fill="#141c26"/>
+<polygon points="143.7,155.6 190.9,131.9 174.4,99.1 127.3,122.7" fill="#141c26"/>
+<circle cx="193" cy="104" r="23" fill="#141c26"/>
+<ellipse cx="219.7" cy="110.44" rx="16.74" ry="9.3" fill="#141c26"/>
+<circle cx="233.2" cy="108.19" r="6.3" fill="#141c26"/>
+<ellipse cx="175.75" cy="112.05" rx="9.66" ry="19.55" fill="#141c26" transform="rotate(18 175.75 112.05)"/>
+</g>
+<!-- breed 7: shiba -->
+<g transform="translate(512,256)">
+<path d="M82 142 C 48 136, 52 98, 80 102 C 66 112, 64 124, 78 122" fill="none" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<path d="M94.9 166.5 L 87.9 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="87.9" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M110.9 166.5 L 115.9 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="115.9" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M127.1 166.5 L 122.1 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="122.1" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M143.1 166.5 L 150.1 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="150.1" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="42" ry="30" fill="#141c26"/>
+<polygon points="141.4,156.6 179.9,137.1 162.5,102.9 124.0,122.4" fill="#141c26"/>
+<circle cx="182" cy="108" r="24" fill="#141c26"/>
+<ellipse cx="207.7" cy="114.72" rx="13.64" ry="9.3" fill="#141c26"/>
+<circle cx="218.7" cy="112.47" r="6.3" fill="#141c26"/>
+<polygon points="168.8,90.0 164.0,66.0 180.8,82.8" fill="#141c26"/>
+<polygon points="185.6,87.6 188.72,63.599999999999994 200.0,84.0" fill="#141c26"/>
+</g>
+<!-- breed 8: bernese -->
+<g transform="translate(768,256)">
+<path d="M64 142 C 34 122, 20 90, 46 64 C 34 86, 44 98, 58 90" fill="#141c26"/>
+<path d="M64 142 C 40 112, 30 80, 56 58" fill="none" stroke="#141c26" stroke-width="17" stroke-linecap="round"/>
+<path d="M85.0 172.0 L 78.0 204" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="78.0" cy="206" rx="12.75" ry="6" fill="#141c26"/>
+<path d="M101.0 172.0 L 106.0 204" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="106.0" cy="206" rx="12.75" ry="6" fill="#141c26"/>
+<path d="M137.0 172.0 L 132.0 204" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="132.0" cy="206" rx="12.75" ry="6" fill="#141c26"/>
+<path d="M153.0 172.0 L 160.0 204" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="160.0" cy="206" rx="12.75" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="60" ry="40" fill="#141c26"/>
+<polygon points="146.3,157.2 198.7,139.2 184.1,96.8 131.7,114.8" fill="#141c26"/>
+<circle cx="155.1" cy="91.8" r="18.2" fill="#141c26"/>
+<circle cx="161.2" cy="83.0" r="18.2" fill="#141c26"/>
+<circle cx="169.5" cy="76.2" r="18.2" fill="#141c26"/>
+<circle cx="179.4" cy="71.9" r="18.2" fill="#141c26"/>
+<circle cx="190.0" cy="70.4" r="18.2" fill="#141c26"/>
+<circle cx="200.6" cy="71.9" r="18.2" fill="#141c26"/>
+<circle cx="210.5" cy="76.2" r="18.2" fill="#141c26"/>
+<circle cx="218.8" cy="83.0" r="18.2" fill="#141c26"/>
+<circle cx="224.9" cy="91.8" r="18.2" fill="#141c26"/>
+<circle cx="204" cy="104" r="28" fill="#141c26"/>
+<ellipse cx="235.5" cy="111.84" rx="18.6" ry="9.3" fill="#141c26"/>
+<circle cx="250.5" cy="109.59" r="6.3" fill="#141c26"/>
+<ellipse cx="183.0" cy="113.8" rx="11.76" ry="23.8" fill="#141c26" transform="rotate(18 183.0 113.8)"/>
+</g>
+<!-- breed 9: cavalier -->
+<g transform="translate(0,512)">
+<path d="M88 142 C 58 122, 44 90, 70 64 C 58 86, 68 98, 82 90" fill="#141c26"/>
+<path d="M88 142 C 64 112, 54 80, 80 58" fill="none" stroke="#141c26" stroke-width="17" stroke-linecap="round"/>
+<path d="M98.2 164.3 L 91.2 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="91.2" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M114.2 164.3 L 119.2 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="119.2" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M123.80000000000001 164.3 L 118.80000000000001 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="118.80000000000001" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M139.8 164.3 L 146.8 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="146.8" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="36" ry="26" fill="#141c26"/>
+<polygon points="138.1,156.8 171.6,140.9 156.6,109.1 123.1,125.0" fill="#141c26"/>
+<circle cx="174" cy="114" r="22" fill="#141c26"/>
+<ellipse cx="196.8" cy="120.16" rx="11.16" ry="9.3" fill="#141c26"/>
+<circle cx="205.8" cy="117.91" r="6.3" fill="#141c26"/>
+<ellipse cx="156.4" cy="130.5" rx="9.9" ry="27.5" fill="#141c26" transform="rotate(14 156.4 130.5)"/>
+</g>
+<!-- breed 10: labrador -->
+<g transform="translate(256,512)">
+<path d="M70 142 L 32 136 L 36 152 L 72 154 Z" fill="#141c26"/>
+<path d="M88.3 169.8 L 81.3 204" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="81.3" cy="206" rx="12.75" ry="6" fill="#141c26"/>
+<path d="M104.3 169.8 L 109.3 204" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="109.3" cy="206" rx="12.75" ry="6" fill="#141c26"/>
+<path d="M133.7 169.8 L 128.7 204" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="128.7" cy="206" rx="12.75" ry="6" fill="#141c26"/>
+<path d="M149.7 169.8 L 156.7 204" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="156.7" cy="206" rx="12.75" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="54" ry="36" fill="#141c26"/>
+<polygon points="144.5,157.6 192.4,139.7 177.3,99.3 129.3,117.2" fill="#141c26"/>
+<circle cx="197" cy="106" r="27" fill="#141c26"/>
+<ellipse cx="227.75" cy="113.56" rx="18.6" ry="9.3" fill="#141c26"/>
+<circle cx="242.75" cy="111.31" r="6.3" fill="#141c26"/>
+<ellipse cx="176.75" cy="115.45" rx="11.34" ry="22.95" fill="#141c26" transform="rotate(18 176.75 115.45)"/>
+</g>
+<!-- breed 11: chowchow -->
+<g transform="translate(512,512)">
+<path d="M76 142 C 42 136, 46 98, 74 102 C 60 112, 58 124, 72 122" fill="none" stroke="#141c26" stroke-width="15" stroke-linecap="round"/>
+<path d="M91.6 169.8 L 84.6 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="84.6" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M107.6 169.8 L 112.6 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="112.6" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M130.4 169.8 L 125.4 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="125.4" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M146.4 169.8 L 153.4 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="153.4" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="48" ry="36" fill="#141c26"/>
+<polygon points="145.4,154.4 185.3,129.5 164.2,95.5 124.2,120.4" fill="#141c26"/>
+<circle cx="136.7" cy="86.3" r="18.8" fill="#141c26"/>
+<circle cx="143.2" cy="77.0" r="18.8" fill="#141c26"/>
+<circle cx="151.9" cy="69.8" r="18.8" fill="#141c26"/>
+<circle cx="162.3" cy="65.3" r="18.8" fill="#141c26"/>
+<circle cx="173.5" cy="63.8" r="18.8" fill="#141c26"/>
+<circle cx="184.7" cy="65.3" r="18.8" fill="#141c26"/>
+<circle cx="195.1" cy="69.8" r="18.8" fill="#141c26"/>
+<circle cx="203.8" cy="77.0" r="18.8" fill="#141c26"/>
+<circle cx="210.3" cy="86.3" r="18.8" fill="#141c26"/>
+<circle cx="186" cy="100" r="25" fill="#141c26"/>
+<ellipse cx="211.75" cy="107.0" rx="12.4" ry="9.3" fill="#141c26"/>
+<circle cx="221.75" cy="104.75" r="6.3" fill="#141c26"/>
+<polygon points="172.25,81.25 167.25,56.25 184.75,73.75" fill="#141c26"/>
+<polygon points="189.75,78.75 193.0,53.75 204.75,75.0" fill="#141c26"/>
+</g>
+<!-- breed 12: pug -->
+<g transform="translate(768,512)">
+<path d="M90 142 C 56 136, 60 98, 88 102 C 74 112, 72 124, 86 122" fill="none" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<path d="M99.3 166.5 L 92.3 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="92.3" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M115.3 166.5 L 120.3 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="120.3" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M122.69999999999999 166.5 L 117.69999999999999 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="117.69999999999999" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<path d="M138.7 166.5 L 145.7 204" stroke="#141c26" stroke-width="13" stroke-linecap="round"/>
+<ellipse cx="145.7" cy="206" rx="11.049999999999999" ry="6" fill="#141c26"/>
+<ellipse cx="118" cy="150" rx="34" ry="30" fill="#141c26"/>
+<polygon points="138.9,156.5 168.2,141.0 150.2,107.0 120.9,122.5" fill="#141c26"/>
+<circle cx="170" cy="112" r="24" fill="#141c26"/>
+<ellipse cx="191.5" cy="118.72" rx="6.2" ry="7.4399999999999995" fill="#141c26"/>
+<circle cx="196.5" cy="116.92" r="5.04" fill="#141c26"/>
+<ellipse cx="152.0" cy="120.4" rx="10.08" ry="20.4" fill="#141c26" transform="rotate(18 152.0 120.4)"/>
+</g>
+</svg>

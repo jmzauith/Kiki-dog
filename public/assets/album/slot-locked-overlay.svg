@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+
+<defs>
+<filter id="stickerCut" x="-20%" y="-20%" width="140%" height="140%">
+  <feMorphology in="SourceAlpha" operator="dilate" radius="11" result="d"/>
+  <feFlood flood-color="#ffffff" result="w"/>
+  <feComposite in="w" in2="d" operator="in" result="cut"/>
+  <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#1c2733" flood-opacity="0.28" result="sh"/>
+  <feMerge><feMergeNode in="sh"/><feMergeNode in="cut"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<filter id="goldCut" x="-30%" y="-30%" width="160%" height="160%">
+  <feMorphology in="SourceAlpha" operator="dilate" radius="22" result="d"/>
+  <feFlood flood-color="#b98a1e" result="g"/>
+  <feComposite in="g" in2="d" operator="in"/>
+</filter>
+<filter id="silhouette" x="-10%" y="-10%" width="120%" height="120%">
+  <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.08  0 0 0 0 0.11  0 0 0 0 0.16  0 0 0 1 0"/>
+</filter>
+<linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#fff3c4"/><stop offset="0.35" stop-color="#f7d774"/>
+  <stop offset="0.6" stop-color="#d9a92f"/><stop offset="0.8" stop-color="#f9e28a"/>
+  <stop offset="1" stop-color="#c08f1f"/>
+</linearGradient>
+<radialGradient id="haloGold" cx="0.5" cy="0.5" r="0.5">
+  <stop offset="0" stop-color="#ffe9a8" stop-opacity="0.85"/>
+  <stop offset="0.6" stop-color="#ffd964" stop-opacity="0.35"/>
+  <stop offset="1" stop-color="#ffd964" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="navyCard" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#2b3a52"/><stop offset="1" stop-color="#141c2a"/>
+</linearGradient>
+<linearGradient id="creamCard" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#fffdf6"/><stop offset="1" stop-color="#f3ead6"/>
+</linearGradient>
+<linearGradient id="violetCard" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#4a3563"/><stop offset="1" stop-color="#241b38"/>
+</linearGradient>
+</defs>
+<rect x="8" y="8" width="240" height="240" rx="28" fill="#141c2a" opacity="0.88"/><rect x="8" y="8" width="240" height="240" rx="28" fill="none" stroke="#2e3a4d" stroke-width="4"/><g><path d="M107.52 106.48 v-14.08 a20.48 20.48 0 0 1 40.96 0 v14.08" fill="none" stroke="#cfd8e3" stroke-width="10.24" stroke-linecap="round"/><rect x="96.0" y="104.48" width="64" height="55.04" rx="12.8" fill="#f5c542" stroke="#8a6d1c" stroke-width="4.48"/><circle cx="128" cy="128.16" r="7.68" fill="#8a6d1c"/><rect x="124.8" y="128.16" width="6.4" height="16.64" rx="3.2" fill="#8a6d1c"/></g><path d="M52 42 C 53.6 48.4 55.6 50.4 62 52 C 55.6 53.6 53.6 55.6 52 62 C 50.4 55.6 48.4 53.6 42 52 C 48.4 50.4 50.4 48.4 52 42 Z" fill="#f7d774" opacity="0.5"/><path d="M206 202 C 207.28 207.12 208.88 208.72 214 210 C 208.88 211.28 207.28 212.88 206 218 C 204.72 212.88 203.12 211.28 198 210 C 203.12 208.72 204.72 207.12 206 202 Z" fill="#f7d774" opacity="0.4"/></svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+
+<defs>
+<filter id="stickerCut" x="-20%" y="-20%" width="140%" height="140%">
+  <feMorphology in="SourceAlpha" operator="dilate" radius="11" result="d"/>
+  <feFlood flood-color="#ffffff" result="w"/>
+  <feComposite in="w" in2="d" operator="in" result="cut"/>
+  <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#1c2733" flood-opacity="0.28" result="sh"/>
+  <feMerge><feMergeNode in="sh"/><feMergeNode in="cut"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<filter id="goldCut" x="-30%" y="-30%" width="160%" height="160%">
+  <feMorphology in="SourceAlpha" operator="dilate" radius="22" result="d"/>
+  <feFlood flood-color="#b98a1e" result="g"/>
+  <feComposite in="g" in2="d" operator="in"/>
+</filter>
+<filter id="silhouette" x="-10%" y="-10%" width="120%" height="120%">
+  <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.08  0 0 0 0 0.11  0 0 0 0 0.16  0 0 0 1 0"/>
+</filter>
+<linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#fff3c4"/><stop offset="0.35" stop-color="#f7d774"/>
+  <stop offset="0.6" stop-color="#d9a92f"/><stop offset="0.8" stop-color="#f9e28a"/>
+  <stop offset="1" stop-color="#c08f1f"/>
+</linearGradient>
+<radialGradient id="haloGold" cx="0.5" cy="0.5" r="0.5">
+  <stop offset="0" stop-color="#ffe9a8" stop-opacity="0.85"/>
+  <stop offset="0.6" stop-color="#ffd964" stop-opacity="0.35"/>
+  <stop offset="1" stop-color="#ffd964" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="navyCard" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#2b3a52"/><stop offset="1" stop-color="#141c2a"/>
+</linearGradient>
+<linearGradient id="creamCard" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#fffdf6"/><stop offset="1" stop-color="#f3ead6"/>
+</linearGradient>
+<linearGradient id="violetCard" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#4a3563"/><stop offset="1" stop-color="#241b38"/>
+</linearGradient>
+</defs>
+<rect x="14" y="14" width="228" height="228" rx="24" fill="none" stroke="url(#goldGrad)" stroke-width="11"/><rect x="30" y="30" width="196" height="196" rx="16" fill="none" stroke="#fff3c4" stroke-width="2.5" opacity="0.8"/><path d="M44 31 C 46.08 39.32 48.68 41.92 57 44 C 48.68 46.08 46.08 48.68 44 57 C 41.92 48.68 39.32 46.08 31 44 C 39.32 41.92 41.92 39.32 44 31 Z" fill="#f7d774" opacity="0.95"/><path d="M212 34 C 213.6 40.4 215.6 42.4 222 44 C 215.6 45.6 213.6 47.6 212 54 C 210.4 47.6 208.4 45.6 202 44 C 208.4 42.4 210.4 40.4 212 34 Z" fill="#f7d774" opacity="0.95"/><path d="M44 202 C 45.6 208.4 47.6 210.4 54 212 C 47.6 213.6 45.6 215.6 44 222 C 42.4 215.6 40.4 213.6 34 212 C 40.4 210.4 42.4 208.4 44 202 Z" fill="#f7d774" opacity="0.95"/><path d="M212 199 C 214.08 207.32 216.68 209.92 225 212 C 216.68 214.08 214.08 216.68 212 225 C 209.92 216.68 207.32 214.08 199 212 C 207.32 209.92 209.92 207.32 212 199 Z" fill="#f7d774" opacity="0.95"/></svg>

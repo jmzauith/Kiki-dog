@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 200">
+  <defs>
+    <linearGradient id="drw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a5713f"/>
+      <stop offset="1" stop-color="#7a4f2a"/>
+    </linearGradient>
+  </defs>
+  <!-- dock repair pieces: loose planks, post, rope, hammer (fly-in parts) -->
+  <g stroke="#5f3d22" stroke-width="3">
+    <rect x="20" y="58" width="120" height="34" rx="8" fill="url(#drw)"/>
+    <g transform="rotate(-14 210 80)">
+      <rect x="150" y="63" width="120" height="34" rx="8" fill="url(#drw)"/>
+    </g>
+    <g transform="rotate(9 345 128)">
+      <rect x="290" y="111" width="110" height="34" rx="8" fill="url(#drw)"/>
+    </g>
+    <rect x="36" y="104" width="26" height="66" rx="8" fill="url(#drw)"/>
+  </g>
+  <g fill="none" stroke="#8a5a30" stroke-width="6">
+    <circle cx="352" cy="52" r="26"/>
+    <circle cx="352" cy="52" r="15"/>
+  </g>
+  <circle cx="352" cy="52" r="5" fill="#8a5a30"/>
+  <!-- hammer -->
+  <g transform="rotate(18 190 150)">
+    <rect x="183" y="128" width="14" height="52" rx="7" fill="#8a5a34" stroke="#5f3d22" stroke-width="3"/>
+    <rect x="158" y="112" width="64" height="28" rx="9" fill="#9aa7ad" stroke="#4a5560" stroke-width="3"/>
+  </g>
+  <!-- ready sparkles -->
+  <g fill="#ffd24d" opacity="0.95">
+    <polygon points="150,20 152,26 158,27 152,29 150,35 148,29 142,27 148,26"/>
+    <polygon points="392,120 394,126 400,127 394,129 392,135 390,129 384,127 390,126"/>
+    <polygon points="90,170 92,175 97,176 92,178 90,183 88,178 83,176 88,175"/>
+  </g>
+</svg>

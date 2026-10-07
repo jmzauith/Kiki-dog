@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- target ring: "grab me" cue for a floating toy (game pulses scale/alpha) -->
+  <g fill="none" stroke-linecap="round">
+    <circle cx="100" cy="100" r="88" stroke="#e2574c" stroke-width="10" opacity="0.95"/>
+    <circle cx="100" cy="100" r="64" stroke="#ffffff" stroke-width="8" opacity="0.9"/>
+    <circle cx="100" cy="100" r="40" stroke="#e2574c" stroke-width="8" opacity="0.75"/>
+    <circle cx="100" cy="100" r="14" fill="#ffd24d" stroke="none" opacity="0.95"/>
+  </g>
+  <g fill="#ffffff" opacity="0.9">
+    <polygon points="100,6 102,12 108,13 102,15 100,21 98,15 92,13 98,12"/>
+    <polygon points="100,179 102,185 108,186 102,188 100,194 98,188 92,186 98,185"/>
+  </g>
+</svg>

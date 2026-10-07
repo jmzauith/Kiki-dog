@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 180">
+  <defs>
+    <linearGradient id="lmw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a5713f"/>
+      <stop offset="1" stop-color="#6b4423"/>
+    </linearGradient>
+  </defs>
+  <!-- log jam: movable state (top log shifted, push cues) -->
+  <ellipse cx="180" cy="166" rx="150" ry="10" fill="#7ab648" opacity="0.4"/>
+  <g>
+    <rect x="50" y="120" width="200" height="40" rx="18" fill="url(#lmw)"/>
+    <g transform="translate(36,-6) rotate(-4 170 100)">
+      <rect x="80" y="82" width="180" height="40" rx="18" fill="url(#lmw)"/>
+    </g>
+    <rect x="58" y="82" width="44" height="40" rx="16" fill="#8a5a34"/>
+  </g>
+  <g fill="#d9b98a" opacity="0.5">
+    <rect x="50" y="120" width="200" height="12" rx="6"/>
+    <rect x="116" y="76" width="180" height="12" rx="6"/>
+  </g>
+  <!-- motion lines on the shifted log -->
+  <g stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.8">
+    <path d="M96,100 L66,100 M96,112 L72,112"/>
+  </g>
+  <!-- push arrows -->
+  <g fill="#e2574c" stroke="#b03a30" stroke-width="3" stroke-linejoin="round">
+    <polygon points="300,86 336,86 336,74 360,96 336,118 336,106 300,106"/>
+    <polygon points="292,126 318,126 318,118 336,132 318,146 318,138 292,138"/>
+  </g>
+</svg>

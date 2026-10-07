@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180">
+  <!-- stream blocked/unsafe: fast murky water, submerged stones, warning -->
+  <rect x="0" y="44" width="400" height="96" rx="18" fill="#2f8ba8"/>
+  <g stroke="#e8fbff" stroke-width="5" stroke-linecap="round" opacity="0.55">
+    <path d="M20,70 L120,70 M160,92 L300,92 M60,116 L200,116 M240,70 L380,70"/>
+  </g>
+  <g stroke="#bfeef7" stroke-width="3" stroke-linecap="round" opacity="0.5">
+    <path d="M40,84 L90,84 M220,106 L280,106 M300,84 L350,84"/>
+  </g>
+  <!-- submerged stone tops -->
+  <g fill="#7d8f96" opacity="0.6">
+    <ellipse cx="90" cy="120" rx="42" ry="14"/>
+    <ellipse cx="210" cy="124" rx="46" ry="14"/>
+    <ellipse cx="325" cy="118" rx="40" ry="13"/>
+  </g>
+  <!-- warning -->
+  <polygon points="200,8 226,52 174,52" fill="#e2574c" stroke="#b03a30" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="196" y="22" width="8" height="16" rx="3" fill="#ffffff"/>
+  <circle cx="200" cy="44" r="4.5" fill="#ffffff"/>
+</svg>

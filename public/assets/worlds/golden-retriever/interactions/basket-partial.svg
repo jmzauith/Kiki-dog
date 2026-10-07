@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200">
+  <defs>
+    <linearGradient id="bpw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9a06a"/>
+      <stop offset="1" stop-color="#8a5a30"/>
+    </linearGradient>
+  </defs>
+  <!-- picnic cache: partially discovered (mound half-dug, basket peeking) -->
+  <ellipse cx="120" cy="160" rx="100" ry="30" fill="#7ab648"/>
+  <ellipse cx="120" cy="150" rx="78" ry="24" fill="#5d9a38"/>
+  <!-- dug hollow -->
+  <ellipse cx="120" cy="140" rx="46" ry="18" fill="#4e3319"/>
+  <ellipse cx="120" cy="136" rx="36" ry="13" fill="#3a2418"/>
+  <!-- basket corner peeking out -->
+  <g transform="rotate(-14 120 120)">
+    <rect x="88" y="96" width="64" height="44" rx="10" fill="url(#bpw)" stroke="#5f3d22" stroke-width="4"/>
+    <path d="M92,112 L148,112 M94,126 L146,126" stroke="#5f3d22" stroke-width="3" opacity="0.5"/>
+  </g>
+  <!-- scattered dirt + discovery glint -->
+  <g fill="#8a5a34">
+    <circle cx="60" cy="150" r="6"/><circle cx="180" cy="152" r="7"/><circle cx="150" cy="165" r="5"/>
+  </g>
+  <g fill="#ffd24d" opacity="0.95">
+    <polygon points="120,60 122,66 128,67 122,69 120,75 118,69 112,67 118,66"/>
+  </g>
+</svg>

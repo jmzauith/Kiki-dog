@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 220">
+  <!-- celebration splash: plume + confetti + glints -->
+  <g fill="#e8fbff">
+    <path d="M140,210 Q128,140 88,108 Q114,122 124,92 Q130,60 140,28 Q150,60 156,92 Q166,122 192,108 Q152,140 140,210 Z"/>
+  </g>
+  <g fill="#a8e6f2">
+    <circle cx="80" cy="80" r="11"/><circle cx="200" cy="80" r="11"/>
+    <circle cx="60" cy="130" r="8"/><circle cx="220" cy="130" r="8"/>
+  </g>
+  <g>
+    <circle cx="110" cy="60" r="7" fill="#e2574c"/>
+    <circle cx="175" cy="55" r="7" fill="#ffd24d"/>
+    <circle cx="140" cy="100" r="7" fill="#4fc3d9"/>
+    <circle cx="95" cy="130" r="6" fill="#ffd24d"/>
+    <circle cx="190" cy="125" r="6" fill="#e2574c"/>
+    <rect x="60" y="95" width="14" height="8" rx="3" fill="#7ab648" transform="rotate(24 67 99)"/>
+    <rect x="205" y="95" width="14" height="8" rx="3" fill="#7ab648" transform="rotate(-20 212 99)"/>
+  </g>
+  <g fill="#ffffff" opacity="0.95">
+    <polygon points="140,10 142,16 148,17 142,19 140,25 138,19 132,17 138,16"/>
+    <polygon points="45,60 47,66 53,67 47,69 45,75 43,69 37,67 43,66"/>
+    <polygon points="235,60 237,66 243,67 237,69 235,75 233,69 227,67 233,66"/>
+  </g>
+</svg>

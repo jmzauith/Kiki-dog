@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220">
+  <defs>
+    <radialGradient id="gbgr" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff7d6" stop-opacity="0"/>
+      <stop offset="0.55" stop-color="#ffe89a" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- golden ball reward cue: radiant halo + rays (overlay; ball shows through center) -->
+  <circle cx="110" cy="110" r="105" fill="url(#gbgr)"/>
+  <g stroke="#ffd24d" stroke-width="5" stroke-linecap="round" opacity="0.85">
+    <path d="M110,8 L110,34 M110,186 L110,212 M8,110 L34,110 M186,110 L212,110"/>
+    <path d="M37,37 L55,55 M165,165 L183,183 M183,37 L165,55 M55,165 L37,183"/>
+  </g>
+  <g fill="#ffffff" opacity="0.95">
+    <polygon points="110,28 112,34 118,35 112,37 110,43 108,37 102,35 108,34"/>
+    <polygon points="40,80 42,86 48,87 42,89 40,95 38,89 32,87 38,86"/>
+    <polygon points="180,80 182,86 188,87 182,89 180,95 178,89 172,87 178,86"/>
+    <polygon points="64,164 66,170 72,171 66,173 64,179 62,173 56,171 62,170"/>
+    <polygon points="156,164 158,170 164,171 158,173 156,179 154,173 148,171 154,170"/>
+  </g>
+</svg>

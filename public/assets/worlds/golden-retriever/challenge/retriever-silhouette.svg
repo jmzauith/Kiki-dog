@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 300">
+  <!-- PLACEHOLDER for Ringo: simple sitting golden retriever silhouette (environmental figure only, no animation) -->
+  <ellipse cx="140" cy="282" rx="90" ry="12" fill="#7ab648" opacity="0.35"/>
+  <g fill="#d9a441" stroke="#a5713f" stroke-width="4">
+    <!-- body -->
+    <path d="M90,280 Q80,200 110,170 Q100,140 120,120 L170,120 Q200,140 190,170 Q220,200 210,280 Z"/>
+    <!-- chest -->
+    <ellipse cx="140" cy="220" rx="34" ry="52" fill="#f2d894" opacity="0.85"/>
+    <!-- head -->
+    <circle cx="145" cy="88" r="44"/>
+    <!-- snout -->
+    <ellipse cx="158" cy="102" rx="24" ry="18" fill="#f2d894" opacity="0.9"/>
+    <ellipse cx="166" cy="98" rx="8" ry="6" fill="#4a2e20"/>
+    <!-- floppy ears -->
+    <path d="M108,70 Q92,90 100,120 Q112,112 114,88 Z"/>
+    <path d="M182,70 Q198,90 190,120 Q178,112 176,88 Z"/>
+    <!-- tail -->
+    <path d="M205,250 Q250,240 246,190 Q236,200 232,230 Q220,244 205,250 Z"/>
+  </g>
+  <!-- minimal face -->
+  <g fill="#4a2e20">
+    <circle cx="130" cy="82" r="6"/>
+    <circle cx="162" cy="82" r="6"/>
+  </g>
+  <path d="M140,112 Q150,118 160,112" stroke="#4a2e20" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>

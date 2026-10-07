@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200">
+  <defs>
+    <radialGradient id="trb" cx="0.38" cy="0.35" r="0.8">
+      <stop offset="0" stop-color="#ffe89a"/>
+      <stop offset="1" stop-color="#f0b73a"/>
+    </radialGradient>
+  </defs>
+  <!-- toy retrieved: tennis ball wrapped in a gold sparkle burst -->
+  <g fill="#ffd24d" opacity="0.95">
+    <polygon points="110,8 114,26 132,30 114,34 110,52 106,34 88,30 106,26"/>
+    <polygon points="34,60 37,70 47,71 37,74 34,84 31,74 21,71 31,70"/>
+    <polygon points="186,60 189,70 199,71 189,74 186,84 183,74 173,71 183,70"/>
+    <polygon points="52,150 54,157 61,158 54,160 52,167 50,160 43,158 50,157"/>
+    <polygon points="168,150 170,157 177,158 170,160 168,167 166,160 159,158 166,157"/>
+  </g>
+  <circle cx="110" cy="105" r="52" fill="url(#trb)" stroke="#d89a2a" stroke-width="4"/>
+  <path d="M66,80 Q92,105 66,130" stroke="#fff7e0" stroke-width="8" fill="none"/>
+  <path d="M154,80 Q128,105 154,130" stroke="#fff7e0" stroke-width="8" fill="none"/>
+  <g fill="#ffffff" opacity="0.9">
+    <circle cx="70" cy="40" r="5"/><circle cx="160" cy="170" r="5"/>
+  </g>
+</svg>

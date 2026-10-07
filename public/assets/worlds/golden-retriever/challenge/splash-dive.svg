@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 250">
+  <!-- dive-entry splash: tall dramatic plume for the relay dive -->
+  <g fill="#e8fbff">
+    <path d="M130,240 Q116,150 72,112 Q102,128 112,92 Q118,55 130,16 Q142,55 148,92 Q158,128 188,112 Q144,150 130,240 Z"/>
+  </g>
+  <g fill="#a8e6f2">
+    <circle cx="66" cy="88" r="13"/><circle cx="194" cy="88" r="13"/>
+    <circle cx="44" cy="140" r="10"/><circle cx="216" cy="140" r="10"/>
+    <circle cx="130" cy="10" r="10"/><circle cx="96" cy="48" r="8"/><circle cx="164" cy="48" r="8"/>
+  </g>
+  <g fill="#ffffff">
+    <circle cx="96" cy="160" r="11"/><circle cx="164" cy="160" r="11"/>
+    <circle cx="130" cy="126" r="9"/><circle cx="74" cy="118" r="8"/><circle cx="186" cy="118" r="8"/>
+  </g>
+  <g stroke="#a8e6f2" stroke-width="5" fill="none" opacity="0.8" stroke-linecap="round">
+    <path d="M50,232 Q130,244 210,232"/>
+    <path d="M80,244 Q130,252 180,244" opacity="0.6"/>
+  </g>
+</svg>

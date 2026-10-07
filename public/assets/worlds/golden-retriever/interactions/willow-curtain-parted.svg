@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 300">
+  <defs>
+    <linearGradient id="wcp" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7ab648"/>
+      <stop offset="1" stop-color="#5d9a38"/>
+    </linearGradient>
+    <radialGradient id="wcpg" cx="0.5" cy="0.6" r="0.55">
+      <stop offset="0" stop-color="#fff7d6" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- willow curtain: parted (strands swept aside, grove revealed) -->
+  <ellipse cx="160" cy="170" rx="90" ry="110" fill="url(#wcpg)"/>
+  <g stroke="url(#wcp)" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M50,10 Q20,120 30,250"/>
+    <path d="M90,10 Q60,130 70,265"/>
+    <path d="M270,10 Q300,120 290,250"/>
+    <path d="M230,10 Q260,130 250,265"/>
+  </g>
+  <g stroke="#a8d05e" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.8">
+    <path d="M70,10 Q44,120 52,240"/>
+    <path d="M250,10 Q276,120 268,240"/>
+  </g>
+  <!-- golden glow of the grove beyond -->
+  <ellipse cx="160" cy="265" rx="80" ry="22" fill="#ffd24d" opacity="0.5"/>
+  <g fill="#ffffff" opacity="0.95">
+    <polygon points="160,150 163,158 171,159 163,162 160,170 157,162 149,159 157,158"/>
+    <polygon points="120,200 122,206 128,207 122,209 120,215 118,209 112,207 118,206"/>
+    <polygon points="200,200 202,206 208,207 202,209 200,215 198,209 192,207 198,206"/>
+  </g>
+</svg>

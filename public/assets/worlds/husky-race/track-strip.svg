@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220">
+  <defs>
+    <linearGradient id="tsb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#eef6fe"/>
+      <stop offset="1" stop-color="#d5e9fa"/>
+    </linearGradient>
+  </defs>
+  <!-- packed snow bed, tileable: straight top/bottom edges -->
+  <rect x="0" y="0" width="800" height="220" fill="url(#tsb)"/>
+  <!-- packed center lane (slightly brighter) -->
+  <rect x="0" y="70" width="800" height="90" fill="#ffffff" opacity="0.7"/>
+  <!-- sled grooves: two parallel runners, repeating -->
+  <g stroke="#b9d4ec" stroke-width="7" opacity="0.85" fill="none" stroke-linecap="round">
+    <path d="M0,104 Q100,98 200,104 T400,104 T600,104 T800,104"/>
+    <path d="M0,140 Q100,134 200,140 T400,140 T600,140 T800,140"/>
+  </g>
+  <g stroke="#d5e9fa" stroke-width="3" opacity="0.9" fill="none" stroke-linecap="round">
+    <path d="M0,104 Q100,98 200,104 T400,104 T600,104 T800,104"/>
+    <path d="M0,140 Q100,134 200,140 T400,140 T600,140 T800,140"/>
+  </g>
+  <!-- paw/sled texture dashes -->
+  <g fill="#cfe6f7" opacity="0.7">
+    <ellipse cx="80" cy="60" rx="16" ry="6"/><ellipse cx="240" cy="52" rx="20" ry="7"/>
+    <ellipse cx="420" cy="62" rx="16" ry="6"/><ellipse cx="600" cy="54" rx="20" ry="7"/>
+    <ellipse cx="740" cy="60" rx="16" ry="6"/>
+    <ellipse cx="160" cy="176" rx="20" ry="7"/><ellipse cx="360" cy="182" rx="16" ry="6"/>
+    <ellipse cx="540" cy="176" rx="20" ry="7"/><ellipse cx="720" cy="182" rx="16" ry="6"/>
+  </g>
+  <!-- sparkle glints -->
+  <g fill="#ffffff" opacity="0.95">
+    <polygon points="150,90 153,96 159,97 153,99 150,105 147,99 141,97 147,96"/>
+    <polygon points="470,120 473,126 479,127 473,129 470,135 467,129 461,127 467,126"/>
+    <polygon points="660,88 663,94 669,95 663,97 660,103 657,97 651,95 657,94"/>
+  </g>
+  <!-- soft top edge highlight (meets the banks) -->
+  <rect x="0" y="0" width="800" height="14" fill="#ffffff" opacity="0.85"/>
+</svg>

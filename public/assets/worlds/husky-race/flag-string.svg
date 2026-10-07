@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+  <!-- tileable bunting: string sags identically at both ends -->
+  <path d="M0,20 Q100,52 200,52 Q300,52 400,20" stroke="#5f3d22" stroke-width="5" fill="none"/>
+  <g>
+    <polygon points="52,32 68,36 56,50" fill="#e2574c"/>
+    <polygon points="104,40 120,42 110,56" fill="#4c8de2"/>
+    <polygon points="156,43 172,44 162,58" fill="#ffd24d"/>
+    <polygon points="208,44 224,44 214,58" fill="#58b368"/>
+    <polygon points="260,43 276,42 266,56" fill="#e2574c"/>
+    <polygon points="312,38 328,34 318,48" fill="#4c8de2"/>
+  </g>
+  <circle cx="0" cy="20" r="7" fill="#8a5a34"/>
+  <circle cx="400" cy="20" r="7" fill="#8a5a34"/>
+</svg>

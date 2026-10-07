@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160">
+  <!-- summit pennant accents -->
+  <g>
+    <rect x="30" y="20" width="10" height="120" rx="5" fill="#5f3d22"/>
+    <polygon points="40,28 40,58 84,43" fill="#e2574c"/>
+    <polygon points="40,28 40,58 84,43" fill="#ffffff" opacity="0.15"/>
+    <circle cx="35" cy="16" r="8" fill="#ffd24d" stroke="#c9930a" stroke-width="2"/>
+  </g>
+  <g>
+    <rect x="160" y="20" width="10" height="120" rx="5" fill="#5f3d22"/>
+    <polygon points="170,28 170,58 126,43" fill="#4c8de2"/>
+    <polygon points="170,28 170,58 126,43" fill="#ffffff" opacity="0.15"/>
+    <circle cx="165" cy="16" r="8" fill="#ffd24d" stroke="#c9930a" stroke-width="2"/>
+  </g>
+  <ellipse cx="100" cy="148" rx="80" ry="8" fill="#a9c8e6" opacity="0.5"/>
+</svg>

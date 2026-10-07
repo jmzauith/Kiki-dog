@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80">
+  <defs>
+    <linearGradient id="bpw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c08a4d"/>
+      <stop offset="1" stop-color="#8a5a30"/>
+    </linearGradient>
+  </defs>
+  <!-- single floating repair plank with nail holes -->
+  <rect x="8" y="22" width="104" height="30" rx="8" fill="url(#bpw)" stroke="#5f3d22" stroke-width="3"/>
+  <rect x="8" y="22" width="104" height="10" rx="5" fill="#ffffff" opacity="0.25"/>
+  <circle cx="26" cy="37" r="5" fill="#4e3319"/>
+  <circle cx="94" cy="37" r="5" fill="#4e3319"/>
+  <polygon points="60,8 64,16 60,14 56,16" fill="#ffd24d"/>
+  <ellipse cx="60" cy="68" rx="40" ry="7" fill="#a9c8e6" opacity="0.5"/>
+</svg>

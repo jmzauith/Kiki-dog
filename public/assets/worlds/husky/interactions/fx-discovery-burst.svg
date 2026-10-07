@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220">
+  <defs>
+    <radialGradient id="fxdb" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff7d6" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="110" cy="110" r="106" fill="url(#fxdb)"/>
+  <!-- radiating reveal rays -->
+  <g stroke="#ffe89a" stroke-width="8" stroke-linecap="round" opacity="0.8">
+    <path d="M110,14 L110,44"/>
+    <path d="M110,176 L110,206"/>
+    <path d="M14,110 L44,110"/>
+    <path d="M176,110 L206,110"/>
+    <path d="M42,42 L63,63"/>
+    <path d="M157,157 L178,178"/>
+    <path d="M178,42 L157,63"/>
+    <path d="M63,157 L42,178"/>
+  </g>
+  <polygon points="110,66 116,92 142,92 121,107 129,133 110,118 91,133 99,107 78,92 104,92" fill="#ffd24d" stroke="#c9930a" stroke-width="3"/>
+  <g fill="#ffffff">
+    <circle cx="60" cy="150" r="5" opacity="0.9"/>
+    <circle cx="160" cy="150" r="5" opacity="0.9"/>
+    <circle cx="110" cy="170" r="4" opacity="0.85"/>
+  </g>
+</svg>

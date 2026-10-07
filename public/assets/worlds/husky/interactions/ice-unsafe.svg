@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 140">
+  <defs>
+    <linearGradient id="iub" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5d93c9"/>
+      <stop offset="1" stop-color="#2f5a8a"/>
+    </linearGradient>
+  </defs>
+  <!-- thin dark ice -->
+  <ellipse cx="160" cy="80" rx="150" ry="52" fill="url(#iub)"/>
+  <ellipse cx="160" cy="72" rx="140" ry="44" fill="#7fb2dd" opacity="0.6"/>
+  <!-- danger cracks -->
+  <g stroke="#17324d" stroke-width="5" fill="none" stroke-linecap="round">
+    <path d="M60,70 L110,84 L150,76 L200,90 L250,78"/>
+    <path d="M110,84 L100,104 M150,76 L158,98 M200,90 L192,110"/>
+    <path d="M90,60 L120,52 M220,66 L244,60"/>
+  </g>
+  <g stroke="#bfe0f7" stroke-width="2.5" fill="none" opacity="0.7">
+    <path d="M60,70 L110,84 L150,76 L200,90 L250,78"/>
+  </g>
+  <!-- warning tint at center -->
+  <ellipse cx="160" cy="84" rx="60" ry="24" fill="#e2574c" opacity="0.16"/>
+  <polygon points="160,58 154,70 166,70" fill="#e2574c"/>
+  <rect x="158" y="60" width="4" height="8" fill="#ffffff"/>
+</svg>

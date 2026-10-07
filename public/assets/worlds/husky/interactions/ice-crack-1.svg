@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120">
+  <!-- crack overlay variant 1: radial burst -->
+  <g stroke="#eaf6ff" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.9">
+    <path d="M100,60 L40,30 M100,60 L160,28 M100,60 L170,80 M100,60 L50,95 M100,60 L100,110 M100,60 L20,60"/>
+  </g>
+  <g stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M100,60 L40,30 M100,60 L160,28 M100,60 L170,80 M100,60 L50,95 M100,60 L100,110"/>
+    <path d="M70,45 L62,58 M130,44 L140,56 M135,72 L148,78"/>
+  </g>
+  <circle cx="100" cy="60" r="10" fill="#ffffff" opacity="0.85"/>
+</svg>

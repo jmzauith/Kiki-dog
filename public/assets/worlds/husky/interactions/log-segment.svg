@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 90">
+  <defs>
+    <linearGradient id="lgs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dcebfb"/>
+    </linearGradient>
+  </defs>
+  <!-- movable log segment (for the clearing animation) -->
+  <rect x="10" y="24" width="180" height="42" rx="18" fill="#8a5a34"/>
+  <rect x="10" y="24" width="180" height="13" rx="6" fill="url(#lgs)" opacity="0.9"/>
+  <ellipse cx="190" cy="45" rx="10" ry="21" fill="#e8d3a8"/>
+  <ellipse cx="190" cy="45" rx="5.5" ry="13" fill="#c9a06a"/>
+  <ellipse cx="190" cy="45" rx="2.5" ry="6" fill="#8a5a30"/>
+  <path d="M40,66 Q100,74 160,66" stroke="#5f3d22" stroke-width="5" fill="none" opacity="0.5"/>
+</svg>

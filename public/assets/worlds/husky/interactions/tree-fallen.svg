@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 200">
+  <defs>
+    <linearGradient id="tfb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3d7a52"/>
+      <stop offset="1" stop-color="#2a5a3c"/>
+    </linearGradient>
+    <linearGradient id="tfs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dcebfb"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="210" cy="184" rx="190" ry="12" fill="#a9c8e6" opacity="0.5"/>
+  <!-- snapped stump -->
+  <rect x="36" y="110" width="34" height="70" rx="8" fill="#7a4f2a"/>
+  <polygon points="36,110 53,96 70,110 62,120 44,120" fill="#c9a06a"/>
+  <polygon points="44,112 53,104 62,112" fill="#8a5a30"/>
+  <!-- fallen trunk across the path -->
+  <g transform="rotate(-4 210 130)">
+    <rect x="60" y="112" width="320" height="38" rx="16" fill="#7a4f2a"/>
+    <rect x="60" y="112" width="320" height="12" rx="6" fill="url(#tfs)" opacity="0.9"/>
+    <ellipse cx="380" cy="131" rx="10" ry="19" fill="#c9a06a"/>
+    <ellipse cx="380" cy="131" rx="6" ry="12" fill="#8a5a30"/>
+  </g>
+  <!-- branches with snow, blocking -->
+  <g fill="url(#tfb)">
+    <polygon points="150,120 110,40 190,60"/>
+    <polygon points="230,116 200,30 280,55"/>
+    <polygon points="310,118 290,50 350,70"/>
+  </g>
+  <g fill="url(#tfs)" opacity="0.92">
+    <polygon points="150,120 132,78 168,84"/>
+    <polygon points="230,116 214,72 250,78"/>
+    <polygon points="310,118 298,82 328,86"/>
+  </g>
+  <!-- scattered snow from the fall -->
+  <g fill="#ffffff" opacity="0.9">
+    <circle cx="90" cy="170" r="8"/><circle cx="260" cy="172" r="10"/><circle cx="350" cy="168" r="7"/>
+  </g>
+  <!-- block cue -->
+  <circle cx="210" cy="52" r="20" fill="#e2574c"/>
+  <rect x="206" y="42" width="8" height="14" rx="3" fill="#ffffff"/>
+  <circle cx="210" cy="60" r="4" fill="#ffffff"/>
+</svg>

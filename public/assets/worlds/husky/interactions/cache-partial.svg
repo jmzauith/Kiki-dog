@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150">
+  <defs>
+    <linearGradient id="bcp" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4faff"/>
+      <stop offset="1" stop-color="#cfe6fa"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="120" cy="138" rx="100" ry="9" fill="#a9c8e6" opacity="0.5"/>
+  <!-- partially dug: hollow in the top -->
+  <path d="M20,138 Q50,60 120,56 Q190,60 220,138 Z" fill="url(#bcp)"/>
+  <ellipse cx="120" cy="72" rx="44" ry="18" fill="#8fb0cc"/>
+  <ellipse cx="120" cy="70" rx="36" ry="13" fill="#5d7d99"/>
+  <!-- bone tip poking out -->
+  <g transform="rotate(-18 120 66)">
+    <rect x="108" y="40" width="14" height="44" rx="7" fill="#f2ead8" stroke="#d8c9a8" stroke-width="2"/>
+    <circle cx="108" cy="42" r="9" fill="#f2ead8" stroke="#d8c9a8" stroke-width="2"/>
+    <circle cx="122" cy="42" r="9" fill="#f2ead8" stroke="#d8c9a8" stroke-width="2"/>
+  </g>
+  <!-- dug snow piles -->
+  <g fill="#ffffff">
+    <circle cx="60" cy="120" r="12" opacity="0.95"/>
+    <circle cx="180" cy="122" r="10" opacity="0.95"/>
+    <circle cx="84" cy="132" r="8" opacity="0.9"/>
+  </g>
+  <!-- curiosity sparkle -->
+  <polygon points="170,40 172,46 178,47 172,49 170,55 168,49 162,47 168,46" fill="#ffd24d"/>
+</svg>

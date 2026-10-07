@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 200">
+  <defs>
+    <linearGradient id="tcs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dcebfb"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="210" cy="184" rx="190" ry="12" fill="#a9c8e6" opacity="0.5"/>
+  <!-- stump remains, path clear -->
+  <rect x="36" y="120" width="34" height="60" rx="8" fill="#7a4f2a"/>
+  <polygon points="36,120 53,106 70,120 62,130 44,130" fill="#c9a06a"/>
+  <polygon points="44,122 53,114 62,122" fill="#8a5a30"/>
+  <!-- sawn log resting at the side -->
+  <g transform="rotate(8 330 150)">
+    <rect x="250" y="132" width="160" height="36" rx="15" fill="#8a5a34"/>
+    <rect x="250" y="132" width="160" height="11" rx="5" fill="url(#tcs)" opacity="0.9"/>
+    <ellipse cx="410" cy="150" rx="9" ry="18" fill="#e8d3a8"/>
+    <ellipse cx="410" cy="150" rx="5" ry="11" fill="#c9a06a"/>
+  </g>
+  <!-- clear path -->
+  <path d="M110,184 Q210,168 330,184" stroke="#ffffff" stroke-width="26" fill="none" opacity="0.75" stroke-linecap="round"/>
+  <!-- success sparkles -->
+  <g fill="#ffd24d">
+    <polygon points="160,60 163,68 171,69 163,71 160,79 157,71 149,69 157,68"/>
+    <polygon points="270,52 273,60 281,61 273,63 270,71 267,63 259,61 267,60"/>
+  </g>
+</svg>

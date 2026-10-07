@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150">
+  <defs>
+    <linearGradient id="bco" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4faff"/>
+      <stop offset="1" stop-color="#cfe6fa"/>
+    </linearGradient>
+    <radialGradient id="bcg" cx="0.5" cy="0.5" r="0.55">
+      <stop offset="0" stop-color="#fff7d6" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="120" cy="138" rx="100" ry="9" fill="#a9c8e6" opacity="0.5"/>
+  <circle cx="120" cy="90" r="62" fill="url(#bcg)"/>
+  <!-- dug open -->
+  <path d="M20,138 Q50,60 120,56 Q190,60 220,138 Z" fill="url(#bco)"/>
+  <ellipse cx="120" cy="86" rx="58" ry="26" fill="#7d9cbb"/>
+  <ellipse cx="120" cy="84" rx="48" ry="19" fill="#4d6a86"/>
+  <!-- bone pile -->
+  <g>
+    <g transform="rotate(-24 100 80)">
+      <rect x="92" y="56" width="13" height="46" rx="6" fill="#f2ead8" stroke="#d8c9a8" stroke-width="2"/>
+      <circle cx="92" cy="58" r="8" fill="#f2ead8" stroke="#d8c9a8" stroke-width="2"/>
+      <circle cx="105" cy="58" r="8" fill="#f2ead8" stroke="#d8c9a8" stroke-width="2"/>
+    </g>
+    <g transform="rotate(20 140 82)">
+      <rect x="133" y="58" width="13" height="46" rx="6" fill="#f7f1e2" stroke="#d8c9a8" stroke-width="2"/>
+      <circle cx="133" cy="60" r="8" fill="#f7f1e2" stroke="#d8c9a8" stroke-width="2"/>
+      <circle cx="146" cy="60" r="8" fill="#f7f1e2" stroke="#d8c9a8" stroke-width="2"/>
+    </g>
+    <g transform="rotate(70 120 95)">
+      <rect x="113" y="72" width="12" height="42" rx="6" fill="#efe6d0" stroke="#d8c9a8" stroke-width="2"/>
+      <circle cx="113" cy="74" r="7" fill="#efe6d0" stroke="#d8c9a8" stroke-width="2"/>
+      <circle cx="125" cy="74" r="7" fill="#efe6d0" stroke="#d8c9a8" stroke-width="2"/>
+    </g>
+  </g>
+  <!-- golden reward glints -->
+  <g fill="#ffd24d">
+    <polygon points="70,50 72,56 78,57 72,59 70,65 68,59 62,57 68,56"/>
+    <polygon points="170,52 172,58 178,59 172,61 170,67 168,61 162,59 168,58"/>
+    <polygon points="120,30 122,36 128,37 122,39 120,45 118,39 112,37 118,36"/>
+  </g>
+</svg>

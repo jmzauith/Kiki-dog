@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120">
+  <!-- crack overlay variant 2: long jagged fracture -->
+  <g stroke="#eaf6ff" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.9">
+    <path d="M10,70 L50,58 L80,68 L120,54 L160,64 L195,52"/>
+  </g>
+  <g stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M10,70 L50,58 L80,68 L120,54 L160,64 L195,52"/>
+    <path d="M50,58 L44,78 M80,68 L88,88 M120,54 L114,74 M160,64 L168,84"/>
+    <path d="M30,64 L22,56 M100,61 L108,52 M140,59 L148,50"/>
+  </g>
+</svg>

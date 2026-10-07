@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <defs>
+    <linearGradient id="brw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c08a4d"/>
+      <stop offset="1" stop-color="#8a5a30"/>
+    </linearGradient>
+    <linearGradient id="brs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dcebfb"/>
+    </linearGradient>
+  </defs>
+  <polygon points="0,200 0,120 60,140 40,200" fill="#7d94ad"/>
+  <polygon points="400,200 400,120 340,140 360,200" fill="#7d94ad"/>
+  <polygon points="0,120 60,140 40,160 0,150" fill="#eef4fb"/>
+  <polygon points="400,120 340,140 360,160 400,150" fill="#eef4fb"/>
+  <!-- posts with snow caps -->
+  <rect x="52" y="60" width="18" height="100" rx="7" fill="url(#brw)"/>
+  <rect x="330" y="60" width="18" height="100" rx="7" fill="url(#brw)"/>
+  <rect x="46" y="52" width="30" height="12" rx="6" fill="url(#brs)"/>
+  <rect x="324" y="52" width="30" height="12" rx="6" fill="url(#brs)"/>
+  <!-- rails -->
+  <path d="M52,84 Q200,64 348,84" stroke="url(#brw)" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M52,84 Q200,64 348,84" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.4"/>
+  <!-- full deck -->
+  <g fill="url(#brw)" stroke="#5f3d22" stroke-width="2">
+    <rect x="60" y="118" width="40" height="16" rx="4"/>
+    <rect x="104" y="118" width="40" height="16" rx="4"/>
+    <rect x="148" y="118" width="40" height="16" rx="4"/>
+    <rect x="192" y="118" width="40" height="16" rx="4"/>
+    <rect x="236" y="118" width="40" height="16" rx="4"/>
+    <rect x="280" y="118" width="40" height="16" rx="4"/>
+  </g>
+  <rect x="60" y="118" width="260" height="6" rx="3" fill="#ffffff" opacity="0.5"/>
+  <!-- rope ties -->
+  <g stroke="#c9a06a" stroke-width="4" fill="none">
+    <path d="M100,84 L100,120"/><path d="M200,78 L200,120"/><path d="M300,84 L300,120"/>
+  </g>
+  <!-- sparkle of newness -->
+  <polygon points="200,40 203,47 210,48 203,50 200,57 197,50 190,48 197,47" fill="#ffd24d"/>
+  <polygon points="120,96 122,101 127,102 122,103 120,108 118,103 113,102 118,101" fill="#ffffff"/>
+</svg>

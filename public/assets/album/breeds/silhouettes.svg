@@ -1,5 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="768" viewBox="0 0 1024 768">
-<!-- transparent background: integrator composites onto slot cards -->
+<!-- transparent background: integrator composites cells onto slot cards.
+     cells 256x256 in roster order: husky, golden, beagle, dachshund, bordercollie,
+     dalmatian, shiba, bernese, cavalier, labrador, chowchow, pug -->
 <!-- breed 1: husky -->
 <g transform="translate(0,0)">
 <path d="M72 142 C 38 136, 42 98, 70 102 C 56 112, 54 124, 68 122" fill="none" stroke="#141c26" stroke-width="17" stroke-linecap="round"/>

@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1450" viewBox="0 0 1280 1450">
+
+  <defs>
+    <radialGradient id="u-fur" cx="38%" cy="30%" r="80%">
+      <stop offset="0" stop-color="#f8bd67"/>
+      <stop offset="55%" stop-color="#efa14a"/>
+      <stop offset="100%" stop-color="#d97f2e"/>
+    </radialGradient>
+    <radialGradient id="u-furD" cx="38%" cy="30%" r="80%">
+      <stop offset="0" stop-color="#e09a44"/>
+      <stop offset="60%" stop-color="#cf7f2c"/>
+      <stop offset="100%" stop-color="#b0621d"/>
+    </radialGradient>
+    <radialGradient id="u-cream" cx="42%" cy="32%" r="85%">
+      <stop offset="0" stop-color="#fffdf8"/>
+      <stop offset="70%" stop-color="#fdf3e2"/>
+      <stop offset="100%" stop-color="#f2e2c6"/>
+    </radialGradient>
+    <radialGradient id="u-husky" cx="38%" cy="30%" r="80%">
+      <stop offset="0" stop-color="#c3cfdb"/>
+      <stop offset="55%" stop-color="#a7b6c6"/>
+      <stop offset="100%" stop-color="#8494a8"/>
+    </radialGradient>
+    <radialGradient id="u-huskyD" cx="38%" cy="30%" r="80%">
+      <stop offset="0" stop-color="#9fb0c2"/>
+      <stop offset="60%" stop-color="#8799ad"/>
+      <stop offset="100%" stop-color="#67778d"/>
+    </radialGradient>
+    <linearGradient id="u-wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b57e42"/>
+      <stop offset="45%" stop-color="#9c6530"/>
+      <stop offset="100%" stop-color="#7c4e22"/>
+    </linearGradient>
+    <linearGradient id="u-woodD" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8a5a28"/>
+      <stop offset="100%" stop-color="#5f3c17"/>
+    </linearGradient>
+    <linearGradient id="u-gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe9a8"/>
+      <stop offset="55%" stop-color="#f7c948"/>
+      <stop offset="100%" stop-color="#dd9a1f"/>
+    </linearGradient>
+    <radialGradient id="u-goldR" cx="50%" cy="38%" r="72%">
+      <stop offset="0" stop-color="#ffedb5"/>
+      <stop offset="60%" stop-color="#f5c445"/>
+      <stop offset="100%" stop-color="#d18f18"/>
+    </radialGradient>
+    <linearGradient id="u-btnG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7ed957"/>
+      <stop offset="100%" stop-color="#3faf3c"/>
+    </linearGradient>
+    <linearGradient id="u-btnB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5db9f5"/>
+      <stop offset="100%" stop-color="#2f7fd0"/>
+    </linearGradient>
+    <linearGradient id="u-btnO" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb14e"/>
+      <stop offset="100%" stop-color="#ef7d1a"/>
+    </linearGradient>
+    <linearGradient id="u-btnP" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c58af0"/>
+      <stop offset="100%" stop-color="#8e4fd1"/>
+    </linearGradient>
+    <linearGradient id="u-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ed4f7"/>
+      <stop offset="60%" stop-color="#c9ecfd"/>
+      <stop offset="100%" stop-color="#eef9ff"/>
+    </linearGradient>
+    <linearGradient id="u-snow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dceefb"/>
+    </linearGradient>
+    <linearGradient id="u-navy" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#31435f"/>
+      <stop offset="100%" stop-color="#1d2942"/>
+    </linearGradient>
+    <radialGradient id="u-eye" cx="38%" cy="32%" r="75%">
+      <stop offset="0" stop-color="#6b4a33"/>
+      <stop offset="55%" stop-color="#43301f"/>
+      <stop offset="100%" stop-color="#241a12"/>
+    </radialGradient>
+    <radialGradient id="u-eyeB" cx="38%" cy="32%" r="75%">
+      <stop offset="0" stop-color="#7cc4f2"/>
+      <stop offset="55%" stop-color="#3f8fd4"/>
+      <stop offset="100%" stop-color="#1f5a96"/>
+    </radialGradient>
+    <filter id="u-soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+    <filter id="u-soft2" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+  </defs>
+<rect width="1280" height="1450" fill="#f7f3ea"/>
+<text x="40" y="62" text-anchor="start" font-family="'Arial Rounded MT Bold',Arial" font-size="40" font-weight="900" fill="#2b3a55">Game UI — Visual Language Kit</text>
+<text x="42" y="96" text-anchor="start" font-family="Arial,sans-serif" font-size="21" font-weight="600" fill="#6b7a90">Visual reset prototype · rounded, tactile, adventure-embedded · never worksheet-like</text>
+<rect x="40" y="120" width="580" height="260" rx="20" fill="#ffffff" stroke="#e3d9c4" stroke-width="2"/><text x="330.0" y="164" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#2b3a55">1 · Title / location plaque</text><text x="330.0" y="362" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#8a97a8">carved wood · cream text · nails</text>
+<g>
+    <rect x="90" y="200" width="480" height="110" rx="22" fill="url(#u-wood)" stroke="#5f3c17" stroke-width="4"/>
+    <rect x="99" y="208" width="462" height="94" rx="15" fill="none" stroke="#5f3c17" stroke-width="2.5" opacity="0.65"/>
+    <rect x="99" y="208" width="462" height="47" rx="15" fill="#ffffff" opacity="0.08"/>
+    <text x="330.0" y="270.84" text-anchor="middle" font-family="'Arial Rounded MT Bold','Nunito',Arial,sans-serif" font-size="44" font-weight="900" fill="#fff8ea">SNOWY PEAKS</text>
+    <circle cx="112" cy="255.0" r="6" fill="#4e3013"/><circle cx="110.5" cy="253.5" r="2" fill="#c99a5b"/>
+    <circle cx="548" cy="255.0" r="6" fill="#4e3013"/><circle cx="546.5" cy="253.5" r="2" fill="#c99a5b"/>
+  </g>
+<rect x="660" y="120" width="580" height="260" rx="20" fill="#ffffff" stroke="#e3d9c4" stroke-width="2"/><text x="950.0" y="164" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#2b3a55">2 · Status / progress element</text><text x="950.0" y="362" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#8a97a8">dark navy pill · star + text</text>
+<g>
+  <rect x="740" y="220" width="420" height="64" rx="32" fill="url(#u-navy)"/>
+  <polygon points="790.0,230.0 795.8,244.0 810.9,245.2 799.4,255.1 802.9,269.8 790.0,261.9 777.1,269.8 780.6,255.1 769.1,245.2 784.2,244.0" fill="url(#u-gold)" stroke="#b57e1a" stroke-width="2.5" stroke-linejoin="round"/>
+    <polygon points="790.0,230.0 795.8,244.0 810.9,245.2 799.4,255.1 802.9,269.8 790.0,261.9 777.1,269.8 780.6,255.1 769.1,245.2 784.2,244.0" fill="#ffffff" opacity="0.18"/>
+  <text x="830" y="261" text-anchor="start" font-family="Arial,sans-serif" font-size="26" font-weight="800" fill="#ffffff">Aurora · 1 Golden · ★ 42</text>
+</g>
+<rect x="40" y="410" width="580" height="280" rx="20" fill="#ffffff" stroke="#e3d9c4" stroke-width="2"/><text x="330.0" y="454" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#2b3a55">3 · Dialogue / interaction panel</text><text x="330.0" y="672" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#8a97a8">dark navy · Kiki speaks here</text>
+<g>
+    <rect x="90" y="480" width="480" height="130" rx="18" fill="url(#u-navy)" stroke="#101b30" stroke-width="3"/>
+    <rect x="95" y="484" width="470" height="59.0" rx="12" fill="#ffffff" opacity="0.06"/>
+  </g>
+<text x="330" y="535" text-anchor="middle" font-family="Arial,sans-serif" font-size="26" font-weight="800" fill="#ffffff">The bridge is broken!</text>
+<text x="330" y="570" text-anchor="middle" font-family="Arial,sans-serif" font-size="21" font-weight="600" fill="#c9d6ea">Solve the math to repair it.</text>
+<rect x="660" y="410" width="580" height="280" rx="20" fill="#ffffff" stroke="#e3d9c4" stroke-width="2"/><text x="950.0" y="454" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#2b3a55">4 · Math question presentation</text><text x="950.0" y="672" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#8a97a8">cream card · warm border · bone crest</text>
+<g>
+    <rect x="710" y="485" width="480" height="150" rx="24" fill="#000000" opacity="0.12" filter="url(#u-soft2)"/>
+    <rect x="710" y="480" width="480" height="150" rx="24" fill="#fffdf5" stroke="#e8a83e" stroke-width="4"/>
+  </g>
+<text x="950" y="528" text-anchor="middle" font-family="Arial,sans-serif" font-size="40" font-weight="800" fill="#2b3a55">🦴</text>
+<text x="950" y="578" text-anchor="middle" font-family="Arial,sans-serif" font-size="44" font-weight="900" fill="#4a2f12">7 + 5 = ?</text>
+<text x="950" y="610" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" font-weight="600" fill="#a08c6a">tap the right answer</text>
+<rect x="40" y="720" width="580" height="300" rx="20" fill="#ffffff" stroke="#e3d9c4" stroke-width="2"/><text x="330.0" y="764" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#2b3a55">5 · Four answer buttons</text><text x="330.0" y="1002" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#8a97a8">chunky · tactile · 2×2 grid</text>
+<g>
+      <rect x="90" y="804" width="220" height="72" rx="20" fill="#000" opacity="0.12" filter="url(#u-soft2)"/>
+      <rect x="90" y="800" width="220" height="72" rx="20" fill="#fffdf5" stroke="#2b3a55" stroke-width="4"/>
+      <rect x="98" y="806" width="204" height="28" rx="12" fill="#ffffff" opacity="0.7"/>
+      <text x="200" y="848" text-anchor="middle" font-family="Arial,sans-serif" font-size="34" font-weight="900" fill="#2b3a55">12</text>
+    </g>
+<g>
+      <rect x="350" y="804" width="220" height="72" rx="20" fill="#000" opacity="0.12" filter="url(#u-soft2)"/>
+      <rect x="350" y="800" width="220" height="72" rx="20" fill="#fffdf5" stroke="#2b3a55" stroke-width="4"/>
+      <rect x="358" y="806" width="204" height="28" rx="12" fill="#ffffff" opacity="0.7"/>
+      <text x="460" y="848" text-anchor="middle" font-family="Arial,sans-serif" font-size="34" font-weight="900" fill="#2b3a55">10</text>
+    </g>
+<g>
+      <rect x="90" y="894" width="220" height="72" rx="20" fill="#000" opacity="0.12" filter="url(#u-soft2)"/>
+      <rect x="90" y="890" width="220" height="72" rx="20" fill="#fffdf5" stroke="#2b3a55" stroke-width="4"/>
+      <rect x="98" y="896" width="204" height="28" rx="12" fill="#ffffff" opacity="0.7"/>
+      <text x="200" y="938" text-anchor="middle" font-family="Arial,sans-serif" font-size="34" font-weight="900" fill="#2b3a55">13</text>
+    </g>
+<g>
+      <rect x="350" y="894" width="220" height="72" rx="20" fill="#000" opacity="0.12" filter="url(#u-soft2)"/>
+      <rect x="350" y="890" width="220" height="72" rx="20" fill="#fffdf5" stroke="#2b3a55" stroke-width="4"/>
+      <rect x="358" y="896" width="204" height="28" rx="12" fill="#ffffff" opacity="0.7"/>
+      <text x="460" y="938" text-anchor="middle" font-family="Arial,sans-serif" font-size="34" font-weight="900" fill="#2b3a55">11</text>
+    </g>
+<rect x="660" y="720" width="580" height="300" rx="20" fill="#ffffff" stroke="#e3d9c4" stroke-width="2"/><text x="950.0" y="764" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#2b3a55">6+7 · Challenge buttons</text><text x="950.0" y="1002" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#8a97a8">green = go · orange = harder + golden</text>
+<g>
+    <rect x="730" y="814" width="440" height="76" rx="38.0" fill="#000000" opacity="0.16" filter="url(#u-soft2)"/>
+    <rect x="730" y="810" width="440" height="76" rx="38.0" fill="url(#u-btnG)" stroke="#ffffff" stroke-width="3" stroke-opacity="0.55"/>
+    <rect x="736" y="814" width="428" height="34.0" rx="19.0" fill="#ffffff" opacity="0.22"/>
+    <text x="950.0" y="858.8" text-anchor="middle" font-family="'Arial Rounded MT Bold','Nunito',Arial,sans-serif" font-size="30" font-weight="900" fill="#ffffff">▶  KEEP GOING</text>
+  </g>
+<text x="950" y="920" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="600" fill="#8a97a8">current-level math</text>
+<g>
+    <rect x="730" y="949" width="440" height="76" rx="38.0" fill="#000000" opacity="0.16" filter="url(#u-soft2)"/>
+    <rect x="730" y="945" width="440" height="76" rx="38.0" fill="url(#u-btnO)" stroke="#ffffff" stroke-width="3" stroke-opacity="0.55"/>
+    <rect x="736" y="949" width="428" height="34.0" rx="19.0" fill="#ffffff" opacity="0.22"/>
+    <text x="950.0" y="993.08" text-anchor="middle" font-family="'Arial Rounded MT Bold','Nunito',Arial,sans-serif" font-size="28" font-weight="900" fill="#ffffff">⚡  ICE SHORTCUT</text>
+  </g>
+<text x="950" y="1045" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="600" fill="#8a97a8">harder math · golden progress</text>
+<rect x="40" y="1050" width="580" height="260" rx="20" fill="#ffffff" stroke="#e3d9c4" stroke-width="2"/><text x="330.0" y="1094" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#2b3a55">8 · Secret / discovery notification</text><text x="330.0" y="1292" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#8a97a8">purple pill · sparkle · slides in</text>
+<g>
+    <rect x="110" y="1144" width="440" height="76" rx="38.0" fill="#000000" opacity="0.16" filter="url(#u-soft2)"/>
+    <rect x="110" y="1140" width="440" height="76" rx="38.0" fill="url(#u-btnP)" stroke="#ffffff" stroke-width="3" stroke-opacity="0.55"/>
+    <rect x="116" y="1144" width="428" height="34.0" rx="19.0" fill="#ffffff" opacity="0.22"/>
+    <text x="330.0" y="1188.08" text-anchor="middle" font-family="'Arial Rounded MT Bold','Nunito',Arial,sans-serif" font-size="28" font-weight="900" fill="#ffffff">✦  SECRET IGLOO FOUND!</text>
+  </g>
+<text x="330" y="1250" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#8a97a8">+50 bonus points</text>
+<rect x="660" y="1050" width="580" height="260" rx="20" fill="#ffffff" stroke="#e3d9c4" stroke-width="2"/><text x="950.0" y="1094" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#2b3a55">9 · Success notification</text><text x="950.0" y="1292" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="600" fill="#8a97a8">gold burst · wooden plaque variant</text>
+<g>
+  <polygon points="800.0,1134.0 811.6,1162.0 841.8,1164.4 818.8,1184.1 825.9,1213.6 800.0,1197.8 774.1,1213.6 781.2,1184.1 758.2,1164.4 788.4,1162.0" fill="url(#u-gold)" stroke="#b57e1a" stroke-width="2.5" stroke-linejoin="round"/>
+    <polygon points="800.0,1134.0 811.6,1162.0 841.8,1164.4 818.8,1184.1 825.9,1213.6 800.0,1197.8 774.1,1213.6 781.2,1184.1 758.2,1164.4 788.4,1162.0" fill="#ffffff" opacity="0.18"/><polygon points="880.0,1124.0 886.9,1140.5 904.7,1142.0 891.1,1153.6 895.3,1171.0 880.0,1161.7 864.7,1171.0 868.9,1153.6 855.3,1142.0 873.1,1140.5" fill="url(#u-gold)" stroke="#b57e1a" stroke-width="2.5" stroke-linejoin="round"/>
+    <polygon points="880.0,1124.0 886.9,1140.5 904.7,1142.0 891.1,1153.6 895.3,1171.0 880.0,1161.7 864.7,1171.0 868.9,1153.6 855.3,1142.0 873.1,1140.5" fill="#ffffff" opacity="0.18"/><polygon points="870.0,1190.0 875.3,1202.7 889.0,1203.8 878.6,1212.8 881.8,1226.2 870.0,1219.0 858.2,1226.2 861.4,1212.8 851.0,1203.8 864.7,1202.7" fill="url(#u-gold)" stroke="#b57e1a" stroke-width="2.5" stroke-linejoin="round"/>
+    <polygon points="870.0,1190.0 875.3,1202.7 889.0,1203.8 878.6,1212.8 881.8,1226.2 870.0,1219.0 858.2,1226.2 861.4,1212.8 851.0,1203.8 864.7,1202.7" fill="#ffffff" opacity="0.18"/>
+</g>
+<g>
+    <rect x="925" y="1130" width="300" height="96" rx="22" fill="url(#u-wood)" stroke="#5f3c17" stroke-width="4"/>
+    <rect x="934" y="1138" width="282" height="80" rx="15" fill="none" stroke="#5f3c17" stroke-width="2.5" opacity="0.65"/>
+    <rect x="934" y="1138" width="282" height="40" rx="15" fill="#ffffff" opacity="0.08"/>
+    <text x="1075.0" y="1187.72" text-anchor="middle" font-family="'Arial Rounded MT Bold','Nunito',Arial,sans-serif" font-size="27" font-weight="900" fill="#fff8ea">BRIDGE FIXED!</text>
+    <circle cx="947" cy="1178.0" r="6" fill="#4e3013"/><circle cx="945.5" cy="1176.5" r="2" fill="#c99a5b"/>
+    <circle cx="1203" cy="1178.0" r="6" fill="#4e3013"/><circle cx="1201.5" cy="1176.5" r="2" fill="#c99a5b"/>
+  </g>
+</svg>

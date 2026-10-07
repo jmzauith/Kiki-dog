@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import { MathEngine, MathQuestion } from "../systems/MathEngine";
 import { edges, MapNodeId, nodes, RouteKind } from "../systems/MapGraph";
+import { KikiCharacter } from "../systems/KikiCharacter";
+import { KikiMover } from "../systems/KikiMover";
 
 type RouteVisual = {
   edge: (typeof edges)[number];
@@ -10,7 +12,8 @@ type RouteVisual = {
 export class HuskyScene extends Phaser.Scene {
   private math = new MathEngine();
   private currentNode: MapNodeId = "start";
-  private kiki!: Phaser.GameObjects.Container;
+  private kiki!: KikiCharacter;
+  private mover!: KikiMover;
   private routeVisuals: RouteVisual[] = [];
   private nodeObjects = new Map<MapNodeId, Phaser.GameObjects.Container>();
   private busy = false;
@@ -20,6 +23,10 @@ export class HuskyScene extends Phaser.Scene {
 
   constructor() {
     super("HuskyScene");
+  }
+
+  preload(): void {
+    KikiCharacter.preload(this);
   }
 
   create(): void {
@@ -199,6 +206,23 @@ export class HuskyScene extends Phaser.Scene {
     }
   }
 
+  /**
+   * The control point of a route's QuadraticBezier — shared by the drawn trail
+   * and Kiki's walk curve so she follows the actual visible path.
+   */
+  private static routeControl(
+    fromId: MapNodeId,
+    toId: MapNodeId,
+    kind: RouteKind,
+  ): Phaser.Math.Vector2 {
+    const from = nodes[fromId];
+    const to = nodes[toId];
+    return new Phaser.Math.Vector2(
+      (from.x + to.x) / 2,
+      Math.min(from.y, to.y) - (kind === "challenge" ? 65 : 18),
+    );
+  }
+
   private redrawEdge(
     fromId: MapNodeId,
     toId: MapNodeId,
@@ -214,11 +238,10 @@ export class HuskyScene extends Phaser.Scene {
     if (!visible) return;
 
     const color = kind === "challenge" ? 0x8e5bda : 0x84b7d6;
-    const cx = (from.x + to.x) / 2;
-    const cy = Math.min(from.y, to.y) - (kind === "challenge" ? 65 : 18);
+    const ctrl = HuskyScene.routeControl(fromId, toId, kind);
     const curve = new Phaser.Curves.QuadraticBezier(
       new Phaser.Math.Vector2(from.x, from.y),
-      new Phaser.Math.Vector2(cx, cy),
+      ctrl,
       new Phaser.Math.Vector2(to.x, to.y),
     );
     const points = curve.getPoints(28);
@@ -237,19 +260,8 @@ export class HuskyScene extends Phaser.Scene {
 
   private createKiki(): void {
     const start = this.getKikiTarget("start");
-    this.kiki = this.add.container(start.x, start.y).setDepth(15);
-    const body = this.add.ellipse(0, 0, 58, 38, 0xd88936, 1).setStrokeStyle(3, 0x8e5227, 1);
-    const chest = this.add.ellipse(17, 2, 23, 30, 0xffffff, 1);
-    const head = this.add.circle(24, -18, 23, 0xd88936, 1).setStrokeStyle(3, 0x8e5227, 1);
-    const blaze = this.add.triangle(25, -26, 18, -39, 31, -39, 25, -10, 0xffffff, 1);
-    const ear1 = this.add.triangle(9, -36, 3, -57, 18, -40, 0xd88936, 1);
-    const ear2 = this.add.triangle(37, -36, 45, -58, 31, -40, 0xd88936, 1);
-    const eye = this.add.circle(31, -20, 3, 0x15202c, 1);
-    const nose = this.add.circle(45, -12, 4, 0x15202c, 1);
-    this.kiki.add([body, chest, head, blaze, ear1, ear2, eye, nose]);
-
-    const backpack = this.add.rectangle(-15, -17, 24, 24, 0x315c9a, 1).setStrokeStyle(2, 0x1d365e, 1);
-    this.kiki.add(backpack);
+    this.kiki = new KikiCharacter(this, start.x, start.y, { depth: 15, scale: 0.66 });
+    this.mover = new KikiMover(this, this.kiki);
   }
 
   private highlightForwardChoices(): void {
@@ -264,6 +276,10 @@ export class HuskyScene extends Phaser.Scene {
       }
       return;
     }
+
+    // Kiki anticipates: she turns toward the available route before the player picks.
+    const first = forward[0];
+    if (first) this.kiki.lookAt(nodes[first.to].x);
 
     for (const choice of forward) {
       const visual = this.routeVisuals.find((v) => v.edge === choice);
@@ -312,24 +328,23 @@ export class HuskyScene extends Phaser.Scene {
     this.clearHighlights();
 
     if (this.currentNode === "start" && to === "math1") {
-      const ok = await this.runMathEncounter("normal", "A broken bridge blocks the trail.");
-      if (!ok) {
+      const crossed = await this.bridgeSequence(kind);
+      if (!crossed) {
         this.busy = false;
         this.highlightForwardChoices();
         return;
       }
-    }
-
-    if (this.currentNode === "fork" && kind === "challenge") {
-      const ok = await this.runMathEncounter("challenge", "Ice Shortcut Challenge");
-      if (!ok) {
-        this.busy = false;
-        this.highlightForwardChoices();
-        return;
+    } else {
+      if (this.currentNode === "fork" && kind === "challenge") {
+        const ok = await this.runMathEncounter("challenge", "Ice Shortcut Challenge");
+        if (!ok) {
+          this.busy = false;
+          this.highlightForwardChoices();
+          return;
+        }
       }
+      await this.walkKiki(to, kind);
     }
-
-    await this.walkKiki(to);
 
     this.currentNode = to;
 
@@ -348,57 +363,108 @@ export class HuskyScene extends Phaser.Scene {
     this.highlightForwardChoices();
   }
 
-  private walkKiki(to: MapNodeId): Promise<void> {
-    const destination = nodes[to];
-    const target = this.getKikiTarget(to);
+  /**
+   * Broken-bridge interaction: Kiki trots up and stops safely before the gap
+   * with a surprised reaction, the math encounter gates the crossing, then a
+   * repair shimmer plays and Kiki crosses naturally. Progression rules are
+   * unchanged — math is still required before crossing.
+   */
+  private async bridgeSequence(kind: RouteKind): Promise<boolean> {
+    const bridge = nodes.math1;
+    const ctrl = HuskyScene.routeControl("start", "math1", kind);
+
+    // The visible trail from the trailhead to the bridge. Kiki walks along
+    // this exact curve and stops partway (toT) — safely before the gap.
+    const trailCurve = new Phaser.Curves.QuadraticBezier(
+      new Phaser.Math.Vector2(this.kiki.x, this.kiki.y),
+      ctrl,
+      new Phaser.Math.Vector2(bridge.x, bridge.y),
+    );
+    const STOP_BEFORE_GAP_T = 0.42;
+
+    // 1 — approach: stop safely before the gap.
     this.status.setText("Kiki is walking…");
+    this.kiki.lookAt(bridge.x);
+    await this.mover.walk({
+      curve: trailCurve,
+      toT: STOP_BEFORE_GAP_T,
+      gait: "trot",
+      arrivalReaction: "none",
+    });
 
-    return new Promise((resolve) => {
-      const startX = this.kiki.x;
-      const startY = this.kiki.y;
-      const flip = target.x < startX;
-      this.kiki.setScale(flip ? -1 : 1, 1);
+    // 2 — curious / surprised at the broken bridge.
+    this.kiki.react("surprised", 1300);
+    await this.timeDelay(1350);
 
+    // 3 — math encounter gates the crossing (unchanged rules).
+    const ok = await this.runMathEncounter("normal", "A broken bridge blocks the trail.");
+    if (!ok) {
+      // Trot back along the trail to the trailhead; choices reappear from start.
+      this.status.setText("Kiki is walking…");
+      await this.mover.walk({
+        curve: trailCurve,
+        fromT: STOP_BEFORE_GAP_T,
+        toT: 0,
+        gait: "trot",
+        arrivalReaction: "none",
+      });
+      return false;
+    }
+
+    // 4 — repair shimmer over the gap (FX overlay only — bridge art untouched),
+    // then Kiki crosses naturally to her spot beside the landmark.
+    this.playBridgeRepair();
+    this.kiki.react("happy", 1000);
+    await this.timeDelay(1050);
+
+    this.status.setText("Kiki is walking…");
+    const target = this.getKikiTarget("math1");
+    await this.mover.walk({
+      curve: new Phaser.Curves.QuadraticBezier(
+        new Phaser.Math.Vector2(this.kiki.x, this.kiki.y),
+        ctrl,
+        new Phaser.Math.Vector2(target.x, target.y),
+      ),
+      gait: "trot",
+      arrivalReaction: "curious",
+    });
+    return true;
+  }
+
+  /** Sparkle overlay where the bridge gap was — pure FX, existing art untouched. */
+  private playBridgeRepair(): void {
+    const n = nodes.math1;
+    for (let i = 0; i < 10; i++) {
+      const star = this.add.star(
+        n.x + Phaser.Math.Between(-40, 40),
+        n.y + Phaser.Math.Between(-24, 24),
+        5, 4, 9, 0xffe27a, 1,
+      ).setDepth(16);
       this.tweens.add({
-        targets: this.kiki,
-        x: target.x,
-        y: target.y,
-        duration: 2200,
-        ease: "Sine.inOut",
-        onUpdate: (_tween, target) => {
-          const phase = (this.time.now / 120) % Math.PI;
-          target.y = Phaser.Math.Linear(startY, this.getKikiTarget(to).y, _tween.progress) + Math.sin(phase) * 4;
-        },
-        onComplete: () => {
-          this.kiki.setScale(1);
-          this.tweens.add({
-            targets: this.kiki,
-            scaleX: 1.08,
-            scaleY: 1.08,
-            yoyo: true,
-            duration: 180,
-            repeat: 1,
-            onComplete: () => resolve(),
-          });
-        },
+        targets: star,
+        alpha: 0,
+        scale: 0.4,
+        y: star.y - 26,
+        duration: 700,
+        delay: i * 70,
+        onComplete: () => star.destroy(),
       });
+    }
+  }
 
-      const stepEvent = this.time.addEvent({
-        delay: 320,
-        repeat: 5,
-        callback: () => {
-          const puff = this.add.circle(this.kiki.x - 20, this.kiki.y + 18, 6, 0xffffff, 0.7).setDepth(13);
-          this.tweens.add({
-            targets: puff,
-            alpha: 0,
-            scale: 2,
-            duration: 450,
-            onComplete: () => puff.destroy(),
-          });
-        },
-      });
-
-      this.time.delayedCall(2250, () => stepEvent.remove(false));
+  /** Walk Kiki along the visible route curve to a landmark. */
+  private walkKiki(to: MapNodeId, kind: RouteKind): Promise<void> {
+    this.status.setText("Kiki is walking…");
+    const target = this.getKikiTarget(to);
+    const curve = new Phaser.Curves.QuadraticBezier(
+      new Phaser.Math.Vector2(this.kiki.x, this.kiki.y),
+      HuskyScene.routeControl(this.currentNode, to, kind),
+      new Phaser.Math.Vector2(target.x, target.y),
+    );
+    return this.mover.walk({
+      curve,
+      gait: kind === "challenge" ? "dash" : "trot",
+      arrivalReaction: to === "fork" ? "curious" : "happy",
     });
   }
 
@@ -561,5 +627,11 @@ export class HuskyScene extends Phaser.Scene {
     for (const node of this.nodeObjects.values()) {
       node.disableInteractive();
     }
+  }
+
+  private timeDelay(ms: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.time.delayedCall(ms, resolve);
+    });
   }
 }

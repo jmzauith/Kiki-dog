@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 220">
+  <!-- dock repair success FX: starburst + check -->
+  <g fill="#ffd24d" stroke="#c9930a" stroke-width="3">
+    <polygon points="150,18 160,80 222,90 160,100 150,162 140,100 78,90 140,80"/>
+  </g>
+  <g fill="#ffffff" opacity="0.95">
+    <polygon points="52,60 55,68 63,69 55,72 52,80 49,72 41,69 49,68"/>
+    <polygon points="248,60 251,68 259,69 251,72 248,80 245,72 237,69 245,68"/>
+    <polygon points="70,160 72,166 78,167 72,169 70,175 68,169 62,167 68,166"/>
+    <polygon points="230,160 232,166 238,167 232,169 230,175 228,169 222,167 228,166"/>
+  </g>
+  <g fill="#ffd24d" opacity="0.8">
+    <circle cx="100" cy="40" r="6"/>
+    <circle cx="200" cy="40" r="6"/>
+    <circle cx="40" cy="120" r="5"/>
+    <circle cx="260" cy="120" r="5"/>
+  </g>
+  <!-- check badge -->
+  <circle cx="150" cy="100" r="34" fill="#4fc3d9" stroke="#2a9ab5" stroke-width="4"/>
+  <path d="M132,100 L145,113 L170,86" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

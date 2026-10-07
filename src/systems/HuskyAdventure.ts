@@ -25,6 +25,7 @@
  * art via LANDMARK_FOR. Nodes mapped to null get a lightweight placeholder
  * marker (AdventureMarkers) that Harrison can reskin later.
  */
+import { NODE_POSITIONS, FUTURE_NODE_SPOTS, SCENERY_SPOTS } from "../worlds/husky/HuskyWorldLayout";
 import {
   AdventureDefinition,
   AdventureNodeDef,
@@ -50,58 +51,58 @@ export const HUSKY_ADVENTURE: AdventureDefinition = {
   rewardNodeId: "husky-reward",
 
   nodes: [
-    N("trailhead", "Trailhead", 170, 560, "checkpoint", {
+    N("trailhead", "Trailhead", NODE_POSITIONS.start.x, NODE_POSITIONS.start.y, "checkpoint", {
       checkpoint: true,
       hint: "Kiki's adventure begins!",
     }),
-    N("broken-bridge", "Broken Bridge", 390, 505, "math-normal", {
+    N("broken-bridge", "Broken Bridge", NODE_POSITIONS.math1.x, NODE_POSITIONS.math1.y, "math-normal", {
       required: true,
       mathDifficulty: "normal",
       curriculum: ["multiplication"],
       hint: "Math repairs the bridge — the planks swing back into place!",
     }),
-    N("forest", "Whisper Forest", 610, 420, "choice", {
+    N("forest", "Whisper Forest", FUTURE_NODE_SPOTS.forest.x, FUTURE_NODE_SPOTS.forest.y, "choice", {
       required: true,
       hint: "Kiki sniffs both trails. Which one looks safe?",
     }),
     // Safe branch
-    N("frozen-lake", "Frozen Lake", 810, 530, "math-normal", {
+    N("frozen-lake", "Frozen Lake", NODE_POSITIONS.safe.x, NODE_POSITIONS.safe.y, "math-normal", {
       required: true,
       mathDifficulty: "normal",
       curriculum: ["multiplication"],
       hint: "Math lights the safe stepping stones across the ice!",
     }),
-    N("fallen-tree", "Fallen Tree", 945, 585, "discovery", {
+    N("fallen-tree", "Fallen Tree", FUTURE_NODE_SPOTS.fallenTree.x, FUTURE_NODE_SPOTS.fallenTree.y, "discovery", {
       required: true,
       hint: "Tap the fallen tree to help Kiki push it aside!",
     }),
     // Challenge branch
-    N("ice-cave", "Ice Cave", 850, 300, "math-challenge", {
+    N("ice-cave", "Ice Cave", NODE_POSITIONS.challenge.x, NODE_POSITIONS.challenge.y, "math-challenge", {
       required: true,
       mathDifficulty: "challenge",
       curriculum: ["multiplication"],
       hint: "The shortcut is fast but the math is harder!",
     }),
     // Rejoin
-    N("snow-pass", "Snow Pass", 1080, 505, "checkpoint", {
+    N("snow-pass", "Snow Pass", FUTURE_NODE_SPOTS.snowPass.x, FUTURE_NODE_SPOTS.snowPass.y, "checkpoint", {
       checkpoint: true,
       hint: "Rest stop — Kiki catches her breath.",
     }),
-    N("summit-camp", "Summit Gate", 1080, 390, "math-normal", {
+    N("summit-camp", "Summit Gate", FUTURE_NODE_SPOTS.summitCamp.x, FUTURE_NODE_SPOTS.summitCamp.y, "math-normal", {
       required: true,
       mathDifficulty: "normal",
       curriculum: ["multiplication"],
       hint: "Solve the gatekeeper's math to open the Summit Gate!",
     }),
     // Secrets (optional)
-    N("secret-igloo", "Secret Igloo", 1080, 196, "secret", {
+    N("secret-igloo", "Secret Igloo", SCENERY_SPOTS.igloo.x, SCENERY_SPOTS.igloo.y, "secret", {
       optional: true,
       secret: true,
       mathDifficulty: "challenge",
       curriculum: ["multiplication"],
       hint: "A hidden igloo! Knock to see who is home…",
     }),
-    N("snow-cache", "Bone Cache", 720, 605, "secret", {
+    N("snow-cache", "Bone Cache", FUTURE_NODE_SPOTS.snowCache.x, FUTURE_NODE_SPOTS.snowCache.y, "secret", {
       optional: true,
       secret: true,
       hint: "Something sparkles in the snow…",
@@ -137,18 +138,18 @@ export const HUSKY_ADVENTURE: AdventureDefinition = {
  * (from Landmarks.ts). Nodes mapped to null have no dedicated art yet and
  * get a lightweight placeholder marker — Harrison can reskin them.
  */
-export const LANDMARK_FOR: Record<string, "start" | "math1" | "challenge" | "goal" | "igloo" | null> = {
+export const LANDMARK_FOR: Record<string, "start" | "math1" | "fork" | "safe" | "challenge" | "goal" | "igloo" | null> = {
   "trailhead": "start",
   "broken-bridge": "math1",
-  "forest": null,
-  "frozen-lake": null,
+  "forest": "fork",
+  "frozen-lake": "safe",
   "fallen-tree": null,
   "ice-cave": "challenge",
   "snow-pass": null,
-  "summit-camp": "goal",
+  "summit-camp": null,
   "secret-igloo": "igloo",
   "snow-cache": null,
-  "sled-race": null,
+  "sled-race": "goal",
   "husky-reward": null,
 };
 

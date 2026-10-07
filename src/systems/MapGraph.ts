@@ -17,12 +17,14 @@ export type MapEdge = {
 };
 
 export const nodes: Record<MapNodeId, MapNode> = {
-  start: { id: "start", x: 170, y: 560, label: "Trailhead", revealed: true },
-  math1: { id: "math1", x: 390, y: 505, label: "Broken Bridge", revealed: true },
-  fork: { id: "fork", x: 610, y: 420, label: "Fork", revealed: false },
-  safe: { id: "safe", x: 850, y: 500, label: "Snow Trail", revealed: false },
-  challenge: { id: "challenge", x: 850, y: 300, label: "Ice Shortcut", revealed: false },
-  goal: { id: "goal", x: 1080, y: 390, label: "Lookout", revealed: false },
+  // World-expansion layout (see src/worlds/husky/HuskyWorldLayout.ts):
+  // the overworld is now a 3360-wide scrolling level; only coordinates changed.
+  start: { id: "start", x: 260, y: 560, label: "Trailhead", revealed: true },
+  math1: { id: "math1", x: 820, y: 530, label: "Broken Bridge", revealed: true },
+  fork: { id: "fork", x: 1330, y: 500, label: "Fork", revealed: false },
+  safe: { id: "safe", x: 1830, y: 545, label: "Frozen Lake", revealed: false },
+  challenge: { id: "challenge", x: 1860, y: 300, label: "Ice Cave", revealed: false },
+  goal: { id: "goal", x: 3080, y: 470, label: "Race Camp", revealed: false },
 };
 
 export const edges: MapEdge[] = [

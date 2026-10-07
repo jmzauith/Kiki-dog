@@ -88,4 +88,28 @@ export function createSnowyTextures(scene: Phaser.Scene): void {
   pine.fillTriangle(46, 8, 38, 24, 54, 24);
   pine.generateTexture("pine", 92, 128);
   pine.destroy();
+
+  // --- frozen lake sheet (radial icy sheen, stretched over the lake ellipse) ---
+  const lake = scene.textures.createCanvas("lake-ice", 256, 128);
+  if (lake) {
+    const ctx = lake.getContext();
+    const grad = ctx.createRadialGradient(128, 64, 8, 128, 64, 128);
+    grad.addColorStop(0, "#eaf7ff");
+    grad.addColorStop(0.45, "#cfe9fa");
+    grad.addColorStop(0.8, "#a9d2f0");
+    grad.addColorStop(1, "rgba(140,180,220,0)");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 256, 128);
+    // pale streaks for a windswept sheen
+    ctx.strokeStyle = "rgba(255,255,255,0.5)";
+    ctx.lineWidth = 5;
+    for (let i = 0; i < 5; i++) {
+      const y = 20 + i * 22;
+      ctx.beginPath();
+      ctx.moveTo(20, y);
+      ctx.quadraticCurveTo(128, y - 12, 236, y + 4);
+      ctx.stroke();
+    }
+    lake.refresh();
+  }
 }

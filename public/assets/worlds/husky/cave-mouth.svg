@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 200">
+  <defs>
+    <linearGradient id="cm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfe9fb"/>
+      <stop offset="0.6" stop-color="#8fbde8"/>
+      <stop offset="1" stop-color="#5d93c9"/>
+    </linearGradient>
+    <radialGradient id="cmd" cx="0.5" cy="0.35" r="0.8">
+      <stop offset="0" stop-color="#0d2235"/>
+      <stop offset="0.7" stop-color="#132c44"/>
+      <stop offset="1" stop-color="#1d3d5c"/>
+    </radialGradient>
+    <linearGradient id="cms" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d8ecfd"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="110" cy="188" rx="92" ry="11" fill="#a9c8e6" opacity="0.55"/>
+  <!-- cliff mass -->
+  <path d="M14,188 Q10,90 60,40 Q110,6 160,40 Q206,88 206,188 Z" fill="url(#cm)"/>
+  <!-- ice facets -->
+  <polygon points="60,40 96,28 84,80 48,84" fill="#ffffff" opacity="0.3"/>
+  <polygon points="160,40 182,70 150,96 128,66" fill="#ffffff" opacity="0.28"/>
+  <polygon points="30,120 60,100 52,150" fill="#4d84bd" opacity="0.45"/>
+  <!-- snow cap -->
+  <path d="M60,40 Q110,6 160,40 Q140,52 110,48 Q80,52 60,40 Z" fill="url(#cms)"/>
+  <!-- mouth -->
+  <path d="M70,188 Q66,120 110,102 Q154,120 150,188 Z" fill="url(#cmd)"/>
+  <path d="M70,188 Q66,120 110,102 Q154,120 150,188" stroke="#eaf6ff" stroke-width="5" fill="none" opacity="0.8"/>
+  <!-- icicles -->
+  <polygon points="84,112 90,112 87,142" fill="url(#cms)"/>
+  <polygon points="100,106 108,106 104,138" fill="url(#cms)"/>
+  <polygon points="118,108 124,108 121,132" fill="url(#cms)"/>
+  <polygon points="134,116 140,116 137,136" fill="url(#cms)"/>
+  <!-- inner glow -->
+  <ellipse cx="110" cy="170" rx="26" ry="14" fill="#7fb2e5" opacity="0.35"/>
+  <!-- gold star cue -->
+  <polygon points="110,34 115,46 128,47 118,55 121,68 110,61 99,68 102,55 92,47 105,46" fill="#ffd24d" stroke="#c9930a" stroke-width="2"/>
+</svg>

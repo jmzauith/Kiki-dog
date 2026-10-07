@@ -26,6 +26,8 @@ import { Landmarks, preloadLandmarks } from "../visuals/Landmarks";
 import { AdventureMarkers } from "../visuals/AdventureMarkers";
 import { DiscoveryFog, FogZone } from "../visuals/DiscoveryFog";
 
+import { CAMERA, FOG_ZONES, SCENERY_SPOTS, WORLD_W, WORLD_H } from "../worlds/husky/HuskyWorldLayout";
+
 type RouteVisual = {
   edge: AdventureEdgeDef;
   graphics: Phaser.GameObjects.Graphics;
@@ -88,6 +90,7 @@ export class HuskyScene extends Phaser.Scene {
     }
 
     this.cameras.main.setBackgroundColor("#9fd4f5");
+    this.cameras.main.setBounds(0, 0, WORLD_W, WORLD_H).setScroll(0, 0);
     new SnowyWorld(this).build();
 
     this.drawTitlePlaque();
@@ -99,23 +102,48 @@ export class HuskyScene extends Phaser.Scene {
     this.buildIglooOccluders();
     this.buildResetButton();
 
-    const pill = this.add.graphics().setDepth(20);
+    const pill = this.add.graphics().setDepth(20).setScrollFactor(0);
     pill.fillStyle(0x17324d, 0.82);
     pill.fillRoundedRect(450, 668, 380, 40, 20);
     this.status = this.add.text(640, 688, "Explore Snowy Peaks", {
       fontFamily: "Arial",
       fontSize: "20px",
       color: "#ffffff",
-    }).setOrigin(0.5).setDepth(21);
+    }).setOrigin(0.5).setDepth(21).setScrollFactor(0);
 
     this.applyProgressToVisuals();
+    this.setupCamera();
 
     // Returning from a won race: time for the sticker reward.
-    if (this.adventure.raceCompleted && !this.adventure.stickerUnlocked) {
+    if (this.adventure.canUnlockSticker()) {
       this.time.delayedCall(700, () => this.showRewardOverlay());
       return;
     }
     this.time.delayedCall(450, () => this.highlightForwardChoices());
+  }
+
+  private setupCamera(): void {
+    const cam = this.cameras.main;
+    cam.stopFollow();
+    cam.panEffect.reset();
+    cam.startFollow(this.kiki.container, false, CAMERA.followLerpX, CAMERA.followLerpY);
+    cam.setFollowOffset(CAMERA.lookAheadX, CAMERA.lookAheadY);
+  }
+
+  private showDestination(obj: Phaser.GameObjects.Container): void {
+    const cam = this.cameras.main;
+    const x = obj.x - cam.scrollX;
+    if (x < 100 || x > 1150) {
+      cam.stopFollow();
+      cam.pan(obj.x - 200, 360, 850, "Sine.inOut", true);
+    }
+  }
+
+  private pinOverlay(c: Phaser.GameObjects.Container): void {
+    c.setScrollFactor(0);
+    c.iterate((child: Phaser.GameObjects.GameObject) => {
+      (child as Phaser.GameObjects.Components.ScrollFactor).setScrollFactor(0);
+    });
   }
 
   private saveProgress(): void {
@@ -125,7 +153,7 @@ export class HuskyScene extends Phaser.Scene {
   // ------------------------------------------------------------------ visuals
 
   private drawTitlePlaque(): void {
-    const g = this.add.graphics().setDepth(9);
+    const g = this.add.graphics().setDepth(9).setScrollFactor(0);
     g.fillStyle(0x8d5a32, 0.95);
     g.lineStyle(3, 0x5a3a1e, 1);
     g.fillRoundedRect(232, 18, 208, 58, 12);
@@ -136,12 +164,12 @@ export class HuskyScene extends Phaser.Scene {
       fontFamily: "Arial Black, Arial",
       fontSize: "21px",
       color: "#fff6e3",
-    }).setOrigin(0.5).setDepth(10);
+    }).setOrigin(0.5).setDepth(10).setScrollFactor(0);
     this.add.text(336, 63, "Husky Adventure", {
       fontFamily: "Arial",
       fontSize: "13px",
       color: "#ffe9c4",
-    }).setOrigin(0.5).setDepth(10);
+    }).setOrigin(0.5).setDepth(10).setScrollFactor(0);
   }
 
   private drawRoutes(): void {
@@ -186,14 +214,16 @@ export class HuskyScene extends Phaser.Scene {
 
   private buildFog(): void {
     this.fog = new DiscoveryFog(this);
-    this.fog.buildZone("middle", 760, 390, 500, 500);
-    this.fog.buildZone("right", 1110, 390, 300, 500);
+    const v = FOG_ZONES.valleyGate;
+    this.fog.buildZone("valleyGate", v.x, v.y, v.w, v.h);
+    const s = FOG_ZONES.summitVeil;
+    this.fog.buildZone("summitVeil", s.x, s.y, s.w, s.h);
   }
 
   private buildKiki(): void {
     const start = kikiTargetFor(this.nodeDefs.get("trailhead")!);
     this.kiki = new KikiCharacter(this, start.x, start.y, {
-      scale: 0.66,
+      scale: 0.8,
       depth: 15,
       footprints: true,
       puffs: true,
@@ -202,8 +232,8 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private buildIglooOccluders(): void {
-    this.add.image(992, 218, "pine").setScale(1.15).setDepth(7).setAlpha(0.98);
-    this.add.image(1168, 206, "pine").setScale(1.32).setDepth(7).setAlpha(0.98);
+    this.add.image(SCENERY_SPOTS.igloo.x - 82, SCENERY_SPOTS.igloo.y + 12, "wlm-rock-ice").setScale(1.15).setDepth(7).setAlpha(0.98);
+    this.add.image(SCENERY_SPOTS.igloo.x + 88, SCENERY_SPOTS.igloo.y + 8, "wlm-rock-snow").setScale(1.32).setDepth(7).setAlpha(0.98);
   }
 
   private buildResetButton(): void {
@@ -214,7 +244,7 @@ export class HuskyScene extends Phaser.Scene {
       color: "#ffffff",
       backgroundColor: "#17324dcc",
       padding: { x: 10, y: 6 },
-    }).setOrigin(0.5).setDepth(30).setInteractive({ useHandCursor: true });
+    }).setOrigin(0.5).setDepth(30).setScrollFactor(0).setInteractive({ useHandCursor: true });
     btn.on("pointerdown", () => {
       if (this.busy) return;
       this.scene.restart({ fresh: true });
@@ -231,11 +261,11 @@ export class HuskyScene extends Phaser.Scene {
     }
     if (this.adventure.isComplete("broken-bridge")) {
       this.landmarks.repairBridge();
-      void this.fog.reveal("middle");
+      void this.fog.reveal("valleyGate");
     }
     if (this.adventure.isComplete("fallen-tree")) this.markers.setCleared("fallen-tree");
     if (this.adventure.isComplete("fallen-tree") || this.adventure.isComplete("ice-cave")) {
-      void this.fog.reveal("right");
+      void this.fog.reveal("summitVeil");
     }
     // Secrets whose parents are complete are always re-revealed here, so a
     // refresh can never lose them (revealSecretNode is idempotent).
@@ -385,7 +415,11 @@ export class HuskyScene extends Phaser.Scene {
     }
 
     const first = forward.find((c) => this.nodeById(c.to).encounter !== "race");
-    if (first) this.kiki.lookAt(this.nodeById(first.to).x);
+    if (first) {
+      this.kiki.lookAt(this.nodeById(first.to).x);
+      const dest = this.nodeObjects.get(first.to);
+      if (dest) this.showDestination(dest);
+    }
 
     if (!raceOffered) {
       this.status.setText(forward.length > 1 ? "Choose Kiki's path" : "Follow the arrow");
@@ -418,17 +452,23 @@ export class HuskyScene extends Phaser.Scene {
 
   /** The Summit Gate becomes the race launcher once its encounter is done. */
   private offerRaceChoice(): void {
-    const gateObj = this.nodeObjects.get("summit-camp");
+    const gateObj = this.nodeObjects.get("sled-race");
     if (!gateObj) return;
+    gateObj.setVisible(true);
+    this.showDestination(gateObj);
     this.bounceNode(gateObj, 0xffd24d);
     gateObj.setSize(150, 130);
     gateObj.setInteractive(new Phaser.Geom.Circle(75, 65, 58), Phaser.Geom.Circle.Contains);
     gateObj.once("pointerdown", () => this.launchRace());
-    this.status.setText("The sled race is ready — tap the Summit Gate!");
+    this.status.setText("The sled race is ready — tap Race Camp!");
   }
 
   private launchRace(): void {
     if (this.busy) return;
+    if (!this.adventure.isUnlocked("sled-race")) return;
+    this.busy = true;
+    this.disableAllNodes();
+    this.clearHighlights();
     this.saveProgress();
     this.scene.start("RaceScene");
   }
@@ -436,6 +476,7 @@ export class HuskyScene extends Phaser.Scene {
   private async travelTo(toId: string): Promise<void> {
     if (this.busy) return;
     this.busy = true;
+    this.setupCamera();
     this.disableAllNodes();
     this.clearHighlights();
 
@@ -453,6 +494,9 @@ export class HuskyScene extends Phaser.Scene {
       this.adventure.completeEncounter(toId);
     }
     this.afterEncounter(toId);
+    for (const e of this.adventure.availableFrom(toId)) {
+      if (e.kind !== "secret") this.revealNode(e.to);
+    }
     this.saveProgress();
 
     this.busy = false;
@@ -596,7 +640,8 @@ export class HuskyScene extends Phaser.Scene {
 
       mkButton(40, "🐾  SAFE TRAIL", "Frozen Lake • normal math", 0x2f84b8, "safe");
       mkButton(150, "★  ICE SHORTCUT", "Ice Cave • harder math", 0x7651b3, "challenge");
-      this.prompt = c;
+      this.pinOverlay(c);
+    this.prompt = c;
     });
   }
 
@@ -674,7 +719,8 @@ export class HuskyScene extends Phaser.Scene {
       yes.once("pointerdown", () => done(true));
       no.once("pointerdown", () => done(false));
       c.add([shade, panelG, header, text, yes, yesT, no, noT]);
-      this.prompt = c;
+      this.pinOverlay(c);
+    this.prompt = c;
     });
   }
 
@@ -721,8 +767,12 @@ export class HuskyScene extends Phaser.Scene {
 
   /** World reactions after an encounter completes: fog, reveals, secrets. */
   private afterEncounter(toId: string): void {
+    if (toId === "snow-pass") {
+      this.revealSecretNode("secret-igloo");
+      this.revealSecretNode("snow-cache");
+    }
     if (toId === "broken-bridge") {
-      void this.fog.reveal("middle").then(() => this.revealNode("forest"));
+      void this.fog.reveal("valleyGate").then(() => this.revealNode("forest"));
     } else if (toId === "forest") {
       const route = this.adventure.chosenRoute;
       this.revealNode(route === "challenge" ? "ice-cave" : "frozen-lake");
@@ -733,7 +783,7 @@ export class HuskyScene extends Phaser.Scene {
       // during the reveal animation can't lose them.
       this.revealSecretNode("secret-igloo");
       this.revealSecretNode("snow-cache");
-      void this.fog.reveal("right").then(() => {
+      void this.fog.reveal("summitVeil").then(() => {
         this.revealNode("snow-pass");
         this.revealNode("summit-camp");
       });
@@ -861,12 +911,15 @@ export class HuskyScene extends Phaser.Scene {
       c.add([btn, label]);
     });
 
+    this.pinOverlay(c);
     this.prompt = c;
   }
 
   // ------------------------------------------------------------------- reward
 
   private showRewardOverlay(): void {
+    this.busy = true;
+    this.clearHighlights();
     const unlocked = this.adventure.tryUnlockSticker();
     this.saveProgress();
     if (unlocked) {
@@ -927,8 +980,12 @@ export class HuskyScene extends Phaser.Scene {
     mkBtn(120, "↺  Play again", () => this.scene.restart({ fresh: true }));
     mkBtn(200, "Keep exploring", () => {
       c.destroy(true);
+      this.prompt = undefined;
+      this.busy = false;
       this.highlightForwardChoices();
     });
+    this.pinOverlay(c);
+    this.prompt = c;
   }
 
   // ------------------------------------------------------------------- cleanup

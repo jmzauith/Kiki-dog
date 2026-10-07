@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 240">
+  <defs>
+    <linearGradient id="wfw" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eaf6ff"/>
+      <stop offset="1" stop-color="#8fbde8"/>
+    </linearGradient>
+    <linearGradient id="wfr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7d99b5"/>
+      <stop offset="1" stop-color="#4c647e"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="90" cy="228" rx="70" ry="10" fill="#a9c8e6" opacity="0.55"/>
+  <!-- cliff -->
+  <path d="M20,228 Q14,120 50,60 Q90,20 130,60 Q166,120 160,228 Z" fill="url(#wfr)"/>
+  <polygon points="50,60 90,20 76,80" fill="#ffffff" opacity="0.25"/>
+  <!-- frozen falls: tiered ice -->
+  <g fill="url(#wfw)" stroke="#ffffff" stroke-width="3">
+    <path d="M70,70 Q90,66 110,70 L106,120 Q90,124 74,120 Z"/>
+    <path d="M62,126 Q90,120 118,126 L112,176 Q90,182 68,176 Z"/>
+    <path d="M54,182 Q90,174 126,182 L118,222 Q90,228 62,222 Z"/>
+  </g>
+  <polygon points="80,78 86,78 83,100" fill="#ffffff"/>
+  <polygon points="96,134 102,134 99,158" fill="#ffffff"/>
+  <polygon points="74,190 80,190 77,210" fill="#ffffff"/>
+  <!-- mist -->
+  <ellipse cx="90" cy="226" rx="46" ry="12" fill="#ffffff" opacity="0.7"/>
+  <ellipse cx="60" cy="218" rx="22" ry="8" fill="#ffffff" opacity="0.5"/>
+  <!-- snow cap -->
+  <path d="M50,60 Q90,20 130,60 Q110,70 90,68 Q70,70 50,60 Z" fill="#ffffff"/>
+</svg>

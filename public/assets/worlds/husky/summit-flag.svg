@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 200">
+  <defs>
+    <linearGradient id="sfp" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8a5a34"/>
+      <stop offset="1" stop-color="#5f3d22"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="60" cy="190" rx="34" ry="8" fill="#a9c8e6" opacity="0.55"/>
+  <rect x="54" y="30" width="12" height="158" rx="6" fill="url(#sfp)"/>
+  <circle cx="60" cy="26" r="10" fill="#ffd24d" stroke="#c9930a" stroke-width="3"/>
+  <!-- prayer-flag line -->
+  <path d="M60,44 Q90,58 114,52" stroke="#5f3d22" stroke-width="3" fill="none"/>
+  <polygon points="72,48 84,52 72,58" fill="#e2574c"/>
+  <polygon points="88,53 100,55 88,61" fill="#4c8de2"/>
+  <polygon points="102,55 112,54 104,60" fill="#ffd24d"/>
+  <rect x="48" y="180" width="24" height="8" rx="4" fill="#ffffff"/>
+  <polygon points="60,150 48,170 72,170" fill="#ffffff" opacity="0.7"/>
+</svg>

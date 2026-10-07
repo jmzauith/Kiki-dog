@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="120" viewBox="0 0 1440 120">
+  <!-- Kiki the corgi — 9 hand-drawn poses, 160x120 each, facing right.
+       Frames: 0 idle, 1-4 walk1..walk4, 5 happy, 6 thinking, 7 surprised, 8 race -->
+
+  <!-- ============ 0: IDLE ============ -->
+  <g transform="translate(0,0)">
+    <rect x="50" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <rect x="86" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <ellipse cx="70" cy="74" rx="41" ry="19" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <ellipse cx="70" cy="88" rx="30" ry="8" fill="#ffffff"/>
+    <ellipse cx="99" cy="78" rx="13" ry="15" fill="#ffffff"/>
+    <rect x="42" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <rect x="94" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <ellipse cx="47" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <ellipse cx="99" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <circle cx="105" cy="44" r="21" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <polygon points="88,32 80,8 100,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="112,28 118,4 130,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="89,26 85,14 96,23" fill="#f2a3ac"/>
+    <polygon points="114,23 117,12 124,23" fill="#f2a3ac"/>
+    <polygon points="99,28 111,28 107,50 103,50" fill="#ffffff"/>
+    <ellipse cx="117" cy="53" rx="11" ry="9" fill="#ffffff"/>
+    <circle cx="126" cy="49" r="4.5" fill="#1f2a36"/>
+    <circle cx="110" cy="41" r="3.6" fill="#1f2a36"/>
+    <circle cx="111.2" cy="39.8" r="1.2" fill="#ffffff"/>
+  </g>
+
+  <!-- ============ 1: WALK 1 (diagonal pair forward) ============ -->
+  <g transform="translate(160,-1)">
+    <g transform="rotate(22 54 88)"><rect x="50" y="86" width="9" height="20" rx="4" fill="#a96a2a"/></g>
+    <g transform="rotate(-22 90 88)"><rect x="86" y="86" width="9" height="20" rx="4" fill="#a96a2a"/></g>
+    <ellipse cx="70" cy="74" rx="41" ry="19" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <ellipse cx="70" cy="88" rx="30" ry="8" fill="#ffffff"/>
+    <ellipse cx="99" cy="78" rx="13" ry="15" fill="#ffffff"/>
+    <g transform="rotate(-22 47 88)"><rect x="42" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/><ellipse cx="47" cy="106" rx="6" ry="3.5" fill="#ffffff"/></g>
+    <g transform="rotate(22 99 88)"><rect x="94" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/><ellipse cx="99" cy="106" rx="6" ry="3.5" fill="#ffffff"/></g>
+    <circle cx="105" cy="44" r="21" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <polygon points="88,32 80,8 100,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="112,28 118,4 130,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="89,26 85,14 96,23" fill="#f2a3ac"/>
+    <polygon points="114,23 117,12 124,23" fill="#f2a3ac"/>
+    <polygon points="99,28 111,28 107,50 103,50" fill="#ffffff"/>
+    <ellipse cx="117" cy="53" rx="11" ry="9" fill="#ffffff"/>
+    <circle cx="126" cy="49" r="4.5" fill="#1f2a36"/>
+    <circle cx="110" cy="41" r="3.6" fill="#1f2a36"/>
+    <circle cx="111.2" cy="39.8" r="1.2" fill="#ffffff"/>
+  </g>
+
+  <!-- ============ 2: WALK 2 (stride up) ============ -->
+  <g transform="translate(320,-3)">
+    <rect x="50" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <rect x="86" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <ellipse cx="70" cy="74" rx="41" ry="19" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <ellipse cx="70" cy="88" rx="30" ry="8" fill="#ffffff"/>
+    <ellipse cx="99" cy="78" rx="13" ry="15" fill="#ffffff"/>
+    <rect x="42" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <rect x="94" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <ellipse cx="47" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <ellipse cx="99" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <circle cx="105" cy="44" r="21" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <polygon points="88,32 80,8 100,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="112,28 118,4 130,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="89,26 85,14 96,23" fill="#f2a3ac"/>
+    <polygon points="114,23 117,12 124,23" fill="#f2a3ac"/>
+    <polygon points="99,28 111,28 107,50 103,50" fill="#ffffff"/>
+    <ellipse cx="117" cy="53" rx="11" ry="9" fill="#ffffff"/>
+    <circle cx="126" cy="49" r="4.5" fill="#1f2a36"/>
+    <circle cx="110" cy="41" r="3.6" fill="#1f2a36"/>
+    <circle cx="111.2" cy="39.8" r="1.2" fill="#ffffff"/>
+  </g>
+
+  <!-- ============ 3: WALK 3 (opposite diagonal) ============ -->
+  <g transform="translate(480,-1)">
+    <g transform="rotate(-22 54 88)"><rect x="50" y="86" width="9" height="20" rx="4" fill="#a96a2a"/></g>
+    <g transform="rotate(22 90 88)"><rect x="86" y="86" width="9" height="20" rx="4" fill="#a96a2a"/></g>
+    <ellipse cx="70" cy="74" rx="41" ry="19" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <ellipse cx="70" cy="88" rx="30" ry="8" fill="#ffffff"/>
+    <ellipse cx="99" cy="78" rx="13" ry="15" fill="#ffffff"/>
+    <g transform="rotate(22 47 88)"><rect x="42" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/><ellipse cx="47" cy="106" rx="6" ry="3.5" fill="#ffffff"/></g>
+    <g transform="rotate(-22 99 88)"><rect x="94" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/><ellipse cx="99" cy="106" rx="6" ry="3.5" fill="#ffffff"/></g>
+    <circle cx="105" cy="44" r="21" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <polygon points="88,32 80,8 100,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="112,28 118,4 130,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="89,26 85,14 96,23" fill="#f2a3ac"/>
+    <polygon points="114,23 117,12 124,23" fill="#f2a3ac"/>
+    <polygon points="99,28 111,28 107,50 103,50" fill="#ffffff"/>
+    <ellipse cx="117" cy="53" rx="11" ry="9" fill="#ffffff"/>
+    <circle cx="126" cy="49" r="4.5" fill="#1f2a36"/>
+    <circle cx="110" cy="41" r="3.6" fill="#1f2a36"/>
+    <circle cx="111.2" cy="39.8" r="1.2" fill="#ffffff"/>
+  </g>
+
+  <!-- ============ 4: WALK 4 (stride down) ============ -->
+  <g transform="translate(640,1)">
+    <rect x="50" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <rect x="86" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <ellipse cx="70" cy="74" rx="41" ry="19" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <ellipse cx="70" cy="88" rx="30" ry="8" fill="#ffffff"/>
+    <ellipse cx="99" cy="78" rx="13" ry="15" fill="#ffffff"/>
+    <rect x="42" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <rect x="94" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <ellipse cx="47" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <ellipse cx="99" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <circle cx="105" cy="44" r="21" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <polygon points="88,32 80,8 100,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="112,28 118,4 130,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="89,26 85,14 96,23" fill="#f2a3ac"/>
+    <polygon points="114,23 117,12 124,23" fill="#f2a3ac"/>
+    <polygon points="99,28 111,28 107,50 103,50" fill="#ffffff"/>
+    <ellipse cx="117" cy="53" rx="11" ry="9" fill="#ffffff"/>
+    <circle cx="126" cy="49" r="4.5" fill="#1f2a36"/>
+    <circle cx="110" cy="41" r="3.6" fill="#1f2a36"/>
+    <circle cx="111.2" cy="39.8" r="1.2" fill="#ffffff"/>
+  </g>
+
+  <!-- ============ 5: HAPPY / CELEBRATE ============ -->
+  <g transform="translate(800,1)">
+    <rect x="50" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <rect x="86" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <ellipse cx="70" cy="74" rx="41" ry="19" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <ellipse cx="70" cy="88" rx="30" ry="8" fill="#ffffff"/>
+    <ellipse cx="99" cy="78" rx="13" ry="15" fill="#ffffff"/>
+    <rect x="42" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <rect x="94" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <ellipse cx="47" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <ellipse cx="99" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <circle cx="105" cy="44" r="21" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <polygon points="88,32 80,8 100,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="112,28 118,4 130,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="89,26 85,14 96,23" fill="#f2a3ac"/>
+    <polygon points="114,23 117,12 124,23" fill="#f2a3ac"/>
+    <polygon points="99,28 111,28 107,50 103,50" fill="#ffffff"/>
+    <ellipse cx="117" cy="53" rx="11" ry="9" fill="#ffffff"/>
+    <circle cx="126" cy="49" r="4.5" fill="#1f2a36"/>
+    <path d="M104,41 q6,-7 12,0" stroke="#1f2a36" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M110,60 q10,8 19,2" stroke="#1f2a36" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="121" cy="67" rx="4.5" ry="6" fill="#e8737f"/>
+  </g>
+
+  <!-- ============ 6: THINKING / CURIOUS ============ -->
+  <g transform="translate(960,0)">
+    <rect x="50" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <rect x="86" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <ellipse cx="70" cy="74" rx="41" ry="19" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <ellipse cx="70" cy="88" rx="30" ry="8" fill="#ffffff"/>
+    <ellipse cx="99" cy="78" rx="13" ry="15" fill="#ffffff"/>
+    <rect x="42" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <g transform="rotate(-32 99 88)"><rect x="94" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/><ellipse cx="99" cy="106" rx="6" ry="3.5" fill="#ffffff"/></g>
+    <ellipse cx="47" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <g transform="rotate(-12 105 62)">
+      <circle cx="105" cy="44" r="21" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+      <polygon points="88,32 80,8 100,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+      <polygon points="112,28 118,4 130,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+      <polygon points="89,26 85,14 96,23" fill="#f2a3ac"/>
+      <polygon points="114,23 117,12 124,23" fill="#f2a3ac"/>
+      <polygon points="99,28 111,28 107,50 103,50" fill="#ffffff"/>
+      <ellipse cx="117" cy="53" rx="11" ry="9" fill="#ffffff"/>
+      <circle cx="126" cy="49" r="4.5" fill="#1f2a36"/>
+      <circle cx="108" cy="37" r="3.6" fill="#1f2a36"/>
+      <circle cx="109.2" cy="35.8" r="1.2" fill="#ffffff"/>
+    </g>
+  </g>
+
+  <!-- ============ 7: SURPRISED ============ -->
+  <g transform="translate(1120,2)">
+    <rect x="50" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <rect x="86" y="86" width="9" height="20" rx="4" fill="#a96a2a"/>
+    <ellipse cx="70" cy="74" rx="41" ry="19" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <ellipse cx="70" cy="88" rx="30" ry="8" fill="#ffffff"/>
+    <ellipse cx="99" cy="78" rx="13" ry="15" fill="#ffffff"/>
+    <rect x="42" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <rect x="94" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/>
+    <ellipse cx="47" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <ellipse cx="99" cy="106" rx="6" ry="3.5" fill="#ffffff"/>
+    <circle cx="105" cy="44" r="21" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+    <polygon points="88,32 78,0 100,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="112,28 118,-4 132,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="89,26 84,10 96,23" fill="#f2a3ac"/>
+    <polygon points="114,23 117,6 125,23" fill="#f2a3ac"/>
+    <polygon points="99,28 111,28 107,50 103,50" fill="#ffffff"/>
+    <ellipse cx="117" cy="53" rx="11" ry="9" fill="#ffffff"/>
+    <circle cx="126" cy="49" r="4.5" fill="#1f2a36"/>
+    <circle cx="110" cy="41" r="5.5" fill="#1f2a36"/>
+    <circle cx="112" cy="39" r="1.8" fill="#ffffff"/>
+    <ellipse cx="117" cy="62" rx="3.5" ry="5" fill="#1f2a36"/>
+  </g>
+
+  <!-- ============ 8: RACE / TURBO ============ -->
+  <g transform="translate(1280,0)">
+    <path d="M6,58 h20" stroke="#cfeafb" stroke-width="4" stroke-linecap="round"/>
+    <path d="M2,74 h24" stroke="#cfeafb" stroke-width="4" stroke-linecap="round"/>
+    <path d="M10,90 h18" stroke="#cfeafb" stroke-width="4" stroke-linecap="round"/>
+    <g transform="rotate(-9 70 70)">
+      <g transform="rotate(-30 54 88)"><rect x="50" y="86" width="9" height="20" rx="4" fill="#a96a2a"/></g>
+      <g transform="rotate(-30 90 88)"><rect x="86" y="86" width="9" height="20" rx="4" fill="#a96a2a"/></g>
+      <ellipse cx="70" cy="74" rx="41" ry="19" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+      <ellipse cx="70" cy="88" rx="30" ry="8" fill="#ffffff"/>
+      <ellipse cx="99" cy="78" rx="13" ry="15" fill="#ffffff"/>
+      <g transform="rotate(30 47 88)"><rect x="42" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/><ellipse cx="47" cy="106" rx="6" ry="3.5" fill="#ffffff"/></g>
+      <g transform="rotate(30 99 88)"><rect x="94" y="86" width="10" height="21" rx="5" fill="#d98f3e" stroke="#8e5227" stroke-width="2"/><ellipse cx="99" cy="106" rx="6" ry="3.5" fill="#ffffff"/></g>
+      <circle cx="105" cy="44" r="21" fill="#d98f3e" stroke="#8e5227" stroke-width="2.5"/>
+      <g transform="rotate(-24 95 30)">
+        <polygon points="88,32 80,8 100,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+        <polygon points="89,26 85,14 96,23" fill="#f2a3ac"/>
+      </g>
+      <g transform="rotate(-24 120 26)">
+        <polygon points="112,28 118,4 130,26" fill="#d98f3e" stroke="#8e5227" stroke-width="2" stroke-linejoin="round"/>
+        <polygon points="114,23 117,12 124,23" fill="#f2a3ac"/>
+      </g>
+      <polygon points="99,28 111,28 107,50 103,50" fill="#ffffff"/>
+      <ellipse cx="117" cy="53" rx="11" ry="9" fill="#ffffff"/>
+      <circle cx="126" cy="49" r="4.5" fill="#1f2a36"/>
+      <path d="M102,31 l13,-4" stroke="#1f2a36" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="110" cy="41" r="3.6" fill="#1f2a36"/>
+      <circle cx="111.2" cy="39.8" r="1.2" fill="#ffffff"/>
+      <path d="M112,60 q9,6 17,1" stroke="#1f2a36" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

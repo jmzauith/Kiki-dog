@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220">
+  <defs>
+    <linearGradient id="spai" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d8eefc"/>
+      <stop offset="1" stop-color="#8fbde8"/>
+    </linearGradient>
+    <linearGradient id="spas" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d5e9fa"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="130" cy="206" rx="112" ry="12" fill="#a9c8e6" opacity="0.55"/>
+  <!-- fallen tree trunk -->
+  <rect x="18" y="150" width="224" height="26" rx="13" fill="#6b4a2e" transform="rotate(-4 18 150)"/>
+  <rect x="18" y="146" width="224" height="10" rx="5" fill="url(#spas)" transform="rotate(-4 18 146)" opacity="0.95"/>
+  <circle cx="30" cy="160" r="12" fill="#8a5a34"/>
+  <circle cx="30" cy="160" r="7" fill="#a9713d"/>
+  <!-- ice arch rising over the trail -->
+  <path d="M60,190 Q70,70 130,44 Q190,70 200,190 L176,190 Q170,96 130,76 Q90,96 84,190 Z" fill="url(#spai)"/>
+  <path d="M60,190 Q70,70 130,44 Q190,70 200,190" stroke="#ffffff" stroke-width="6" fill="none" opacity="0.85"/>
+  <polygon points="130,44 148,66 130,60 112,66" fill="url(#spas)"/>
+  <polygon points="88,90 104,82 100,100" fill="#ffffff" opacity="0.5"/>
+  <polygon points="172,90 156,82 160,100" fill="#ffffff" opacity="0.5"/>
+  <!-- icicles under the arch -->
+  <polygon points="104,84 112,84 108,116" fill="url(#spas)"/>
+  <polygon points="122,78 130,78 126,112" fill="url(#spas)"/>
+  <polygon points="140,82 148,82 144,110" fill="url(#spas)"/>
+  <!-- pine sprig on top -->
+  <polygon points="130,44 118,20 142,20" fill="#3d7a52"/>
+  <polygon points="130,30 122,12 138,12" fill="#47855c"/>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260">
+  <defs>
+    <linearGradient id="paa" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d5e9fa"/>
+    </linearGradient>
+    <linearGradient id="par" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8d9aa8"/>
+      <stop offset="1" stop-color="#5f6e7e"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="190" cy="246" rx="170" ry="12" fill="#a9c8e6" opacity="0.5"/>
+  <!-- rock pillars -->
+  <path d="M30,246 L50,80 Q70,50 95,70 L105,246 Z" fill="url(#par)"/>
+  <path d="M350,246 L330,80 Q310,50 285,70 L275,246 Z" fill="url(#par)"/>
+  <!-- snow arch -->
+  <path d="M40,110 Q190,10 340,110 L310,130 Q190,50 70,130 Z" fill="url(#paa)"/>
+  <path d="M40,110 Q190,10 340,110" stroke="#ffffff" stroke-width="8" fill="none" opacity="0.9"/>
+  <!-- hanging snow -->
+  <g fill="url(#paa)">
+    <polygon points="150,62 160,62 155,88"/>
+    <polygon points="200,52 210,52 205,80"/>
+    <polygon points="248,62 258,62 253,86"/>
+  </g>
+  <!-- blocked: deep drift filling the pass -->
+  <path d="M105,246 Q120,170 190,166 Q260,170 275,246 Z" fill="url(#paa)"/>
+  <path d="M130,200 Q190,184 250,200" stroke="#b9d4ec" stroke-width="6" fill="none" opacity="0.7"/>
+  <!-- wind swirls around the top -->
+  <g stroke="#eaf6ff" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.85">
+    <path d="M60,60 Q100,44 150,54"/>
+    <path d="M230,54 Q280,44 320,58"/>
+  </g>
+  <!-- pass marker flags -->
+  <rect x="96" y="120" width="8" height="70" fill="#5f3d22"/>
+  <polygon points="104,124 104,144 132,134" fill="#e2574c"/>
+  <rect x="276" y="120" width="8" height="70" fill="#5f3d22"/>
+  <polygon points="284,124 284,144 256,134" fill="#4c8de2"/>
+</svg>

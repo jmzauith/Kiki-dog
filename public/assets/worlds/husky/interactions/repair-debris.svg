@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 100">
+  <g fill="#8a5a30">
+    <polygon points="20,70 34,58 44,70"/>
+    <polygon points="52,78 70,62 82,78"/>
+    <polygon points="96,72 108,62 118,72"/>
+    <rect x="36" y="76" width="26" height="8" rx="3" transform="rotate(-14 36 76)"/>
+    <rect x="76" y="80" width="22" height="7" rx="3" transform="rotate(10 76 80)"/>
+  </g>
+  <g fill="#c9a06a">
+    <circle cx="30" cy="82" r="4"/>
+    <circle cx="100" cy="84" r="5"/>
+    <circle cx="62" cy="88" r="4"/>
+  </g>
+  <g fill="#ffffff" opacity="0.85">
+    <circle cx="48" cy="60" r="5"/>
+    <circle cx="90" cy="56" r="6"/>
+  </g>
+</svg>

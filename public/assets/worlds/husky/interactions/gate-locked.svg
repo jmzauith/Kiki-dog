@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280">
+  <defs>
+    <linearGradient id="glw" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7a4f2a"/>
+      <stop offset="0.5" stop-color="#9c6a3a"/>
+      <stop offset="1" stop-color="#7a4f2a"/>
+    </linearGradient>
+    <linearGradient id="glb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe6ff"/>
+      <stop offset="1" stop-color="#5d93c9"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="180" cy="264" rx="150" ry="12" fill="#a9c8e6" opacity="0.5"/>
+  <!-- stone pillars -->
+  <path d="M40,264 L52,60 Q70,40 88,58 L96,264 Z" fill="#8d9aa8"/>
+  <path d="M320,264 L308,60 Q290,40 272,58 L264,264 Z" fill="#8d9aa8"/>
+  <path d="M52,60 Q70,40 88,58 L86,76 Q70,62 54,76 Z" fill="#ffffff"/>
+  <path d="M308,60 Q290,40 272,58 L274,76 Q290,62 306,76 Z" fill="#ffffff"/>
+  <!-- closed double doors -->
+  <rect x="96" y="90" width="82" height="174" rx="8" fill="url(#glw)" stroke="#4e3319" stroke-width="4"/>
+  <rect x="182" y="90" width="82" height="174" rx="8" fill="url(#glw)" stroke="#4e3319" stroke-width="4"/>
+  <g stroke="#4e3319" stroke-width="4" opacity="0.6">
+    <path d="M96,130 L178,130 M96,170 L178,170 M96,210 L178,210"/>
+    <path d="M182,130 L264,130 M182,170 L264,170 M182,210 L264,210"/>
+  </g>
+  <!-- ice bars locking it -->
+  <g>
+    <rect x="88" y="140" width="184" height="22" rx="11" fill="url(#glb)" stroke="#eaf6ff" stroke-width="3" transform="rotate(-4 180 150)"/>
+    <rect x="88" y="196" width="184" height="22" rx="11" fill="url(#glb)" stroke="#eaf6ff" stroke-width="3" transform="rotate(3 180 206)"/>
+  </g>
+  <!-- big lock -->
+  <rect x="158" y="228" width="44" height="38" rx="10" fill="#c9a06a" stroke="#8a5a30" stroke-width="4"/>
+  <circle cx="180" cy="247" r="8" fill="#4e3319"/>
+  <path d="M164,228 L164,214 Q164,200 180,200 Q196,200 196,214 L196,228" stroke="#8a5a30" stroke-width="10" fill="none"/>
+  <!-- snow on top -->
+  <rect x="36" y="48" width="64" height="14" rx="7" fill="#ffffff"/>
+  <rect x="260" y="48" width="64" height="14" rx="7" fill="#ffffff"/>
+</svg>

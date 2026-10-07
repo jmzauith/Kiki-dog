@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260">
+  <defs>
+    <linearGradient id="pca" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d5e9fa"/>
+    </linearGradient>
+    <linearGradient id="pcr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8d9aa8"/>
+      <stop offset="1" stop-color="#5f6e7e"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="190" cy="246" rx="170" ry="12" fill="#a9c8e6" opacity="0.5"/>
+  <path d="M30,246 L50,80 Q70,50 95,70 L105,246 Z" fill="url(#pcr)"/>
+  <path d="M350,246 L330,80 Q310,50 285,70 L275,246 Z" fill="url(#pcr)"/>
+  <path d="M40,110 Q190,10 340,110 L310,130 Q190,50 70,130 Z" fill="url(#pca)"/>
+  <path d="M40,110 Q190,10 340,110" stroke="#ffffff" stroke-width="8" fill="none" opacity="0.9"/>
+  <!-- cleared: open walkway through the arch -->
+  <path d="M130,246 Q150,180 190,178 Q230,180 250,246 Z" fill="#eef6fe"/>
+  <path d="M150,246 Q160,200 190,198 Q220,200 230,246" stroke="#b9d4ec" stroke-width="5" fill="none" opacity="0.8"/>
+  <!-- celebratory pennants now strung across -->
+  <path d="M70,130 Q190,160 310,130" stroke="#5f3d22" stroke-width="4" fill="none"/>
+  <polygon points="130,142 142,144 134,154" fill="#e2574c"/>
+  <polygon points="170,148 182,149 174,159" fill="#ffd24d"/>
+  <polygon points="210,148 222,147 214,157" fill="#4c8de2"/>
+  <polygon points="250,142 262,140 254,150" fill="#58b368"/>
+  <rect x="96" y="120" width="8" height="70" fill="#5f3d22"/>
+  <polygon points="104,124 104,144 132,134" fill="#e2574c"/>
+  <rect x="276" y="120" width="8" height="70" fill="#5f3d22"/>
+  <polygon points="284,124 284,144 256,134" fill="#4c8de2"/>
+  <g fill="#ffd24d">
+    <polygon points="190,80 193,88 201,89 193,91 190,99 187,91 179,89 187,88"/>
+  </g>
+</svg>

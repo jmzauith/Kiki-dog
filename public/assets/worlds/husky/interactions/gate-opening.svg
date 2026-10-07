@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280">
+  <defs>
+    <linearGradient id="gow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7a4f2a"/>
+      <stop offset="0.5" stop-color="#9c6a3a"/>
+      <stop offset="1" stop-color="#7a4f2a"/>
+    </linearGradient>
+    <radialGradient id="gol" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#fff3c4"/>
+      <stop offset="1" stop-color="#ffd24d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="180" cy="264" rx="150" ry="12" fill="#a9c8e6" opacity="0.5"/>
+  <path d="M40,264 L52,60 Q70,40 88,58 L96,264 Z" fill="#8d9aa8"/>
+  <path d="M320,264 L308,60 Q290,40 272,58 L264,264 Z" fill="#8d9aa8"/>
+  <!-- light spilling through the gap -->
+  <polygon points="150,90 210,90 236,264 124,264" fill="url(#gol)"/>
+  <polygon points="164,90 196,90 212,264 148,264" fill="#fff7d6" opacity="0.85"/>
+  <!-- doors ajar -->
+  <g transform="rotate(-24 96 177)">
+    <rect x="96" y="90" width="82" height="174" rx="8" fill="url(#gow)" stroke="#4e3319" stroke-width="4"/>
+  </g>
+  <g transform="rotate(24 264 177)">
+    <rect x="182" y="90" width="82" height="174" rx="8" fill="url(#gow)" stroke="#4e3319" stroke-width="4"/>
+  </g>
+  <!-- melting ice bars, falling -->
+  <g transform="rotate(-18 140 150)">
+    <rect x="88" y="140" width="110" height="22" rx="11" fill="#9cc8ec" stroke="#eaf6ff" stroke-width="3" opacity="0.85"/>
+  </g>
+  <g fill="#bfe6ff">
+    <circle cx="120" cy="240" r="6"/><circle cx="150" cy="252" r="5"/><circle cx="230" cy="246" r="6"/>
+  </g>
+  <rect x="36" y="48" width="64" height="14" rx="7" fill="#ffffff"/>
+  <rect x="260" y="48" width="64" height="14" rx="7" fill="#ffffff"/>
+</svg>

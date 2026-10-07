@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+  <defs>
+    <radialGradient id="isg" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#fff7d6"/>
+      <stop offset="0.7" stop-color="#ffe89a" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffe89a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="isb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eaf6ff"/>
+      <stop offset="1" stop-color="#b9d9f2"/>
+    </linearGradient>
+  </defs>
+  <!-- tileable: stones at 0/200/400 edges match -->
+  <g>
+    <ellipse cx="0" cy="66" rx="52" ry="26" fill="url(#isb)" stroke="#ffffff" stroke-width="4"/>
+    <ellipse cx="200" cy="60" rx="52" ry="26" fill="url(#isb)" stroke="#ffffff" stroke-width="4"/>
+    <ellipse cx="400" cy="66" rx="52" ry="26" fill="url(#isb)" stroke="#ffffff" stroke-width="4"/>
+    <ellipse cx="100" cy="76" rx="44" ry="22" fill="url(#isb)" stroke="#ffffff" stroke-width="4" opacity="0.9"/>
+    <ellipse cx="300" cy="76" rx="44" ry="22" fill="url(#isb)" stroke="#ffffff" stroke-width="4" opacity="0.9"/>
+  </g>
+  <g>
+    <ellipse cx="0" cy="66" rx="80" ry="40" fill="url(#isg)"/>
+    <ellipse cx="200" cy="60" rx="80" ry="40" fill="url(#isg)"/>
+    <ellipse cx="400" cy="66" rx="80" ry="40" fill="url(#isg)"/>
+    <ellipse cx="100" cy="76" rx="70" ry="34" fill="url(#isg)" opacity="0.8"/>
+    <ellipse cx="300" cy="76" rx="70" ry="34" fill="url(#isg)" opacity="0.8"/>
+  </g>
+  <!-- paw prints marking the safe hops -->
+  <g fill="#8fbde8" opacity="0.8">
+    <ellipse cx="200" cy="58" rx="9" ry="7"/><ellipse cx="192" cy="50" rx="3.5" ry="3"/><ellipse cx="208" cy="50" rx="3.5" ry="3"/>
+    <ellipse cx="100" cy="74" rx="8" ry="6"/><ellipse cx="300" cy="74" rx="8" ry="6"/>
+  </g>
+</svg>

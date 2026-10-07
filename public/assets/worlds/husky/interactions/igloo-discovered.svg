@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 180">
+  <defs>
+    <linearGradient id="igd" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4faff"/>
+      <stop offset="1" stop-color="#cfe6fa"/>
+    </linearGradient>
+    <radialGradient id="igw" cx="0.5" cy="0.6" r="0.55">
+      <stop offset="0" stop-color="#ffb84d"/>
+      <stop offset="1" stop-color="#e8823a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="140" cy="166" rx="120" ry="10" fill="#a9c8e6" opacity="0.5"/>
+  <!-- igloo dome with block lines -->
+  <path d="M20,166 Q60,60 140,56 Q220,60 260,166 Z" fill="url(#igd)"/>
+  <g stroke="#a9c8e6" stroke-width="3.5" fill="none" opacity="0.8">
+    <path d="M48,130 Q140,112 232,130"/>
+    <path d="M70,100 Q140,86 210,100"/>
+    <path d="M100,78 Q140,70 180,78"/>
+    <path d="M100,78 L96,112 M140,72 L140,112 M180,78 L184,112"/>
+  </g>
+  <!-- doorway -->
+  <path d="M112,166 L116,118 Q140,104 164,118 L168,166 Z" fill="#274b6e"/>
+  <path d="M116,118 Q140,104 164,118" stroke="#ffffff" stroke-width="6" fill="none" opacity="0.9"/>
+  <!-- warm light spilling out -->
+  <ellipse cx="140" cy="150" rx="30" ry="26" fill="url(#igw)"/>
+  <ellipse cx="140" cy="172" rx="46" ry="10" fill="#ffcf7d" opacity="0.55"/>
+  <polygon points="140,44 143,52 151,53 143,55 140,63 137,55 129,53 137,52" fill="#ffd24d"/>
+</svg>

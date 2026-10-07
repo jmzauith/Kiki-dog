@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260">
+  <defs>
+    <radialGradient id="cmi" cx="0.5" cy="0.55" r="0.7">
+      <stop offset="0" stop-color="#3d7ec2"/>
+      <stop offset="0.55" stop-color="#1d3f66"/>
+      <stop offset="1" stop-color="#0c1e33"/>
+    </radialGradient>
+    <linearGradient id="cmr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7fb2dd"/>
+      <stop offset="1" stop-color="#3d6ea3"/>
+    </linearGradient>
+  </defs>
+  <!-- interior-mouth variation: seen from just inside, glowing depth -->
+  <path d="M0,260 L0,40 Q60,0 120,24 Q180,0 240,24 Q310,4 360,44 L360,260 Z" fill="url(#cmr)"/>
+  <path d="M30,260 L44,80 Q100,44 160,60 Q230,44 290,76 Q330,100 330,160 L326,260 Z" fill="url(#cmi)"/>
+  <!-- glowing veins in the ice walls -->
+  <g stroke="#9fd0ff" stroke-width="5" fill="none" opacity="0.55" stroke-linecap="round">
+    <path d="M60,120 Q90,150 80,200"/>
+    <path d="M300,110 Q280,150 292,200"/>
+    <path d="M120,40 Q140,60 132,84"/>
+  </g>
+  <!-- bright exit glow at the back -->
+  <ellipse cx="185" cy="170" rx="52" ry="70" fill="#bfe6ff" opacity="0.5"/>
+  <ellipse cx="185" cy="170" rx="28" ry="44" fill="#eaf6ff" opacity="0.65"/>
+  <!-- drips -->
+  <g fill="#bfe6ff" opacity="0.8">
+    <polygon points="100,90 106,90 103,112"/>
+    <polygon points="260,86 266,86 263,108"/>
+  </g>
+</svg>

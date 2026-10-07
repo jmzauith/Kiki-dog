@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120">
+  <!-- wind-blown snow: horizontal gust streaks -->
+  <g stroke="#ffffff" stroke-linecap="round" fill="none">
+    <path d="M10,30 Q80,22 150,30 T310,26" stroke-width="10" opacity="0.75"/>
+    <path d="M0,60 Q70,54 140,62 T300,58" stroke-width="14" opacity="0.6"/>
+    <path d="M20,92 Q90,86 160,94 T320,90" stroke-width="9" opacity="0.7"/>
+  </g>
+  <g stroke="#e8f3fd" stroke-linecap="round" fill="none">
+    <path d="M40,30 Q110,24 180,30" stroke-width="5" opacity="0.8"/>
+    <path d="M90,60 Q160,56 230,62" stroke-width="6" opacity="0.7"/>
+  </g>
+  <g fill="#ffffff" opacity="0.9">
+    <circle cx="60" cy="44" r="5"/><circle cx="140" cy="70" r="6"/><circle cx="220" cy="40" r="5"/>
+    <circle cx="260" cy="76" r="4"/><circle cx="100" cy="100" r="5"/>
+  </g>
+</svg>

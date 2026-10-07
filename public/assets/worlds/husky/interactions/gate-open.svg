@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280">
+  <defs>
+    <linearGradient id="gpw" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7a4f2a"/>
+      <stop offset="0.5" stop-color="#9c6a3a"/>
+      <stop offset="1" stop-color="#7a4f2a"/>
+    </linearGradient>
+    <linearGradient id="gpb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e2574c"/>
+      <stop offset="1" stop-color="#b03a30"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="180" cy="264" rx="150" ry="12" fill="#a9c8e6" opacity="0.5"/>
+  <path d="M40,264 L52,60 Q70,40 88,58 L96,264 Z" fill="#8d9aa8"/>
+  <path d="M320,264 L308,60 Q290,40 272,58 L264,264 Z" fill="#8d9aa8"/>
+  <!-- open doorway: view through to the summit -->
+  <rect x="96" y="90" width="168" height="174" rx="8" fill="#bfe0f7"/>
+  <polygon points="120,264 150,170 180,210 210,160 240,264" fill="#8fbde8"/>
+  <polygon points="150,170 138,190 162,190" fill="#ffffff"/>
+  <polygon points="210,160 198,180 222,180" fill="#ffffff"/>
+  <circle cx="225" cy="130" r="18" fill="#ffd24d" opacity="0.9"/>
+  <!-- doors swung fully open -->
+  <g transform="rotate(-70 96 177)">
+    <rect x="96" y="90" width="82" height="174" rx="8" fill="url(#gpw)" stroke="#4e3319" stroke-width="4"/>
+  </g>
+  <g transform="rotate(70 264 177)">
+    <rect x="182" y="90" width="82" height="174" rx="8" fill="url(#gpw)" stroke="#4e3319" stroke-width="4"/>
+  </g>
+  <!-- summit banner across the top -->
+  <rect x="70" y="34" width="220" height="40" rx="12" fill="url(#gpb)" stroke="#ffffff" stroke-width="4"/>
+  <text x="180" y="62" text-anchor="middle" font-family="Arial Black, Arial" font-size="24" fill="#ffffff" letter-spacing="4">SUMMIT</text>
+  <rect x="36" y="48" width="64" height="14" rx="7" fill="#ffffff"/>
+  <rect x="260" y="48" width="64" height="14" rx="7" fill="#ffffff"/>
+</svg>

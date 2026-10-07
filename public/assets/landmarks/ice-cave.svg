@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="iceg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d8f2ff"/>
+      <stop offset="100%" stop-color="#7cc4f2"/>
+    </linearGradient>
+    <radialGradient id="iceglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#bfe9ff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#bfe9ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- glow behind -->
+  <circle cx="80" cy="86" r="66" fill="url(#iceglow)"/>
+  <!-- ground -->
+  <ellipse cx="80" cy="142" rx="64" ry="12" fill="#dcefff"/>
+  <ellipse cx="80" cy="140" rx="46" ry="8" fill="#ffffff" opacity="0.85"/>
+  <!-- ice arch -->
+  <path d="M28,142 C28,84 52,44 80,44 C108,44 132,84 132,142 L108,142 C108,96 96,66 80,66 C64,66 52,96 52,142 Z" fill="url(#iceg)" stroke="#4a8db8" stroke-width="3"/>
+  <!-- dark cave mouth -->
+  <path d="M62,142 C62,104 70,80 80,80 C90,80 98,104 98,142 Z" fill="#274b66"/>
+  <path d="M70,142 C70,112 74,96 80,96 C86,96 90,112 90,142 Z" fill="#16293c" opacity="0.85"/>
+  <!-- crystals -->
+  <polygon points="40,70 48,44 56,70" fill="#cfeeff" stroke="#4a8db8" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="104,76 114,46 124,76" fill="#cfeeff" stroke="#4a8db8" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="122,60 128,42 134,60" fill="#e8f8ff" stroke="#4a8db8" stroke-width="2" stroke-linejoin="round"/>
+  <!-- shine streaks -->
+  <path d="M58,60 C64,76 66,100 66,124" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.7" fill="none"/>
+  <!-- gold star cue -->
+  <g>
+    <circle cx="80" cy="24" r="20" fill="#ffd24d" opacity="0.28"/>
+    <path d="M80,10 l4.5,9.5 10.5,1.5 -7.5,7.5 1.8,10.5 -9.3,-5 -9.3,5 1.8,-10.5 -7.5,-7.5 10.5,-1.5 Z" fill="#ffd24d" stroke="#c8931a" stroke-width="2" stroke-linejoin="round"/>
+  </g>
+  <!-- sparkles -->
+  <circle cx="44" cy="100" r="3" fill="#ffffff" opacity="0.9"/>
+  <circle cx="120" cy="110" r="2.5" fill="#ffffff" opacity="0.9"/>
+</svg>

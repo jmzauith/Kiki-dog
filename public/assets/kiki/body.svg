@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 104" width="150" height="104">
+  <!-- tail nub -->
+  <ellipse cx="12" cy="58" rx="9" ry="8" fill="#d98a3d" stroke="#8e5227" stroke-width="3"/>
+  <ellipse cx="9" cy="56" rx="4" ry="3.5" fill="#ffffff" opacity="0.9"/>
+  <!-- long corgi body -->
+  <path d="M20,54 C32,44 62,42 90,44 C102,45 108,53 108,62 C108,71 99,75 88,75 L32,75 C21,75 15,65 20,54 Z" fill="#d98a3d" stroke="#8e5227" stroke-width="3"/>
+  <!-- white chest bib -->
+  <path d="M92,56 C100,58 103,66 100,75 L80,75 C86,69 89,62 92,56 Z" fill="#ffffff"/>
+  <!-- backpack -->
+  <rect x="50" y="22" width="32" height="28" rx="7" fill="#315c9a" stroke="#1d365e" stroke-width="2.5"/>
+  <rect x="57" y="30" width="18" height="13" rx="4" fill="#4a7ec2"/>
+  <rect x="54" y="22" width="6" height="28" fill="#274a7c" opacity="0.55"/>
+  <rect x="72" y="22" width="6" height="28" fill="#274a7c" opacity="0.55"/>
+  <!-- ears -->
+  <polygon points="98,20 93,2 111,12" fill="#d98a3d" stroke="#8e5227" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon points="99,15 96,7 106,11" fill="#f2b8c6"/>
+  <polygon points="119,18 124,2 132,14" fill="#d98a3d" stroke="#8e5227" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon points="122,13 125,6 130,12" fill="#f2b8c6"/>
+  <!-- head -->
+  <circle cx="113" cy="37" r="23" fill="#d98a3d" stroke="#8e5227" stroke-width="3"/>
+  <!-- white facial blaze -->
+  <path d="M105,15 C101,27 103,39 109,47 L119,47 C125,39 127,27 123,15 Z" fill="#ffffff"/>
+  <!-- white muzzle -->
+  <ellipse cx="128" cy="46" rx="11" ry="8.5" fill="#ffffff"/>
+  <!-- nose -->
+  <ellipse cx="137" cy="42" rx="4.6" ry="3.8" fill="#20303f"/>
+  <!-- eye -->
+  <circle cx="112" cy="33" r="4.2" fill="#1c2a38"/>
+  <circle cx="113.6" cy="31.4" r="1.4" fill="#ffffff"/>
+  <!-- smile -->
+  <path d="M122,51 Q128,55 134,50" fill="none" stroke="#8e5227" stroke-width="2" stroke-linecap="round"/>
+</svg>

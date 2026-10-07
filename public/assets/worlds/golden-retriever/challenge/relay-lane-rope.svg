@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80">
+  <defs>
+    <linearGradient id="rlr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8a6b"/>
+      <stop offset="1" stop-color="#e2574c"/>
+    </linearGradient>
+  </defs>
+  <!-- relay lane rope: tileable floating rope with bobbing floats -->
+  <path d="M0,40 Q50,30 100,40 T200,40 T300,40 T400,40" fill="none" stroke="#c9a06a" stroke-width="7" stroke-linecap="round"/>
+  <g>
+    <ellipse cx="50" cy="38" rx="20" ry="13" fill="url(#rlr)" stroke="#b03a30" stroke-width="3"/>
+    <rect x="40" y="32" width="20" height="9" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="150" cy="42" rx="20" ry="13" fill="url(#rlr)" stroke="#b03a30" stroke-width="3"/>
+    <rect x="140" y="36" width="20" height="9" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="250" cy="38" rx="20" ry="13" fill="url(#rlr)" stroke="#b03a30" stroke-width="3"/>
+    <rect x="240" y="32" width="20" height="9" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="350" cy="42" rx="20" ry="13" fill="url(#rlr)" stroke="#b03a30" stroke-width="3"/>
+    <rect x="340" y="36" width="20" height="9" fill="#ffffff" opacity="0.9"/>
+  </g>
+  <g stroke="#a8e6f2" stroke-width="3" fill="none" opacity="0.7" stroke-linecap="round">
+    <path d="M20,58 Q50,63 80,58 M120,62 Q150,67 180,62 M220,58 Q250,63 280,58 M320,62 Q350,67 380,62"/>
+  </g>
+</svg>

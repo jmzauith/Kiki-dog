@@ -49,9 +49,9 @@ export class RaceScene extends Phaser.Scene {
     this.drawHeader();
     this.createKikiRacer();
     this.rival = this.createHuskyRacer();
-    this.status = this.add.text(640, 640, "Choose your pace", {
+    this.status = this.add.text(640, 688, "Choose your pace", {
       fontFamily: "Arial Black, Arial",
-      fontSize: "24px",
+      fontSize: "20px",
       color: "#17324d",
       backgroundColor: "#ffffffdd",
       padding: { x: 18, y: 10 },
@@ -434,7 +434,7 @@ export class RaceScene extends Phaser.Scene {
     }).setOrigin(0.5);
     btn.once("pointerdown", () => this.scene.start("HuskyScene"));
     c.add([label, btn, btnLabel]);
-    this.status.setText("");
+    this.status.setVisible(false);
   }
 
   private timeDelay(ms: number): Promise<void> {

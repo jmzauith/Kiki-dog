@@ -377,7 +377,6 @@ export class HuskyScene extends Phaser.Scene {
           ? "Husky sticker earned! Tap ↺ for a new adventure"
           : "Explore Snowy Peaks",
       );
-      return;
     }
 
     let raceOffered = false;
@@ -421,8 +420,13 @@ export class HuskyScene extends Phaser.Scene {
       if (dest) this.showDestination(dest);
     }
 
-    if (!raceOffered) {
+    if (!raceOffered && forward.length > 0) {
       this.status.setText(forward.length > 1 ? "Choose Kiki's path" : "Follow the arrow");
+    }
+    if (forward.length === 0) {
+      const secret = [...this.nodeObjects].find(([id, obj]) =>
+        this.nodeDefs.get(id)?.secret && obj.visible && !this.adventure.isComplete(id));
+      if (secret) this.showDestination(secret[1]);
     }
   }
 
@@ -926,7 +930,7 @@ export class HuskyScene extends Phaser.Scene {
       AdventureEvents.emitStickerUnlocked({
         adventureId: HUSKY_ADVENTURE.id,
         stickerName: HUSKY_ADVENTURE.stickerName,
-        secretsFound: this.adventure.secretsFound.size,
+        secretsFound: [...this.adventure.secretsFound].filter((id) => !id.startsWith("revealed:")).length,
         bonusChallengesCompleted: this.adventure.bonusChallengesCompleted,
       });
     }
@@ -937,7 +941,7 @@ export class HuskyScene extends Phaser.Scene {
     panelG.fillStyle(0xfffbef, 1);
     panelG.lineStyle(8, 0xf2bd43, 1);
     panelG.fillRoundedRect(-330, -230, 660, 460, 30);
-    panelG.strokeRoundedRect(-330, -230, 660, 430, 30);
+    panelG.strokeRoundedRect(-330, -230, 660, 460, 30);
 
     const title = this.add.text(
       0, -170,
@@ -945,7 +949,7 @@ export class HuskyScene extends Phaser.Scene {
       { fontFamily: "Arial Black, Arial", fontSize: "34px", color: "#8a5a00", align: "center" },
     ).setOrigin(0.5);
     const stats = this.add.text(
-      0, -60,
+      0, -35,
       unlocked
         ? `Kiki finished the whole Snowy Peaks adventure!\n\nEncounters: ${this.adventure.completed.size}\nSecrets found: ${[...this.adventure.secretsFound].filter((s) => !s.startsWith("revealed:")).length}\nBonus challenges: ${this.adventure.bonusChallengesCompleted}\nRace: ${this.adventure.raceTurns} turns (${this.adventure.raceTurbos} turbo!)`
         : "Finish the adventure's encounters to earn the Husky sticker!",
@@ -959,7 +963,7 @@ export class HuskyScene extends Phaser.Scene {
           Phaser.Math.Between(-280, 280), Phaser.Math.Between(-180, 180),
           5, 5, 12, i % 2 === 0 ? 0xffd64f : 0x7ed6ff, 1,
         );
-        c.add(star);
+        c.addAt(star, 2);
         this.tweens.add({
           targets: star, angle: 180, alpha: 0.4, duration: 1200,
           yoyo: true, repeat: -1, delay: Phaser.Math.Between(0, 800),

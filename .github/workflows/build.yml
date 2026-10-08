@@ -1,4 +1,4 @@
-name: Build
+name: Build and Husky quality gates
 
 on:
   push:
@@ -15,7 +15,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install
-        run: npm install
-      - name: Typecheck and build
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Unit and gameplay regression tests
+        run: npm run test
+      - name: Validate painted SVG art
+        run: npm run validate:art
+      - name: Typecheck and production build
         run: npm run build

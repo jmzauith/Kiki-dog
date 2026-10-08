@@ -1,0 +1,176 @@
+{
+  "area": "ice-cave",
+  "label": "Ice Cave",
+  "worldRect": {
+    "x": 1720,
+    "y": 180,
+    "w": 320,
+    "h": 260
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.15,
+      "contents": "distant mountains, sky haze (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.4,
+      "contents": "distant pine groups, cliffs (ip-px-mid)"
+    },
+    {
+      "id": "back",
+      "depth": 6,
+      "scrollFactor": 1.0,
+      "contents": "back scenery, landmark art (existing wlm-*, lm-*)"
+    },
+    {
+      "id": "terrain",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "walkable surface decals: path, ice, deck"
+    },
+    {
+      "id": "interact-behind",
+      "depth": 11,
+      "scrollFactor": 1.0,
+      "contents": "interactive objects behind Kiki"
+    },
+    {
+      "id": "contact",
+      "depth": 13,
+      "scrollFactor": 1.0,
+      "contents": "ground shadow, crack overlays, ripples under Kiki"
+    },
+    {
+      "id": "kiki",
+      "depth": 15,
+      "scrollFactor": 1.0,
+      "contents": "Kiki (unchanged)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "contents": "foreground occluders (dl-*)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "contents": "weather FX: snowfall, gusts, mist"
+    }
+  ],
+  "walkPath": {
+    "curve": "catmullrom",
+    "points": [
+      {
+        "x": 1780,
+        "y": 340,
+        "scale": 0.8,
+        "note": "cliff base approach"
+      },
+      {
+        "x": 1840,
+        "y": 310,
+        "scale": 0.76,
+        "note": "at cave mouth (smaller = inside)"
+      },
+      {
+        "x": 1890,
+        "y": 300,
+        "scale": 0.72,
+        "note": "interior"
+      }
+    ]
+  },
+  "depthBands": [
+    {
+      "y0": 280,
+      "y1": 360,
+      "kikiDepth": 15,
+      "kikiScale": 0.8
+    },
+    {
+      "y0": 240,
+      "y1": 300,
+      "kikiDepth": 14,
+      "kikiScale": 0.72,
+      "note": "inside cave: Kiki drops a depth band (behind interior back wall art at 15? no - use 14)"
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-cave-wall.svg",
+      "x": 1860,
+      "y": 300,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 1.0,
+      "note": "cave mouth walls; Kiki enters THROUGH the middle, occluded at edges"
+    }
+  ],
+  "scaleZones": [
+    {
+      "x0": 1720,
+      "x1": 1830,
+      "scale": 0.8,
+      "note": "outside"
+    },
+    {
+      "x0": 1830,
+      "x1": 2040,
+      "scale": 0.72,
+      "note": "inside: smaller, dimmer"
+    }
+  ],
+  "interactionAnchors": [
+    {
+      "id": "crystal-1",
+      "x": 1870,
+      "y": 320,
+      "asset": "ip-ic-crystal-glow.svg",
+      "action": "tap"
+    },
+    {
+      "id": "crystal-2",
+      "x": 1910,
+      "y": 310,
+      "asset": "ip-ic-crystal-glow.svg",
+      "action": "tap"
+    },
+    {
+      "id": "tunnel",
+      "x": 1950,
+      "y": 305,
+      "asset": "ip-ic-tunnel.svg",
+      "action": "tap"
+    },
+    {
+      "id": "nook",
+      "x": 1840,
+      "y": 330,
+      "asset": "ip-ic-nook.svg",
+      "action": "tap"
+    }
+  ],
+  "noWalk": [
+    {
+      "x": 1720,
+      "y": 180,
+      "w": 320,
+      "h": 80,
+      "note": "cave ceiling / cliff"
+    }
+  ],
+  "parallax": {
+    "far": 0.1,
+    "mid": 0.3,
+    "base": 1.0,
+    "fore": 1.0
+  },
+  "notes": "Entering = scale down + pass through wall occluder. Interior uses dimmer palette via existing art.",
+  "$schema": "snowy-peaks-depth-v1"
+}

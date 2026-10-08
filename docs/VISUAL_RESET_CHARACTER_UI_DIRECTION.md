@@ -28,14 +28,22 @@ Husky adventure map), the charm comes from five things:
 
 ## 2. How the new Kiki differs from the current Phaser version
 
+> **v2 revision (current):** the v1 style sheet was rejected by João as too cartoon —
+> flat fills, blobby muzzle, wing-like cheek tufts. v2 was rebuilt from the HTML
+> Kiki reference: narrower blaze that flows into the muzzle as one white mask,
+> dense layered cheek ruffs hugging the head, compact nose + mouth, wide-based
+> ears, and larger profile heads with real necks on side views. The table below
+> describes v2.
+
 | Current Phaser Kiki | New direction |
 |---|---|
 | Flat fills, dark brown outline strokes (`#8e5227`, 2–3px) | Layered radial gradients; contours suggested by darker fur tones, thin warm outlines only where needed |
 | Dot/pill eyes, minimal highlights | Large glossy eyes: dark-amber iris gradient, big upper-left highlight + small secondary sparkle |
-| Perfectly circular head, geometric body | Cheek ruffs, neck ruff, ear tufts — broken silhouettes that read as *fluff* |
+| Perfectly circular head, geometric body | Dense layered cheek ruffs (5-row tuft fans) hugging the head — broken silhouettes that read as *fluff* |
 | One generic smile | Expression system (see §6): happy / curious / thinking / surprised / proud each change eyes + brows + mouth + head angle together |
-| Ears as sharp triangles | Broad-based ears with rounded tips and pink inners |
-| Legs as plain rects | Rounded legs with cream paws; trot uses diagonal pairs, race extends and leans |
+| Ears as sharp triangles | Wide-based ears (64×58) with rounded tips, pink inners, and tip furnishings |
+| Legs as plain rects | Rounded legs with cream paws; trot uses wide diagonal pairs, race extends and leans |
+| White blaze as a separate stripe + balloon muzzle | One white mask: blaze flows into the muzzle with wavy edges; compact nose + mouth sit inside it |
 
 The single biggest shift: **from vector-icon construction to soft-illustration rendering.**
 Same SVG technology, completely different hand.
@@ -51,18 +59,22 @@ Same SVG technology, completely different hand.
   DOM/CSS; ours is specified as game-native vector components (medallions, plaques,
   panels) that work at any resolution on the Chromebook.
 
-## 4. Character proportions (Kiki)
+## 4. Character proportions (Kiki) — v2 rig
 
-Front rig (280×250 cell): head circle r=58 at cy=92; body ellipse 104×88 at cy≈182;
-head is ~46% of total height — the classic cute-protagonist ratio for ages 6–10.
-Side rig (300×210): body 144×68, head r=38 — long corgi loaf, short legs (18×40).
+Front rig (400×400 cell, art drawn at 0.9 scale): head ellipse 86×74 at cy=150;
+eyes rx=15 ry=18 at (±46, cy−2) — always the darkest value on the face so they
+read first at small sizes; white mask max half-width ~27px at the cheeks;
+compact nose 26×19 with white specular dot; body ellipse 72×78 with layered
+cream chest ruff; short legs 30×52 with cream paws.
+Side rig: body 196×112 (long corgi loaf), head scaled 1.18× with a furred neck
+bridge to the chest, plumed tail curling from the rump, short legs 26×62–70.
 
 Rules for production:
 - Head never smaller than 40% of body height in expressive poses.
-- Ears: base half-width 27, tip ~46px above head top, 8–12° outward lean.
-- Eyes: r=11 at (±26, 92) on the front rig; always the darkest value on the face so they
-  read first at small sizes.
-- Muzzle: cream ellipse 64×44; nose 1.15× scale, always with a white specular dot.
+- Ears: 64 wide × 58 tall, wide-based triangles with rounded tips, pink inners.
+- Fur direction follows the body; tuft fans denser on cheeks, chest ruff, haunches.
+- Realism must survive 120px: verified — face reads (blaze/eyes/nose), trot reads
+  (body/head/legs/tail) at gameplay scale.
 
 ## 5. Line treatment
 

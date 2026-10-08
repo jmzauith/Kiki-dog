@@ -1,0 +1,115 @@
+{
+  "area": "race",
+  "label": "Sled Race",
+  "space": "screen",
+  "worldRect": {
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 720
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.1,
+      "contents": "mountains (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.3,
+      "contents": "forest (ip-px-mid)"
+    },
+    {
+      "id": "track",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "race surface; section plates: ip-re-downhill/icyturn/deepsnow/narrowpass"
+    },
+    {
+      "id": "racers",
+      "depth": 12,
+      "scrollFactor": 1.0,
+      "contents": "Kiki + Husky sled containers (keep existing depth 12)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.25,
+      "contents": "foreground pines (dl-race-pine), snowbanks (dl-snowbank)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.25,
+      "contents": "snow spray (dl-spray-alpha), snowfall"
+    }
+  ],
+  "sections": [
+    {
+      "id": "start",
+      "x0": 0,
+      "x1": 256,
+      "plate": "race-backdrop.svg",
+      "note": "start straight"
+    },
+    {
+      "id": "downhill",
+      "x0": 256,
+      "x1": 512,
+      "plate": "ip-re-downhill.svg",
+      "note": "racers scale 1.0->1.08 (speed feel), camera shake tiny"
+    },
+    {
+      "id": "icy-turn",
+      "x0": 512,
+      "x1": 768,
+      "plate": "ip-re-icyturn.svg",
+      "note": "banked turn: racers tilt, outside racer slightly larger"
+    },
+    {
+      "id": "deep-snow",
+      "x0": 768,
+      "x1": 1024,
+      "plate": "ip-re-deepsnow.svg",
+      "note": "racers scale 0.95, spray FX heavy"
+    },
+    {
+      "id": "narrow-pass",
+      "x0": 1024,
+      "x1": 1152,
+      "plate": "ip-re-narrowpass.svg",
+      "note": "cliff walls occlude at edges (dl-cave-wall reuse)"
+    },
+    {
+      "id": "finish",
+      "x0": 1152,
+      "x1": 1280,
+      "plate": "ip-re-finish.svg",
+      "note": "finish arch; crowd reacts"
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-race-pine.svg",
+      "depth": 16,
+      "scrollFactor": 1.25,
+      "note": "pines slide past in front of racers; spawn at intervals"
+    },
+    {
+      "asset": "dl-snowbank.svg",
+      "depth": 16,
+      "scrollFactor": 1.25,
+      "note": "low snowbanks along track bottom"
+    }
+  ],
+  "parallax": {
+    "far": 0.1,
+    "mid": 0.3,
+    "track": 1.0,
+    "fore": 1.25
+  },
+  "notes": "Race depth = horizontal parallax + section plates. Foreground at 1.25x gives speed; racers stay at depth 12 with section-driven scale/tilt. Checkpoint arch (race-checkpoint.svg) at depth 16 occludes racers as they pass.",
+  "$schema": "snowy-peaks-depth-v1"
+}

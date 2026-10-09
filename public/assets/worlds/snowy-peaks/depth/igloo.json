@@ -1,0 +1,185 @@
+{
+  "area": "igloo",
+  "label": "Secret Igloo",
+  "worldRect": {
+    "x": 2000,
+    "y": 140,
+    "w": 340,
+    "h": 240
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.15,
+      "contents": "distant mountains, sky haze (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.4,
+      "contents": "distant pine groups, cliffs (ip-px-mid)"
+    },
+    {
+      "id": "back",
+      "depth": 6,
+      "scrollFactor": 1.0,
+      "contents": "back scenery, landmark art (existing wlm-*, lm-*)"
+    },
+    {
+      "id": "terrain",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "walkable surface decals: path, ice, deck"
+    },
+    {
+      "id": "interact-behind",
+      "depth": 11,
+      "scrollFactor": 1.0,
+      "contents": "interactive objects behind Kiki"
+    },
+    {
+      "id": "contact",
+      "depth": 13,
+      "scrollFactor": 1.0,
+      "contents": "ground shadow, crack overlays, ripples under Kiki"
+    },
+    {
+      "id": "kiki",
+      "depth": 15,
+      "scrollFactor": 1.0,
+      "contents": "Kiki (unchanged)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "contents": "foreground occluders (dl-*)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "contents": "weather FX: snowfall, gusts, mist"
+    }
+  ],
+  "walkPath": {
+    "curve": "catmullrom",
+    "points": [
+      {
+        "x": 2030,
+        "y": 300,
+        "scale": 0.8,
+        "note": "trail"
+      },
+      {
+        "x": 2100,
+        "y": 275,
+        "scale": 0.77,
+        "note": "approach"
+      },
+      {
+        "x": 2150,
+        "y": 260,
+        "scale": 0.72,
+        "note": "at doorway (smaller = about to enter)"
+      }
+    ]
+  },
+  "depthBands": [
+    {
+      "y0": 240,
+      "y1": 320,
+      "kikiDepth": 15,
+      "kikiScale": 0.78
+    },
+    {
+      "y0": 220,
+      "y1": 260,
+      "kikiDepth": 14,
+      "kikiScale": 0.72,
+      "note": "at doorway: partially behind doorframe"
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-igloo-doorframe.svg",
+      "x": 2165,
+      "y": 255,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 0.9,
+      "note": "doorway edge: Kiki partially disappears behind it when entering"
+    },
+    {
+      "asset": "dl-snowbank.svg",
+      "x": 2080,
+      "y": 300,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 0.9,
+      "note": "mound foreground"
+    }
+  ],
+  "scaleZones": [
+    {
+      "x0": 2000,
+      "x1": 2110,
+      "scale": 0.78,
+      "note": "approach"
+    },
+    {
+      "x0": 2110,
+      "x1": 2340,
+      "scale": 0.72,
+      "note": "at / in doorway"
+    }
+  ],
+  "interactionAnchors": [
+    {
+      "id": "mound",
+      "x": 2150,
+      "y": 265,
+      "asset": "lm-igloo-hidden.svg",
+      "action": "rub"
+    },
+    {
+      "id": "lantern",
+      "x": 2130,
+      "y": 280,
+      "asset": "ip-ig-lantern.svg",
+      "action": "tap"
+    },
+    {
+      "id": "map",
+      "x": 2170,
+      "y": 282,
+      "asset": "ip-ig-map.svg",
+      "action": "tap"
+    },
+    {
+      "id": "reward",
+      "x": 2150,
+      "y": 250,
+      "asset": "ip-ig-reward.svg",
+      "action": "tap"
+    }
+  ],
+  "noWalk": [
+    {
+      "x": 2000,
+      "y": 140,
+      "w": 340,
+      "h": 70,
+      "note": "hillside above"
+    }
+  ],
+  "parallax": {
+    "far": 0.12,
+    "mid": 0.35,
+    "base": 1.0,
+    "fore": 1.0
+  },
+  "notes": "Hidden state is a mound (existing lm-igloo-hidden). Reveal -> discovered. Entering: Kiki scales 0.78->0.72 and passes behind dl-igloo-doorframe. Interior uses ip-ig-interior as a close plate.",
+  "$schema": "snowy-peaks-depth-v1"
+}

@@ -364,8 +364,12 @@ export class RaceScene extends Phaser.Scene {
   private async finishRace(): Promise<void> {
     markRaceComplete(HUSKY_SAVE_KEY, HUSKY_ADVENTURE, { turns: this.turns, turbos: this.turbos });
     this.choiceGroup?.destroy(true);
-    this.kikiChar.playMotion("race-celebrate");
-    this.rivalChar.playMotion("race-celebrate");
+    // Celebrate using Ringo's supported one-shot reaction, not a nonexistent
+    // "race-celebrate" locomotion state.
+    this.kikiChar.playMotion("idle");
+    this.rivalChar.playMotion("idle");
+    this.kikiChar.react("celebrate");
+    this.rivalChar.react("celebrate");
     this.status.setText("KIKI WINS!");
     this.cameras.main.flash(450, 255, 245, 180);
 

@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { CharacterMotion } from "../motion/CharacterMotion";
 import type { MotionId, TerrainId } from "../motion/motionTypes";
-import type { CommandMotionId } from "../motion/motionData";
 
 /**
  * RingoKikiMover — curve-following movement for Ringo's CharacterMotion rig.
@@ -45,10 +44,10 @@ const GAIT_SPEED: Record<RingoGait, number> = {
   careful: 0.6,
   dash: 1.5,
 };
-const GAIT_MOTION: Record<RingoGait, Exclude<MotionId, CommandMotionId>> = {
+const GAIT_MOTION: Record<RingoGait, MotionId> = {
   trot: "trot",
   run: "run",
-  careful: "careful",
+  careful: "trot", // careful movement is a slower trot on bridge terrain
   dash: "run",
 };
 const AUTO_MIN_MS = 900;
@@ -84,7 +83,7 @@ export class RingoKikiMover {
     const gait: RingoGait = spec.gait ?? "trot";
     if (spec.terrain) this.motion.setTerrain(spec.terrain);
     // Anticipation squash, then accelerate into the gait.
-    this.motion.start(GAIT_MOTION[gait]);
+    this.motion.transitionTo(GAIT_MOTION[gait]);
 
     const speed = TROT_PX_PER_SEC * GAIT_SPEED[gait];
     const length = Math.max(spec.curve.getLength(), 1);
@@ -101,7 +100,7 @@ export class RingoKikiMover {
         this.moving = false;
         this.activeTween = undefined;
         // Decelerate and settle to idle — the game-feel stop.
-        this.motion.stopMoving();
+        this.motion.transitionTo("idle");
         const reaction = spec.arrivalReaction ?? "none";
         if (reaction !== "none") {
           // Small delay so the settle reads before the reaction.
@@ -141,6 +140,6 @@ export class RingoKikiMover {
     this.activeTween?.stop();
     this.activeTween = undefined;
     this.moving = false;
-    this.motion.stopMoving();
+    this.motion.transitionTo("idle");
   }
 }

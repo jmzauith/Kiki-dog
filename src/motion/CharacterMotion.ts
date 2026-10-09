@@ -250,7 +250,9 @@ export class CharacterMotion {
 
   /** Face left/right with a look-first turn (never an instant mirror-flip). */
   turnTo(dir: 1 | -1): void {
-    if (dir === this.facing || this.trans !== 'steady') return;
+    // Movement updates call turnTo every frame. Never restart the 300ms
+    // look-first overlay on each tick, or the turn can never finish.
+    if (dir === this.facing || this.trans !== 'steady' || this.overlay?.def.id === 'head-look') return;
     // Phase 1: look toward the new direction. Phase 2 (onDone): flip + squash.
     this.startOverlay('head-look', {
       mirror: dir === -1,

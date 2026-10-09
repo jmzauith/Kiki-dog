@@ -1,17 +1,17 @@
 import Phaser from "phaser";
 import { MathEngine, MathQuestion } from "../systems/MathEngine";
 import { RaceProgressState } from "../systems/RaceProgress";
-import { KikiCharacter } from "../systems/KikiCharacter";
-import { HuskyCharacter } from "../systems/HuskyCharacter";
-import { KikiMover } from "../systems/KikiMover";
+import { CharacterMotion, createMotionAssets, preloadMotion } from "../motion/CharacterMotion";
+import { FootFX } from "../motion/FootFX";
 import { HUSKY_ADVENTURE, HUSKY_SAVE_KEY } from "../systems/HuskyAdventure";
 import { markRaceComplete } from "../systems/AdventurePersistence";
 import { AdventureEvents } from "../systems/AdventureEvents";
 
 type MoveMode = "steady" | "turbo";
 
-/** Husky race length: 3 (all-turbo) to 5 (all-steady) math decisions. */
-const HUSKY_RACE_FINISH = 5;
+/** Husky race length: 2 (all-turbo) to 3 (all-steady) math decisions.
+ *  Math contract: 3 exploration + 2-3 race = 5-6 required total. */
+const HUSKY_RACE_FINISH = 3;
 
 export class RaceScene extends Phaser.Scene {
   private math = new MathEngine();
@@ -20,9 +20,9 @@ export class RaceScene extends Phaser.Scene {
   private turns = 0;
   private turbos = 0;
   private kiki!: Phaser.GameObjects.Container;
-  private kikiChar!: KikiCharacter;
-  private kikiMover!: KikiMover;
-  private rivalChar!: HuskyCharacter;
+  private kikiChar!: CharacterMotion;
+  private kikiFX!: FootFX;
+  private rivalChar!: CharacterMotion;
   private rival!: Phaser.GameObjects.Container;
   private status!: Phaser.GameObjects.Text;
   private prompt?: Phaser.GameObjects.Container;
@@ -33,11 +33,11 @@ export class RaceScene extends Phaser.Scene {
   }
 
   preload(): void {
-    KikiCharacter.preload(this);
-    HuskyCharacter.preload(this);
+    preloadMotion(this);
   }
 
   create(): void {
+    createMotionAssets(this);
     this.race.reset();
     this.busy = false;
     this.turns = 0;
@@ -60,6 +60,13 @@ export class RaceScene extends Phaser.Scene {
     this.showPaceChoices();
   }
 
+  /** Per-frame: advance both racers' motion rigs and Kiki's snow FX. */
+  update(time: number, delta: number): void {
+    this.kikiChar?.update(time, delta);
+    this.rivalChar?.update(time, delta);
+    this.kikiFX?.update(time, delta);
+  }
+
   private createKikiRacer(): void {
     this.kiki = this.add.container(155, 426).setDepth(12);
     const sled = this.add.rectangle(-8, 29, 92, 14, 0x9b5a2f, 1).setStrokeStyle(3, 0x63371c);
@@ -72,16 +79,11 @@ export class RaceScene extends Phaser.Scene {
       padding: { x: 7, y: 4 },
     }).setOrigin(0.5);
 
-    this.kikiChar = new KikiCharacter(this, 0, -4, {
-      depth: 0,
-      scale: 0.72,
-      footprints: false,
-      puffs: true,
-    });
-    this.kikiChar.setIdlePose("sled-ready");
-    this.kikiChar.setPose("sled-ready");
+    this.kikiChar = new CharacterMotion(this, "kiki", 0, -4);
+    this.kikiChar.container.setScale(0.72);
+    this.kikiChar.playMotion("race-steady");
+    this.kikiFX = new FootFX(this, this.kikiChar, { prints: false, puffs: true, shadow: false });
     this.kiki.add([runner, sled, this.kikiChar.container, tag]);
-    this.kikiMover = new KikiMover(this, this.kikiChar, this.kiki);
   }
 
   private drawHeader(): void {
@@ -144,9 +146,9 @@ export class RaceScene extends Phaser.Scene {
       fontFamily: "Arial Black, Arial", fontSize: "18px", color: "#17324d",
       backgroundColor: "#ffffffcc", padding: { x: 7, y: 4 },
     }).setOrigin(0.5);
-    this.rivalChar = new HuskyCharacter(this, 0, -4, { scale: 0.72, depth: 0, footprints: false, puffs: true });
-    this.rivalChar.setIdlePose("race");
-    this.rivalChar.setPose("race");
+    this.rivalChar = new CharacterMotion(this, "husky", 0, -4);
+    this.rivalChar.container.setScale(0.72);
+    this.rivalChar.playMotion("race-steady");
     c.add([runner, sled, this.rivalChar.container, tag]);
     return c;
   }
@@ -291,21 +293,19 @@ export class RaceScene extends Phaser.Scene {
   }
 
   private moveKiki(progress: number, turbo: boolean): Promise<void> {
-    this.kikiChar.setIdlePose(turbo ? "race-turbo" : "race-steady");
-    this.kikiChar.setPose(turbo ? "race-turbo" : "race-steady");
+    // Ringo's race motion: the rig leans, pumps, and sprays snow.
+    this.kikiChar.playMotion(turbo ? "race-turbo" : "race-steady");
     const targetX = this.trackX(progress);
     if (turbo) this.createTurboBurst(this.kiki.x, this.kiki.y);
 
-    const curve = new Phaser.Curves.Line(
-      new Phaser.Math.Vector2(this.kiki.x, this.kiki.y),
-      new Phaser.Math.Vector2(targetX, this.kiki.y),
-    );
-    return this.kikiMover.walk({
-      curve,
-      gait: turbo ? "dash" : "trot",
-      durationMs: turbo ? 650 : 950,
-      arrivalReaction: turbo ? "happy" : "none",
-      keepPose: true,
+    return new Promise((resolve) => {
+      this.tweens.add({
+        targets: this.kiki,
+        x: targetX,
+        duration: turbo ? 650 : 950,
+        ease: turbo ? "Back.out" : "Sine.inOut",
+        onComplete: () => resolve(),
+      });
     });
   }
 
@@ -316,6 +316,8 @@ export class RaceScene extends Phaser.Scene {
   ): Promise<void> {
     const targetX = this.trackX(progress);
     if (turbo) this.createTurboBurst(racer.x, racer.y);
+    // The Husky rival runs his own race motion (never a static slide).
+    this.rivalChar.playMotion(turbo ? "race-turbo" : "race-steady");
 
     return new Promise((resolve) => {
       this.tweens.add({
@@ -362,10 +364,8 @@ export class RaceScene extends Phaser.Scene {
   private async finishRace(): Promise<void> {
     markRaceComplete(HUSKY_SAVE_KEY, HUSKY_ADVENTURE, { turns: this.turns, turbos: this.turbos });
     this.choiceGroup?.destroy(true);
-    this.kikiChar.setIdlePose("race-celebrate");
-    this.kikiChar.setPose("race-celebrate");
-    this.rivalChar.setIdlePose("celebrate");
-    this.rivalChar.setPose("celebrate");
+    this.kikiChar.playMotion("race-celebrate");
+    this.rivalChar.playMotion("race-celebrate");
     this.status.setText("KIKI WINS!");
     this.cameras.main.flash(450, 255, 245, 180);
 

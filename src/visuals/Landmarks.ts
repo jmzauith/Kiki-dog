@@ -2,31 +2,38 @@ import Phaser from "phaser";
 import { MapNodeId } from "../systems/MapGraph";
 import { NODE_POSITIONS, FUTURE_NODE_SPOTS, SCENERY_SPOTS } from "../worlds/husky/HuskyWorldLayout";
 
-const ASSET_DIR = "assets/worlds/husky";
+const ASSET_DIR = "assets/worlds/snowy-peaks";
 
 export function preloadLandmarks(scene: Phaser.Scene): void {
   const svg = (key: string, file: string, w: number, h: number) =>
     scene.load.svg(key, `${ASSET_DIR}/${file}`, { width: w, height: h });
-  // gameplay landmarks
-  svg("wlm-trailhead", "trailhead-arch.svg", 220, 190);
-  svg("wlm-bridge-broken", "bridge-broken.svg", 240, 150);
-  svg("wlm-bridge-fixed", "bridge-fixed.svg", 240, 150);
-  svg("wlm-cave", "cave-mouth.svg", 220, 200);
-  svg("wlm-hut", "lake-hut.svg", 200, 170);
-  svg("wlm-camp", "race-camp.svg", 320, 200);
-  // scenery (visual-only, never interactive)
-  svg("wlm-arch", "snowpass-arch.svg", 260, 220);
-  svg("wlm-flag", "summit-flag.svg", 120, 200);
-  svg("wlm-falls", "waterfall-frozen.svg", 180, 240);
-  svg("wlm-shard", "star-shard.svg", 80, 100);
+  // Harrison's painterly Round 2 landmarks (approved direction, locked).
+  svg("lm-trailhead", "lm-trailhead.svg", 420, 360);
+  svg("lm-bridge-broken", "lm-bridge-broken.svg", 460, 300);
+  svg("lm-bridge-fixed", "lm-bridge-fixed.svg", 460, 300);
+  svg("lm-bridge-repairing", "lm-bridge-repairing.svg", 460, 300);
+  svg("lm-fork-sign", "lm-fork-sign.svg", 300, 300);
+  svg("lm-shelter", "lm-shelter.svg", 380, 320);
+  svg("lm-ice-cave", "lm-ice-cave.svg", 420, 380);
+  svg("lm-race-gate", "lm-race-gate.svg", 440, 360);
+  svg("lm-igloo-discovered", "lm-igloo-discovered.svg", 340, 300);
+  svg("lm-igloo-hidden", "lm-igloo-hidden.svg", 340, 300);
+  // Painterly scenery (visual-only, never interactive)
+  svg("lm-snowpass", "lm-snowpass-blocked.svg", 400, 340);
+  svg("lm-fallentree", "lm-fallentree-blocked.svg", 420, 300);
+  // Legacy flat assets retired from player-facing use (kept on disk until
+  // browser QA confirms no dependency remains, then removed).
+}
+
+/** World dressing: small background pines/rocks used by SnowyWorld. */
+export function preloadWorldDressing(scene: Phaser.Scene): void {
+  const svg = (key: string, file: string, w: number, h: number) =>
+    scene.load.svg(key, `assets/worlds/husky/${file}`, { width: w, height: h });
   svg("wlm-pine-tall", "pine-tall.svg", 160, 220);
   svg("wlm-pine-wide", "pine-wide.svg", 180, 200);
   svg("wlm-pine-snowy", "pine-snowy.svg", 170, 210);
   svg("wlm-rock-ice", "rock-ice.svg", 160, 120);
   svg("wlm-rock-snow", "rock-snow.svg", 170, 110);
-  // legacy fork sign + igloo art (still good, kept from the first pass)
-  scene.load.svg("lm-fork", "assets/landmarks/fork-sign.svg", { width: 150, height: 150 });
-  scene.load.svg("lm-igloo", "assets/landmarks/igloo.svg", { width: 150, height: 130 });
 }
 
 type LandmarkDef = {
@@ -66,13 +73,13 @@ export class Landmarks {
 
   buildAll(): void {
     const defs: Record<MapNodeId | "igloo", LandmarkDef> = {
-      start: { key: "wlm-trailhead", scale: 1.0, yOff: -10, idle: "none" },
-      math1: { key: "wlm-bridge-broken", scale: 1.15, yOff: -8, idle: "none" },
-      fork: { key: "lm-fork", scale: 1.0, yOff: -10, idle: "sway" },
-      safe: { key: "wlm-hut", scale: 1.05, yOff: -8, idle: "glow" },
-      challenge: { key: "wlm-cave", scale: 1.2, yOff: -6, idle: "twinkle" },
-      goal: { key: "wlm-camp", scale: 1.15, yOff: -10, idle: "sway" },
-      igloo: { key: "lm-igloo", scale: 1.0, yOff: -4, idle: "twinkle" },
+      start: { key: "lm-trailhead", scale: 1.0, yOff: -10, idle: "none" },
+      math1: { key: "lm-bridge-broken", scale: 1.0, yOff: -8, idle: "none" },
+      fork: { key: "lm-fork-sign", scale: 1.0, yOff: -10, idle: "sway" },
+      safe: { key: "lm-shelter", scale: 1.0, yOff: -8, idle: "glow" },
+      challenge: { key: "lm-ice-cave", scale: 1.0, yOff: -6, idle: "twinkle" },
+      goal: { key: "lm-race-gate", scale: 1.0, yOff: -10, idle: "sway" },
+      igloo: { key: "lm-igloo-discovered", scale: 1.0, yOff: -4, idle: "twinkle" },
     };
 
     (Object.keys(defs) as Array<MapNodeId | "igloo">).forEach((id) => {
@@ -155,14 +162,10 @@ export class Landmarks {
    */
   private buildScenery(): void {
     const defs: SceneryDef[] = [
-      // Snow Pass: natural ice arch the trail threads through
-      { key: "wlm-arch", x: SCENERY_SPOTS.snowPassArch.x, y: SCENERY_SPOTS.snowPassArch.y, scale: 1.0, depth: 5, alpha: 1, idle: "none" },
-      // Summit checkpoint flag (future Summit Camp encounter site)
-      { key: "wlm-flag", x: SCENERY_SPOTS.summitFlag.x, y: SCENERY_SPOTS.summitFlag.y, scale: 1.0, depth: 5, alpha: 1, idle: "sway" },
-      // Optional discovery branch: frozen waterfall overlook (dead-end, bonus only)
-      { key: "wlm-falls", x: SCENERY_SPOTS.waterfallOverlook.x, y: SCENERY_SPOTS.waterfallOverlook.y, scale: 1.0, depth: 4, alpha: 1, idle: "none" },
-      // Bonus star shard hovering by the overlook — visual only, reward TBD
-      { key: "wlm-shard", x: SCENERY_SPOTS.waterfallOverlook.x + 130, y: SCENERY_SPOTS.waterfallOverlook.y - 40, scale: 0.9, depth: 7, alpha: 1, idle: "float" },
+      // Snow Pass: painterly blocked arch (clears when the pass opens)
+      { key: "lm-snowpass", x: SCENERY_SPOTS.snowPassArch.x, y: SCENERY_SPOTS.snowPassArch.y, scale: 1.0, depth: 5, alpha: 1, idle: "none" },
+      // Fallen Tree: painterly blocked state (visual anchor for the encounter)
+      { key: "lm-fallentree", x: SCENERY_SPOTS.waterfallOverlook.x, y: SCENERY_SPOTS.waterfallOverlook.y, scale: 0.9, depth: 5, alpha: 1, idle: "none" },
     ];
 
     for (const def of defs) {
@@ -228,7 +231,7 @@ export class Landmarks {
       ease: "Sine.in",
       onComplete: () => {
         oldImg.destroy();
-        const fixed = this.scene.add.image(0, 0, "wlm-bridge-fixed").setScale(0.6).setAlpha(0);
+        const fixed = this.scene.add.image(0, 0, "lm-bridge-fixed").setScale(0.6).setAlpha(0);
         c.add(fixed);
         this.scene.tweens.add({
           targets: fixed,

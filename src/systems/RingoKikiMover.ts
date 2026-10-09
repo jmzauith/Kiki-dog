@@ -1,0 +1,146 @@
+import Phaser from "phaser";
+import { CharacterMotion } from "../motion/CharacterMotion";
+import type { MotionId, TerrainId } from "../motion/motionTypes";
+import type { CommandMotionId } from "../motion/motionData";
+
+/**
+ * RingoKikiMover — curve-following movement for Ringo's CharacterMotion rig.
+ *
+ * Replaces KikiMover (which drove the old DogCharacter sprite-flipping).
+ * This mover positions the CharacterMotion container along a curve while the
+ * rig itself handles animation: anticipation, acceleration, terrain gaits,
+ * turns, foot-contact FX (via FootFX), and settle-to-idle.
+ *
+ * Usage:
+ *   const mover = new RingoKikiMover(scene, kikiMotion);
+ *   await mover.walk({ curve, gait: "trot", terrain: "deep-snow" });
+ *
+ * The promise resolves when Kiki arrives and settles. While moving,
+ * `isMoving` is true — scenes should keep input locked until it settles.
+ */
+export type RingoGait = "trot" | "run" | "careful" | "dash";
+
+export interface WalkCurve {
+  getLength(): number;
+  getPoint<O extends Phaser.Math.Vector2>(t: number, out?: O): O;
+  getTangent<O extends Phaser.Math.Vector2>(t: number, out?: O): O;
+}
+
+export interface RingoWalkSpec {
+  curve: WalkCurve;
+  gait?: RingoGait;
+  /** TerrainId reshapes the gait live (deep-snow, ice, bridge, uphill...). */
+  terrain?: TerrainId;
+  durationMs?: number;
+  fromT?: number;
+  toT?: number;
+  arrivalReaction?: string | "none";
+  quiet?: boolean;
+}
+
+const TROT_PX_PER_SEC = 150;
+const GAIT_SPEED: Record<RingoGait, number> = {
+  trot: 1,
+  run: 1.6,
+  careful: 0.6,
+  dash: 1.5,
+};
+const GAIT_MOTION: Record<RingoGait, Exclude<MotionId, CommandMotionId>> = {
+  trot: "trot",
+  run: "run",
+  careful: "careful",
+  dash: "run",
+};
+const AUTO_MIN_MS = 900;
+const AUTO_MAX_MS = 4000;
+
+export class RingoKikiMover {
+  private scene: Phaser.Scene;
+  private motion: CharacterMotion;
+  private moving = false;
+  private activeTween?: Phaser.Tweens.Tween;
+  private readonly tmpPoint = new Phaser.Math.Vector2();
+  private readonly tmpTan = new Phaser.Math.Vector2();
+
+  constructor(scene: Phaser.Scene, motion: CharacterMotion) {
+    this.scene = scene;
+    this.motion = motion;
+  }
+
+  get isMoving(): boolean {
+    return this.moving;
+  }
+
+  /** Face a world x-coordinate (multi-phase turn, never an instant flip). */
+  lookAt(x: number): void {
+    const dir = x >= this.motion.container.x ? 1 : -1;
+    this.motion.turnTo(dir as 1 | -1);
+  }
+
+  walk(spec: RingoWalkSpec): Promise<void> {
+    if (this.moving) return Promise.resolve();
+    this.moving = true;
+
+    const gait: RingoGait = spec.gait ?? "trot";
+    if (spec.terrain) this.motion.setTerrain(spec.terrain);
+    // Anticipation squash, then accelerate into the gait.
+    this.motion.start(GAIT_MOTION[gait]);
+
+    const speed = TROT_PX_PER_SEC * GAIT_SPEED[gait];
+    const length = Math.max(spec.curve.getLength(), 1);
+    const fromT = spec.fromT ?? 0;
+    const toT = spec.toT ?? 1;
+    const dirSign = toT >= fromT ? 1 : -1;
+    const travelLength = length * Math.abs(toT - fromT);
+    const duration =
+      spec.durationMs ??
+      Phaser.Math.Clamp((travelLength / speed) * 1000, AUTO_MIN_MS, AUTO_MAX_MS);
+
+    return new Promise((resolve) => {
+      const finish = () => {
+        this.moving = false;
+        this.activeTween = undefined;
+        // Decelerate and settle to idle — the game-feel stop.
+        this.motion.stopMoving();
+        const reaction = spec.arrivalReaction ?? "none";
+        if (reaction !== "none") {
+          // Small delay so the settle reads before the reaction.
+          this.scene.time.delayedCall(350, () => {
+            try {
+              (this.motion.react as (id: string) => void)(reaction);
+            } catch {
+              /* unknown reaction id — ignore */
+            }
+          });
+        }
+        resolve();
+      };
+
+      const proxy = { t: fromT };
+      this.activeTween = this.scene.tweens.add({
+        targets: proxy,
+        t: toT,
+        duration,
+        ease: "Sine.inOut",
+        onUpdate: () => {
+          const t = proxy.t;
+          const pos = spec.curve.getPoint(t, this.tmpPoint);
+          const tan = spec.curve.getTangent(t, this.tmpTan);
+          this.motion.container.setPosition(pos.x, pos.y);
+          // Face along the direction of travel (turnTo is a no-op if same).
+          const wantDir = tan.x * dirSign >= 0 ? 1 : -1;
+          this.motion.turnTo(wantDir as 1 | -1);
+        },
+        onComplete: finish,
+      });
+    });
+  }
+
+  /** Emergency stop: kills the active walk and settles Kiki. */
+  stop(): void {
+    this.activeTween?.stop();
+    this.activeTween = undefined;
+    this.moving = false;
+    this.motion.stopMoving();
+  }
+}

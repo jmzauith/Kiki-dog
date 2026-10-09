@@ -19,10 +19,14 @@ import {
   saveAdventure,
 } from "../systems/AdventurePersistence";
 import { AdventureEvents } from "../systems/AdventureEvents";
-import { KikiCharacter } from "../systems/KikiCharacter";
-import { KikiMover } from "../systems/KikiMover";
+import { CharacterMotion, createMotionAssets, preloadMotion } from "../motion/CharacterMotion";
+import { PlaythroughLog } from "../systems/HuskyTelemetry";
+import { FootFX } from "../motion/FootFX";
+import type { TerrainId } from "../motion/motionTypes";
+import { RingoKikiMover } from "../systems/RingoKikiMover";
+import { addOccluder, preloadOccluders } from "../visuals/SnowyDepth";
 import { SnowyWorld } from "../visuals/SnowyWorld";
-import { Landmarks, preloadLandmarks } from "../visuals/Landmarks";
+import { Landmarks, preloadLandmarks, preloadWorldDressing } from "../visuals/Landmarks";
 import { AdventureMarkers } from "../visuals/AdventureMarkers";
 import { DiscoveryFog, FogZone } from "../visuals/DiscoveryFog";
 
@@ -49,8 +53,9 @@ export class HuskyScene extends Phaser.Scene {
   private math = new MathEngine();
   private adventure!: AdventureProgress;
   private nodeDefs = new Map<string, AdventureNodeDef>();
-  private kiki!: KikiCharacter;
-  private mover!: KikiMover;
+  private kiki!: CharacterMotion;
+  private mover!: RingoKikiMover;
+  private footfx!: FootFX;
   private landmarks!: Landmarks;
   private markers!: AdventureMarkers;
   private fog!: DiscoveryFog;
@@ -60,14 +65,17 @@ export class HuskyScene extends Phaser.Scene {
   private busy = false;
   private prompt?: Phaser.GameObjects.Container;
   private status!: Phaser.GameObjects.Text;
+  private telemetry = new PlaythroughLog();
 
   constructor() {
     super("HuskyScene");
   }
 
   preload(): void {
-    KikiCharacter.preload(this);
+    preloadMotion(this);
     preloadLandmarks(this);
+    preloadWorldDressing(this);
+    preloadOccluders(this);
   }
 
   create(data?: { fresh?: boolean }): void {
@@ -119,7 +127,14 @@ export class HuskyScene extends Phaser.Scene {
       this.time.delayedCall(700, () => this.showRewardOverlay());
       return;
     }
+    this.telemetry.record("run-started");
     this.time.delayedCall(450, () => this.highlightForwardChoices());
+  }
+
+  /** Per-frame: advance Kiki's motion rig and foot FX. */
+  update(time: number, delta: number): void {
+    this.kiki?.update(time, delta);
+    this.footfx?.update(time, delta);
   }
 
   private setupCamera(): void {
@@ -222,18 +237,26 @@ export class HuskyScene extends Phaser.Scene {
 
   private buildKiki(): void {
     const start = kikiTargetFor(this.nodeDefs.get("trailhead")!);
-    this.kiki = new KikiCharacter(this, start.x, start.y, {
-      scale: 0.8,
-      depth: 15,
-      footprints: true,
+    createMotionAssets(this);
+    this.kiki = new CharacterMotion(this, "kiki", start.x, start.y + 80);
+    this.kiki.container.setDepth(15).setScale(1.5);
+    // Foot-contact FX: pawprints, snow puffs, and the terrain-aware
+    // contact shadow (depth 13, on the ground under Kiki per the
+    // Snowy Peaks depth contract).
+    this.footfx = new FootFX(this, this.kiki, {
+      prints: true,
       puffs: true,
+      shadow: true,
+      shadowScale: 0.8,
     });
-    this.mover = new KikiMover(this, this.kiki);
+    this.mover = new RingoKikiMover(this, this.kiki);
   }
 
   private buildIglooOccluders(): void {
-    this.add.image(SCENERY_SPOTS.igloo.x - 82, SCENERY_SPOTS.igloo.y + 12, "wlm-rock-ice").setScale(1.15).setDepth(7).setAlpha(0.98);
-    this.add.image(SCENERY_SPOTS.igloo.x + 88, SCENERY_SPOTS.igloo.y + 8, "wlm-rock-snow").setScale(1.32).setDepth(7).setAlpha(0.98);
+    // Painterly foreground occluders frame the secret igloo (depth 16+:
+    // they draw OVER Kiki per the Snowy Peaks depth contract).
+    addOccluder(this, "dl-rock", SCENERY_SPOTS.igloo.x - 82, SCENERY_SPOTS.igloo.y + 12, { scale: 1.15, alpha: 0.98 });
+    addOccluder(this, "dl-snowbank", SCENERY_SPOTS.igloo.x + 88, SCENERY_SPOTS.igloo.y + 8, { scale: 1.32, alpha: 0.98 });
   }
 
   private buildResetButton(): void {
@@ -511,12 +534,13 @@ export class HuskyScene extends Phaser.Scene {
   private async discoverSecret(id: string): Promise<void> {
     if (this.busy || this.adventure.isComplete(id)) return;
     this.busy = true;
+    this.telemetry.record("discovery-found", id);
     this.disableAllNodes();
     this.clearHighlights();
 
     const node = this.nodeById(id);
     this.kiki.lookAt(node.x);
-    this.kiki.react("curious", 1400);
+    this.kiki.react("curious");
 
     if (id === "secret-igloo") {
       this.status.setText("You found the Secret Igloo!");
@@ -544,10 +568,11 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private async runEncounter(node: AdventureNodeDef): Promise<void> {
+    this.telemetry.record("encounter-entered", node.id, { encounter: node.encounter });
     switch (node.encounter) {
       case "checkpoint":
         this.status.setText(node.hint ?? "Kiki takes a breather.");
-        this.kiki.react("happy", 1100);
+        this.kiki.react("happy");
         await this.delay(1100);
         break;
 
@@ -602,7 +627,7 @@ export class HuskyScene extends Phaser.Scene {
   /** Forest Navigation: choose the route by reading the clues. No wrong answer — both paths are real adventures. */
   private runForestChoice(_node: AdventureNodeDef): Promise<void> {
     return new Promise((resolve) => {
-      const c = this.add.container(640, 360).setDepth(100);
+      const c = this.add.container(640, 360).setDepth(999);
       const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.58);
       const panelG = this.add.graphics();
       panelG.fillStyle(0xfffbef, 1);
@@ -680,7 +705,7 @@ export class HuskyScene extends Phaser.Scene {
           target.disableInteractive();
           counter.destroy();
           this.markers.setCleared(node.id);
-          this.kiki.react("happy", 1200);
+          this.kiki.react("happy");
           this.status.setText("The path is clear!");
           this.time.delayedCall(900, () => resolve());
         }
@@ -691,7 +716,7 @@ export class HuskyScene extends Phaser.Scene {
 
   private offerBonusChallenge(title: string, body: string): Promise<boolean> {
     return new Promise((resolve) => {
-      const c = this.add.container(640, 360).setDepth(100);
+      const c = this.add.container(640, 360).setDepth(999);
       const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.58);
       const panelG = this.add.graphics();
       panelG.fillStyle(0xfffbef, 1);
@@ -739,13 +764,21 @@ export class HuskyScene extends Phaser.Scene {
       fromT: 0,
       toT: stopT,
       gait: "trot",
+      terrain: "normal-snow",
       arrivalReaction: "surprised",
     });
 
     await this.runMathEncounter("normal", "A broken bridge blocks the trail.");
 
     this.landmarks.repairBridge();
-    this.kiki.react("happy", 1000);
+    // The front rail draws OVER Kiki as she crosses (depth 16) — she is
+    // physically behind the rail, inside the world, not sliding over it.
+    const bridgeNode = this.nodeById("broken-bridge");
+    const rail = addOccluder(this, "dl-bridge-rail-front", bridgeNode.x, bridgeNode.y + 40, {
+      scale: 1.0,
+      alpha: 0.95,
+    });
+    this.kiki.react("happy");
     this.status.setText("The bridge is fixed!");
     await this.delay(950);
 
@@ -753,11 +786,27 @@ export class HuskyScene extends Phaser.Scene {
       curve,
       fromT: stopT,
       toT: 1,
-      gait: "trot",
+      gait: "careful",
+      terrain: "bridge",
       arrivalReaction: "curious",
     });
+    // Rail stays for the repaired bridge (it's part of the world now).
+    void rail;
     this.adventure.currentNodeId = "broken-bridge";
     this.adventure.completeEncounter("broken-bridge");
+  }
+
+  /** Terrain per node: Kiki's gait reshapes live via Ringo's motion system. */
+  private terrainFor(nodeId: string): TerrainId {
+    switch (nodeId) {
+      case "frozen-lake": return "ice";
+      case "broken-bridge": return "bridge";
+      case "ice-cave": return "cave";
+      case "snow-pass": return "windy-pass";
+      case "summit-camp": return "uphill";
+      case "fallen-tree": return "deep-snow";
+      default: return "normal-snow";
+    }
   }
 
   private walkKiki(toId: string, kind: AdventureRouteKind): Promise<void> {
@@ -765,6 +814,7 @@ export class HuskyScene extends Phaser.Scene {
     return this.mover.walk({
       curve: this.routeCurve(this.adventure.currentNodeId, toId, kind),
       gait: kind === "challenge" ? "dash" : "trot",
+      terrain: this.terrainFor(toId),
       arrivalReaction: "happy",
     });
   }
@@ -843,14 +893,18 @@ export class HuskyScene extends Phaser.Scene {
   private runMathEncounter(difficulty: "normal" | "challenge", title: string): Promise<boolean> {
     return new Promise((resolve) => {
       const q = this.math.nextQuestion(difficulty);
-      this.showMathPrompt(q, title, resolve);
+      this.telemetry.record("math-asked", undefined, { difficulty, prompt: q.prompt });
+      this.showMathPrompt(q, title, (ok) => {
+        this.telemetry.record("math-answered", undefined, { difficulty, correct: ok });
+        resolve(ok);
+      });
     });
   }
 
   private showMathPrompt(q: MathQuestion, title: string, resolve: (value: boolean) => void): void {
     this.prompt?.destroy(true);
 
-    const c = this.add.container(640, 360).setDepth(100);
+    const c = this.add.container(640, 360).setDepth(999);
     const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.58);
     const panelG = this.add.graphics();
     panelG.fillStyle(0xfffbef, 1);
@@ -935,7 +989,7 @@ export class HuskyScene extends Phaser.Scene {
       });
     }
 
-    const c = this.add.container(640, 360).setDepth(100);
+    const c = this.add.container(640, 360).setDepth(999);
     const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.62);
     const panelG = this.add.graphics();
     panelG.fillStyle(0xfffbef, 1);
@@ -969,7 +1023,7 @@ export class HuskyScene extends Phaser.Scene {
           yoyo: true, repeat: -1, delay: Phaser.Math.Between(0, 800),
         });
       }
-      this.kiki.react("happy", 3000);
+      this.kiki.react("happy");
     }
 
     const mkBtn = (y: number, label: string, cb: () => void) => {

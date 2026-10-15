@@ -153,9 +153,10 @@ export class HuskyScene extends Phaser.Scene {
   /** Developer-only inspection uses the production renderer and never reads/writes saves. */
   private createCompositionInspection(): void {
     const views: Record<string,{x:number;y:number;camera:number;repaired?:boolean}>={
-      trailhead:{x:310,y:570,camera:0},
+      trailhead:{x:410,y:570,camera:0},
       "bridge-approach":{x:650,y:570,camera:220},
-      "bridge-standing":{x:820,y:570,camera:220,repaired:true},
+      "bridge-standing":{x:820,y:578,camera:220,repaired:true},
+      "bridge-exit":{x:1040,y:565,camera:520,repaired:true},
       lake:{x:1780,y:570,camera:1190},
       igloo:{x:2110,y:410,camera:1510},
       "race-camp":{x:3030,y:510,camera:2080},
@@ -795,14 +796,15 @@ export class HuskyScene extends Phaser.Scene {
     return ({"broken-bridge":"bridge", "frozen-lake":"ice", "fallen-tree":"deep-snow", "ice-cave":"cave", "snow-pass":"windy-pass", "summit-camp":"uphill"} as Record<string,TerrainId>)[id] ?? "normal-snow";
   }
 
-  private walkKiki(toId: string, kind: AdventureRouteKind): Promise<void> {
+  private async walkKiki(toId: string, kind: AdventureRouteKind): Promise<void> {
     this.status.setText("Kiki is walking…");
-    return this.mover.walk({
+    await this.mover.walk({
       curve: this.routeCurve(this.adventure.currentNodeId, toId, kind),
       gait: kind === "challenge" ? "dash" : "trot",
       terrain: this.terrainFor(toId),
       arrivalReaction: "happy",
     });
+    this.status.setText("Kiki is ready to explore");
   }
 
   /** World reactions after an encounter completes: fog, reveals, secrets. */

@@ -11,7 +11,7 @@ const game = (inspection ? Promise.resolve() : choosePlayer()).then(() => new Ph
   backgroundColor: "#dff3ff",
   width: 1280,
   height: 720,
-  scene: [HuskyScene, RaceScene],
+  scene: inspection && new URLSearchParams(location.search).get("composition")?.startsWith("race-shot-") ? [RaceScene, HuskyScene] : [HuskyScene, RaceScene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,

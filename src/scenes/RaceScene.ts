@@ -8,7 +8,7 @@ import { MathEngine, MathQuestion } from "../systems/MathEngine";
 import { RaceProgressState } from "../systems/RaceProgress";
 import { KikiCharacter } from "../systems/KikiCharacter";
 import { HuskyCharacter } from "../systems/HuskyCharacter";
-import { KikiMover } from "../systems/KikiMover";
+import { RACE_TERRAIN } from "../visuals/RaceTerrain";
 import { HUSKY_ADVENTURE } from "../systems/HuskyAdventure";
 import { markRaceComplete } from "../systems/AdventurePersistence";
 import { AdventureEvents } from "../systems/AdventureEvents";
@@ -26,7 +26,7 @@ export class RaceScene extends Phaser.Scene {
   private turbos = 0;
   private kiki!: Phaser.GameObjects.Container;
   private kikiChar!: KikiCharacter;
-  private kikiMover!: KikiMover;
+  private shot = 0;
   private rivalChar!: HuskyCharacter;
   private rival!: Phaser.GameObjects.Container;
   private backdrop!: Phaser.GameObjects.Image;
@@ -68,13 +68,27 @@ export class RaceScene extends Phaser.Scene {
       padding: { x: 18, y: 10 },
     }).setOrigin(0.5).setDepth(20);
 
+    const inspection = import.meta.env.DEV && new URLSearchParams(location.search).get("composition")?.match(/^race-shot-([0-3])$/);
+    if (inspection) {
+      this.setRaceShot(Number(inspection[1]));
+      this.status.setText("Visual inspection · no adventure saves");
+      const preview = woodButton(this,640,615,300,60);
+      this.add.text(640,615,"Preview sled motion",{fontSize:"22px",color:"#ffffff"}).setOrigin(0.5).setDepth(30);
+      preview.setDepth(29).on("pointerdown",async()=>{
+        if(this.busy)return;
+        this.busy=true;this.setRaceShot(this.shot);
+        await Promise.all([this.moveKiki(0,false),this.moveRacer(this.rival,0,false)]);
+        this.busy=false;
+      });
+      return;
+    }
+    this.setRaceShot(0);
     try {
       const checkpoint = JSON.parse(gameStore().getItem("husky:race-checkpoint") ?? "null");
       if(checkpoint && Number.isInteger(checkpoint.turns) && checkpoint.turns >= 0 && checkpoint.turns <= 3 && Number.isInteger(checkpoint.kiki) && checkpoint.kiki >= 0 && checkpoint.kiki <= this.race.finish && Number.isInteger(checkpoint.rival) && checkpoint.rival >= 0 && checkpoint.rival < this.race.finish) {
         this.turns=checkpoint.turns; this.turbos=checkpoint.turbos;
         this.race.kiki=checkpoint.kiki; this.race.rival=checkpoint.rival;
-        this.kiki.setPosition(this.trackX(this.race.kiki),480-this.race.kiki*31);
-        this.rival.setPosition(this.trackX(this.race.rival),390-this.race.rival*22);
+        this.setRaceShot(Math.min(this.turns,3));
       }
     } catch { /* Optional checkpoint corruption must not block play. */ }
     if(this.turns >= 3) { this.busy=true; void this.finalSprint(); }
@@ -85,7 +99,7 @@ export class RaceScene extends Phaser.Scene {
     this.kiki = this.add.container(155, 480).setDepth(12);
     const sled = this.add.image(-6, 45, "wooden-sled").setDisplaySize(180, 60);
 
-    this.kikiChar = new KikiCharacter(this, 0, -7, {
+    this.kikiChar = new KikiCharacter(this, 0, 12, {
       depth: 0,
       scale: 0.72,
       footprints: false,
@@ -94,7 +108,7 @@ export class RaceScene extends Phaser.Scene {
     this.kikiChar.setIdlePose("sled-ready");
     this.kikiChar.setPose("sled-ready");
     this.kiki.add([sled, this.kikiChar.container]);
-    this.kikiMover = new KikiMover(this, this.kikiChar, this.kiki);
+
   }
 
   private drawHeader(): void {
@@ -113,19 +127,25 @@ export class RaceScene extends Phaser.Scene {
     }).setOrigin(0.5).setDepth(10);
   }
 
-  private trackX(progress: number): number {
-    return 155 + progress * (945 / this.race.finish);
+  private setRaceShot(shot: number): void {
+    this.shot = shot;
+    this.backdrop.setTexture(["ip-re-downhill","ip-re-icyturn","ip-re-deepsnow","ip-re-finish"][shot]).setDisplaySize(1280,720);
+    const start=RACE_TERRAIN[shot][0];
+    this.kiki.setPosition(start.x,start.y).setScale(start.scale);
+    this.rival.setPosition(start.x-75,start.y+35).setScale(start.scale*0.9);
+    this.kikiChar.setFacing("right");this.rivalChar.setFacing("right");
+    (this.kiki.list[0] as Phaser.GameObjects.Image).setFlipX(false);
+    (this.rival.list[0] as Phaser.GameObjects.Image).setFlipX(false);
   }
 
   private drawTrack(): void {
     this.backdrop = this.add.image(0, 0, "ip-re-downhill").setOrigin(0).setDisplaySize(1280, 720).setDepth(-10);
-    this.add.image(1100, 295, "race-checkpoint").setDisplaySize(300, 170).setDepth(2);
   }
 
   private createHuskyRacer(): Phaser.GameObjects.Container {
     const c = this.add.container(155, 390).setDepth(11);
     const sled = this.add.image(-6, 45, "wooden-sled").setDisplaySize(200, 67);
-    this.rivalChar = new HuskyCharacter(this, 0, -16, { scale: 0.92, depth: 0, footprints: false, puffs: true });
+    this.rivalChar = new HuskyCharacter(this, 0, 12, { scale: 0.92, depth: 0, footprints: false, puffs: true });
     this.rivalChar.setIdlePose("race");
     this.rivalChar.setPose("race");
     c.add([sled, this.rivalChar.container]);
@@ -182,7 +202,7 @@ export class RaceScene extends Phaser.Scene {
       {id:"deep-snow",title:"Deep powder",body:"Help Kiki paddle through the soft snow!",options:[{id:"1",label:"Paddle left"},{id:"2",label:"Paddle right"},{id:"3",label:"Push through"}],mode:"ordered" as const},
     ];
     const beat = beats[this.turns];
-    this.backdrop.setTexture(["ip-re-downhill","ip-re-icyturn","ip-re-deepsnow"][this.turns]).setDisplaySize(1280,720);
+    this.setRaceShot(this.turns);
     this.rivalChar.setPose(this.turns === 1 ? "leaning-turn" : this.turns === 2 ? "deep-snow" : "race-fast");
     this.kikiChar.setPose(this.turns === 1 ? "race-lean" : this.turns === 2 ? "race-hit" : "race-steady");
     await depth(`race-${beat.id}`,"sled-race",beat.title,beat.body,beat.options,"race-backdrop",beat.mode);
@@ -218,7 +238,7 @@ export class RaceScene extends Phaser.Scene {
   }
 
   private async finalSprint(): Promise<void> {
-    this.backdrop.setTexture("ip-re-finish").setDisplaySize(1280,720);
+    this.setRaceShot(3);
     await depth("race-final-sprint","sled-race","The finish is in sight!","Give Kiki one last cheer — no more math!",[{id:"cheer",label:"Go, Kiki, go!"}],"race-backdrop");
     record("race-beat","sled-race",{beatId:"final-sprint"});
     while(!this.race.over) this.race.playerMove("steady");
@@ -297,48 +317,37 @@ export class RaceScene extends Phaser.Scene {
     this.prompt = c;
   }
 
-  private moveKiki(progress: number, turbo: boolean): Promise<void> {
+  private moveKiki(_progress: number, turbo: boolean): Promise<void> {
     this.kikiChar.setIdlePose(turbo ? "race-turbo" : "race-steady");
     this.kikiChar.setPose(turbo ? "race-turbo" : "race-steady");
-    const targetX = this.trackX(progress);
-    if (turbo) this.createTurboBurst(this.kiki.x, this.kiki.y);
-
-    const targetY = 480 - progress * 31;
-    const curve = new Phaser.Curves.QuadraticBezier(
-      new Phaser.Math.Vector2(this.kiki.x, this.kiki.y),
-      new Phaser.Math.Vector2((this.kiki.x + targetX) / 2, this.kiki.y + 12),
-      new Phaser.Math.Vector2(targetX, targetY),
-    );
-    this.tweens.add({ targets: this.kiki, scale: 1 - progress * 0.045, duration: 650 });
-    return this.kikiMover.walk({
-      curve,
-      gait: turbo ? "dash" : "trot",
-      durationMs: turbo ? 650 : 950,
-      arrivalReaction: turbo ? "happy" : "none",
-      keepPose: true,
-    });
+    return this.moveSled(this.kiki,false,turbo);
   }
 
-  private moveRacer(
-    racer: Phaser.GameObjects.Container,
-    progress: number,
-    turbo: boolean,
-  ): Promise<void> {
-    const targetX = this.trackX(progress);
-    if (turbo) this.createTurboBurst(racer.x, racer.y);
+  private moveRacer(racer: Phaser.GameObjects.Container, _progress: number, turbo: boolean): Promise<void> {
+    return this.moveSled(racer,true,turbo);
+  }
 
-    return new Promise((resolve) => {
-      this.tweens.add({
-        targets: racer,
-        x: targetX,
-        y: 390 - progress * 22,
-        scale: 1 - progress * 0.045,
-        duration: turbo ? 650 : 950,
-        ease: turbo ? "Back.out" : "Sine.inOut",
-        onUpdate: () => this.createSnowPuff(racer.x - 42, racer.y + 42),
-        onComplete: () => resolve(),
-      });
-    });
+  private moveSled(racer: Phaser.GameObjects.Container, rival: boolean, turbo: boolean): Promise<void> {
+    const points=RACE_TERRAIN[this.shot];
+    const curve=new Phaser.Curves.Spline(points.map(p=>new Phaser.Math.Vector2(p.x,p.y)));
+    const dog=rival?this.rivalChar:this.kikiChar;
+    const proxy={t:0};
+    if(turbo)this.createTurboBurst(racer.x,racer.y);
+    return new Promise(resolve=>this.tweens.add({
+      targets:proxy,t:1,duration:turbo?1500:2000,ease:"Sine.inOut",
+      onUpdate:()=>{
+        const t=proxy.t*(rival?0.82:1);
+        const point=curve.getPoint(t), tangent=curve.getTangent(t);
+        if(rival){point.x-=75*(1-proxy.t);point.y+=35*(1-proxy.t);}
+        const scale=Phaser.Math.Linear(points[0].scale,points[2].scale,t)*(rival?0.9:1);
+        racer.setPosition(point.x,point.y).setScale(scale);
+        dog.setFacing(tangent.x<0?"left":"right");
+        (racer.list[0] as Phaser.GameObjects.Image).setFlipX(tangent.x<0);
+        // Snow comes from the runner contact, not the dog's body.
+        this.createSnowPuff(point.x-35*scale,point.y+70*scale);
+      },
+      onComplete:()=>resolve(),
+    }));
   }
 
   private createSnowPuff(x: number, y: number): void {
@@ -443,7 +452,9 @@ export class RaceScene extends Phaser.Scene {
       fontSize: "24px",
       color: "#ffffff",
     }).setOrigin(0.5);
-    btn.once("pointerdown", () => this.scene.start("HuskyScene"));
+    // Phaser retains scene data across starts. Clear the prior Play again flag
+    // so returning from a replayed race restores its win instead of erasing it.
+    btn.once("pointerdown", () => this.scene.start("HuskyScene", { fresh: false }));
     c.add([label, btn, btnLabel]);
     this.status.setVisible(false);
   }

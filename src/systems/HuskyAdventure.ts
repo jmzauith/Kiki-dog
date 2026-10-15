@@ -156,13 +156,13 @@ export const LANDMARK_FOR: Record<string, "start" | "math1" | "fork" | "safe" | 
 
 /** Where Kiki stands relative to each node marker (tuned per landmark). */
 export const KIKI_OFFSETS: Record<string, { x: number; y: number }> = {
-  "trailhead": { x: -108, y: -2 },
+  "trailhead": { x: 150, y: 10 },
   "broken-bridge": { x: -118, y: -6 },
-  "forest": { x: -64, y: 24 },
+  "forest": { x: 30, y: 45 },
   "frozen-lake": { x: -98, y: 8 },
   "fallen-tree": { x: -90, y: 12 },
   "ice-cave": { x: -104, y: 28 },
-  "snow-pass": { x: -100, y: 4 },
+  "snow-pass": { x: 15, y: 30 },
   "summit-camp": { x: -124, y: 12 },
   "secret-igloo": { x: -60, y: 6 },
   "snow-cache": { x: -40, y: 0 },

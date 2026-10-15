@@ -1,9 +1,11 @@
 import {describe,it,expect} from "vitest";
-import {bridgePath,pathScale,TERRAIN_PATHS} from "../../visuals/HuskyTerrain";
+import {bridgePath,pathScale} from "../../visuals/HuskyTerrain";
 describe("Harrison terrain integration",()=>{
   it("crosses the approved diagonal bridge with a continuous depth change",()=>{
     const path=bridgePath();
-    expect(path).toHaveLength(TERRAIN_PATHS.bridge.walkPath.points.length);
+    // Arrival must clear the far abutment, including after checkpoint restore.
+    expect(path.at(-1)!.x).toBeGreaterThan(1000);
+    expect(path.at(-1)!.scale).toBe(path.at(-2)!.scale);
     expect(path.at(-1)!.x).toBeGreaterThan(path[0].x);
     expect(path.at(-1)!.y).toBeLessThan(path[0].y);
     expect(Math.min(...path.map(p=>p.scale))).toBeLessThan(path[0].scale);

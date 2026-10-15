@@ -42,6 +42,7 @@ const framesAdded = new Set<string>();
 
 /** Queue every rig atlas for load. Call from the scene's preload(). */
 export function preloadMotion(scene: Phaser.Scene): void {
+  scene.load.image("kiki-idle-planted", "assets/premium/kiki-idle-v1.png");
   scene.load.image("kiki-trot-frames", "assets/premium/kiki-walk-v2.png");
   for(const pose of ["idle","trot","run","curious","happy","surprised","proud"]){
     scene.load.svg("world-kiki-"+pose,`assets/characters/kiki/kiki-a-${pose}.svg`);
@@ -342,7 +343,7 @@ export class CharacterMotion {
           const scale=Math.abs(this.container.scaleX);
           this.events.emit("footstep",{paw:frame===0?"frontL":"frontR",x:x+this.facing*24*scale,y});
         }
-      } else if(!isLocomotion(this.motion)) this.setBodyFrame(2);
+      } else if(!isLocomotion(this.motion)) this.setIntactPose("idle");
       // Keep the paws on the terrain; the full frames supply their own body bob.
       this.intactPose.setPosition(0, Math.min(0,this.rootState.y*.35));
     }
@@ -396,15 +397,17 @@ export class CharacterMotion {
   private setIntactPose(pose: string):void {
     if(!this.intactPose)return;
     const moving=pose === "trot" || pose === "run";
-    this.intactPose.setTexture("kiki-trot-frames");
-    this.setBodyFrame(moving ? 0 : 2);
-    this.intactPose.setDisplaySize(160,160);
+    if(moving) {
+      this.setBodyFrame(0);
+    } else {
+      this.intactPose.setTexture("kiki-idle-planted").setOrigin(.5, .895).setDisplaySize(144,144);
+    }
   }
 
   private setBodyFrame(frame:number):void {
     // Measured opaque paw baselines; different frame padding must not make her float.
     const paws=[384,390,393,388,384,385,382,380];
-    this.intactPose?.setFrame(String(frame)).setOrigin(.5,paws[frame]/443);
+    this.intactPose?.setTexture("kiki-trot-frames",String(frame)).setOrigin(.5,paws[frame]/443).setDisplaySize(160,160);
   }
 
   private applyMotion(id: MotionId): void {

@@ -10,8 +10,8 @@ export const TERRAIN_PATHS = {bridge,lake,cave,igloo,pass,summit};
  * approved diagonal landmark without changing progression or the source art. */
 export function bridgePath(): GroundPoint[] {
   // Same depth scale contract, with feet fitted to the replacement deck pixels.
-  const deckY=[606,586,570,550,528];
-  return bridge.walkPath.points.map((p,i)=>({...p,y:deckY[i]}));
+  const deckY=[610,594,578,558,546];
+  return [...bridge.walkPath.points.map((p,i)=>({...p,y:deckY[i]})), {x:1040,y:565,scale:0.8}];
 }
 export function pathScale(points: readonly GroundPoint[], t:number): number {
   const u=Math.max(0,Math.min(1,t))*(points.length-1);

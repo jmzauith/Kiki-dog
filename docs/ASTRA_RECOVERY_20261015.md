@@ -30,7 +30,7 @@ The remote snapshot had 449 tests. The extra 21 are MotionIntegration (13), Husk
 
 The running local build uses port 5177. Existing Auto Safe Oct15 was resumed around Fallen Tree/Snow Pass and the igloo-reveal advice was exercised. That visible session advanced to post-race between checks without a controlled race playthrough, so it cannot be counted as personally validated race completion.
 
-A separate Astra Challenge profile was created through the normal UI. Profile creation, introduction, continuous painting and complete-character rendering were observed. `qa/husky-composition/recovery-current-challenge.jpg` is fresh evidence from this recovery pass. Older screenshots in that folder predate the final walk-v2 asset and must not be represented as fresh final-state acceptance.
+A separate Astra Challenge profile was created through the normal UI. Profile creation, introduction, bridge math (4 × 2), all three board placement pairs, the repaired bridge crossing outcome, forest sniff/advice discovery, challenge route selection, cave arrival and all three crystal buttons were exercised through the normal UI. Continuous painting and complete-character rendering were observed. The bridge exit still shows weak foot/deck contact; the idle frame holds a raised paw. The compact cave panel covers Kiki’s lower body, and the status still reads “Kiki is walking…” while an arrival interaction is open. The cave math and all later steps remain unvalidated in this controlled profile. `qa/husky-composition/recovery-current-challenge.jpg` is fresh evidence from this recovery pass. Older screenshots in that folder predate the final walk-v2 asset and must not be represented as fresh final-state acceptance.
 
 Both complete routes, all six required math encounters, race finish, reward/sticker unlock and reload persistence still require a controlled final browser pass. No adult fast-play timing or final interaction totals are certified by this report.
 
@@ -44,3 +44,7 @@ Both complete routes, all six required math encounters, race finish, reward/stic
 - P2 / Integration: remove playtest-only labels from final player presentation and review production bundle size.
 
 This is a recovery checkpoint, not a declaration that Husky Premium Polish is complete.
+
+## Remote publication
+
+Gameplay tree was published as `b48c6c82b81cd726fea9cf803f21ac330c185112`, followed by evidence commit `40f20b1c85ee8ade1781101bfecf2af58c111a6d`. The latter was read back from GitHub on the integration branch and has the exact same tree (`693cb9a2b7016cb31cae2bfb6ceae75577302e1a`) as local `4b5443b4aed20c5fd4717976d761c92a646212e3`. Commit identifiers differ because publication used the authenticated GitHub connector after shell Git authentication failed. This report update follows that verified checkpoint. No force push and no main merge occurred.

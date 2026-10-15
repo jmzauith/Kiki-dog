@@ -239,7 +239,7 @@ export class HuskyScene extends Phaser.Scene {
     const start = kikiTargetFor(this.nodeDefs.get("trailhead")!);
     createMotionAssets(this);
     this.kiki = new CharacterMotion(this, "kiki", start.x, start.y + 80);
-    this.kiki.container.setDepth(15).setScale(1.5);
+    this.kiki.container.setDepth(15).setScale(1.0);
     // Foot-contact FX: pawprints, snow puffs, and the terrain-aware
     // contact shadow (depth 13, on the ground under Kiki per the
     // Snowy Peaks depth contract).

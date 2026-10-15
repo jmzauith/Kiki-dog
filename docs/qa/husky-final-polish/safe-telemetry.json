@@ -1,0 +1,694 @@
+{
+  "events": [
+    {
+      "type": "run-started",
+      "atMs": 1791469777728
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791469778282,
+      "nodeId": "trailhead",
+      "detail": {
+        "interactionId": "inspect-trail-sign",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791469793694,
+      "nodeId": "trailhead",
+      "detail": {
+        "interactionId": "inspect-trail-sign",
+        "choice": "paw-map"
+      }
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791469804280,
+      "nodeId": "broken-bridge"
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791469806790,
+      "nodeId": "broken-bridge",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791469821995,
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791469824129,
+      "nodeId": "broken-bridge"
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1791469851996
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1791469858055
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791469858056,
+      "nodeId": "forest"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791469860000,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "sniff-pawprints",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791469870032,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "sniff-pawprints",
+        "choice": "pawprints"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791469870033,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "advice-forest-noise",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791469884136,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "advice-forest-noise",
+        "choice": "check-it-out"
+      }
+    },
+    {
+      "type": "advice-choice-made",
+      "atMs": 1791469884136,
+      "nodeId": "forest",
+      "detail": {
+        "choiceId": "check-it-out"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791469884136,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "forest-hare",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791469891534,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "forest-hare",
+        "choice": "clue"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791469901831,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "choose-route",
+        "choice": "safe"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791469901833,
+      "nodeId": "forest"
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791469922337,
+      "nodeId": "frozen-lake"
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791469926348,
+      "nodeId": "frozen-lake",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791469941021,
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791469941023,
+      "nodeId": "frozen-lake",
+      "detail": {
+        "interactionId": "choose-stepping-stones",
+        "kind": "choose-path"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791469946987,
+      "nodeId": "frozen-lake",
+      "detail": {
+        "interactionId": "choose-stepping-stones",
+        "choice": "left"
+      }
+    },
+    {
+      "type": "micro-decision-made",
+      "atMs": 1791469946988,
+      "nodeId": "frozen-lake",
+      "detail": {
+        "choiceId": "left"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791469946988,
+      "nodeId": "frozen-lake",
+      "detail": {
+        "interactionId": "cross-stones",
+        "kind": "ordered"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791469966135,
+      "nodeId": "frozen-lake",
+      "detail": {
+        "interactionId": "cross-stones",
+        "choice": "4"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791469967358,
+      "nodeId": "frozen-lake"
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791469985899,
+      "nodeId": "fallen-tree"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791469988218,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree",
+        "kind": "multi-tap-clear"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470003606,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree",
+        "choice": "4"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791470003607,
+      "nodeId": "fallen-tree"
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791470024505,
+      "nodeId": "snow-pass"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470026557,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "follow-trail-markers",
+        "kind": "ordered-tap"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470036145,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "follow-trail-markers",
+        "choice": "4"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470036145,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "advice-igloo-mound",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470047759,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "advice-igloo-mound",
+        "choice": "peek"
+      }
+    },
+    {
+      "type": "advice-choice-made",
+      "atMs": 1791470047760,
+      "nodeId": "snow-pass",
+      "detail": {
+        "choiceId": "peek"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791470048847,
+      "nodeId": "snow-pass"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470070357,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "search-igloo-objects",
+        "kind": "search-hidden"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470079758,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "search-igloo-objects",
+        "choice": "blanket"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470079758,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "igloo-fact",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470086195,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "igloo-fact",
+        "choice": "continue"
+      }
+    },
+    {
+      "type": "discovery-found",
+      "atMs": 1791470096154,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "discoveryId": "secret-igloo"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470096355,
+      "nodeId": "snow-cache",
+      "detail": {
+        "interactionId": "uncover-bone-cache",
+        "kind": "search-hidden"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470103809,
+      "nodeId": "snow-cache",
+      "detail": {
+        "interactionId": "uncover-bone-cache",
+        "choice": "snow"
+      }
+    },
+    {
+      "type": "discovery-found",
+      "atMs": 1791470103809,
+      "nodeId": "snow-cache",
+      "detail": {
+        "discoveryId": "snow-cache"
+      }
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791470103994,
+      "nodeId": "summit-camp"
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791470105570,
+      "nodeId": "summit-camp",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791470120109,
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791470120908,
+      "nodeId": "summit-camp"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470141205,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "greet-bolt",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470151654,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "greet-bolt",
+        "choice": "wave"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470151656,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "advice-race-ready",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470159722,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "advice-race-ready",
+        "choice": "look-around"
+      }
+    },
+    {
+      "type": "advice-choice-made",
+      "atMs": 1791470159723,
+      "nodeId": "race-camp",
+      "detail": {
+        "choiceId": "look-around"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470159723,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "inspect-sled",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470168703,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "inspect-sled",
+        "choice": "strap"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470192821,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-downhill",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470200904,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-downhill",
+        "choice": "push"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1791470200910,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "downhill"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791470200911,
+      "nodeId": "sled-race",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791470215767,
+      "nodeId": "sled-race",
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "race-turn",
+      "atMs": 1791470215771,
+      "nodeId": "sled-race",
+      "detail": {
+        "turn": 1,
+        "mode": "steady"
+      }
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1791470245769
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1791470251083
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470251085,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-icy-turn",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470261025,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-icy-turn",
+        "choice": "inside"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1791470261027,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "icy-turn"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791470261028,
+      "nodeId": "sled-race",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791470269107,
+      "nodeId": "sled-race",
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "race-turn",
+      "atMs": 1791470269108,
+      "nodeId": "sled-race",
+      "detail": {
+        "turn": 2,
+        "mode": "steady"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470295431,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-deep-snow",
+        "kind": "ordered"
+      }
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1791470325432
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1791470765979
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470766517,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-deep-snow",
+        "choice": "3"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1791470766518,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "deep-snow"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791470766518,
+      "nodeId": "sled-race",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791470774243,
+      "nodeId": "sled-race",
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "race-turn",
+      "atMs": 1791470774245,
+      "nodeId": "sled-race",
+      "detail": {
+        "turn": 3,
+        "mode": "steady"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470775210,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-final-sprint",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470784963,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-final-sprint",
+        "choice": "cheer"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1791470784964,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "final-sprint"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791470805049,
+      "nodeId": "husky-reward",
+      "detail": {
+        "interactionId": "pick-favorite-moment",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791470821388,
+      "nodeId": "husky-reward",
+      "detail": {
+        "interactionId": "pick-favorite-moment",
+        "choice": "race"
+      }
+    },
+    {
+      "type": "run-ended",
+      "atMs": 1791470821392
+    }
+  ],
+  "summary": {
+    "totalMs": 1043664,
+    "idleMs": 451920,
+    "activeMs": 591744,
+    "mathAsked": 6,
+    "mathAnsweredCorrect": 6,
+    "hintsShown": 0,
+    "interactionsCompleted": 21,
+    "adviceChoicesMade": [
+      "check-it-out",
+      "peek",
+      "look-around"
+    ],
+    "microDecisionsMade": 1,
+    "discoveriesFound": [
+      "secret-igloo",
+      "snow-cache"
+    ],
+    "raceTurns": 3,
+    "raceBeats": 4,
+    "encountersVisited": [
+      "broken-bridge",
+      "forest",
+      "frozen-lake",
+      "fallen-tree",
+      "snow-pass",
+      "summit-camp"
+    ]
+  }
+}

@@ -1,3 +1,14 @@
+import { crossLakeInWorld } from "../visuals/LakeCrossing";
+import { bridgePath, TERRAIN_PATHS } from "../visuals/HuskyTerrain";
+import { repairBridgeInWorld } from "../visuals/BridgeRepair";
+import { depth, advice } from "../visuals/HuskyDepth";
+import { startPolishRun, record, complete, finishPolishRun, showPlaytestStats } from "../systems/PolishRun";
+import { polishPosition, woodButton } from "../visuals/PolishArt";
+import { HuskyCharacter } from "../systems/HuskyCharacter";
+import { syncHuskyProgress } from "../systems/HuskyProgressBridge";
+import { HUSKY_NARRATIVE } from "../systems/HuskyNarrative";
+import { gameStore, HUSKY_GAME_SAVE_KEY } from "../systems/PlayContext";
+import { preloadPreviewArt, previewBadge } from "../visuals/PreviewArt";
 import Phaser from "phaser";
 import { MathEngine, MathQuestion } from "../systems/MathEngine";
 import {
@@ -9,7 +20,6 @@ import {
 } from "../systems/AdventureState";
 import {
   HUSKY_ADVENTURE,
-  HUSKY_SAVE_KEY,
   kikiTargetFor,
   LANDMARK_FOR,
 } from "../systems/HuskyAdventure";
@@ -19,14 +29,13 @@ import {
   saveAdventure,
 } from "../systems/AdventurePersistence";
 import { AdventureEvents } from "../systems/AdventureEvents";
-import { CharacterMotion, createMotionAssets, preloadMotion } from "../motion/CharacterMotion";
-import { PlaythroughLog } from "../systems/HuskyTelemetry";
+import { CharacterMotion, preloadMotion, createMotionAssets } from "../motion/CharacterMotion";
 import { FootFX } from "../motion/FootFX";
+
 import type { TerrainId } from "../motion/motionTypes";
 import { RingoKikiMover } from "../systems/RingoKikiMover";
-import { addOccluder, preloadOccluders } from "../visuals/SnowyDepth";
 import { SnowyWorld } from "../visuals/SnowyWorld";
-import { Landmarks, preloadLandmarks, preloadWorldDressing } from "../visuals/Landmarks";
+import { Landmarks, preloadLandmarks } from "../visuals/Landmarks";
 import { AdventureMarkers } from "../visuals/AdventureMarkers";
 import { DiscoveryFog, FogZone } from "../visuals/DiscoveryFog";
 
@@ -54,8 +63,8 @@ export class HuskyScene extends Phaser.Scene {
   private adventure!: AdventureProgress;
   private nodeDefs = new Map<string, AdventureNodeDef>();
   private kiki!: CharacterMotion;
-  private mover!: RingoKikiMover;
   private footfx!: FootFX;
+  private mover!: RingoKikiMover;
   private landmarks!: Landmarks;
   private markers!: AdventureMarkers;
   private fog!: DiscoveryFog;
@@ -65,17 +74,17 @@ export class HuskyScene extends Phaser.Scene {
   private busy = false;
   private prompt?: Phaser.GameObjects.Container;
   private status!: Phaser.GameObjects.Text;
-  private telemetry = new PlaythroughLog();
 
   constructor() {
     super("HuskyScene");
   }
 
   preload(): void {
+    preloadPreviewArt(this);
+    HuskyCharacter.preload(this);
     preloadMotion(this);
+    this.load.svg("dl-ice-cracks","assets/worlds/snowy-peaks/dl-ice-cracks.svg",{width:500,height:300});
     preloadLandmarks(this);
-    preloadWorldDressing(this);
-    preloadOccluders(this);
   }
 
   create(data?: { fresh?: boolean }): void {
@@ -85,12 +94,18 @@ export class HuskyScene extends Phaser.Scene {
     this.routeVisuals = [];
     this.nodeObjects.clear();
     this.nodeBaseY.clear();
-    this.nodeDefs = new Map(HUSKY_ADVENTURE.nodes.map((n) => [n.id, n]));
+    this.nodeDefs = new Map(HUSKY_ADVENTURE.nodes.map((n) => [n.id, polishPosition(n)]));
 
+    if(import.meta.env.DEV && new URLSearchParams(location.search).has("composition")) {
+      this.createCompositionInspection();
+      return;
+    }
+
+    startPolishRun(!!data?.fresh);
     // Progress: restore the saved run, or start fresh.
-    if (data?.fresh) clearAdventure(HUSKY_SAVE_KEY);
+    if (data?.fresh) clearAdventure(HUSKY_GAME_SAVE_KEY, gameStore());
     this.adventure =
-      loadAdventure(HUSKY_SAVE_KEY, HUSKY_ADVENTURE) ?? new AdventureProgress(HUSKY_ADVENTURE);
+      loadAdventure(HUSKY_GAME_SAVE_KEY, HUSKY_ADVENTURE, gameStore()) ?? new AdventureProgress(HUSKY_ADVENTURE);
     // The trailhead checkpoint is where every run begins.
     if (!this.adventure.isComplete("trailhead")) {
       this.adventure.completeEncounter("trailhead");
@@ -100,6 +115,7 @@ export class HuskyScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#9fd4f5");
     this.cameras.main.setBounds(0, 0, WORLD_W, WORLD_H).setScroll(0, 0);
     new SnowyWorld(this).build();
+    previewBadge(this);
 
     this.drawTitlePlaque();
     this.drawRoutes();
@@ -127,14 +143,48 @@ export class HuskyScene extends Phaser.Scene {
       this.time.delayedCall(700, () => this.showRewardOverlay());
       return;
     }
-    this.telemetry.record("run-started");
-    this.time.delayedCall(450, () => this.highlightForwardChoices());
+    this.time.delayedCall(450, async () => {
+      this.busy = true;
+      await depth("inspect-trail-sign","trailhead","A mountain adventure","Explore the trail sign. Bolt is waiting at Race Camp!",[{id:"paw-map",label:"Read the paw map"},{id:"kiki-sniff",label:"Let Kiki sniff"}],"lm-trailhead");
+      this.busy = false; this.highlightForwardChoices();
+    });
   }
 
-  /** Per-frame: advance Kiki's motion rig and foot FX. */
-  update(time: number, delta: number): void {
-    this.kiki?.update(time, delta);
-    this.footfx?.update(time, delta);
+  /** Developer-only inspection uses the production renderer and never reads/writes saves. */
+  private createCompositionInspection(): void {
+    const views: Record<string,{x:number;y:number;camera:number;repaired?:boolean}>={
+      trailhead:{x:310,y:570,camera:0},
+      "bridge-approach":{x:650,y:570,camera:220},
+      "bridge-standing":{x:820,y:570,camera:220,repaired:true},
+      lake:{x:1780,y:570,camera:1190},
+      igloo:{x:2110,y:410,camera:1510},
+      "race-camp":{x:3030,y:510,camera:2080},
+    };
+    const view=views[new URLSearchParams(location.search).get("composition")??""]??views.trailhead;
+    this.cameras.main.setBounds(0,0,WORLD_W,WORLD_H).setScroll(view.camera,0);
+    new SnowyWorld(this).build();
+    this.buildLandmarks();this.buildMarkers();this.buildKiki();
+    for(const obj of this.nodeObjects.values())obj.setVisible(true);
+    this.landmarks.setIglooState("discovered");
+    if(view.repaired){this.landmarks.repairBridge(false);this.landmarks.addBridgeForeground();}
+    this.kiki.container.setPosition(view.x,view.y);
+    const nav=document.createElement("nav");nav.className="composition-inspector";
+    nav.setAttribute("aria-label","Composition inspection — saves untouched");
+    nav.style.cssText="position:fixed;top:12px;left:12px;z-index:1000;display:flex;gap:6px;flex-wrap:wrap;padding:10px;background:#173544ed;border-radius:12px;color:white;font:14px Georgia;max-width:94vw";
+    for(const key of Object.keys(views)) {
+      const link=document.createElement("a");link.href="?composition="+key;link.textContent=key;
+      link.style.cssText="color:#fff4dd;padding:8px;text-decoration:none";nav.append(link);
+    }
+    const walk=document.createElement("button");walk.textContent="Preview walk / turn";
+    walk.onclick=async()=>{
+      if(this.mover.isMoving)return;
+      walk.disabled=true;
+      const x=this.kiki.x,y=this.kiki.y;
+      await this.mover.walk({curve:new Phaser.Curves.Line(new Phaser.Math.Vector2(x,y),new Phaser.Math.Vector2(x+190,y)),arrivalReaction:"none"});
+      await this.mover.walk({curve:new Phaser.Curves.Line(new Phaser.Math.Vector2(x+190,y),new Phaser.Math.Vector2(x,y)),arrivalReaction:"none"});
+      walk.disabled=false;
+    };nav.append(walk);document.body.append(nav);
+    this.events.once("shutdown",()=>nav.remove());
   }
 
   private setupCamera(): void {
@@ -150,7 +200,7 @@ export class HuskyScene extends Phaser.Scene {
     const x = obj.x - cam.scrollX;
     if (x < 100 || x > 1150) {
       cam.stopFollow();
-      cam.pan(obj.x - 200, 360, 850, Phaser.Math.Easing.Sine.InOut, true);
+      cam.pan((this.kiki.x + obj.x) / 2, 360, 850, Phaser.Math.Easing.Sine.InOut, true);
     }
   }
 
@@ -162,21 +212,16 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private saveProgress(): void {
-    saveAdventure(HUSKY_SAVE_KEY, this.adventure);
+    saveAdventure(HUSKY_GAME_SAVE_KEY, this.adventure, gameStore());
+    syncHuskyProgress(this.adventure, gameStore());
   }
 
   // ------------------------------------------------------------------ visuals
 
   private drawTitlePlaque(): void {
-    const g = this.add.graphics().setDepth(9).setScrollFactor(0);
-    g.fillStyle(0x8d5a32, 0.95);
-    g.lineStyle(3, 0x5a3a1e, 1);
-    g.fillRoundedRect(232, 18, 208, 58, 12);
-    g.strokeRoundedRect(232, 18, 208, 58, 12);
-    g.fillStyle(0xffffff, 0.9);
-    g.fillRoundedRect(240, 24, 192, 10, 5);
+    this.add.image(336, 49, "wood-panel").setDisplaySize(235, 64).setTint(0xb7a080).setDepth(9).setScrollFactor(0);
     this.add.text(336, 42, "SNOWY PEAKS", {
-      fontFamily: "Arial Black, Arial",
+      fontFamily: "Georgia",
       fontSize: "21px",
       color: "#fff6e3",
     }).setOrigin(0.5).setDepth(10).setScrollFactor(0);
@@ -217,7 +262,7 @@ export class HuskyScene extends Phaser.Scene {
 
   private buildMarkers(): void {
     this.markers = new AdventureMarkers(this);
-    const defs = HUSKY_ADVENTURE.nodes.filter((n) => LANDMARK_FOR[n.id] == null && n.encounter !== "race" && n.encounter !== "reward");
+    const defs = [...this.nodeDefs.values()].filter((n) => LANDMARK_FOR[n.id] == null && n.encounter !== "race" && n.encounter !== "reward");
     this.markers.build(defs);
     for (const id of this.markers.ids()) {
       const c = this.markers.get(id);
@@ -238,25 +283,21 @@ export class HuskyScene extends Phaser.Scene {
   private buildKiki(): void {
     const start = kikiTargetFor(this.nodeDefs.get("trailhead")!);
     createMotionAssets(this);
-    this.kiki = new CharacterMotion(this, "kiki", start.x, start.y + 80);
-    this.kiki.container.setDepth(15).setScale(1.0);
-    // Foot-contact FX: pawprints, snow puffs, and the terrain-aware
-    // contact shadow (depth 13, on the ground under Kiki per the
-    // Snowy Peaks depth contract).
-    this.footfx = new FootFX(this, this.kiki, {
-      prints: true,
-      puffs: true,
-      shadow: true,
-      shadowScale: 0.8,
-    });
+    this.kiki = new CharacterMotion(this, "kiki", start.x, start.y, {intact:true});
+    this.kiki.container.setScale(0.8).setDepth(15);
+    this.footfx = new FootFX(this, this.kiki, {shadow:true, shadowScale:0.75});
     this.mover = new RingoKikiMover(this, this.kiki);
+    this.events.once("shutdown", () => { this.mover.stop(); this.footfx.destroy(); });
+  }
+
+  update(time: number, delta: number): void {
+    this.kiki?.update(time, delta);
+    this.footfx?.update(time, delta);
   }
 
   private buildIglooOccluders(): void {
-    // Painterly foreground occluders frame the secret igloo (depth 16+:
-    // they draw OVER Kiki per the Snowy Peaks depth contract).
-    addOccluder(this, "dl-rock", SCENERY_SPOTS.igloo.x - 82, SCENERY_SPOTS.igloo.y + 12, { scale: 1.15, alpha: 0.98 });
-    addOccluder(this, "dl-snowbank", SCENERY_SPOTS.igloo.x + 88, SCENERY_SPOTS.igloo.y + 8, { scale: 1.32, alpha: 0.98 });
+    // Rejected foreground sources contained backdrop pixels and a baked-in dog.
+    // Add only atlas-aligned foregrounds after their world alignment is verified.
   }
 
   private buildResetButton(): void {
@@ -283,13 +324,17 @@ export class HuskyScene extends Phaser.Scene {
       if (id === "trailhead" || id === "broken-bridge") obj.setVisible(true);
     }
     if (this.adventure.isComplete("broken-bridge")) {
-      this.landmarks.repairBridge();
+      this.landmarks.repairBridge(false);
       void this.fog.reveal("valleyGate");
     }
     if (this.adventure.isComplete("fallen-tree")) this.markers.setCleared("fallen-tree");
     if (this.adventure.isComplete("fallen-tree") || this.adventure.isComplete("ice-cave")) {
       void this.fog.reveal("summitVeil");
     }
+    for (const id of ["snow-pass", "summit-camp", "snow-cache"]) {
+      if (this.adventure.isComplete(id)) this.markers.setCleared(id);
+    }
+    if (this.adventure.isComplete("secret-igloo")) this.landmarks.setIglooState("glow");
     // Secrets whose parents are complete are always re-revealed here, so a
     // refresh can never lose them (revealSecretNode is idempotent).
     for (const n of HUSKY_ADVENTURE.nodes) {
@@ -298,7 +343,7 @@ export class HuskyScene extends Phaser.Scene {
     // Kiki resumes where the save left her.
     const here = this.nodeDefs.get(this.adventure.currentNodeId);
     if (here && here.encounter !== "race" && here.encounter !== "reward") {
-      const t = kikiTargetFor(here);
+      const t = here.id === "broken-bridge" && this.adventure.isComplete(here.id) ? bridgePath().at(-1)! : here.id === "frozen-lake" && this.adventure.isComplete(here.id) ? TERRAIN_PATHS.lake.walkPath.points.at(-1)! : kikiTargetFor(here);
       this.kiki.container.setPosition(t.x, t.y);
     }
     this.redrawAllEdges();
@@ -323,7 +368,7 @@ export class HuskyScene extends Phaser.Scene {
     const start = fromId === this.adventure.currentNodeId
       ? new Phaser.Math.Vector2(this.kiki.x, this.kiki.y)
       : new Phaser.Math.Vector2(kikiTargetFor(this.nodeById(fromId)).x, kikiTargetFor(this.nodeById(fromId)).y);
-    const target = kikiTargetFor(this.nodeById(toId));
+    const target = toId === "frozen-lake" ? TERRAIN_PATHS.lake.walkPath.points[0] : kikiTargetFor(this.nodeById(toId));
     return new Phaser.Curves.QuadraticBezier(
       start,
       this.routeControl(fromId, toId, kind),
@@ -355,9 +400,9 @@ export class HuskyScene extends Phaser.Scene {
     const points = curve.getPoints(30);
 
     if (edge.kind === "challenge") {
-      graphics.lineStyle(highlighted ? 22 : 16, 0xa8d8f8, highlighted ? 0.9 : 0.6);
+      graphics.lineStyle(highlighted ? 8 : 6, 0xc4d9dd, highlighted ? 0.35 : 0.12);
       graphics.strokePoints(points, false, false);
-      graphics.lineStyle(highlighted ? 12 : 9, 0xeaf7ff, highlighted ? 0.95 : 0.75);
+      graphics.lineStyle(3, 0xf6eddb, highlighted ? 0.45 : 0.2);
       graphics.strokePoints(points, false, false);
       for (let i = 5; i < points.length - 2; i += 6) {
         const p = points[i];
@@ -365,9 +410,9 @@ export class HuskyScene extends Phaser.Scene {
         graphics.fillCircle(p.x, p.y - 7, highlighted ? 4 : 3);
       }
     } else {
-      graphics.lineStyle(highlighted ? 32 : 26, 0xbcd9f2, highlighted ? 0.85 : 0.55);
+      graphics.lineStyle(highlighted ? 10 : 7, 0xc4d9dd, highlighted ? 0.25 : 0.12);
       graphics.strokePoints(points, false, false);
-      graphics.lineStyle(highlighted ? 22 : 17, 0xffffff, highlighted ? 0.95 : 0.8);
+      graphics.lineStyle(4, 0xfff6e5, highlighted ? 0.38 : 0.18);
       graphics.strokePoints(points, false, false);
       for (let i = 4; i < points.length - 3; i += 4) {
         const p = points[i];
@@ -420,9 +465,10 @@ export class HuskyScene extends Phaser.Scene {
       const nodeObj = this.nodeObjects.get(choice.to);
       if (!nodeObj) continue;
       this.bounceNode(nodeObj, choice.kind === "challenge" ? 0xffd24d : 0xffffff);
-      nodeObj.setSize(130, 130);
-      nodeObj.setInteractive(new Phaser.Geom.Circle(65, 65, 56), Phaser.Geom.Circle.Contains);
-      nodeObj.once("pointerdown", () => this.travelTo(choice.to));
+      this.enableLandmark(nodeObj,()=>this.travelTo(choice.to));
+      for(const hint of this.children.list.filter(o=>o.getData("route-arrow") && (o as Phaser.GameObjects.Image).x === nodeObj.x)) {
+        hint.setInteractive({useHandCursor:true}).once("pointerdown",()=>this.travelTo(choice.to));
+      }
     }
 
     // Discovered secrets shimmer until tapped (they don't move Kiki).
@@ -431,9 +477,7 @@ export class HuskyScene extends Phaser.Scene {
       if (!def?.secret || this.adventure.isComplete(id) || !obj.visible) continue;
       if (!this.adventure.isUnlocked(id)) continue;
       this.bounceNode(obj, 0xffd24d);
-      obj.setSize(130, 130);
-      obj.setInteractive(new Phaser.Geom.Circle(65, 65, 56), Phaser.Geom.Circle.Contains);
-      obj.once("pointerdown", () => this.discoverSecret(id));
+      this.enableLandmark(obj,()=>this.discoverSecret(id));
     }
 
     const first = forward.find((c) => this.nodeById(c.to).encounter !== "race");
@@ -444,7 +488,7 @@ export class HuskyScene extends Phaser.Scene {
     }
 
     if (!raceOffered && forward.length > 0) {
-      this.status.setText(forward.length > 1 ? "Choose Kiki's path" : "Follow the arrow");
+      this.status.setText(forward.length > 1 ? "Choose Kiki's path" : "Tap a place to explore");
     }
     if (forward.length === 0) {
       const secret = [...this.nodeObjects].find(([id, obj]) =>
@@ -453,28 +497,21 @@ export class HuskyScene extends Phaser.Scene {
     }
   }
 
+  private enableLandmark(node:Phaser.GameObjects.Container,action:()=>unknown):void {
+    // Hit targets follow the visible art, including tall signs and tent roofs.
+    // The former fixed circle sat below the repackaged, foot-anchored props.
+    for(const child of node.list) {
+      if(child instanceof Phaser.GameObjects.Image || child instanceof Phaser.GameObjects.Text) {
+        child.setInteractive({useHandCursor:true}).once("pointerdown",action);
+      }
+    }
+  }
+
   private bounceNode(nodeObj: Phaser.GameObjects.Container, color: number): void {
     nodeObj.setAlpha(1);
-    const arrow = this.add.triangle(
-      nodeObj.x,
-      nodeObj.y - 108,
-      -11, 0,
-      11, 0,
-      0, 16,
-      color,
-      1,
-    ).setStrokeStyle(3, color === 0xffd24d ? 0x7b55b2 : 0x2f78aa, 1)
-      .setDepth(18)
-      .setData("route-arrow", true);
-
-    this.tweens.add({
-      targets: [nodeObj, arrow],
-      y: "-=7",
-      duration: 650,
-      yoyo: true,
-      repeat: -1,
-      ease: "Sine.inOut",
-    });
+    const cue=this.add.ellipse(nodeObj.x,nodeObj.y+16,65,12,0xffdf9a,.25)
+      .setDepth(12).setData("route-arrow",true);
+    this.tweens.add({targets:cue,alpha:.5,duration:900,yoyo:true,repeat:-1});
   }
 
   /** The Summit Gate becomes the race launcher once its encounter is done. */
@@ -484,20 +521,22 @@ export class HuskyScene extends Phaser.Scene {
     gateObj.setVisible(true);
     this.showDestination(gateObj);
     this.bounceNode(gateObj, 0xffd24d);
-    gateObj.setSize(150, 130);
-    gateObj.setInteractive(new Phaser.Geom.Circle(75, 65, 58), Phaser.Geom.Circle.Contains);
-    gateObj.once("pointerdown", () => this.launchRace());
+    this.enableLandmark(gateObj,()=>this.launchRace());
     this.status.setText("The sled race is ready — tap Race Camp!");
   }
 
-  private launchRace(): void {
+  private async launchRace(): Promise<void> {
     if (this.busy) return;
     if (!this.adventure.isUnlocked("sled-race")) return;
     this.busy = true;
     this.disableAllNodes();
     this.clearHighlights();
+    await depth("greet-bolt","race-camp","Meet Bolt","Bolt bows beside his sled. How should Kiki say hello?",[{id:"wave",label:"Wave a paw"},{id:"bark",label:"Friendly bark"},{id:"snack",label:"Offer a snack"}],"lm-race-gate");
+    const ready = await advice("advice-race-ready","race-camp","Ready to race, or should we look around first?",[{id:"race-now",label:"Race now"},{id:"look-around",label:"Look around"}]);
+    if(ready === "look-around") await depth("inspect-sled","race-camp","Check the sled","Tap the runners, harness and loose strap. Now our sled is ready!",[{id:"runners",label:"Runners"},{id:"harness",label:"Harness"},{id:"strap",label:"Tighten strap"}],"lm-race-gate","search");
     this.saveProgress();
-    this.scene.start("RaceScene");
+    this.cameras.main.fadeOut(350, 22, 45, 60);
+    this.time.delayedCall(350, () => this.scene.start("RaceScene"));
   }
 
   private async travelTo(toId: string): Promise<void> {
@@ -508,6 +547,7 @@ export class HuskyScene extends Phaser.Scene {
     this.clearHighlights();
 
     const node = this.nodeById(toId);
+    record("encounter-entered",toId);
     const edge = HUSKY_ADVENTURE.edges.find(
       (e) => e.from === this.adventure.currentNodeId && e.to === toId,
     );
@@ -520,6 +560,8 @@ export class HuskyScene extends Phaser.Scene {
       await this.runEncounter(node);
       this.adventure.completeEncounter(toId);
     }
+    if (["snow-pass", "summit-camp"].includes(toId)) this.markers.setCleared(toId);
+    record("encounter-exited",toId);
     this.afterEncounter(toId);
     for (const e of this.adventure.availableFrom(toId)) {
       if (e.kind !== "secret") this.revealNode(e.to);
@@ -534,7 +576,6 @@ export class HuskyScene extends Phaser.Scene {
   private async discoverSecret(id: string): Promise<void> {
     if (this.busy || this.adventure.isComplete(id)) return;
     this.busy = true;
-    this.telemetry.record("discovery-found", id);
     this.disableAllNodes();
     this.clearHighlights();
 
@@ -543,24 +584,29 @@ export class HuskyScene extends Phaser.Scene {
     this.kiki.react("curious");
 
     if (id === "secret-igloo") {
+      this.landmarks.setIglooState("discovered");
       this.status.setText("You found the Secret Igloo!");
       this.sparkleBurst(node.x, node.y);
       await this.delay(900);
+      await depth("search-igloo-objects",id,"Inside the secret igloo","An explorer left three treasures. Find them all to earn an expedition badge.",[{id:"lantern",label:"Expedition lantern"},{id:"map",label:"Paw-stamped map"},{id:"nook",label:"Hidden reward nook"}],"lm-igloo-glow","search");
+      await depth("igloo-fact",id,"Expedition badge earned","Huskies have a thick double coat that helps keep them warm. The old map points toward Race Camp.",[{id:"continue",label:"Pack the badge"}],"lm-igloo-glow");
       const accepted = await this.offerBonusChallenge(
         "Someone left a bonus challenge inside!",
         "Try the bonus math for Golden Husky progress?",
       );
       if (accepted) {
-        await this.runMathEncounter("challenge", "Igloo Bonus Challenge ★");
+        await this.runMathEncounter("challenge", "Igloo Bonus Challenge ★", "secret-igloo");
         this.adventure.recordBonusChallenge();
         this.status.setText("Bonus challenge complete! Golden progress +1");
       }
     } else {
       this.status.setText("You found Kiki's hidden bone cache!");
       this.sparkleBurst(node.x, node.y);
-      await this.delay(900);
+      await depth("uncover-bone-cache",id,"A buried surprise","Brush away the snow to uncover Kiki’s hidden bone cache.",[{id:"sniff",label:"Follow the scent"},{id:"bone",label:"Wiggle the bone"},{id:"dig",label:"Dig up the stash"}],"lm-bonecache-hidden","search");
     }
-
+    record("discovery-found",id,{discoveryId:id});
+    if (id === "secret-igloo") this.landmarks.setIglooState("glow");
+    else this.markers.setCleared(id);
     this.adventure.completeEncounter(id);
     this.saveProgress();
     this.busy = false;
@@ -568,9 +614,13 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private async runEncounter(node: AdventureNodeDef): Promise<void> {
-    this.telemetry.record("encounter-entered", node.id, { encounter: node.encounter });
     switch (node.encounter) {
       case "checkpoint":
+        if(node.id === "snow-pass") {
+          await depth("follow-trail-markers",node.id,"Follow the mountain markers","Trace the marked trail in order. A wrong turn never takes away progress.",[{id:"1",label:"1 · Paw print"},{id:"2",label:"2 · Pine"},{id:"3",label:"3 · Peak"},{id:"4",label:"4 · Camp"}],"lm-snowpass-blocked","ordered");
+          const choice = await advice("advice-igloo-mound",node.id,"That snow mound looks funny. Peek inside?",[{id:"peek",label:"Peek inside"},{id:"later",label:"Keep going"}]);
+          if(choice === "peek") { this.revealSecretNode("secret-igloo"); this.status.setText("The igloo is nearby — tap it after this trail marker."); }
+        }
         this.status.setText(node.hint ?? "Kiki takes a breather.");
         this.kiki.react("happy");
         await this.delay(1100);
@@ -578,18 +628,23 @@ export class HuskyScene extends Phaser.Scene {
 
       case "math-normal":
       case "math-challenge": {
+        if(node.id === "ice-cave") await depth("cave-crystals",node.id,"Listen to the ice cave","Tap the three crystals to hear the trail echo through the mountain.",[{id:"low",label:"Low crystal"},{id:"mid",label:"Middle crystal"},{id:"high",label:"High crystal"}],"lm-ice-cave","search");
         const difficulty = node.mathDifficulty ?? "normal";
         const titles: Record<string, string> = {
           "frozen-lake": "Which stones are safe? Solve to light the way!",
           "ice-cave": "Ice Cave Challenge",
           "summit-camp": "The Summit Gatekeeper asks…",
         };
-        await this.runMathEncounter(difficulty, titles[node.id] ?? node.label);
+        await this.runMathEncounter(difficulty, titles[node.id] ?? node.label, node.id);
         if (node.id === "frozen-lake") {
+          await crossLakeInWorld(this,this.kiki,this.mover,this.status);
           this.status.setText("The safe stepping stones glimmer across the ice!");
           this.sparkleBurst(node.x, node.y);
           await this.delay(900);
         } else if (node.id === "summit-camp") {
+          await depth("summit-ice",node.id,"Crack the frozen seal","The answer loosens the ice. Tap each frozen lock to free the gate.",[{id:"left",label:"Left ice lock"},{id:"top",label:"Top ice lock"},{id:"right",label:"Right ice lock"}],"ip-sg-cracking","search");
+          this.markers.setCleared(node.id);
+          await depth("summit-view",node.id,"You reached the summit!","Look down the mountain — Bolt and the sleds are waiting at Race Camp.",[{id:"camp",label:"Head to Race Camp"}],"ip-sg-view");
           this.status.setText("The Summit Gate swings open!");
           const gate = this.nodeObjects.get("summit-camp");
           if (gate) {
@@ -625,40 +680,42 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   /** Forest Navigation: choose the route by reading the clues. No wrong answer — both paths are real adventures. */
-  private runForestChoice(_node: AdventureNodeDef): Promise<void> {
+  private async runForestChoice(_node: AdventureNodeDef): Promise<void> {
+    await depth("sniff-pawprints","forest","Two trails in the snow","What should Kiki investigate?",[{id:"pawprints",label:"Sniff paw prints"},{id:"carved-sign",label:"Read carved sign"}]);
+    const choice=await advice("advice-forest-noise","forest","I hear something behind the trees. Should we check it out?",[{id:"check-it-out",label:"Check it out"},{id:"keep-going",label:"Keep going"}]);
+    if(choice === "check-it-out") await depth("forest-hare","forest","A rustle in the snow!","A feather flutters from the bush. Kiki spots a clue: look for a bone-shaped mound near the pass.",[{id:"clue",label:"Remember the clue"}],"lm-bonecache-hidden");
     return new Promise((resolve) => {
-      const c = this.add.container(640, 360).setDepth(999);
+      const c = this.add.container(640, 360).setDepth(100);
       const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.58);
       const panelG = this.add.graphics();
-      panelG.fillStyle(0xfffbef, 1);
-      panelG.lineStyle(7, 0x3f83b9, 1);
+      panelG.fillStyle(0x163648, 0.96);
+      panelG.lineStyle(3, 0xd3b777, 1);
       panelG.fillRoundedRect(-330, -215, 660, 430, 30);
       panelG.strokeRoundedRect(-330, -215, 660, 430, 30);
 
       const header = this.add.text(0, -160, "The trail splits…", {
-        fontFamily: "Arial Black, Arial", fontSize: "30px", color: "#1b5d8b",
+        fontFamily: "Georgia", fontSize: "30px", color: "#ffe1a3",
       }).setOrigin(0.5);
       const body = this.add.text(
         0, -95,
         "Kiki sniffs both trails.\nPaw prints wander left toward the Safe Trail.\nThe icy shortcut glitters right — faster, but trickier!",
-        { fontFamily: "Arial", fontSize: "21px", color: "#33475c", align: "center", lineSpacing: 8 },
+        { fontFamily: "Arial", fontSize: "21px", color: "#d9e7ec", align: "center", lineSpacing: 8 },
       ).setOrigin(0.5);
       c.add([shade, panelG, header, body]);
 
       const mkButton = (
         y: number, title: string, sub: string, color: number, route: AdventureRoute,
       ) => {
-        const bg = this.add.rectangle(0, y, 460, 84, color, 1)
-          .setStrokeStyle(4, 0xffffff, 1)
-          .setInteractive({ useHandCursor: true });
+        const bg = woodButton(this, 0, y, 460, 84);
         const t = this.add.text(0, y - 14, title, {
-          fontFamily: "Arial Black, Arial", fontSize: "24px", color: "#ffffff",
+          fontFamily: "Georgia", fontSize: "24px", color: "#ffffff",
         }).setOrigin(0.5);
         const s = this.add.text(0, y + 18, sub, {
           fontFamily: "Arial", fontSize: "16px", color: "#ffffff",
         }).setOrigin(0.5);
         bg.once("pointerdown", () => {
           this.adventure.setRoute(route);
+          complete("choose-route","forest",route);
           this.status.setText(route === "safe" ? "Kiki follows the paw prints!" : "Kiki dashes for the icy shortcut!");
           c.destroy(true);
           this.prompt = undefined;
@@ -675,70 +732,34 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   /** Fallen Tree: a gameplay clearing interaction — tap 5 times, no fail state. */
-  private runFallenTree(node: AdventureNodeDef): Promise<void> {
-    return new Promise((resolve) => {
-      this.status.setText("A fallen tree blocks the path! Tap it 5 times to clear it!");
-      const marker = this.markers.get(node.id);
-      const target = marker ?? this.nodeObjects.get(node.id);
-      if (!target) {
-        resolve();
-        return;
-      }
-      let taps = 0;
-      const counter = this.add.text(node.x, node.y - 120, "0 / 5", {
-        fontFamily: "Arial Black, Arial", fontSize: "26px", color: "#ffffff",
-        stroke: "#17324d", strokeThickness: 6,
-      }).setOrigin(0.5).setDepth(25);
-
-      target.setSize(150, 130);
-      target.setInteractive(new Phaser.Geom.Circle(75, 65, 58), Phaser.Geom.Circle.Contains);
-      const onTap = () => {
-        taps += 1;
-        counter.setText(`${taps} / 5`);
-        this.tweens.add({
-          targets: target, angle: 4, duration: 90, yoyo: true, ease: "Sine.inOut",
-          onComplete: () => target.setAngle(0),
-        });
-        this.sparkleBurst(target.x, target.y - 20);
-        if (taps >= 5) {
-          target.off("pointerdown", onTap);
-          target.disableInteractive();
-          counter.destroy();
-          this.markers.setCleared(node.id);
-          this.kiki.react("happy");
-          this.status.setText("The path is clear!");
-          this.time.delayedCall(900, () => resolve());
-        }
-      };
-      target.on("pointerdown", onTap);
-    });
+  private async runFallenTree(node: AdventureNodeDef): Promise<void> {
+    await depth("clear-fallen-tree",node.id,"Clear the fallen tree","Help Kiki pull five branches off the trail.",Array.from({length:5},(_,i)=>({id:String(i),label:`Branch ${i+1}`})),"lm-fallentree-blocked","search");
+    this.markers.setCleared(node.id); this.kiki.react("happy");
   }
 
   private offerBonusChallenge(title: string, body: string): Promise<boolean> {
     return new Promise((resolve) => {
-      const c = this.add.container(640, 360).setDepth(999);
+      const c = this.add.container(640, 360).setDepth(100);
       const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.58);
       const panelG = this.add.graphics();
-      panelG.fillStyle(0xfffbef, 1);
-      panelG.lineStyle(7, 0x7a4ab2, 1);
+      panelG.fillStyle(0x163648, 0.96);
+      panelG.lineStyle(3, 0xd3b777, 1);
       panelG.fillRoundedRect(-300, -180, 600, 360, 30);
       panelG.strokeRoundedRect(-300, -180, 600, 360, 30);
       const header = this.add.text(0, -120, title, {
-        fontFamily: "Arial Black, Arial", fontSize: "26px", color: "#64359a", align: "center",
+        fontFamily: "Georgia", fontSize: "26px", color: "#ffe1a3", align: "center",
         wordWrap: { width: 500 },
       }).setOrigin(0.5);
       const text = this.add.text(0, -40, body, {
-        fontFamily: "Arial", fontSize: "21px", color: "#33475c", align: "center",
+        fontFamily: "Arial", fontSize: "21px", color: "#d9e7ec", align: "center",
       }).setOrigin(0.5);
-      const yes = this.add.rectangle(-140, 90, 220, 70, 0x7651b3, 1)
-        .setStrokeStyle(4, 0xffffff, 1).setInteractive({ useHandCursor: true });
+      const yes = woodButton(this, -140, 90, 220, 70);
       const yesT = this.add.text(-140, 90, "Let's go!", {
-        fontFamily: "Arial Black, Arial", fontSize: "22px", color: "#ffffff",
+        fontFamily: "Georgia", fontSize: "22px", color: "#ffffff",
       }).setOrigin(0.5);
-      const no = this.add.rectangle(140, 90, 220, 70, 0x8aa0b5, 1)
-        .setStrokeStyle(4, 0xffffff, 1).setInteractive({ useHandCursor: true });
+      const no = woodButton(this, 140, 90, 220, 70);
       const noT = this.add.text(140, 90, "Later", {
-        fontFamily: "Arial Black, Arial", fontSize: "22px", color: "#ffffff",
+        fontFamily: "Georgia", fontSize: "22px", color: "#ffffff",
       }).setOrigin(0.5);
       const done = (v: boolean) => {
         c.destroy(true);
@@ -755,58 +776,23 @@ export class HuskyScene extends Phaser.Scene {
 
   /** Broken Bridge: walk up, math repairs the bridge, Kiki crosses. */
   private async bridgeEncounter(): Promise<void> {
-    const curve = this.routeCurve("trailhead", "broken-bridge", "safe");
-    const stopT = 0.68;
-
-    this.status.setText("Kiki spots a broken bridge…");
-    await this.mover.walk({
-      curve,
-      fromT: 0,
-      toT: stopT,
-      gait: "trot",
-      terrain: "normal-snow",
-      arrivalReaction: "surprised",
-    });
-
-    await this.runMathEncounter("normal", "A broken bridge blocks the trail.");
-
-    this.landmarks.repairBridge();
-    // The front rail draws OVER Kiki as she crosses (depth 16) — she is
-    // physically behind the rail, inside the world, not sliding over it.
-    const bridgeNode = this.nodeById("broken-bridge");
-    const rail = addOccluder(this, "dl-bridge-rail-front", bridgeNode.x, bridgeNode.y + 40, {
-      scale: 1.0,
-      alpha: 0.95,
-    });
-    this.kiki.react("happy");
-    this.status.setText("The bridge is fixed!");
-    await this.delay(950);
-
-    await this.mover.walk({
-      curve,
-      fromT: stopT,
-      toT: 1,
-      gait: "careful",
-      terrain: "bridge",
-      arrivalReaction: "curious",
-    });
-    // Rail stays for the repaired bridge (it's part of the world now).
-    void rail;
+    const points=bridgePath();
+    const start=points[0];
+    this.status.setText("Kiki spots the missing boards…");
+    await this.mover.walk({curve:new Phaser.Curves.QuadraticBezier(new Phaser.Math.Vector2(this.kiki.x,this.kiki.y),new Phaser.Math.Vector2(430,550),new Phaser.Math.Vector2(start.x,start.y)),gait:"trot",terrain:"normal-snow",arrivalReaction:"surprised"});
+    await this.runMathEncounter("normal", "Each gap needs new boards. How many boards should Kiki collect?", "broken-bridge");
+    await repairBridgeInWorld(this,this.status);
+    this.landmarks.repairBridge(false);
+    this.status.setText("The bridge is fixed — careful paws across the deck!");
+    this.landmarks.addBridgeForeground();
+    await this.mover.walk({curve:new Phaser.Curves.Spline(points.map(p=>new Phaser.Math.Vector2(p.x,p.y))),scalePoints:points,gait:"careful",terrain:"bridge",arrivalReaction:"proud"});
     this.adventure.currentNodeId = "broken-bridge";
     this.adventure.completeEncounter("broken-bridge");
+
   }
 
-  /** Terrain per node: Kiki's gait reshapes live via Ringo's motion system. */
-  private terrainFor(nodeId: string): TerrainId {
-    switch (nodeId) {
-      case "frozen-lake": return "ice";
-      case "broken-bridge": return "bridge";
-      case "ice-cave": return "cave";
-      case "snow-pass": return "windy-pass";
-      case "summit-camp": return "uphill";
-      case "fallen-tree": return "deep-snow";
-      default: return "normal-snow";
-    }
+  private terrainFor(id: string): TerrainId {
+    return ({"broken-bridge":"bridge", "frozen-lake":"ice", "fallen-tree":"deep-snow", "ice-cave":"cave", "snow-pass":"windy-pass", "summit-camp":"uphill"} as Record<string,TerrainId>)[id] ?? "normal-snow";
   }
 
   private walkKiki(toId: string, kind: AdventureRouteKind): Promise<void> {
@@ -857,6 +843,7 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private revealNode(id: string): void {
+    for(const o of this.children.list) if(o.getData("terrain-node") === id) (o as Phaser.GameObjects.Image).setVisible(true);
     const obj = this.nodeObjects.get(id);
     if (!obj || obj.visible) return;
     const n = this.nodeById(id);
@@ -890,58 +877,59 @@ export class HuskyScene extends Phaser.Scene {
     }
   }
 
-  private runMathEncounter(difficulty: "normal" | "challenge", title: string): Promise<boolean> {
+  private runMathEncounter(difficulty: "normal" | "challenge", title: string, nodeId?: string): Promise<boolean> {
     return new Promise((resolve) => {
       const q = this.math.nextQuestion(difficulty);
-      this.telemetry.record("math-asked", undefined, { difficulty, prompt: q.prompt });
-      this.showMathPrompt(q, title, (ok) => {
-        this.telemetry.record("math-answered", undefined, { difficulty, correct: ok });
-        resolve(ok);
-      });
+      record("math-asked",nodeId,{required:nodeId !== "secret-igloo"});
+      const story = HUSKY_NARRATIVE.encounters.find(e => e.nodeId === nodeId);
+      const operands = q.prompt.match(/(\d+) × (\d+)/);
+      const fill = (text: string) => text.replaceAll("{a}", operands?.[1] ?? "").replaceAll("{b}", operands?.[2] ?? "");
+      const heading = story?.math ? fill(story.math.template) : title;
+      if (story?.hints?.hints[0]) q.hint = fill(story.hints.hints[0]);
+      this.showMathPrompt(q, heading, resolve);
     });
   }
 
   private showMathPrompt(q: MathQuestion, title: string, resolve: (value: boolean) => void): void {
     this.prompt?.destroy(true);
 
-    const c = this.add.container(640, 360).setDepth(999);
-    const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.58);
+    const c = this.add.container(950, 355).setDepth(100);
+    const shade = this.add.rectangle(-310, 5, 1280, 720, 0x0d2235, 0.08);
     const panelG = this.add.graphics();
-    panelG.fillStyle(0xfffbef, 1);
-    panelG.lineStyle(7, q.difficulty === "challenge" ? 0x7a4ab2 : 0x3f83b9, 1);
-    panelG.fillRoundedRect(-310, -215, 620, 430, 30);
-    panelG.strokeRoundedRect(-310, -215, 620, 430, 30);
+    const grain = this.add.image(0, 25, "wood-panel").setDisplaySize(530, 480);
+    panelG.fillStyle(0x382716, 0.75);
+    panelG.lineStyle(7, q.difficulty === "challenge" ? 0xbda2e0 : 0xdab878, 1);
+    panelG.fillRoundedRect(-265, -215, 530, 480, 20);
+    panelG.strokeRoundedRect(-265, -215, 530, 480, 20);
 
     const header = this.add.text(0, -158, title, {
-      fontFamily: "Arial Black, Arial",
-      fontSize: "26px",
-      color: q.difficulty === "challenge" ? "#64359a" : "#1b5d8b",
+      fontFamily: "Georgia",
+      fontSize: "22px",
+      color: q.difficulty === "challenge" ? "#e1cbff" : "#fff1d4",
       align: "center",
-      wordWrap: { width: 520 },
+      wordWrap: { width: 450 },
     }).setOrigin(0.5);
     const prompt = this.add.text(0, -80, q.prompt, {
-      fontFamily: "Arial Black, Arial",
+      fontFamily: "Georgia",
       fontSize: "58px",
-      color: "#17324d",
+      color: "#fff1d4",
     }).setOrigin(0.5);
-    const hintLabel = this.add.text(0, 200, "", {
+    const hintLabel = this.add.text(0, 230, "", {
       fontFamily: "Arial",
-      fontSize: "20px",
-      color: "#5a6b7d",
-      align: "center",
+      fontSize: "18px",
+      color: "#fff1d4",
+      align: "center", wordWrap: { width: 470 },
     }).setOrigin(0.5);
-    c.add([shade, panelG, header, prompt, hintLabel]);
+    c.add([shade, grain, panelG, header, prompt, hintLabel]);
 
     let resolved = false;
     let wrongCount = 0;
     q.answers.forEach((answer, index) => {
-      const x = index % 2 === 0 ? -150 : 150;
+      const x = index % 2 === 0 ? -126 : 126;
       const y = 40 + Math.floor(index / 2) * 110;
-      const btn = this.add.rectangle(x, y, 240, 76, index % 2 === 0 ? 0x4ca7e6 : 0xf2bd43, 1)
-        .setStrokeStyle(4, 0xffffff, 1)
-        .setInteractive({ useHandCursor: true });
+      const btn = woodButton(this, x, y, 210, 76);
       const label = this.add.text(x, y, String(answer), {
-        fontFamily: "Arial Black, Arial",
+        fontFamily: "Georgia",
         fontSize: "34px",
         color: "#ffffff",
         stroke: "#17324d",
@@ -950,6 +938,7 @@ export class HuskyScene extends Phaser.Scene {
 
       btn.on("pointerdown", () => {
         if (resolved) return;
+        record("math-answered",undefined,{correct:answer === q.correct});
         if (answer === q.correct) {
           resolved = true;
           this.status.setText("Correct!");
@@ -960,6 +949,7 @@ export class HuskyScene extends Phaser.Scene {
           // Wrong answers never remove progress: a shake, a retry, and
           // after two misses a small hint. No punishment loops.
           wrongCount += 1;
+          if(wrongCount === 2) record("hint-shown");
           this.cameras.main.shake(120, 0.004);
           label.setColor("#ffdddd");
           this.time.delayedCall(280, () => label.setColor("#ffffff"));
@@ -975,7 +965,7 @@ export class HuskyScene extends Phaser.Scene {
 
   // ------------------------------------------------------------------- reward
 
-  private showRewardOverlay(): void {
+  private async showRewardOverlay(): Promise<void> {
     this.busy = true;
     this.clearHighlights();
     const unlocked = this.adventure.tryUnlockSticker();
@@ -989,55 +979,46 @@ export class HuskyScene extends Phaser.Scene {
       });
     }
 
-    const c = this.add.container(640, 360).setDepth(999);
-    const shade = this.add.rectangle(0, 0, 1280, 720, 0x0d2235, 0.62);
-    const panelG = this.add.graphics();
-    panelG.fillStyle(0xfffbef, 1);
-    panelG.lineStyle(8, 0xf2bd43, 1);
-    panelG.fillRoundedRect(-330, -230, 660, 460, 30);
-    panelG.strokeRoundedRect(-330, -230, 660, 460, 30);
-
-    const title = this.add.text(
-      0, -170,
-      unlocked ? "🏅 HUSKY STICKER EARNED!" : "Race complete!",
-      { fontFamily: "Arial Black, Arial", fontSize: "34px", color: "#8a5a00", align: "center" },
-    ).setOrigin(0.5);
-    const stats = this.add.text(
-      0, -35,
-      unlocked
-        ? `Kiki finished the whole Snowy Peaks adventure!\n\nEncounters: ${this.adventure.completed.size}\nSecrets found: ${[...this.adventure.secretsFound].filter((s) => !s.startsWith("revealed:")).length}\nBonus challenges: ${this.adventure.bonusChallengesCompleted}\nRace: ${this.adventure.raceTurns} turns (${this.adventure.raceTurbos} turbo!)`
-        : "Finish the adventure's encounters to earn the Husky sticker!",
-      { fontFamily: "Arial", fontSize: "22px", color: "#33475c", align: "center", lineSpacing: 8 },
-    ).setOrigin(0.5);
-    c.add([shade, panelG, title, stats]);
-
-    if (unlocked) {
-      for (let i = 0; i < 24; i++) {
-        const star = this.add.star(
-          Phaser.Math.Between(-280, 280), Phaser.Math.Between(-180, 180),
-          5, 5, 12, i % 2 === 0 ? 0xffd64f : 0x7ed6ff, 1,
-        );
-        c.addAt(star, 2);
-        this.tweens.add({
-          targets: star, angle: 180, alpha: 0.4, duration: 1200,
-          yoyo: true, repeat: -1, delay: Phaser.Math.Between(0, 800),
-        });
-      }
-      this.kiki.react("happy");
-    }
-
+    await depth("pick-favorite-moment","husky-reward","What an adventure!","Bolt gives Kiki a friendly nuzzle. What was your favorite moment?",[{id:"bridge",label:"Mending the bridge"},{id:"exploring",label:"Exploring the mountain"},{id:"race",label:"Racing with Bolt"}],"race-backdrop");
+    finishPolishRun(); showPlaytestStats();
+    const rewards = syncHuskyProgress(this.adventure, gameStore());
+    const c = this.add.container(640, 360).setDepth(100);
+    const plate = this.add.image(0, 0, "preview-race").setDisplaySize(1280, 720);
+    const shade = this.add.rectangle(0, 0, 1280, 720, 0x102a3e, 0.48);
+    const panel = this.add.graphics();
+    panel.fillStyle(0x142e40, 0.94).lineStyle(3, 0xe7c36e, 1);
+    panel.fillRoundedRect(-85, -260, 665, 520, 28);
+    panel.strokeRoundedRect(-85, -260, 665, 520, 28);
+    const hero = this.add.image(-335, -65, "husky-friendship");
+    hero.setScale(Math.min(395 / hero.width, 260 / hero.height));
+    const title = this.add.text(245, -198, unlocked ? "Husky sticker earned!" : "Race complete!", {
+      fontFamily: "Georgia", fontSize: "38px", color: "#ffdf95", align: "center",
+    }).setOrigin(0.5);
+    const recap = this.add.text(245, -125, "Bridge mended. Mountain explored.\nA new friend at the finish line.", {
+      fontFamily: "Arial", fontSize: "21px", color: "#e5f1f6", align: "center", lineSpacing: 7,
+    }).setOrigin(0.5);
+    const stats = this.add.text(245, -22,
+      `Encounters: ${this.adventure.completed.size}  ·  Secrets: ${[...this.adventure.secretsFound].filter(s => !s.startsWith("revealed:")).length}\nRace: ${this.adventure.raceTurns} turns · ${this.adventure.raceTurbos} turbo\nAlbum: 1 of 12 · Golden Husky: ${rewards.masteryPoints()} / 8`, {
+      fontFamily: "Arial", fontSize: "19px", color: "#bdd7e6", align: "center", lineSpacing: 10,
+    }).setOrigin(0.5);
+    const husky = this.add.image(-335, 170, rewards.goldenStickerUnlocked ? "husky-sticker-golden" : "husky-sticker-final");
+    const stickerScale = Math.min(145 / husky.width, 160 / husky.height);
+    husky.setScale(stickerScale);
+    const stickerName = this.add.text(-335, 270, rewards.goldenStickerUnlocked ? "GOLDEN HUSKY" : "HUSKY", {
+      fontFamily: "Georgia", fontSize: "18px", color: "#fff3cd",
+    }).setOrigin(0.5);
+    c.add([plate, shade, panel, hero, title, recap, stats, husky, stickerName]);
+    this.kiki.container.setVisible(false);
     const mkBtn = (y: number, label: string, cb: () => void) => {
-      const bg = this.add.rectangle(0, y, 300, 64, 0x2f84b8, 1)
-        .setStrokeStyle(4, 0xffffff, 1).setInteractive({ useHandCursor: true });
-      const t = this.add.text(0, y, label, {
-        fontFamily: "Arial Black, Arial", fontSize: "22px", color: "#ffffff",
-      }).setOrigin(0.5);
+      const bg = woodButton(this, 245, y, 350, 60);
+      const text = this.add.text(245, y, label, { fontFamily: "Arial", fontStyle: "bold", fontSize: "21px", color: "#fff3d6" }).setOrigin(0.5);
       bg.once("pointerdown", cb);
-      c.add([bg, t]);
+      c.add([bg, text]);
     };
-    mkBtn(120, "↺  Play again", () => this.scene.restart({ fresh: true }));
-    mkBtn(200, "Keep exploring", () => {
+    mkBtn(110, "Play again", () => this.scene.restart({ fresh: true }));
+    mkBtn(190, "Keep exploring", () => {
       c.destroy(true);
+      this.kiki.container.setVisible(true);
       this.prompt = undefined;
       this.busy = false;
       this.highlightForwardChoices();
@@ -1058,6 +1039,7 @@ export class HuskyScene extends Phaser.Scene {
       if (baseY !== undefined) node.y = baseY;
       node.disableInteractive();
       node.off("pointerdown");
+      for(const child of node.list)if(child instanceof Phaser.GameObjects.Image || child instanceof Phaser.GameObjects.Text){child.disableInteractive();child.off("pointerdown");}
     }
 
     this.children.list
@@ -1066,7 +1048,10 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   private disableAllNodes(): void {
-    for (const node of this.nodeObjects.values()) node.disableInteractive();
+    for (const node of this.nodeObjects.values()) {
+      node.disableInteractive();
+      for(const child of node.list)if(child instanceof Phaser.GameObjects.Image || child instanceof Phaser.GameObjects.Text)child.disableInteractive();
+    }
   }
 
   private delay(ms: number): Promise<void> {

@@ -1,0 +1,546 @@
+{
+  "events": [
+    {
+      "type": "run-started",
+      "atMs": 1791471029753
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471030204,
+      "nodeId": "trailhead",
+      "detail": {
+        "interactionId": "inspect-trail-sign",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471048002,
+      "nodeId": "trailhead",
+      "detail": {
+        "interactionId": "inspect-trail-sign",
+        "choice": "kiki-sniff"
+      }
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791471048191,
+      "nodeId": "broken-bridge"
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791471050705,
+      "nodeId": "broken-bridge",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791471069164,
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791471071295,
+      "nodeId": "broken-bridge"
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791471094299,
+      "nodeId": "forest"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471096254,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "sniff-pawprints",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471105011,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "sniff-pawprints",
+        "choice": "carved-sign"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471105012,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "advice-forest-noise",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471116382,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "advice-forest-noise",
+        "choice": "keep-going"
+      }
+    },
+    {
+      "type": "advice-choice-made",
+      "atMs": 1791471116383,
+      "nodeId": "forest",
+      "detail": {
+        "choiceId": "keep-going"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471116600,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "choose-route",
+        "choice": "challenge"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791471116602,
+      "nodeId": "forest"
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791471142088,
+      "nodeId": "ice-cave"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471145554,
+      "nodeId": "ice-cave",
+      "detail": {
+        "interactionId": "cave-crystals",
+        "kind": "search"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471169603,
+      "nodeId": "ice-cave",
+      "detail": {
+        "interactionId": "cave-crystals",
+        "choice": "high"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791471169603,
+      "nodeId": "ice-cave",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791471179105,
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791471179108,
+      "nodeId": "ice-cave"
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1791471209106
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1791471219196
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791471219204,
+      "nodeId": "snow-pass"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471221993,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "follow-trail-markers",
+        "kind": "ordered-tap"
+      }
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1791471249197
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1791471253498
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471254334,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "follow-trail-markers",
+        "choice": "4"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471254335,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "advice-igloo-mound",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471265476,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "advice-igloo-mound",
+        "choice": "later"
+      }
+    },
+    {
+      "type": "advice-choice-made",
+      "atMs": 1791471265477,
+      "nodeId": "snow-pass",
+      "detail": {
+        "choiceId": "later"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791471266572,
+      "nodeId": "snow-pass"
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1791471294136,
+      "nodeId": "summit-camp"
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791471295714,
+      "nodeId": "summit-camp",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1791471324132
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1791471346967
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791471346967,
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1791471347762,
+      "nodeId": "summit-camp"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471371570,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "greet-bolt",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471384378,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "greet-bolt",
+        "choice": "bark"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471384380,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "advice-race-ready",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471399502,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "advice-race-ready",
+        "choice": "race-now"
+      }
+    },
+    {
+      "type": "advice-choice-made",
+      "atMs": 1791471399509,
+      "nodeId": "race-camp",
+      "detail": {
+        "choiceId": "race-now"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471423564,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-downhill",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471435879,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-downhill",
+        "choice": "push"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1791471435884,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "downhill"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791471435884,
+      "nodeId": "sled-race",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791471446000,
+      "nodeId": "sled-race",
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "race-turn",
+      "atMs": 1791471446003,
+      "nodeId": "sled-race",
+      "detail": {
+        "turn": 1,
+        "mode": "turbo"
+      }
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1791471476001
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1791471482104
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471482106,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-icy-turn",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471501187,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-icy-turn",
+        "choice": "outside"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1791471501189,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "icy-turn"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791471501190,
+      "nodeId": "sled-race",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791471515941,
+      "nodeId": "sled-race",
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "race-turn",
+      "atMs": 1791471515946,
+      "nodeId": "sled-race",
+      "detail": {
+        "turn": 2,
+        "mode": "turbo"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471534327,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-deep-snow",
+        "kind": "ordered"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471554500,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-deep-snow",
+        "choice": "3"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1791471554500,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "deep-snow"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1791471554500,
+      "nodeId": "sled-race",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1791471570902,
+      "nodeId": "sled-race",
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "race-turn",
+      "atMs": 1791471570906,
+      "nodeId": "sled-race",
+      "detail": {
+        "turn": 3,
+        "mode": "turbo"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471571564,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-final-sprint",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471585187,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-final-sprint",
+        "choice": "cheer"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1791471585190,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "final-sprint"
+      }
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1791471615185
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1791471617635
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1791471618324,
+      "nodeId": "husky-reward",
+      "detail": {
+        "interactionId": "pick-favorite-moment",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1791471632655,
+      "nodeId": "husky-reward",
+      "detail": {
+        "interactionId": "pick-favorite-moment",
+        "choice": "exploring"
+      }
+    },
+    {
+      "type": "run-ended",
+      "atMs": 1791471632661
+    }
+  ],
+  "summary": {
+    "totalMs": 602908,
+    "idleMs": 45779,
+    "activeMs": 557129,
+    "mathAsked": 6,
+    "mathAnsweredCorrect": 6,
+    "hintsShown": 0,
+    "interactionsCompleted": 14,
+    "adviceChoicesMade": [
+      "keep-going",
+      "later",
+      "race-now"
+    ],
+    "microDecisionsMade": 0,
+    "discoveriesFound": [],
+    "raceTurns": 3,
+    "raceBeats": 4,
+    "encountersVisited": [
+      "broken-bridge",
+      "forest",
+      "ice-cave",
+      "snow-pass",
+      "summit-camp"
+    ]
+  }
+}

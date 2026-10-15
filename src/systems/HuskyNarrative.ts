@@ -55,7 +55,7 @@ export const HUSKY_NARRATIVE: AdventureNarrativeDefinition = {
       nodeId: "trailhead",
       locationName: "Trailhead",
       kind: "checkpoint",
-      arrival: "Snowy Peaks! Kiki's tail is already wagging a mile a minute.",
+      arrival: "Snowy Peaks! Kiki is already bouncing with excitement.",
       problem:
         "Somewhere up the mountain, a Husky is waiting to race. But first, Kiki has to get there — and the trail has other plans.",
       kikiReaction: "excited",

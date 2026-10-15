@@ -1,0 +1,132 @@
+{
+  "area": "finish",
+  "label": "Finish / Reward",
+  "space": "screen",
+  "worldRect": {
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 720
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.15,
+      "contents": "distant mountains, sky haze (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.4,
+      "contents": "distant pine groups, cliffs (ip-px-mid)"
+    },
+    {
+      "id": "back",
+      "depth": 6,
+      "scrollFactor": 1.0,
+      "contents": "back scenery, landmark art (existing wlm-*, lm-*)"
+    },
+    {
+      "id": "terrain",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "walkable surface decals: path, ice, deck"
+    },
+    {
+      "id": "interact-behind",
+      "depth": 11,
+      "scrollFactor": 1.0,
+      "contents": "interactive objects behind Kiki"
+    },
+    {
+      "id": "contact",
+      "depth": 13,
+      "scrollFactor": 1.0,
+      "contents": "ground shadow, crack overlays, ripples under Kiki"
+    },
+    {
+      "id": "kiki",
+      "depth": 15,
+      "scrollFactor": 1.0,
+      "contents": "Kiki (unchanged)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "contents": "foreground occluders (dl-*)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "contents": "weather FX: snowfall, gusts, mist"
+    }
+  ],
+  "walkPath": {
+    "curve": "catmullrom",
+    "points": [
+      {
+        "x": 500,
+        "y": 470,
+        "scale": 0.76
+      },
+      {
+        "x": 640,
+        "y": 460,
+        "scale": 0.78,
+        "note": "crossing the line (slightly larger = triumph)"
+      },
+      {
+        "x": 780,
+        "y": 470,
+        "scale": 0.78
+      }
+    ]
+  },
+  "depthBands": [
+    {
+      "y0": 400,
+      "y1": 540,
+      "kikiDepth": 15,
+      "kikiScale": 0.78
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-snowbank.svg",
+      "x": 640,
+      "y": 560,
+      "depth": 16,
+      "scale": 1.3,
+      "scrollFactor": 1.0,
+      "note": "foreground celebration drift"
+    }
+  ],
+  "fx": [
+    {
+      "asset": "dl-spray-alpha.svg",
+      "depth": 17,
+      "note": "celebration spray"
+    }
+  ],
+  "scaleZones": [
+    {
+      "x0": 0,
+      "x1": 1280,
+      "scale": 0.78,
+      "note": "triumph scale"
+    }
+  ],
+  "interactionAnchors": [],
+  "noWalk": [],
+  "parallax": {
+    "far": 0.1,
+    "mid": 0.3,
+    "base": 1.0,
+    "fore": 1.0
+  },
+  "notes": "Reward beat. Keep short and joyful.",
+  "$schema": "snowy-peaks-depth-v1"
+}

@@ -1,0 +1,228 @@
+{
+  "area": "lake",
+  "label": "Frozen Lake",
+  "worldRect": {
+    "x": 1600,
+    "y": 400,
+    "w": 480,
+    "h": 220
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.15,
+      "contents": "distant mountains, sky haze (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.4,
+      "contents": "distant pine groups, cliffs (ip-px-mid)"
+    },
+    {
+      "id": "back",
+      "depth": 6,
+      "scrollFactor": 1.0,
+      "contents": "back scenery, landmark art (existing wlm-*, lm-*)"
+    },
+    {
+      "id": "terrain",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "walkable surface decals: path, ice, deck"
+    },
+    {
+      "id": "interact-behind",
+      "depth": 11,
+      "scrollFactor": 1.0,
+      "contents": "interactive objects behind Kiki"
+    },
+    {
+      "id": "contact",
+      "depth": 13,
+      "scrollFactor": 1.0,
+      "contents": "ground shadow, crack overlays, ripples under Kiki"
+    },
+    {
+      "id": "kiki",
+      "depth": 15,
+      "scrollFactor": 1.0,
+      "contents": "Kiki (unchanged)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "contents": "foreground occluders (dl-*)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "contents": "weather FX: snowfall, gusts, mist"
+    }
+  ],
+  "walkPath": {
+    "curve": "waypoints",
+    "points": [
+      {
+        "x": 1640,
+        "y": 580,
+        "scale": 0.8,
+        "note": "shore"
+      },
+      {
+        "x": 1720,
+        "y": 560,
+        "scale": 0.8,
+        "note": "safe stone 1"
+      },
+      {
+        "x": 1800,
+        "y": 570,
+        "scale": 0.79,
+        "note": "risky patch (choice)"
+      },
+      {
+        "x": 1880,
+        "y": 555,
+        "scale": 0.79,
+        "note": "safe stone 2"
+      },
+      {
+        "x": 1960,
+        "y": 565,
+        "scale": 0.8,
+        "note": "far shore"
+      }
+    ],
+    "detour": [
+      {
+        "x": 1760,
+        "y": 520,
+        "scale": 0.78,
+        "note": "detour island hop"
+      },
+      {
+        "x": 1830,
+        "y": 510,
+        "scale": 0.78,
+        "note": "ice-flower island"
+      }
+    ]
+  },
+  "depthBands": [
+    {
+      "y0": 500,
+      "y1": 620,
+      "kikiDepth": 15,
+      "kikiScale": 0.8
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-lake-edge.svg",
+      "x": 1780,
+      "y": 640,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 1.6,
+      "note": "foreground ice shelf; Kiki crosses behind it"
+    },
+    {
+      "asset": "dl-snowbank.svg",
+      "x": 1620,
+      "y": 620,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 1.0,
+      "note": "shore snowbank"
+    }
+  ],
+  "overlays": [
+    {
+      "asset": "dl-ice-cracks.svg",
+      "x": 1800,
+      "y": 568,
+      "depth": 13,
+      "note": "crack overlay ON the ice, UNDER Kiki (depth 13 < 15)"
+    }
+  ],
+  "scaleZones": [
+    {
+      "x0": 1600,
+      "x1": 2080,
+      "scale": 0.8,
+      "note": "flat ice plane"
+    }
+  ],
+  "interactionAnchors": [
+    {
+      "id": "stone-1",
+      "x": 1720,
+      "y": 560,
+      "asset": "ip-fl-safe.svg",
+      "action": "tap-hop"
+    },
+    {
+      "id": "risky",
+      "x": 1800,
+      "y": 570,
+      "asset": "ip-fl-risky.svg",
+      "action": "tap-hop-risk"
+    },
+    {
+      "id": "cracked",
+      "x": 1840,
+      "y": 575,
+      "asset": "ip-fl-cracked.svg",
+      "action": "tap-safe-fail"
+    },
+    {
+      "id": "detour",
+      "x": 1830,
+      "y": 510,
+      "asset": "ip-fl-detour.svg",
+      "action": "tap-hop"
+    }
+  ],
+  "rippleZones": [
+    {
+      "x": 1720,
+      "y": 575
+    },
+    {
+      "x": 1800,
+      "y": 585
+    },
+    {
+      "x": 1880,
+      "y": 570
+    }
+  ],
+  "noWalk": [
+    {
+      "x": 1600,
+      "y": 400,
+      "w": 480,
+      "h": 90,
+      "note": "open water / far ice"
+    },
+    {
+      "x": 1900,
+      "y": 540,
+      "w": 120,
+      "h": 90,
+      "note": "thin-ice hazard region (visual only)"
+    }
+  ],
+  "parallax": {
+    "far": 0.12,
+    "mid": 0.35,
+    "base": 1.0,
+    "fore": 1.0
+  },
+  "notes": "Lake is a TERRAIN plane, not a card: Kiki's y/scale stay on the ice plane, cracks render under her feet (depth 13), foreground shelf occludes at the crossing's lowest point. Ripple FX spawn at foot contact.",
+  "$schema": "snowy-peaks-depth-v1"
+}

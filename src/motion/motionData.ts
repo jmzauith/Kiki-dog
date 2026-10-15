@@ -28,43 +28,14 @@ function trk(part: string, channel: Channel, keys: Array<[number, number]>): Par
 }
 
 /** Shift every key's phase by `phase` (for diagonal gait pairs). */
-/** Cosine-interpolate the ORIGINAL (unshifted) keys at phase t. */
-function sampleOrig(keys: Array<{ t: number; v: number }>, t: number): number {
-  const n = keys.length;
-  if (t <= keys[0].t) return keys[0].v;
-  if (t >= keys[n - 1].t) return keys[n - 1].v;
-  for (let i = 0; i < n - 1; i++) {
-    const a = keys[i], b = keys[i + 1];
-    if (t >= a.t && t <= b.t) {
-      const span = b.t - a.t;
-      const u = span <= 0 ? 0 : (t - a.t) / span;
-      const e = 0.5 - 0.5 * Math.cos(Math.PI * u);
-      return a.v + (b.v - a.v) * e;
-    }
-  }
-  return keys[n - 1].v;
-}
-
 function phaseShift(tracks: PartTrack[], phase: number): PartTrack[] {
   return tracks.map((pt) => ({
     part: pt.part,
-    tracks: pt.tracks.map((tr) => {
-      const shifted = tr.keys
-        .map((k) => ({ t: (k.t + phase) % 1, v: k.v }))
-        .sort((a, b) => a.t - b.t);
-      // Open the loop: a shifted cycle may not land a key exactly on t=0.
-      // Sample the original track at the wrapped phase so the cycle starts
-      // at the correct value instead of clamping.
-      if (shifted[0].t > 1e-9) {
-        shifted.unshift({ t: 0, v: sampleOrig(tr.keys, (1 - phase) % 1) });
-      }
-      // Close the loop: without a key at t=1 the sampler would hold the
-      // last key's value flat across the wrap (a visible hitch). The closing
-      // key carries the t=0 value so the cycle eases into the wrap.
-      const last = shifted[shifted.length - 1];
-      if (last.t < 1 - 1e-9) shifted.push({ t: 1, v: shifted[0].v });
-      return { channel: tr.channel, keys: shifted };
-    }),
+    tracks: pt.tracks.map((tr) => ({
+      channel: tr.channel,
+      keys: tr.keys.map((k) => ({ t: (k.t + phase) % 1, v: k.v }))
+        .sort((a, b) => a.t - b.t),
+    })),
   }));
 }
 
@@ -207,198 +178,6 @@ export const CYCLES: Record<string, CycleDef> = {
   },
 };
 
-
-/* ---------------------------------------------------------------- */
-/* Gait variants (production motion pass)                            */
-/* ---------------------------------------------------------------- */
-
-/** Walk-cycle leg helper with explicit swing/lift per diagonal pair. */
-function gaitLegs(pairs: Array<{ legs: string[]; swing: number; lift: number; shift: number }>): PartTrack[] {
-  const out: PartTrack[] = [];
-  for (const g of pairs) {
-    const sw: Array<[number, number]> = [
-      [0, g.swing], [0.25, -g.swing * 0.1], [0.5, -g.swing], [0.75, g.swing * 0.6], [1, g.swing],
-    ];
-    const lf: Array<[number, number]> = [[0, 0], [0.5, 0], [0.75, g.lift], [1, 0]];
-    const pts = g.legs.flatMap((lp) => [trk(lp, 'angle', sw), trk(lp, 'y', lf)]);
-    out.push(...(g.shift ? phaseShift(pts, g.shift) : pts));
-  }
-  return out;
-}
-
-const EXTRA_CYCLES: Record<string, CycleDef> = {
-  'kiki-careful': {
-    kind: 'cycle', id: 'kiki-careful', rig: 'kiki-trot', periodMs: 900,
-    tracks: [
-      ...gaitLegs([
-        { legs: ['legFL', 'legBR'], swing: 14, lift: -4, shift: 0 },
-        { legs: ['legFR', 'legBL'], swing: 14, lift: -4, shift: 0.5 },
-      ]),
-      trk('torso', 'y', [[0, 0], [0.25, -2], [0.5, 0], [0.75, -2], [1, 0]]),
-      trk('torso', 'angle', [[0, 1], [0.5, -1], [1, 1]]),
-      trk('earNear', 'angle', [[0, 0], [0.5, 3], [1, 0]]),
-      trk('earFar', 'angle', [[0, 0], [0.5, -3], [1, 0]]),
-    ],
-    contacts: [
-      { phase: 0, paw: 'legFL', beat: 'plant' }, { phase: 0, paw: 'legBR', beat: 'plant' },
-      { phase: 0.5, paw: 'legFR', beat: 'plant' }, { phase: 0.5, paw: 'legBL', beat: 'plant' },
-    ],
-    contactNotes: 'CAREFUL WALK - 900ms/stride. Beat 1: FL+BR plant. Beat 2: FR+BL plant. Short deliberate steps; FX: small puffs, soft step sounds.',
-  },
-
-  'kiki-sniff-walk': {
-    kind: 'cycle', id: 'kiki-sniff-walk', rig: 'kiki-trot', periodMs: 800,
-    tracks: [
-      ...gaitLegs([
-        { legs: ['legFL', 'legBR'], swing: 18, lift: -6, shift: 0 },
-        { legs: ['legFR', 'legBL'], swing: 18, lift: -6, shift: 0.5 },
-      ]),
-      trk('torso', 'y', [[0, 1], [0.25, -2], [0.5, 1], [0.75, -2], [1, 1]]),
-      trk('torso', 'angle', [[0, 6], [0.5, 4], [1, 6]]),
-      trk('earNear', 'angle', [[0, -4], [0.5, 2], [1, -4]]),
-      trk('earFar', 'angle', [[0, -4], [0.5, 2], [1, -4]]),
-    ],
-    contacts: [
-      { phase: 0, paw: 'legFL', beat: 'plant' }, { phase: 0, paw: 'legBR', beat: 'plant' },
-      { phase: 0.5, paw: 'legFR', beat: 'plant' }, { phase: 0.5, paw: 'legBL', beat: 'plant' },
-    ],
-    contactNotes: 'SNIFF WALK - 800ms/stride. Diagonal pairs, nose held low (torso +6deg baked); normal prints/puffs.',
-  },
-
-  'kiki-deep-snow': {
-    kind: 'cycle', id: 'kiki-deep-snow', rig: 'kiki-trot', periodMs: 950,
-    tracks: [
-      ...gaitLegs([
-        { legs: ['legFL', 'legBR'], swing: 20, lift: -16, shift: 0 },
-        { legs: ['legFR', 'legBL'], swing: 18, lift: -11, shift: 0.5 },
-      ]),
-      trk('torso', 'y', [[0, 0], [0.25, -6], [0.5, 0], [0.75, -6], [1, 0]]),
-      trk('torso', 'angle', [[0, 2], [0.5, -2], [1, 2]]),
-      trk('earNear', 'angle', [[0, 0], [0.25, 6], [0.5, 0], [0.75, 6], [1, 0]]),
-      trk('earFar', 'angle', [[0, 0], [0.25, -6], [0.5, 0], [0.75, -6], [1, 0]]),
-    ],
-    contacts: [
-      { phase: 0, paw: 'legFL', beat: 'heave-plant' }, { phase: 0, paw: 'legBR', beat: 'heave-plant' },
-      { phase: 0.5, paw: 'legFR', beat: 'heave-plant' }, { phase: 0.5, paw: 'legBL', beat: 'heave-plant' },
-    ],
-    contactNotes: 'DEEP SNOW - 950ms/stride. High-step heaves (front lift x2.3); each plant = deep puff + larger print + effort sound.',
-  },
-
-  'kiki-ice-walk': {
-    kind: 'cycle', id: 'kiki-ice-walk', rig: 'kiki-trot', periodMs: 750,
-    tracks: [
-      ...gaitLegs([
-        { legs: ['legFL'], swing: 10, lift: -3, shift: 0 },
-        { legs: ['legBR'], swing: 10, lift: -3, shift: 0.25 },
-        { legs: ['legFR'], swing: 10, lift: -3, shift: 0.5 },
-        { legs: ['legBL'], swing: 10, lift: -3, shift: 0.75 },
-      ]),
-      trk('torso', 'y', [[0, 2], [1, 2]]),
-      trk('torso', 'angle', [[0, 1], [0.5, -1], [1, 1]]),
-      trk('earNear', 'angle', [[0, -5], [0.5, -2], [1, -5]]),
-      trk('earFar', 'angle', [[0, -5], [0.5, -2], [1, -5]]),
-    ],
-    contacts: [
-      { phase: 0, paw: 'legFL', beat: 'tap' },
-      { phase: 0.25, paw: 'legBR', beat: 'tap' },
-      { phase: 0.5, paw: 'legFR', beat: 'tap' },
-      { phase: 0.75, paw: 'legBL', beat: 'tap' },
-    ],
-    contactNotes: 'ICE WALK - 750ms/stride. Four quick taps FL>BR>FR>BL, low crouch; tiny sparkles per tap; slip may interrupt (slipChance).',
-  },
-
-  'kiki-uphill': {
-    kind: 'cycle', id: 'kiki-uphill', rig: 'kiki-trot', periodMs: 700,
-    tracks: [
-      ...gaitLegs([
-        { legs: ['legFL', 'legBR'], swing: 16, lift: -6, shift: 0 },
-        { legs: ['legFR', 'legBL'], swing: 16, lift: -6, shift: 0.5 },
-      ]),
-      trk('torso', 'y', [[0, 0], [0.25, -3], [0.5, 0], [0.75, -3], [1, 0]]),
-      trk('torso', 'angle', [[0, 9], [0.5, 7], [1, 9]]),
-      trk('earNear', 'angle', [[0, -3], [0.5, 3], [1, -3]]),
-    ],
-    contacts: [
-      { phase: 0, paw: 'legFL', beat: 'dig-plant' }, { phase: 0, paw: 'legBR', beat: 'dig-plant' },
-      { phase: 0.5, paw: 'legFR', beat: 'dig-plant' }, { phase: 0.5, paw: 'legBL', beat: 'dig-plant' },
-    ],
-    contactNotes: 'UPHILL - 700ms/stride. Forward lean (+8deg baked), shorter stride, digging plants; effort puffs.',
-  },
-
-  'kiki-downhill': {
-    kind: 'cycle', id: 'kiki-downhill', rig: 'kiki-trot', periodMs: 650,
-    tracks: [
-      ...gaitLegs([
-        { legs: ['legFL', 'legBR'], swing: 24, lift: -5, shift: 0 },
-        { legs: ['legFR', 'legBL'], swing: 24, lift: -5, shift: 0.5 },
-      ]),
-      trk('torso', 'y', [[0, 0], [0.5, -2], [1, 0]]),
-      trk('torso', 'angle', [[0, -6], [0.5, -4], [1, -6]]),
-      trk('earNear', 'angle', [[0, 4], [0.5, -2], [1, 4]]),
-    ],
-    contacts: [
-      { phase: 0, paw: 'legFL', beat: 'brake-plant' }, { phase: 0, paw: 'legBR', beat: 'brake-plant' },
-      { phase: 0.5, paw: 'legFR', beat: 'brake-plant' }, { phase: 0.5, paw: 'legBL', beat: 'brake-plant' },
-    ],
-    contactNotes: 'DOWNHILL - 650ms/stride. Braking posture (lean back), long controlled stride; scrape puffs on plants.',
-  },
-
-  'kiki-bridge-walk': {
-    kind: 'cycle', id: 'kiki-bridge-walk', rig: 'kiki-trot', periodMs: 850,
-    tracks: [
-      ...gaitLegs([
-        { legs: ['legFL', 'legBR'], swing: 12, lift: -5, shift: 0 },
-        { legs: ['legFR', 'legBL'], swing: 12, lift: -5, shift: 0.5 },
-      ]),
-      trk('torso', 'y', [[0, 0], [0.25, -1.5], [0.5, 0], [0.75, -1.5], [1, 0]]),
-      trk('torso', 'angle', [[0, 2], [0.25, -2], [0.5, 2], [0.75, -2], [1, 2]]),
-      trk('earNear', 'angle', [[0, -4], [0.5, 0], [1, -4]]),
-      trk('earFar', 'angle', [[0, -4], [0.5, 0], [1, -4]]),
-    ],
-    contacts: [
-      { phase: 0, paw: 'legFL', beat: 'careful-plant' }, { phase: 0, paw: 'legBR', beat: 'careful-plant' },
-      { phase: 0.5, paw: 'legFR', beat: 'careful-plant' }, { phase: 0.5, paw: 'legBL', beat: 'careful-plant' },
-    ],
-    contactNotes: 'BRIDGE - 850ms/stride. Careful paw placement, small stride, subtle balance sway; hollow footfall sounds.',
-  },
-
-  'husky-walk': {
-    kind: 'cycle', id: 'husky-walk', rig: 'husky-race', periodMs: 700,
-    tracks: [
-      ...gaitLegs([
-        { legs: ['legFL', 'legBR'], swing: 18, lift: -6, shift: 0 },
-        { legs: ['legFR', 'legBL'], swing: 18, lift: -6, shift: 0.5 },
-      ]),
-      trk('torso', 'y', [[0, 0], [0.25, -3], [0.5, 0], [0.75, -3], [1, 0]]),
-      trk('torso', 'angle', [[0, 1.5], [0.5, -1.5], [1, 1.5]]),
-      trk('tail', 'angle', [[0, -4], [0.5, 5], [1, -4]]),
-      trk('earNear', 'angle', [[0, -2], [0.5, 2], [1, -2]]),
-    ],
-    contacts: [
-      { phase: 0, paw: 'legFL', beat: 'plant' }, { phase: 0, paw: 'legBR', beat: 'plant' },
-      { phase: 0.5, paw: 'legFR', beat: 'plant' }, { phase: 0.5, paw: 'legBL', beat: 'plant' },
-    ],
-    contactNotes: 'HUSKY WALK - 700ms/stride. Efficient, experienced trot; confident and unhurried - never frantic.',
-  },
-};
-
-for (const [k, v] of Object.entries(EXTRA_CYCLES)) CYCLES[k] = v;
-
-/** Paw-contact timing for the pass-1 cycles (pass-2 cycles carry contactNotes inline). */
-const CONTACT_NOTES: Record<string, string> = {
-  'kiki-trot': 'TROT - 600ms/stride. Beat 1 (phase 0): FL+BR plant. Beat 2 (phase 0.5): FR+BL plant. Diagonal pairs; FX: puff + print per plant.',
-  'kiki-run': 'RUN (GALLOP) - 440ms/stride. Phase 0.08: FL+FR front plant. Phase 0.55: BL+BR rear plant. Gathered flight between; FX: bigger puffs.',
-  'kiki-idle': 'IDLE - 2600ms breathing loop. No foot contacts (feet planted).',
-  'husky-idle': 'IDLE - 2800ms breathing loop. No foot contacts.',
-  'husky-steady': 'RACE STEADY - 560ms/stride. Beat 1: FL+BR plant. Beat 2: FR+BL plant. Spray per contact x1.',
-  'husky-fast': 'RACE FAST - 440ms/stride. Phase 0.08: FL+FR plant. Phase 0.55: BL+BR plant. Spray per contact x1.',
-  'husky-turbo': 'RACE TURBO - 360ms/stride. Same gallop contacts as fast, 22% quicker + baked lean. Spray per contact x2.',
-};
-for (const [k, v] of Object.entries(CONTACT_NOTES)) {
-  const c = CYCLES[k];
-  if (c && !c.contactNotes) c.contactNotes = v;
-}
-
 /* ---------------------------------------------------------------- */
 /* One-shots                                                         */
 /* ---------------------------------------------------------------- */
@@ -534,80 +313,6 @@ export const ONESHOTS: Record<string, OneShotDef> = {
     trk('torso', 'angle', [[0, -1.5], [120, 1.5], [240, -1.5]]),
     trk('head', 'angle', [[0, 1], [120, -1], [240, 1]]),
   ]),
-  /* --- production pass: turns, jumps, race, expressions --- */
-  'turn': os('turn', '*', 700, [
-    // look -> weight shift -> squash (flip masked at 450ms) -> recover
-    trk('torso', 'x', [[0, 0], [200, -8], [450, -4], [700, 0]]),
-    trk('torso', 'angle', [[0, 0], [200, 6], [450, -6], [700, 0]]),
-    trk('torso', 'scaleY', [[0, 1], [450, 0.9], [700, 1]]),
-    trk('torso', 'scaleX', [[0, 1], [450, 1.04], [700, 1]]),
-    trk('legFL', 'angle', [[0, 0], [300, 16], [700, 0]]),
-    trk('legFR', 'angle', [[0, 0], [300, 16], [700, 0]]),
-    trk('earNear', 'angle', [[0, 0], [200, -8], [700, 0]]),
-    trk('earFar', 'angle', [[0, 0], [200, -8], [700, 0]]),
-  ]),
-  'jump': os('jump', '*', 700, [
-    // crouch -> launch -> tucked airborne -> (auto-chains into 'land')
-    trk('torso', 'scaleY', [[0, 1], [150, 0.9], [300, 1.02], [700, 1]]),
-    trk('torso', 'y', [[0, 0], [150, 4], [300, 2], [700, 0]]),
-    trk('torso', 'angle', [[0, 0], [300, -6], [500, -6], [700, 0]]),
-    trk('legFL', 'angle', [[0, 0], [150, 18], [300, -14], [500, -14], [700, 0]]),
-    trk('legFR', 'angle', [[0, 0], [150, 18], [300, -14], [500, -14], [700, 0]]),
-    trk('legBL', 'angle', [[0, 0], [150, -14], [300, 12], [500, 12], [700, 0]]),
-    trk('legBR', 'angle', [[0, 0], [150, -14], [300, 12], [500, 12], [700, 0]]),
-    trk('earNear', 'angle', [[0, 0], [300, -8], [700, 0]]),
-    trk('earFar', 'angle', [[0, 0], [300, -8], [700, 0]]),
-    trk('@root', 'y', [[0, 0], [150, 0], [300, -30], [500, -30], [700, 0]]),
-  ], { emitAt: [{ ms: 150, event: 'hop' }] }),
-  'land': os('land', '*', 450, [
-    // landing compression: squash, splay, ear flop, recover
-    trk('torso', 'scaleY', [[0, 1.02], [100, 0.86], [300, 0.97], [450, 1]]),
-    trk('torso', 'scaleX', [[0, 1], [100, 1.06], [450, 1]]),
-    trk('torso', 'y', [[0, 0], [100, 5], [450, 0]]),
-    trk('torso', 'angle', [[0, -4], [100, 3], [450, 0]]),
-    trk('legFL', 'angle', [[0, 0], [100, 22], [450, 0]]),
-    trk('legFR', 'angle', [[0, 0], [100, 22], [450, 0]]),
-    trk('legBL', 'angle', [[0, 0], [100, -20], [450, 0]]),
-    trk('legBR', 'angle', [[0, 0], [100, -20], [450, 0]]),
-    trk('earNear', 'angle', [[0, 0], [100, 8], [450, 0]]),
-    trk('earFar', 'angle', [[0, 0], [100, 8], [450, 0]]),
-  ], { emitAt: [{ ms: 100, event: 'landed' }] }),
-  'race-bump': os('race-bump', '*', 500, [
-    trk('torso', 'x', [[0, 0], [150, 12], [500, 0]]),
-    trk('torso', 'angle', [[0, 0], [150, 10], [350, -6], [500, 0]]),
-    trk('tail', 'angle', [[0, 0], [150, 16], [500, 0]]),
-    trk('earNear', 'angle', [[0, 0], [150, -10], [500, 0]]),
-    trk('earFar', 'angle', [[0, 0], [150, -10], [500, 0]]),
-    trk('legFL', 'angle', [[0, 0], [150, 14], [500, 0]]),
-    trk('legBL', 'angle', [[0, 0], [150, -14], [500, 0]]),
-  ], { emitAt: [{ ms: 200, event: 'shake' }] }),
-  'play-challenge': os('play-challenge', '*', 900, [
-    // husky play bow: front dips, rear stays up, tail wags
-    trk('torso', 'angle', [[0, 0], [300, 14], [700, 14], [900, 0]]),
-    trk('torso', 'y', [[0, 0], [300, 6], [700, 6], [900, 0]]),
-    trk('legFL', 'angle', [[0, 0], [300, 20], [700, 20], [900, 0]]),
-    trk('legFR', 'angle', [[0, 0], [300, 20], [700, 20], [900, 0]]),
-    trk('tail', 'angle', [[0, 0], [200, 14], [350, -14], [500, 14], [650, -14], [800, 0], [900, 0]]),
-    trk('earNear', 'angle', [[0, 0], [300, -6], [900, 0]]),
-  ]),
-  'alert': os('alert', '*', 700, [
-    trk('earNear', 'angle', [[0, 0], [200, -10], [600, -10], [700, 0]]),
-    trk('earFar', 'angle', [[0, 0], [200, -10], [600, -10], [700, 0]]),
-    trk('torso', 'angle', [[0, 0], [200, -3], [600, -3], [700, 0]]),
-    trk('torso', 'y', [[0, 0], [200, -2], [600, -2], [700, 0]]),
-  ]),
-  'focused': os('focused', '*', 900, [
-    trk('earNear', 'angle', [[0, 0], [250, -6], [750, -6], [900, 0]]),
-    trk('earFar', 'angle', [[0, 0], [250, -6], [750, -6], [900, 0]]),
-    trk('torso', 'y', [[0, 0], [250, -2], [750, -2], [900, 0]]),
-  ]),
-  'excited': os('excited', '*', 600, [
-    trk('@root', 'y', [[0, 0], [200, -16], [400, 0], [500, -10], [600, 0]]),
-    trk('earNear', 'angle', [[0, 0], [200, -8], [600, 0]]),
-    trk('earFar', 'angle', [[0, 0], [200, -8], [600, 0]]),
-    trk('torso', 'angle', [[0, 0], [200, -4], [600, 0]]),
-  ], { emitAt: [{ ms: 200, event: 'hop' }] }),
-
 };
 
 /* ---------------------------------------------------------------- */
@@ -624,41 +329,14 @@ export interface MotionBinding {
   lean: number;
 }
 
-export const MOTIONS: Record<Exclude<MotionId, CommandMotionId>, MotionBinding> = {
-  'idle':           { char: 'kiki',  rig: 'kiki-idle',  cycle: 'kiki-idle',       speedMul: 1,    lean: 0 },
-  'trot':           { char: 'kiki',  rig: 'kiki-trot',  cycle: 'kiki-trot',       speedMul: 1,    lean: 0 },
-  'run':            { char: 'kiki',  rig: 'kiki-run',   cycle: 'kiki-run',        speedMul: 1,    lean: 0 },
-  'careful':        { char: 'kiki',  rig: 'kiki-trot',  cycle: 'kiki-careful',    speedMul: 1,    lean: 0 },
-  'sniff-walk':     { char: 'kiki',  rig: 'kiki-trot',  cycle: 'kiki-sniff-walk', speedMul: 1,    lean: 0 },
-  'deep-snow-walk': { char: 'kiki',  rig: 'kiki-trot',  cycle: 'kiki-deep-snow',  speedMul: 1,    lean: 0 },
-  'ice-walk':       { char: 'kiki',  rig: 'kiki-trot',  cycle: 'kiki-ice-walk',   speedMul: 1,    lean: 0 },
-  'uphill-walk':    { char: 'kiki',  rig: 'kiki-trot',  cycle: 'kiki-uphill',     speedMul: 1,    lean: 0 },
-  'downhill-walk':  { char: 'kiki',  rig: 'kiki-trot',  cycle: 'kiki-downhill',   speedMul: 1,    lean: 0 },
-  'bridge-walk':    { char: 'kiki',  rig: 'kiki-trot',  cycle: 'kiki-bridge-walk',speedMul: 1,    lean: 0 },
-  'race-steady':    { char: 'husky', rig: 'husky-race', cycle: 'husky-steady',    speedMul: 1,    lean: 0 },
-  'race-fast':      { char: 'husky', rig: 'husky-race', cycle: 'husky-fast',      speedMul: 1,    lean: 0 },
-  'race-turbo':     { char: 'husky', rig: 'husky-race', cycle: 'husky-turbo',     speedMul: 1,    lean: 0 },
-  'race-turn':      { char: 'husky', rig: 'husky-race', cycle: 'husky-steady',    speedMul: 0.9,  lean: 14 },
-  'race-slowdown':  { char: 'husky', rig: 'husky-race', cycle: 'husky-fast',      speedMul: 0.5,  lean: -6 },
-  'husky-idle':     { char: 'husky', rig: 'husky-idle', cycle: 'husky-idle',      speedMul: 1,    lean: 0 },
-  'husky-walk':     { char: 'husky', rig: 'husky-race', cycle: 'husky-walk',      speedMul: 1,    lean: 0 },
+export const MOTIONS: Record<MotionId, MotionBinding> = {
+  'idle':        { char: 'kiki',  rig: 'kiki-idle',  cycle: 'kiki-idle',   speedMul: 1, lean: 0 },
+  'trot':        { char: 'kiki',  rig: 'kiki-trot',  cycle: 'kiki-trot',   speedMul: 1, lean: 0 },
+  'run':         { char: 'kiki',  rig: 'kiki-run',   cycle: 'kiki-run',    speedMul: 1, lean: 0 },
+  'race-steady': { char: 'husky', rig: 'husky-race', cycle: 'husky-steady', speedMul: 1, lean: 0 },
+  'race-fast':   { char: 'husky', rig: 'husky-race', cycle: 'husky-fast',  speedMul: 1, lean: 0 },
+  'race-turbo':  { char: 'husky', rig: 'husky-race', cycle: 'husky-turbo', speedMul: 1, lean: 0 },
 };
-
-/**
- * Command motions: not steady states — CharacterMotion routes them to
- * overlays/transitions (jump, land, slip, recover, start, stop, turns,
- * look-back, race-celebrate). Scenes call them exactly like cycles.
- */
-export type CommandMotionId =
-  | 'start' | 'stop' | 'jump' | 'land' | 'slip' | 'recover'
-  | 'turn-left' | 'turn-right' | 'look-back' | 'race-celebrate';
-
-export function isCommandMotion(id: MotionId): id is CommandMotionId {
-  return ([
-    'start', 'stop', 'jump', 'land', 'slip', 'recover',
-    'turn-left', 'turn-right', 'look-back', 'race-celebrate',
-  ] as string[]).includes(id);
-}
 
 /** Which rig a character uses for reactions / idle behaviors. */
 export const CHAR_IDLE_RIG: Record<CharacterId, string> = {
@@ -673,8 +351,6 @@ export const REACTIONS: Record<ReactionId, string> = {
   ask: 'ask', listen: 'listen', agree: 'agree', unsure: 'unsure',
   brave: 'brave', 'lets-try': 'lets-try',
   greeting: 'greeting', encourage: 'encourage', 'look-kiki': 'look-kiki',
-  'play-challenge': 'play-challenge', alert: 'alert', focused: 'focused',
-  excited: 'excited', slip: 'slip', recover: 'recover-shake', 'look-back': 'look-back',
 };
 
 /* ---------------------------------------------------------------- */
@@ -719,3 +395,4 @@ export const RACE = {
   /** Snow-spray is emitted from footstep events; turbo doubles the rate. */
   sprayPerContact: { 'race-steady': 1, 'race-fast': 1, 'race-turbo': 2 } as Record<string, number>,
 };
+

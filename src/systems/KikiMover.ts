@@ -106,6 +106,8 @@ export class KikiMover {
       const finish = () => {
         this.moving = false;
         this.activeTween = undefined;
+        const endpoint = spec.curve.getPoint(toT);
+        this.root.setPosition(endpoint.x, endpoint.y);
         this.kiki.rest();
         const reaction = spec.arrivalReaction ?? "none";
         if (reaction !== "none") this.kiki.react(reaction);

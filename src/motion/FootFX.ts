@@ -51,7 +51,7 @@ export class FootFX {
 
     if (opts?.shadow) {
       this.shadow = scene.add.image(motion.container.x, 0, 'fx-shadow');
-      this.shadow.setDepth(4);
+      this.shadow.setDepth(13);
       this.shadowBaseScale = opts.shadowScale ?? 1;
     }
   }
@@ -62,8 +62,9 @@ export class FootFX {
   }
 
   private onFootstep(d: FootstepData): void {
-    if (this.wantPrints) this.addPrint(d.x, d.y);
-    if (this.wantPuffs) {
+    if (this.wantPrints && !["bridge", "ice", "cave"].includes(this.motion.getTerrain())) this.addPrint(d.x, d.y);
+    if(this.motion.getTerrain() === "ice") { this.slip(d.x,d.y); return; }
+    if (this.wantPuffs && this.motion.getTerrain() !== "bridge" && this.motion.getTerrain() !== "cave") {
       const turbo = this.motion.currentMotion === 'race-turbo';
       this.addPuff(d.x, d.y - 4, turbo ? 2 : 1);
     }
@@ -80,7 +81,7 @@ export class FootFX {
     const img = this.scene.add.image(x, y, 'fx-paw')
       .setAlpha(0.55)
       .setAngle((Math.random() - 0.5) * 24)
-      .setDepth(5);
+      .setDepth(13);
     this.prints.push({ img, life: PRINT_LIFE });
   }
 
@@ -92,7 +93,7 @@ export class FootFX {
       }
       const img = this.scene.add.image(
         x + (Math.random() - 0.5) * 10, y + (Math.random() - 0.5) * 6, 'fx-puff',
-      ).setDepth(6).setScale(0.5 + Math.random() * 0.3).setAlpha(0.75);
+      ).setDepth(17).setScale(0.5 + Math.random() * 0.3).setAlpha(0.75);
       this.puffs.push({
         img, life: 450, max: 450,
         vx: (Math.random() - 0.5) * 24, vy: -18 - Math.random() * 14,
@@ -111,7 +112,7 @@ export class FootFX {
         old?.img.destroy();
       }
       const img = this.scene.add.image(x + (Math.random() - 0.5) * 24, y - 6, 'fx-sparkle')
-        .setDepth(6).setScale(0.7 + Math.random() * 0.5);
+        .setDepth(17).setScale(0.7 + Math.random() * 0.5);
       this.sparkles.push({ img, life: 500 });
     }
   }
@@ -141,7 +142,8 @@ export class FootFX {
     if (this.shadow) {
       const hop = this.motion.hopY; // negative = airborne
       const s = this.shadowBaseScale * Math.max(0.55, Math.min(1.05, 1 + hop / 160));
-      this.shadow.setScale(s, s).setX(this.motion.container.x);
+      const scale = Math.abs(this.motion.container.scaleX);
+      this.shadow.setScale(s * scale, s * scale).setPosition(this.motion.container.x, this.motion.container.y + 3).setVisible(this.motion.container.visible);
       this.shadow.setAlpha(0.85 * s);
     }
   }
@@ -154,3 +156,4 @@ export class FootFX {
     this.prints = []; this.puffs = []; this.sparkles = [];
   }
 }
+

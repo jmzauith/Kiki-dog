@@ -73,6 +73,15 @@ export class PlaythroughLog {
     this.clock = clock;
   }
 
+  restore(events: readonly TelemetryEvent[]): void {
+    this.events = events.filter(e => typeof e.type === "string" && Number.isFinite(e.atMs)).map(e => ({ ...e }));
+    this.idleStart = null;
+    for (const e of this.events) {
+      if (e.type === "idle-started") this.idleStart = e.atMs;
+      if (e.type === "idle-ended") this.idleStart = null;
+    }
+  }
+
   record(type: TelemetryEventType, nodeId?: string, detail?: Record<string, string | number | boolean>): void {
     this.events.push({ type, atMs: this.clock(), nodeId, detail });
   }

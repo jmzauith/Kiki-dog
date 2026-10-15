@@ -9,17 +9,7 @@ import {
   SilentDogAudio,
 } from "./DogCharacter";
 
-/**
- * HuskyCharacter — the Husky rival/guide as an independent game object.
- *
- * Production art (round 2): 6 hand-built vector poses under
- * public/assets/characters/husky/ — idle, race, turbo, happy, surprised,
- * celebrate — plus a separately-wagging curled tail. Gray/white coat, facial
- * mask, and blue eyes; visually equal in quality to Kiki.
- *
- * Shares all machinery (facing, idle life, reactions, FX) with Kiki via
- * DogCharacter. Used by RaceScene for the rival sled racer.
- */
+/** Ringo canonical painterly Husky. Its curled tail is included in each pose. */
 
 export type HuskyPose =
   | "idle"
@@ -27,7 +17,7 @@ export type HuskyPose =
   | "turbo"
   | "happy"
   | "surprised"
-  | "celebrate";
+  | "celebrate" | "greeting" | "curious" | "confident" | "sled-ready" | "race-fast" | "leaning-turn" | "deep-snow" | "recover" | "look-back" | "encouragement" | "finish-push" | "proud";
 
 export type HuskyReaction = DogReaction;
 export type HuskyFacing = DogFacing;
@@ -36,14 +26,15 @@ export interface HuskyCharacterOptions extends DogCharacterOptions {}
 export const SilentHuskyAudio: HuskyAudioHooks = SilentDogAudio;
 
 const HUSKY_CONFIG: DogSheetConfig = {
-  sheetKey: "husky-poses",
-  sheetUrl: "assets/characters/husky/husky-poses.svg",
+  sheetKey: "husky-canonical",
+  sheetUrl: "assets/polish/husky-canonical-atlas.svg",
   sheetW: 1200,
-  sheetH: 160,
+  sheetH: 480,
   frameW: 200,
   frameH: 160,
   cols: 6,
-  frames: ["idle", "race", "turbo", "happy", "surprised", "celebrate"],
+  frames: ["idle", "race", "turbo", "happy", "surprised", "celebrate", "greeting", "curious", "confident", "sled-ready", "race-fast", "leaning-turn", "deep-snow", "recover", "look-back", "encouragement", "finish-push", "proud"],
+  embeddedTail: true,
   tailKey: "husky-tail",
   tailUrl: "assets/characters/husky/husky-tail.svg",
   tailW: 64,

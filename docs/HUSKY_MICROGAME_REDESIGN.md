@@ -614,3 +614,4 @@ for mouse, trackpad, and touch.
 definitions, budgeted durations) + `src/systems/Microgames.ts` (validators and
 pacing auditors). All budgets, math counts, variety, and route constraints are
 covered by `src/systems/__tests__/Microgames.test.ts` (29 tests).*
+

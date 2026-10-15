@@ -33,14 +33,14 @@ export type KikiReactionId =
 
 /** Human-readable description of each reaction, for content authors. */
 export const KIKI_REACTIONS: Record<KikiReactionId, string> = {
-  excited: "Tail wagging fast, bouncing on front paws",
+  excited: "Bouncing on front paws, ears perked",
   curious: "Head tilt, nose forward, sniffing the air",
   thinking: "One ear up, one ear down, looking side to side",
   determined: "Low stance, eyes locked on the goal",
   cautious: "Slow careful steps, ears slightly back",
-  happy: "Relaxed wag, soft eyes, tongue out",
+  happy: "Relaxed posture, soft eyes, tongue out",
   surprised: "Ears straight up, eyes wide",
-  proud: "Chest out, chin up, slow dignified wag",
+  proud: "Chest out, chin up, steady proud stance",
   celebrate: "Happy spin, little hop",
   affectionate: "Nuzzles, leans in close",
   playful: "Play-bow, butt in the air, ready to zoom",

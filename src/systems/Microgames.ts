@@ -422,3 +422,4 @@ export function validateRoutes(plan: AdventurePacingPlan): string[] {
   }
   return problems;
 }
+

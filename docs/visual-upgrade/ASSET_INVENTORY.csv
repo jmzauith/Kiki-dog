@@ -1,0 +1,135 @@
+asset,current status,required action
+public/assets/characters/husky/husky-celebrate.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-confident.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-curious.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-deep-snow.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-encouragement.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-finish-push.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-friendship.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-greeting.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-happy.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-idle.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-leaning-turn.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-look-back.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-on-sled.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-portrait.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-poses.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/characters/husky/husky-proud.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-race-fast.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-race-steady.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-race-turbo.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-recover.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-sled-ready.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-surprised.svg,CANONICAL SOURCE / REUSABLE,Exact Ringo PR26 pixels; atlas/reward layout adapters avoid redesign.
+public/assets/characters/husky/husky-tail.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/characters/kiki/kiki-a-celebrate.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-confused.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-curious.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-happy.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-idle.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-jump.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-proud.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-race-steady.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-race-turbo.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-run.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-shiver.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-sled-ready.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-sniff.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-sticker.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-success.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-surprised.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-thinking.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-a-trot.svg,LOCKED CANONICAL SOURCE,Do not redesign; preserve tailless identity and markings. Idle also used on profile page.
+public/assets/characters/kiki/kiki-canonical-atlas.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/characters/kiki/kiki-poses.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/characters/kiki/kiki-tail.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/kiki/kiki-poses.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/kiki/kiki-tail.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/landmarks/bridge-broken.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/landmarks/bridge-fixed.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/landmarks/fork-sign.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/landmarks/ice-cave.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/landmarks/igloo.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/landmarks/race-gate.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/landmarks/shelter.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/landmarks/trailhead.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/polish/husky-canonical-atlas.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/husky-friendship.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/husky-greeting.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/husky-sticker-final.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/husky-sticker-golden.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/kiki-canonical-atlas.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-bonecache-hidden.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-bonecache-revealed.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-bridge-broken.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-bridge-fixed.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-bridge-repairing.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-fallentree-blocked.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-fallentree-cleared.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-fork-sign.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-ice-cave.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-igloo-discovered.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-igloo-glow.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-igloo-hidden.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-race-gate.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-shelter.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-snowpass-blocked.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-snowpass-cleared.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/lm-trailhead.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/prop-banner-cloth.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/race-checkpoint.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/sign-blank-carved.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/wood-panel.svg,LIVE ADAPTER / REUSABLE,Approved pixels packaged for runtime; preserve anchors and intrinsic SVG sizes.
+public/assets/polish/wooden-sled.png,LIVE GENERATED PLACEHOLDER,"Review sled scale, snow contact, harness and rider placement; replace with approved modular kit."
+public/assets/preview/bridge-background.png,LIVE APPROVED-DIRECTION PREVIEW,Reuse Harrison-derived bridge plate; replace with layered bridge scene for production.
+public/assets/preview/race-background.png,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/preview/reference/01-snowy-peaks-exploration.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/preview/reference/01-snowy-peaks-exploration.webp,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/preview/reference/02-bridge-encounter.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/preview/reference/02-bridge-encounter.webp,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/preview/reference/03-husky-sled-race.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/preview/reference/03-husky-sled-race.webp,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/preview/snowy-world.png,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/rewards/husky/husky-album-golden-v2.svg,APPROVED REWARD SOURCE,Sticker source used through dimension/portrait-fit adapter; album assets await complete album UI.
+public/assets/rewards/husky/husky-album-unlocked-v2.svg,APPROVED REWARD SOURCE,Sticker source used through dimension/portrait-fit adapter; album assets await complete album UI.
+public/assets/rewards/husky/husky-celebrate-v2.svg,APPROVED REWARD SOURCE,Sticker source used through dimension/portrait-fit adapter; album assets await complete album UI.
+public/assets/rewards/husky/husky-sticker-golden-v2.svg,APPROVED REWARD SOURCE,Sticker source used through dimension/portrait-fit adapter; album assets await complete album UI.
+public/assets/rewards/husky/husky-sticker-v2.svg,APPROVED REWARD SOURCE,Sticker source used through dimension/portrait-fit adapter; album assets await complete album UI.
+public/assets/worlds/husky/bridge-broken.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/bridge-fixed.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/cave-mouth.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/lake-hut.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/pine-snowy.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/pine-tall.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/pine-wide.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/race-camp.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/rock-ice.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/rock-snow.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/snowpass-arch.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/star-shard.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/summit-flag.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/trailhead-arch.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/husky/waterfall-frozen.svg,RETAINED / NOT LOADED BY HUSKY POLISH,Retain until other-world/reference consumers are audited; exclude from final shipping bundle.
+public/assets/worlds/snowy-peaks/fx-snowspray.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-bonecache-hidden.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-bonecache-revealed.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-bridge-broken.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-bridge-fixed.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-bridge-repairing.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-fallentree-blocked.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-fallentree-cleared.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-fork-sign.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-ice-cave.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-igloo-discovered.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-igloo-glow.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-igloo-hidden.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-race-gate.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-shelter.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-snowpass-blocked.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-snowpass-cleared.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/lm-trailhead.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/map-backdrop.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/prop-banner-cloth.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/race-backdrop.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/race-checkpoint.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.
+public/assets/worlds/snowy-peaks/sign-blank-carved.svg,APPROVED SOURCE / REUSABLE,Used directly for backdrops and interaction panels or through feathered runtime adapters; supply true alpha cutouts.

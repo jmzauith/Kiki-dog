@@ -1,0 +1,189 @@
+{
+  "area": "snow-pass",
+  "label": "Snow Pass",
+  "worldRect": {
+    "x": 2380,
+    "y": 340,
+    "w": 260,
+    "h": 240
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.15,
+      "contents": "distant mountains, sky haze (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.4,
+      "contents": "distant pine groups, cliffs (ip-px-mid)"
+    },
+    {
+      "id": "back",
+      "depth": 6,
+      "scrollFactor": 1.0,
+      "contents": "back scenery, landmark art (existing wlm-*, lm-*)"
+    },
+    {
+      "id": "terrain",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "walkable surface decals: path, ice, deck"
+    },
+    {
+      "id": "interact-behind",
+      "depth": 11,
+      "scrollFactor": 1.0,
+      "contents": "interactive objects behind Kiki"
+    },
+    {
+      "id": "contact",
+      "depth": 13,
+      "scrollFactor": 1.0,
+      "contents": "ground shadow, crack overlays, ripples under Kiki"
+    },
+    {
+      "id": "kiki",
+      "depth": 15,
+      "scrollFactor": 1.0,
+      "contents": "Kiki (unchanged)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "contents": "foreground occluders (dl-*)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "contents": "weather FX: snowfall, gusts, mist"
+    }
+  ],
+  "walkPath": {
+    "curve": "catmullrom",
+    "points": [
+      {
+        "x": 2400,
+        "y": 520,
+        "scale": 0.8
+      },
+      {
+        "x": 2470,
+        "y": 490,
+        "scale": 0.77,
+        "note": "climbing"
+      },
+      {
+        "x": 2540,
+        "y": 460,
+        "scale": 0.75,
+        "note": "pass crest (higher = smaller)"
+      },
+      {
+        "x": 2600,
+        "y": 480,
+        "scale": 0.77,
+        "note": "descent"
+      }
+    ]
+  },
+  "depthBands": [
+    {
+      "y0": 420,
+      "y1": 560,
+      "kikiDepth": 15,
+      "kikiScale": 0.77
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-rock.svg",
+      "x": 2430,
+      "y": 500,
+      "depth": 16,
+      "scale": 0.9,
+      "scrollFactor": 1.0,
+      "note": "Kiki threads behind rocks"
+    },
+    {
+      "asset": "dl-snowbank.svg",
+      "x": 2560,
+      "y": 500,
+      "depth": 16,
+      "scale": 1.0,
+      "scrollFactor": 1.0,
+      "note": "drift foreground at crest"
+    }
+  ],
+  "fx": [
+    {
+      "asset": "dl-gust.svg",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "note": "gust sweeps on timer; telegraphs timing gate"
+    },
+    {
+      "asset": "dl-snowfall.svg",
+      "depth": 17,
+      "scrollFactor": 0.9,
+      "note": "ambient heavier snow here"
+    }
+  ],
+  "scaleZones": [
+    {
+      "x0": 2380,
+      "x1": 2470,
+      "scale": 0.8,
+      "note": "base"
+    },
+    {
+      "x0": 2470,
+      "x1": 2560,
+      "scale": 0.75,
+      "note": "crest: elevation"
+    },
+    {
+      "x0": 2560,
+      "x1": 2640,
+      "scale": 0.78,
+      "note": "descent"
+    }
+  ],
+  "interactionAnchors": [
+    {
+      "id": "drift",
+      "x": 2500,
+      "y": 490,
+      "asset": "ip-sp-drift.svg",
+      "action": "rub"
+    },
+    {
+      "id": "shelter",
+      "x": 2440,
+      "y": 510,
+      "asset": "ip-sp-shelter.svg",
+      "action": "tap"
+    }
+  ],
+  "noWalk": [
+    {
+      "x": 2380,
+      "y": 340,
+      "w": 260,
+      "h": 70,
+      "note": "cliff tops"
+    }
+  ],
+  "parallax": {
+    "far": 0.1,
+    "mid": 0.3,
+    "base": 1.0,
+    "fore": 1.0
+  },
+  "notes": "Elevation is the star: scale 0.8->0.75 over the crest + gust FX.",
+  "$schema": "snowy-peaks-depth-v1"
+}

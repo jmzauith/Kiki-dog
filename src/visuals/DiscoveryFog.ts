@@ -14,7 +14,7 @@ export class DiscoveryFog {
   constructor(private scene: Phaser.Scene) {}
 
   buildZone(zone: FogZone, x: number, y: number, w: number, h: number): void {
-    const c = this.scene.add.container(x, y).setDepth(10);
+    const c = this.scene.add.container(x, y).setDepth(17);
 
     // layered soft blobs: denser in the middle, wispy at the edges
     for (let i = 0; i < 16; i++) {

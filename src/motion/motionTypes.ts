@@ -38,8 +38,6 @@ export interface ContactEvent {
   phase: number;
   /** Part name of the paw, e.g. 'legFL'. */
   paw: string;
-  /** Human-readable beat label for Lennon (e.g. 'plant', 'push-off'). */
-  beat?: string;
 }
 
 export interface CycleDef {
@@ -50,8 +48,6 @@ export interface CycleDef {
   periodMs: number;
   tracks: PartTrack[];
   contacts: ContactEvent[];
-  /** Plain-English foot-contact timing for Lennon (also in the spec doc). */
-  contactNotes?: string;
 }
 
 export interface FrameSwap {
@@ -124,55 +120,19 @@ export interface RigDef {
 /* Semantic IDs — the ONLY vocabulary scenes use.                     */
 /* ------------------------------------------------------------------ */
 
-/**
- * Steady locomotion states (cycles) + one-shot motions.
- * One-shot motions ('jump', 'land', 'slip', 'recover', 'start', 'stop',
- * 'turn-left', 'turn-right', 'look-back') are commands: CharacterMotion plays
- * them as overlays and returns to the previous state — scenes call them
- * exactly like cycles.
- */
 export type MotionId =
-  // Kiki: core gaits
   | 'idle'
   | 'trot'
   | 'run'
-  | 'careful'
-  | 'sniff-walk'
-  // Kiki: terrain gaits (explicit variants; scenes may also use
-  // setTerrain() which reshapes 'trot' live — see spec §7)
-  | 'deep-snow-walk'
-  | 'ice-walk'
-  | 'uphill-walk'
-  | 'downhill-walk'
-  | 'bridge-walk'
-  // Kiki: one-shot motions
-  | 'start'
-  | 'stop'
-  | 'jump'
-  | 'land'
-  | 'slip'
-  | 'recover'
-  | 'turn-left'
-  | 'turn-right'
-  | 'look-back'
-  // Husky: race
   | 'race-steady'
   | 'race-fast'
-  | 'race-turbo'
-  | 'race-turn'
-  | 'race-slowdown'
-  | 'race-celebrate'
-  // Husky: exploration
-  | 'husky-idle'
-  | 'husky-walk';
+  | 'race-turbo';
 
 export type ReactionId =
   | 'curious' | 'happy' | 'surprised' | 'think' | 'proud'
   | 'sniff' | 'celebrate' | 'confused'
   | 'ask' | 'listen' | 'agree' | 'unsure' | 'brave' | 'lets-try'
-  | 'greeting' | 'encourage' | 'look-kiki'
-  | 'play-challenge' | 'alert' | 'focused' | 'excited' | 'slip' | 'recover'
-  | 'look-back';
+  | 'greeting' | 'encourage' | 'look-kiki';
 
 export type TerrainId =
   | 'normal-snow' | 'deep-snow' | 'ice' | 'uphill'
@@ -186,12 +146,10 @@ export type MotionEvent =
   | 'footstep'   // { paw, x, y } — paw touched ground; spawn print/puff here
   | 'slip'       // { x, y } — ice slip moment; sparkle FX hook
   | 'shake'      // { x, y } — snow shaken off; burst FX hook
-  | 'hop'        // { x, y } — celebration hop apex
-  | 'landed'     // { x, y } — jump landing compression; heavy puff hook
-  | 'turned';    // { facing } — turn completed; facing changed
+  | 'hop';       // { x, y } — celebration hop apex
 
 export interface FootstepData { paw: string; x: number; y: number }
 export interface PointData { x: number; y: number }
-export interface TurnedData { facing: 1 | -1 }
 
 export type CharacterId = 'kiki' | 'husky';
+

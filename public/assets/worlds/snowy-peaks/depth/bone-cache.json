@@ -1,0 +1,139 @@
+{
+  "area": "bone-cache",
+  "label": "Bone Cache",
+  "worldRect": {
+    "x": 2260,
+    "y": 480,
+    "w": 220,
+    "h": 160
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.15,
+      "contents": "distant mountains, sky haze (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.4,
+      "contents": "distant pine groups, cliffs (ip-px-mid)"
+    },
+    {
+      "id": "back",
+      "depth": 6,
+      "scrollFactor": 1.0,
+      "contents": "back scenery, landmark art (existing wlm-*, lm-*)"
+    },
+    {
+      "id": "terrain",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "walkable surface decals: path, ice, deck"
+    },
+    {
+      "id": "interact-behind",
+      "depth": 11,
+      "scrollFactor": 1.0,
+      "contents": "interactive objects behind Kiki"
+    },
+    {
+      "id": "contact",
+      "depth": 13,
+      "scrollFactor": 1.0,
+      "contents": "ground shadow, crack overlays, ripples under Kiki"
+    },
+    {
+      "id": "kiki",
+      "depth": 15,
+      "scrollFactor": 1.0,
+      "contents": "Kiki (unchanged)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "contents": "foreground occluders (dl-*)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "contents": "weather FX: snowfall, gusts, mist"
+    }
+  ],
+  "walkPath": {
+    "curve": "catmullrom",
+    "points": [
+      {
+        "x": 2290,
+        "y": 610,
+        "scale": 0.8
+      },
+      {
+        "x": 2350,
+        "y": 615,
+        "scale": 0.8,
+        "note": "at mound"
+      },
+      {
+        "x": 2410,
+        "y": 608,
+        "scale": 0.8
+      }
+    ]
+  },
+  "depthBands": [
+    {
+      "y0": 560,
+      "y1": 640,
+      "kikiDepth": 15,
+      "kikiScale": 0.8
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-snowbank.svg",
+      "x": 2350,
+      "y": 630,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 0.7,
+      "note": "mound base foreground"
+    }
+  ],
+  "scaleZones": [
+    {
+      "x0": 2260,
+      "x1": 2480,
+      "scale": 0.8,
+      "note": "flat"
+    }
+  ],
+  "interactionAnchors": [
+    {
+      "id": "mound",
+      "x": 2350,
+      "y": 610,
+      "asset": "lm-bonecache-hidden.svg",
+      "action": "tap"
+    },
+    {
+      "id": "dig",
+      "x": 2350,
+      "y": 612,
+      "asset": "ip-bc-dig.svg",
+      "action": "tap-x3"
+    }
+  ],
+  "noWalk": [],
+  "parallax": {
+    "far": 0.14,
+    "mid": 0.4,
+    "base": 1.0,
+    "fore": 1.0
+  },
+  "notes": "Small beat. Dig FX at depth 17 above Kiki is fine (snow flies toward camera).",
+  "$schema": "snowy-peaks-depth-v1"
+}

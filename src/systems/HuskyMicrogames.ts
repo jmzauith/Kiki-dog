@@ -934,3 +934,4 @@ export const HUSKY_PACING_PLAN: AdventurePacingPlan = {
   raceEncounterId: "sled-race",
   rewardEncounterId: "husky-reward",
 };
+

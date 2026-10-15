@@ -56,3 +56,4 @@ export function addOccluder(
     .setAlpha(opts?.alpha ?? 1)
     .setDepth(opts?.depth ?? 16);
 }
+

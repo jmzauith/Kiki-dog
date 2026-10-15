@@ -1,0 +1,196 @@
+{
+  "area": "bridge",
+  "label": "Broken Bridge",
+  "worldRect": {
+    "x": 620,
+    "y": 360,
+    "w": 420,
+    "h": 260
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.15,
+      "contents": "distant mountains, sky haze (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.4,
+      "contents": "distant pine groups, cliffs (ip-px-mid)"
+    },
+    {
+      "id": "back",
+      "depth": 6,
+      "scrollFactor": 1.0,
+      "contents": "back scenery, landmark art (existing wlm-*, lm-*)"
+    },
+    {
+      "id": "terrain",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "walkable surface decals: path, ice, deck"
+    },
+    {
+      "id": "interact-behind",
+      "depth": 11,
+      "scrollFactor": 1.0,
+      "contents": "interactive objects behind Kiki"
+    },
+    {
+      "id": "contact",
+      "depth": 13,
+      "scrollFactor": 1.0,
+      "contents": "ground shadow, crack overlays, ripples under Kiki"
+    },
+    {
+      "id": "kiki",
+      "depth": 15,
+      "scrollFactor": 1.0,
+      "contents": "Kiki (unchanged)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "contents": "foreground occluders (dl-*)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "contents": "weather FX: snowfall, gusts, mist"
+    }
+  ],
+  "walkPath": {
+    "curve": "catmullrom",
+    "points": [
+      {
+        "x": 690,
+        "y": 566,
+        "scale": 0.8,
+        "note": "approach"
+      },
+      {
+        "x": 760,
+        "y": 550,
+        "scale": 0.78,
+        "note": "step onto deck"
+      },
+      {
+        "x": 820,
+        "y": 538,
+        "scale": 0.74,
+        "note": "mid-bridge: farthest/highest"
+      },
+      {
+        "x": 880,
+        "y": 544,
+        "scale": 0.76,
+        "note": "deck far end"
+      },
+      {
+        "x": 950,
+        "y": 560,
+        "scale": 0.8,
+        "note": "exit onto trail"
+      }
+    ]
+  },
+  "depthBands": [
+    {
+      "y0": 500,
+      "y1": 570,
+      "kikiDepth": 15,
+      "kikiScale": 0.8
+    },
+    {
+      "y0": 530,
+      "y1": 548,
+      "kikiDepth": 15,
+      "kikiScale": 0.74,
+      "note": "on deck: smaller = farther / elevated"
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-bridge-rail-front.svg",
+      "x": 820,
+      "y": 512,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 1.1,
+      "note": "THE key occluder: Kiki passes BEHIND the front rail mid-crossing"
+    },
+    {
+      "asset": "dl-rock.svg",
+      "x": 660,
+      "y": 590,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 0.8,
+      "note": "approach foreground rock"
+    }
+  ],
+  "scaleZones": [
+    {
+      "x0": 620,
+      "x1": 760,
+      "scale": 0.8,
+      "note": "approach"
+    },
+    {
+      "x0": 760,
+      "x1": 900,
+      "scale": 0.74,
+      "note": "on bridge: elevated/distant"
+    },
+    {
+      "x0": 900,
+      "x1": 1040,
+      "scale": 0.8,
+      "note": "exit"
+    }
+  ],
+  "interactionAnchors": [
+    {
+      "id": "planks",
+      "x": 800,
+      "y": 545,
+      "asset": "ip-br-planks.svg",
+      "action": "tap"
+    },
+    {
+      "id": "repair-kit",
+      "x": 740,
+      "y": 575,
+      "asset": "ip-br-ropetools.svg",
+      "action": "ordered-tap"
+    }
+  ],
+  "noWalk": [
+    {
+      "x": 620,
+      "y": 360,
+      "w": 420,
+      "h": 120,
+      "note": "ravine air / sky"
+    },
+    {
+      "x": 700,
+      "y": 580,
+      "w": 240,
+      "h": 40,
+      "note": "ravine edge below deck"
+    }
+  ],
+  "parallax": {
+    "far": 0.12,
+    "mid": 0.35,
+    "base": 1.0,
+    "fore": 1.0
+  },
+  "notes": "Bridge traversal must feel INSIDE the bridge: back rail + ravine behind Kiki (depth 6), deck under Kiki (depth 8), front rail IN FRONT of Kiki (depth 16). Scale dip 0.8->0.74 sells elevation. Do not move the approved bridge art; the rail occluder is drawn from the same style.",
+  "$schema": "snowy-peaks-depth-v1"
+}

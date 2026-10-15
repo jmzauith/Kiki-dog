@@ -1,0 +1,154 @@
+{
+  "area": "fallen-tree",
+  "label": "Fallen Tree",
+  "worldRect": {
+    "x": 2050,
+    "y": 420,
+    "w": 260,
+    "h": 200
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.15,
+      "contents": "distant mountains, sky haze (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.4,
+      "contents": "distant pine groups, cliffs (ip-px-mid)"
+    },
+    {
+      "id": "back",
+      "depth": 6,
+      "scrollFactor": 1.0,
+      "contents": "back scenery, landmark art (existing wlm-*, lm-*)"
+    },
+    {
+      "id": "terrain",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "walkable surface decals: path, ice, deck"
+    },
+    {
+      "id": "interact-behind",
+      "depth": 11,
+      "scrollFactor": 1.0,
+      "contents": "interactive objects behind Kiki"
+    },
+    {
+      "id": "contact",
+      "depth": 13,
+      "scrollFactor": 1.0,
+      "contents": "ground shadow, crack overlays, ripples under Kiki"
+    },
+    {
+      "id": "kiki",
+      "depth": 15,
+      "scrollFactor": 1.0,
+      "contents": "Kiki (unchanged)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "contents": "foreground occluders (dl-*)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "contents": "weather FX: snowfall, gusts, mist"
+    }
+  ],
+  "walkPath": {
+    "curve": "catmullrom",
+    "points": [
+      {
+        "x": 2080,
+        "y": 575,
+        "scale": 0.8
+      },
+      {
+        "x": 2160,
+        "y": 570,
+        "scale": 0.8,
+        "note": "blocked point; cleared after interaction"
+      },
+      {
+        "x": 2240,
+        "y": 572,
+        "scale": 0.8
+      }
+    ]
+  },
+  "depthBands": [
+    {
+      "y0": 520,
+      "y1": 620,
+      "kikiDepth": 15,
+      "kikiScale": 0.8
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-branch-top.svg",
+      "x": 2160,
+      "y": 130,
+      "depth": 16,
+      "scale": 1.0,
+      "scrollFactor": 1.0,
+      "note": "fallen canopy framing"
+    }
+  ],
+  "scaleZones": [
+    {
+      "x0": 2050,
+      "x1": 2310,
+      "scale": 0.8,
+      "note": "flat"
+    }
+  ],
+  "interactionAnchors": [
+    {
+      "id": "branches",
+      "x": 2130,
+      "y": 575,
+      "asset": "ip-ft-branches.svg",
+      "action": "drag"
+    },
+    {
+      "id": "log-1",
+      "x": 2170,
+      "y": 570,
+      "asset": "ip-ft-logsection.svg",
+      "action": "drag"
+    },
+    {
+      "id": "log-2",
+      "x": 2200,
+      "y": 572,
+      "asset": "ip-ft-logsection.svg",
+      "action": "drag"
+    }
+  ],
+  "noWalk": [
+    {
+      "x": 2120,
+      "y": 540,
+      "w": 120,
+      "h": 40,
+      "note": "trunk blockage until cleared"
+    }
+  ],
+  "parallax": {
+    "far": 0.14,
+    "mid": 0.4,
+    "base": 1.0,
+    "fore": 1.0
+  },
+  "notes": "Drag targets live at depth 11 (behind Kiki's hands is fine); cleared state swaps art.",
+  "$schema": "snowy-peaks-depth-v1"
+}

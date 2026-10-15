@@ -1,0 +1,167 @@
+{
+  "area": "trailhead",
+  "label": "Trailhead",
+  "worldRect": {
+    "x": 80,
+    "y": 380,
+    "w": 420,
+    "h": 220
+  },
+  "layers": [
+    {
+      "id": "far",
+      "depth": 1,
+      "scrollFactor": 0.15,
+      "contents": "distant mountains, sky haze (ip-px-far)"
+    },
+    {
+      "id": "mid",
+      "depth": 4,
+      "scrollFactor": 0.4,
+      "contents": "distant pine groups, cliffs (ip-px-mid)"
+    },
+    {
+      "id": "back",
+      "depth": 6,
+      "scrollFactor": 1.0,
+      "contents": "back scenery, landmark art (existing wlm-*, lm-*)"
+    },
+    {
+      "id": "terrain",
+      "depth": 8,
+      "scrollFactor": 1.0,
+      "contents": "walkable surface decals: path, ice, deck"
+    },
+    {
+      "id": "interact-behind",
+      "depth": 11,
+      "scrollFactor": 1.0,
+      "contents": "interactive objects behind Kiki"
+    },
+    {
+      "id": "contact",
+      "depth": 13,
+      "scrollFactor": 1.0,
+      "contents": "ground shadow, crack overlays, ripples under Kiki"
+    },
+    {
+      "id": "kiki",
+      "depth": 15,
+      "scrollFactor": 1.0,
+      "contents": "Kiki (unchanged)"
+    },
+    {
+      "id": "fore",
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "contents": "foreground occluders (dl-*)"
+    },
+    {
+      "id": "fx",
+      "depth": 17,
+      "scrollFactor": 1.0,
+      "contents": "weather FX: snowfall, gusts, mist"
+    }
+  ],
+  "walkPath": {
+    "curve": "catmullrom",
+    "points": [
+      {
+        "x": 180,
+        "y": 580,
+        "scale": 0.8
+      },
+      {
+        "x": 260,
+        "y": 560,
+        "scale": 0.8
+      },
+      {
+        "x": 360,
+        "y": 566,
+        "scale": 0.8
+      },
+      {
+        "x": 470,
+        "y": 572,
+        "scale": 0.82
+      }
+    ]
+  },
+  "depthBands": [
+    {
+      "y0": 520,
+      "y1": 620,
+      "kikiDepth": 15,
+      "kikiScale": 0.8
+    }
+  ],
+  "occluders": [
+    {
+      "asset": "dl-branch-top.svg",
+      "x": 300,
+      "y": 120,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 1.4,
+      "note": "entry framing; Kiki passes under"
+    },
+    {
+      "asset": "dl-trunk.svg",
+      "x": 120,
+      "y": 480,
+      "depth": 16,
+      "scrollFactor": 1.0,
+      "scale": 1.0,
+      "note": "Kiki walks behind trunk at path start"
+    }
+  ],
+  "scaleZones": [
+    {
+      "x0": 80,
+      "x1": 500,
+      "scale": 0.8,
+      "note": "flat meadow"
+    }
+  ],
+  "interactionAnchors": [
+    {
+      "id": "pawprints",
+      "x": 260,
+      "y": 585,
+      "asset": "ip-th-pawprints.svg",
+      "action": "tap"
+    },
+    {
+      "id": "signpost",
+      "x": 330,
+      "y": 540,
+      "asset": "ip-th-signpost.svg",
+      "action": "choose"
+    },
+    {
+      "id": "backpack",
+      "x": 210,
+      "y": 590,
+      "asset": "ip-th-backpack.svg",
+      "action": "tap"
+    }
+  ],
+  "noWalk": [
+    {
+      "x": 80,
+      "y": 380,
+      "w": 420,
+      "h": 130,
+      "note": "treeline / sky"
+    }
+  ],
+  "parallax": {
+    "far": 0.15,
+    "mid": 0.4,
+    "base": 1.0,
+    "fore": 1.0
+  },
+  "notes": "First 30-45s are interaction, not math. Occluders teach depth immediately.",
+  "$schema": "snowy-peaks-depth-v1"
+}

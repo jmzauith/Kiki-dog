@@ -9,7 +9,6 @@ export { CharacterMotion, preloadMotion, createMotionAssets, ensureFxTextures, h
 export { FootFX } from './FootFX';
 export type {
   MotionId, ReactionId, TerrainId, IdleBehaviorId, MotionEvent,
-  FootstepData, PointData, TurnedData, CharacterId, TerrainMod,
+  FootstepData, PointData, CharacterId, TerrainMod,
 } from './motionTypes';
-export type { CommandMotionId } from './motionData';
-export { isCommandMotion } from './motionData';
+

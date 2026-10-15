@@ -1,3 +1,4 @@
+import { resolveMotion } from "./resolveMotion";
 /**
  * CharacterMotion.ts — the semantic character animation API.
  *
@@ -29,9 +30,8 @@ import {
 import type { PartState, SampleMods } from './KeyframeEngine';
 import type {
   CharacterId, CycleDef, IdleBehaviorId, MotionEvent, MotionId,
-  OneShotDef, ReactionId, TerrainId, TurnedData,
+  OneShotDef, ReactionId, TerrainId,
 } from './motionTypes';
-import type { CommandMotionId } from './motionData';
 import type { RigDef } from './motionTypes';
 
 /* ------------------------------------------------------------------ */
@@ -42,6 +42,10 @@ const framesAdded = new Set<string>();
 
 /** Queue every rig atlas for load. Call from the scene's preload(). */
 export function preloadMotion(scene: Phaser.Scene): void {
+  scene.load.image("kiki-trot-frames", "assets/premium/kiki-walk-v2.png");
+  for(const pose of ["idle","trot","run","curious","happy","surprised","proud"]){
+    scene.load.svg("world-kiki-"+pose,`assets/characters/kiki/kiki-a-${pose}.svg`);
+  }
   for (const rig of Object.values(RIGS)) {
     for (const a of rig.atlases) {
       scene.load.svg(a.key, a.file, { width: a.width, height: a.height });
@@ -51,13 +55,19 @@ export function preloadMotion(scene: Phaser.Scene): void {
 
 /** Slice atlas frames + build FX canvas textures. Call once in create(). Idempotent. */
 export function createMotionAssets(scene: Phaser.Scene): void {
+  const sheet=scene.textures.get("kiki-trot-frames");
+  const source=sheet.getSourceImage() as HTMLImageElement;
+  for(let i=0;i<8;i++) {
+    const x=Math.floor(i%4*source.width/4),y=Math.floor(Math.floor(i/4)*source.height/2);
+    if(!sheet.has(String(i)))sheet.add(String(i),0,x,y,Math.floor(source.width/4),Math.floor(source.height/2));
+  }
   for (const rig of Object.values(RIGS)) {
     for (const a of rig.atlases) {
       const tex = scene.textures.get(a.key);
       for (const [name, p] of Object.entries(rig.parts)) {
         if (p.atlas !== rig.atlases.indexOf(a)) continue;
         const k = `${a.key}:${name}`;
-        if (!framesAdded.has(k)) {
+        if (!tex.has(name)) {
           tex.add(name, 0, p.ax, p.ay, p.w, p.h);
           framesAdded.add(k);
         }
@@ -123,7 +133,7 @@ export function ensureFxTextures(scene: Phaser.Scene): void {
 /* CharacterMotion                                                     */
 /* ---------------------------------------------------------------- */
 
-type TransState = 'steady' | 'anticipating' | 'speeding' | 'slowing' | 'settling' | 'turning';
+type TransState = 'steady' | 'anticipating' | 'speeding' | 'slowing' | 'settling';
 
 interface Overlay {
   def: OneShotDef;
@@ -131,18 +141,9 @@ interface Overlay {
   mirror: boolean;
   onDone?: () => void;
   fired: Set<number>;
-  /** first-class turn flip: run onFlip once when t passes flipAtMs */
-  flipAtMs?: number;
-  flipped?: boolean;
-  onFlip?: () => void;
 }
 
-const LOCOMOTION: MotionId[] = [
-  'trot', 'run', 'careful', 'sniff-walk', 'deep-snow-walk', 'ice-walk',
-  'uphill-walk', 'downhill-walk', 'bridge-walk',
-  'race-steady', 'race-fast', 'race-turbo', 'race-turn', 'race-slowdown',
-  'husky-walk',
-];
+const LOCOMOTION: MotionId[] = ['trot', 'run', 'race-steady', 'race-fast', 'race-turbo'];
 const isLocomotion = (m: MotionId): boolean => LOCOMOTION.includes(m);
 
 export class CharacterMotion {
@@ -154,16 +155,18 @@ export class CharacterMotion {
   private charId: CharacterId;
   /** Inner container: hop/squash offsets ('@root'). */
   private body: Phaser.GameObjects.Container;
+  private intactPose?: Phaser.GameObjects.Image;
+  private fullFrameMode=false;
+  private strideDistance=0;
+  private previousPosition?: {x:number;y:number};
 
   private rigId = '';
   private rig!: RigDef;
   private partImgs = new Map<string, Phaser.GameObjects.Image>();
   private states = new Map<string, PartState>();
   private rootState: PartState = newPartState();
-  /** states + '@root' (inner container) so overlays can hop/squash */
-  private sampleMap = new Map<string, PartState>();
 
-  private motion: Exclude<MotionId, CommandMotionId> = 'idle';
+  private motion: MotionId = 'idle';
   private cycle!: CycleDef;
   private cycleId = '';
   private phase = 0;
@@ -171,7 +174,7 @@ export class CharacterMotion {
   private speedScale = 1;
   private trans: TransState = 'steady';
   private transT = 0;
-  private pendingMotion: Exclude<MotionId, CommandMotionId> | null = null;
+  private pendingMotion: MotionId | null = null;
 
   private overlay: Overlay | null = null;
   private terrain: TerrainId = 'normal-snow';
@@ -181,9 +184,10 @@ export class CharacterMotion {
   private idleNext = new Map<IdleBehaviorId, number>();
   private mods: SampleMods = { ...NEUTRAL_MODS };
 
-  constructor(scene: Phaser.Scene, charId: CharacterId, x: number, y: number) {
+  constructor(scene: Phaser.Scene, charId: CharacterId, x: number, y: number, options?: {intact?:boolean}) {
     this.scene = scene;
     this.charId = charId;
+    this.fullFrameMode=!!options?.intact && charId === "kiki";
     this.container = scene.add.container(x, y);
     this.body = scene.add.container(0, 0);
     this.container.add(this.body);
@@ -195,85 +199,24 @@ export class CharacterMotion {
       this.idleNext.set(b, now + lo * 0.5 + Math.random() * (hi - lo) * 0.5 + i * 400);
     });
     this.applyMotion('idle');
+    if(options?.intact && charId === "kiki") {
+      // Composition gate uses the complete approved painting. The recovered
+      // articulated rig has visible cut seams and remains off the display path.
+      this.body.setVisible(false);
+      this.intactPose=scene.add.image(0,0,"kiki-trot-frames","2").setOrigin(.5,393/443);
+      this.container.add(this.intactPose);
+      this.setIntactPose("idle");
+    }
   }
 
   /* ---------------- public API ---------------- */
 
   /** Hard switch of locomotion (Lennon: prefer transitionTo for game feel). */
   playMotion(id: MotionId): void {
-    if (this.runCommand(id)) return;
     this.pendingMotion = null;
     this.trans = 'steady';
     this.applyMotion(id);
     this.speedScale = 1;
-  }
-
-  /**
-   * Command motions are overlays/transitions, not steady states — scenes
-   * call them exactly like cycles ('jump', 'slip', 'turn-left', ...).
-   * Returns true when the id was a command (handled), false otherwise.
-   */
-  private runCommand(id: MotionId): id is CommandMotionId {
-    switch (id) {
-      case 'start': this.start(); return true;
-      case 'stop': this.stopMoving(); return true;
-      case 'jump': this.jump(); return true;
-      case 'land': this.land(); return true;
-      case 'slip': this.slipNow(); return true;
-      case 'recover': this.recoverNow(); return true;
-      case 'turn-left': this.turnTo(-1); return true;
-      case 'turn-right': this.turnTo(1); return true;
-      case 'look-back': this.react('look-back'); return true;
-      case 'race-celebrate': this.react('celebrate'); return true;
-      default: return false;
-    }
-  }
-
-  /** Anticipation squash, then accelerate into `target` (default trot). */
-  start(target: Exclude<MotionId, CommandMotionId> = 'trot'): void {
-    if (isLocomotion(this.motion)) { this.transitionTo(target); return; }
-    this.pendingMotion = target;
-    this.startOverlay('anticipate', { onDone: () => this.beginSpeeding() });
-    this.trans = 'anticipating';
-  }
-
-  /** Decelerate and settle to idle — the game-feel stop. */
-  stopMoving(): void {
-    if (!isLocomotion(this.motion)) return;
-    this.pendingMotion = 'idle';
-    this.trans = 'slowing';
-    this.transT = 0;
-  }
-
-  /**
-   * Ramp cycle speed back to full (e.g. after a slowdown, or a race start).
-   * If given a different target, transitions to it instead.
-   */
-  accelerateTo(target?: Exclude<MotionId, CommandMotionId>): void {
-    if (target && target !== this.motion) { this.transitionTo(target); return; }
-    if (!isLocomotion(this.motion)) { this.start(); return; }
-    this.trans = 'speeding';
-    this.transT = this.speedScale * 600;
-  }
-
-  /** Jump one-shot; auto-chains into landing compression. */
-  jump(): void {
-    this.startOverlay('jump', { onDone: () => this.startOverlay('land') });
-  }
-
-  /** Landing compression one-shot (also auto-plays after jump()). */
-  land(): void {
-    this.startOverlay('land');
-  }
-
-  /** Ice slip one-shot, plays in place over any rig. */
-  slipNow(): void {
-    this.startOverlay('slip');
-  }
-
-  /** Recovery shake one-shot, plays in place over any rig. */
-  recoverNow(): void {
-    this.startOverlay('recover-shake');
   }
 
   /**
@@ -283,7 +226,6 @@ export class CharacterMotion {
    * locomotion->locomotion: quick anticipate + swap + ramp.
    */
   transitionTo(id: MotionId): void {
-    if (this.runCommand(id)) return;
     if (id === this.motion && this.trans === 'steady') return;
     const fromLoc = isLocomotion(this.motion);
     const toLoc = isLocomotion(id);
@@ -304,14 +246,11 @@ export class CharacterMotion {
 
   /** One-shot reaction; safe anytime (pauses locomotion briefly for big ones). */
   react(id: ReactionId, opts?: { onDone?: () => void; mirror?: boolean }): void {
+    this.setIntactPose(id);
     const osId = REACTIONS[id];
     if (!osId) return;
-    // Locomotion-safe one-shots play in place (no stop-to-idle): they only
-    // touch parts every rig has (legs/torso/@root).
-    const inPlace = osId === 'slip' || osId === 'recover-shake'
-      || osId === 'jump' || osId === 'land' || osId === 'turn';
     // Big reactions read best from the idle rig: stop, react, resume.
-    const needsIdle = !inPlace && this.rigId !== CHAR_IDLE_RIG[this.charId];
+    const needsIdle = this.rigId !== CHAR_IDLE_RIG[this.charId];
     if (needsIdle && isLocomotion(this.motion)) {
       const resume = this.motion;
       this.playMotion('idle');
@@ -334,32 +273,37 @@ export class CharacterMotion {
     return this.terrain;
   }
 
-  /**
-   * Face left/right as a real multi-phase turn: look -> weight shift ->
-   * squash -> flip masked at the squash bottom -> recover. The flip itself
-   * is first-class (flipAtMs/onFlip), never an instant mirror-flip.
-   */
+  /** Face left/right with a look-first turn (never an instant mirror-flip). */
   turnTo(dir: 1 | -1): void {
-    if (dir === this.facing || this.trans !== 'steady') return;
-    this.trans = 'turning';
-    this.startOverlay('turn', {
+    // Movement updates call turnTo every frame. Never restart the 300ms
+    // look-first overlay on each tick, or the turn can never finish.
+    if (dir === this.facing || this.trans !== 'steady' || this.overlay?.def.id === 'head-look') return;
+    // Phase 1: look toward the new direction. Phase 2 (onDone): flip + squash.
+    this.startOverlay('head-look', {
       mirror: dir === -1,
-      flipAtMs: 450,
-      onFlip: () => this.setFacing(dir),
       onDone: () => {
-        this.trans = 'steady';
-        this.events.emit('turned', { facing: dir });
+        this.setFacing(dir);
+        this.startOverlay('anticipate');
       },
     });
   }
 
   setFacing(dir: 1 | -1): void {
     this.facing = dir;
-    this.container.setScale(dir, 1);
+    // Preserve the scene's authored size (world Kiki and race Kiki differ).
+    // setScale(dir, 1) previously reset both to 1 on every turn.
+    this.container.setScale(Math.abs(this.container.scaleX) * dir, this.container.scaleY);
   }
 
   getFacing(): 1 | -1 {
     return this.facing;
+  }
+
+  /** World-map convenience API: the motion rig remains the single Kiki object. */
+  get x(): number { return this.container.x; }
+  get y(): number { return this.container.y; }
+  lookAt(worldX: number): void {
+    this.turnTo(worldX < this.container.x ? -1 : 1);
   }
 
   /** Current hop offset (for shadow scaling). Negative = airborne. */
@@ -367,7 +311,7 @@ export class CharacterMotion {
     return this.body.y;
   }
 
-  get currentMotion(): Exclude<MotionId, CommandMotionId> {
+  get currentMotion(): MotionId {
     return this.motion;
   }
 
@@ -384,6 +328,24 @@ export class CharacterMotion {
     this.updateOverlay(dt);
     this.updateIdle(dt);
     this.writeParts();
+    if(this.intactPose) {
+      const {x,y}=this.container;
+      const distance=this.previousPosition ? Math.hypot(x-this.previousPosition.x,y-this.previousPosition.y) : 0;
+      this.previousPosition={x,y};
+      if(distance>0.02 && distance<80) {
+        // Frame phase follows distance travelled, so slow approaches cannot moonwalk.
+        const previousFrame=Math.floor(this.strideDistance/8)%8;
+        this.strideDistance+=distance;
+        const frame=Math.floor(this.strideDistance/8)%8;
+        this.setBodyFrame(frame);
+        if(frame!==previousFrame && (frame===0 || frame===4)) {
+          const scale=Math.abs(this.container.scaleX);
+          this.events.emit("footstep",{paw:frame===0?"frontL":"frontR",x:x+this.facing*24*scale,y});
+        }
+      } else if(!isLocomotion(this.motion)) this.setBodyFrame(2);
+      // Keep the paws on the terrain; the full frames supply their own body bob.
+      this.intactPose.setPosition(0, Math.min(0,this.rootState.y*.35));
+    }
   }
 
   destroy(): void {
@@ -397,11 +359,14 @@ export class CharacterMotion {
     for (const img of this.partImgs.values()) img.destroy();
     this.partImgs.clear();
     this.states.clear();
+    this.states.set("@root",this.rootState);
     this.rigId = rigId;
     this.rig = RIGS[rigId];
     for (const name of this.rig.order) {
+      if(name === "headClosed") continue;
       const def = this.rig.parts[name];
       const atlas = this.rig.atlases[def.atlas];
+      if(this.fullFrameMode){this.states.set(name,newPartState());continue;}
       const img = this.scene.add.image(def.restX, def.restY, atlas.key, def.frame);
       img.setOrigin(def.pivotX, def.pivotY);
       this.body.add(img);
@@ -409,8 +374,6 @@ export class CharacterMotion {
       this.states.set(name, newPartState());
     }
     resetPartState(this.rootState);
-    this.sampleMap = new Map(this.states);
-    this.sampleMap.set('@root', this.rootState);
     this.refreshMods();
   }
 
@@ -426,12 +389,27 @@ export class CharacterMotion {
     };
   }
 
-  private binding() {
-    return MOTIONS[this.motion];
+  private binding(id: MotionId = this.motion) {
+    return resolveMotion(this.charId,id);
   }
 
-  private applyMotion(id: Exclude<MotionId, CommandMotionId>): void {
-    const b = MOTIONS[id];
+  private setIntactPose(pose: string):void {
+    if(!this.intactPose)return;
+    const moving=pose === "trot" || pose === "run";
+    this.intactPose.setTexture("kiki-trot-frames");
+    this.setBodyFrame(moving ? 0 : 2);
+    this.intactPose.setDisplaySize(160,160);
+  }
+
+  private setBodyFrame(frame:number):void {
+    // Measured opaque paw baselines; different frame padding must not make her float.
+    const paws=[384,390,393,388,384,385,382,380];
+    this.intactPose?.setFrame(String(frame)).setOrigin(.5,paws[frame]/443);
+  }
+
+  private applyMotion(id: MotionId): void {
+    this.setIntactPose(id === "trot" ? "trot" : id === "run" ? "run" : "idle");
+    const b = this.binding(id);
     this.motion = id;
     if (b.rig !== this.rigId) this.buildRig(b.rig);
     this.cycle = CYCLES[b.cycle];
@@ -488,6 +466,7 @@ export class CharacterMotion {
   }
 
   private fireContacts(): void {
+    if(this.intactPose)return; // Full-frame contacts are distance-driven in update().
     const from = this.lastPhase;
     const to = this.phase;
     const crossed = (p: number): boolean =>
@@ -518,40 +497,17 @@ export class CharacterMotion {
     const cos = Math.cos(rad), sin = Math.sin(rad);
     const lx = def.restX + st.x + ox * cos - oy * sin;
     const ly = def.restY + st.y + ox * sin + oy * cos;
-    return {
-      x: this.container.x + lx * this.facing + this.body.x * this.facing,
-      y: this.container.y + ly + this.body.y,
-    };
-  }
-
-  /** Restore texture frames an overlay swapped (e.g. blink's headClosed). */
-  private restoreOverlayFrames(ov: Overlay): void {
-    if (!ov.def.frameSwaps) return;
-    for (const fs of ov.def.frameSwaps) {
-      const img = this.partImgs.get(fs.part);
-      if (img && img.frame.name !== fs.part) img.setFrame(fs.part);
-    }
+    const matrix = this.body.getWorldTransformMatrix();
+    const world = matrix.transformPoint(lx, ly);
+    return {x:world.x,y:world.y};
   }
 
   private startOverlay(
-    osId: string,
-    opts?: { onDone?: () => void; mirror?: boolean; flipAtMs?: number; onFlip?: () => void },
+    osId: string, opts?: { onDone?: () => void; mirror?: boolean },
   ): void {
     const def = ONESHOTS[osId];
     if (!def) return;
-    // An overlay interrupted mid-flight must not leave transient state
-    // behind: restore its frames and release 'turning' so it can't stick.
-    // (The interrupted overlay's onDone is intentionally NOT fired —
-    // firing it here could reenter startOverlay and recurse.)
-    const prev = this.overlay;
-    if (prev) {
-      this.restoreOverlayFrames(prev);
-      if (this.trans === 'turning') this.trans = 'steady';
-    }
-    this.overlay = {
-      def, t: 0, mirror: opts?.mirror ?? false, onDone: opts?.onDone, fired: new Set(),
-      flipAtMs: opts?.flipAtMs, flipped: false, onFlip: opts?.onFlip,
-    };
+    this.overlay = { def, t: 0, mirror: opts?.mirror ?? false, onDone: opts?.onDone, fired: new Set() };
   }
 
   private updateOverlay(dt: number): void {
@@ -559,12 +515,7 @@ export class CharacterMotion {
     if (!ov) return;
     ov.t += dt;
     const mods: SampleMods = { ...this.mods, mirror: ov.mirror };
-    sampleTracks(ov.def.tracks, ov.t, this.sampleMap, mods);
-    // first-class turn flip: masked at the squash bottom
-    if (ov.flipAtMs !== undefined && !ov.flipped && ov.t >= ov.flipAtMs) {
-      ov.flipped = true;
-      ov.onFlip?.();
-    }
+    sampleTracks(ov.def.tracks, ov.t, this.states, mods);
     // discrete frame swaps (blink)
     if (ov.def.frameSwaps) {
       for (const fs of ov.def.frameSwaps) {
@@ -584,10 +535,17 @@ export class CharacterMotion {
       });
     }
     if (ov.t >= ov.def.durationMs) {
-      this.restoreOverlayFrames(ov);
+      // restore swapped frames
+      if (ov.def.frameSwaps) {
+        for (const fs of ov.def.frameSwaps) {
+          const img = this.partImgs.get(fs.part);
+          if (img && img.frame.name !== fs.part) img.setFrame(fs.part);
+        }
+      }
       const cb = ov.onDone;
       this.overlay = null;
       cb?.();
+      this.setIntactPose(this.motion === "trot" ? "trot" : this.motion === "run" ? "run" : "idle");
     }
   }
 
@@ -618,23 +576,8 @@ export class CharacterMotion {
     }
     this.body.setPosition(this.rootState.x, this.rootState.y);
     this.body.setAngle(this.rootState.angle);
-  }
-
-  /* ---------------- scene conveniences (Martin integration) ---------------- */
-
-  /** World x of the feet (container position). */
-  get x(): number {
-    return this.container.x;
-  }
-
-  /** World y of the feet (container position). */
-  get y(): number {
-    return this.container.y;
-  }
-
-  /** Face a world x-coordinate (multi-phase turn, never an instant flip). */
-  lookAt(x: number): void {
-    this.turnTo(x >= this.container.x ? 1 : -1);
+    this.body.setScale(this.rootState.scaleX,this.rootState.scaleY);
+    this.intactPose?.setPosition(this.rootState.x*.63,this.rootState.y*.63);
   }
 }
 
@@ -649,3 +592,4 @@ export function huskyHarnessWorld(m: CharacterMotion): { x: number; y: number } 
 }
 
 export { RACE };
+

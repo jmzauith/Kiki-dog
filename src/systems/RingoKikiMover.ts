@@ -1,7 +1,8 @@
 import Phaser from "phaser";
 import { CharacterMotion } from "../motion/CharacterMotion";
+import { pathScale, type GroundPoint } from "../visuals/HuskyTerrain";
+import { TERRAINS } from "../motion/motionData";
 import type { MotionId, TerrainId } from "../motion/motionTypes";
-import type { CommandMotionId } from "../motion/motionData";
 
 /**
  * RingoKikiMover — curve-following movement for Ringo's CharacterMotion rig.
@@ -36,6 +37,7 @@ export interface RingoWalkSpec {
   toT?: number;
   arrivalReaction?: string | "none";
   quiet?: boolean;
+  scalePoints?: GroundPoint[];
 }
 
 const TROT_PX_PER_SEC = 150;
@@ -45,10 +47,10 @@ const GAIT_SPEED: Record<RingoGait, number> = {
   careful: 0.6,
   dash: 1.5,
 };
-const GAIT_MOTION: Record<RingoGait, Exclude<MotionId, CommandMotionId>> = {
+const GAIT_MOTION: Record<RingoGait, MotionId> = {
   trot: "trot",
   run: "run",
-  careful: "careful",
+  careful: "trot", // careful movement is a slower trot on bridge terrain
   dash: "run",
 };
 const AUTO_MIN_MS = 900;
@@ -83,10 +85,14 @@ export class RingoKikiMover {
 
     const gait: RingoGait = spec.gait ?? "trot";
     if (spec.terrain) this.motion.setTerrain(spec.terrain);
+    // Establish direction before acceleration; never travel backwards while a turn
+    // waits behind a previous stop/reaction transition.
+    const initialTangent=spec.curve.getTangent(spec.fromT??0);
+    this.motion.setFacing(initialTangent.x*((spec.toT??1)>=(spec.fromT??0)?1:-1)>=0?1:-1);
     // Anticipation squash, then accelerate into the gait.
-    this.motion.start(GAIT_MOTION[gait]);
+    this.motion.transitionTo(GAIT_MOTION[gait]);
 
-    const speed = TROT_PX_PER_SEC * GAIT_SPEED[gait];
+    const speed = TROT_PX_PER_SEC * GAIT_SPEED[gait] * (TERRAINS[spec.terrain ?? "normal-snow"].speedMul ?? 1);
     const length = Math.max(spec.curve.getLength(), 1);
     const fromT = spec.fromT ?? 0;
     const toT = spec.toT ?? 1;
@@ -98,14 +104,19 @@ export class RingoKikiMover {
 
     return new Promise((resolve) => {
       const finish = () => {
+        const end=spec.curve.getPoint(toT);
+        this.motion.container.setPosition(end.x,end.y);
         this.moving = false;
         this.activeTween = undefined;
         // Decelerate and settle to idle — the game-feel stop.
-        this.motion.stopMoving();
+        this.motion.transitionTo("idle");
         const reaction = spec.arrivalReaction ?? "none";
         if (reaction !== "none") {
           // Small delay so the settle reads before the reaction.
-          this.scene.time.delayedCall(350, () => {
+          this.scene.time.delayedCall(750, () => {
+            if(this.moving)return;
+            // Arrival reactions must not resume the gait that just finished.
+            this.motion.playMotion("idle");
             try {
               (this.motion.react as (id: string) => void)(reaction);
             } catch {
@@ -122,11 +133,13 @@ export class RingoKikiMover {
         t: toT,
         duration,
         ease: "Sine.inOut",
+        delay: 180,
         onUpdate: () => {
           const t = proxy.t;
           const pos = spec.curve.getPoint(t, this.tmpPoint);
           const tan = spec.curve.getTangent(t, this.tmpTan);
           this.motion.container.setPosition(pos.x, pos.y);
+          if(spec.scalePoints) { const s=pathScale(spec.scalePoints,t); this.motion.container.setScale(s*this.motion.getFacing(),s); }
           // Face along the direction of travel (turnTo is a no-op if same).
           const wantDir = tan.x * dirSign >= 0 ? 1 : -1;
           this.motion.turnTo(wantDir as 1 | -1);
@@ -141,6 +154,7 @@ export class RingoKikiMover {
     this.activeTween?.stop();
     this.activeTween = undefined;
     this.moving = false;
-    this.motion.stopMoving();
+    this.motion.transitionTo("idle");
   }
 }
+

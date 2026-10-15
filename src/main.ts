@@ -1,8 +1,11 @@
+import { choosePlayer } from "./visuals/PlayerStart";
+import "./visuals/player-start.css";
 import Phaser from "phaser";
 import { HuskyScene } from "./scenes/HuskyScene";
 import { RaceScene } from "./scenes/RaceScene";
 
-const game = new Phaser.Game({
+const inspection = import.meta.env.DEV && new URLSearchParams(location.search).has("composition");
+const game = (inspection ? Promise.resolve() : choosePlayer()).then(() => new Phaser.Game({
   type: Phaser.AUTO,
   parent: "app",
   backgroundColor: "#dff3ff",
@@ -17,6 +20,6 @@ const game = new Phaser.Game({
     antialias: true,
     roundPixels: false,
   },
-});
+}));
 
 export default game;

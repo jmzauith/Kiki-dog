@@ -60,6 +60,7 @@ export interface DogSheetConfig {
   cols: number;
   /** Pose names in sheet order (row-major). */
   frames: string[];
+  embeddedTail?: boolean;
   tailKey: string;
   tailUrl: string;
   tailW: number;
@@ -115,7 +116,7 @@ export abstract class DogCharacter {
       width: config.sheetW,
       height: config.sheetH,
     });
-    scene.load.svg(config.tailKey, config.tailUrl, {
+    if (!config.embeddedTail) scene.load.svg(config.tailKey, config.tailUrl, {
       width: config.tailW,
       height: config.tailH,
     });
@@ -143,10 +144,13 @@ export abstract class DogCharacter {
     this.container.setScale(opts.scale ?? 0.8);
 
     // Tail sits behind the body, anchored at its base so it can wag.
-    this.tail = scene.add.image(this.config.tailX, this.config.tailY, this.config.tailKey);
+    this.tail = scene.add.image(this.config.tailX, this.config.tailY, this.config.embeddedTail ? this.config.sheetKey : this.config.tailKey);
     this.tail.setOrigin(0.5, 0.9);
     this.body = scene.add.image(0, 0, this.config.sheetKey, this.frameName(this.pose));
-    this.container.add([this.tail, this.body]);
+    this.tail.setVisible(!config.embeddedTail);
+    this.body.setOrigin(0.5, 134 / 160).setY(54);
+    const shadow = scene.add.ellipse(0, config.feetY + 2, 98, 15, 0x24495e, 0.22);
+    this.container.add([shadow, this.tail, this.body]);
 
     if (this.wantFootprints) {
       for (let i = 0; i < MAX_PRINTS; i++) {
@@ -237,6 +241,9 @@ export abstract class DogCharacter {
   playStride(frame: number): void {
     const cycle = this.config.walkCycle;
     this.setPose(cycle[frame % cycle.length]);
+    // Grounded weight transfer supplements the supplied pose aliases.
+    this.body.setAngle(frame % 2 === 0 ? -1.6 : 1.6);
+    this.body.setScale(frame % 2 === 0 ? 1.015 : 0.99, frame % 2 === 0 ? 0.985 : 1.01);
   }
 
   // -------------------------------------------------------------------- idle
@@ -402,7 +409,7 @@ export abstract class DogCharacter {
     const dir = this.facing === "right" ? 1 : -1;
     p.setPosition(
       this.worldX - dir * 8 + Phaser.Math.Between(-4, 4),
-      this.worldY + this.config.feetY - 24 + (this.printSide > 0 ? -5 : 5),
+      this.container.getWorldTransformMatrix().transformPoint(0, this.config.feetY).y + (this.printSide > 0 ? -5 : 5),
     );
     p.setScale(0.7);
     p.setAlpha(0.5);
@@ -424,7 +431,7 @@ export abstract class DogCharacter {
       this.puffCount++;
       const c = this.scene.add.circle(
         this.worldX - dir * 26 + Phaser.Math.Between(-8, 8),
-        this.worldY + this.config.feetY - 26 + Phaser.Math.Between(-4, 4),
+        this.container.getWorldTransformMatrix().transformPoint(0, this.config.feetY).y + Phaser.Math.Between(-4, 4),
         Phaser.Math.Between(3, 6) * strength,
         0xffffff,
         0.75,

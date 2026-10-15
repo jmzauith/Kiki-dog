@@ -1,250 +1,62 @@
 import Phaser from "phaser";
+import { clippedForeground } from "./ClippedForeground";
+import { createPremiumProps } from "./PremiumProps";
 import { MapNodeId } from "../systems/MapGraph";
 import { NODE_POSITIONS, FUTURE_NODE_SPOTS, SCENERY_SPOTS } from "../worlds/husky/HuskyWorldLayout";
-
-const ASSET_DIR = "assets/worlds/snowy-peaks";
-
-export function preloadLandmarks(scene: Phaser.Scene): void {
-  const svg = (key: string, file: string, w: number, h: number) =>
-    scene.load.svg(key, `${ASSET_DIR}/${file}`, { width: w, height: h });
-  // Harrison's painterly Round 2 landmarks (approved direction, locked).
-  svg("lm-trailhead", "lm-trailhead.svg", 420, 360);
-  svg("lm-bridge-broken", "lm-bridge-broken.svg", 460, 300);
-  svg("lm-bridge-fixed", "lm-bridge-fixed.svg", 460, 300);
-  svg("lm-bridge-repairing", "lm-bridge-repairing.svg", 460, 300);
-  svg("lm-fork-sign", "lm-fork-sign.svg", 300, 300);
-  svg("lm-shelter", "lm-shelter.svg", 380, 320);
-  svg("lm-ice-cave", "lm-ice-cave.svg", 420, 380);
-  svg("lm-race-gate", "lm-race-gate.svg", 440, 360);
-  svg("lm-igloo-discovered", "lm-igloo-discovered.svg", 340, 300);
-  svg("lm-igloo-hidden", "lm-igloo-hidden.svg", 340, 300);
-  // Painterly scenery (visual-only, never interactive)
-  svg("lm-snowpass", "lm-snowpass-blocked.svg", 400, 340);
-  svg("lm-fallentree", "lm-fallentree-blocked.svg", 420, 300);
-  // Legacy flat assets retired from player-facing use (kept on disk until
-  // browser QA confirms no dependency remains, then removed).
+import { polishPosition, preloadPolishProps } from "./PolishArt";
+export function preloadLandmarks(scene:Phaser.Scene):void {
+  preloadPolishProps(scene);
+  scene.load.image("snowy-panorama","assets/premium/snowy-panorama.png");
+  scene.load.image("premium-props","assets/premium/snowy-props.png");
 }
-
-/** World dressing: small background pines/rocks used by SnowyWorld. */
-export function preloadWorldDressing(scene: Phaser.Scene): void {
-  const svg = (key: string, file: string, w: number, h: number) =>
-    scene.load.svg(key, `assets/worlds/husky/${file}`, { width: w, height: h });
-  svg("wlm-pine-tall", "pine-tall.svg", 160, 220);
-  svg("wlm-pine-wide", "pine-wide.svg", 180, 200);
-  svg("wlm-pine-snowy", "pine-snowy.svg", 170, 210);
-  svg("wlm-rock-ice", "rock-ice.svg", 160, 120);
-  svg("wlm-rock-snow", "rock-snow.svg", 170, 110);
-}
-
-type LandmarkDef = {
-  key: string;
-  scale: number;
-  /** vertical nudge so the landmark's base sits on the terrain nicely */
-  yOff: number;
-  idle: "sway" | "glow" | "twinkle" | "none";
-};
-
-type SceneryDef = {
-  key: string;
-  x: number;
-  y: number;
-  scale: number;
-  depth: number;
-  alpha: number;
-  idle: "sway" | "twinkle" | "float" | "none";
-};
-
-/**
- * Illustrated environmental landmarks, one per map node, plus visual-only
- * scenery for the wider world (Snow Pass arch, summit flag, frozen waterfall
- * overlook, secret igloo). Containers are centered on the MapGraph node
- * coordinates so the existing gameplay (targets, hit areas, reveal flow)
- * keeps working.
- *
- * Scenery pieces are NOT gameplay nodes: they are never interactive and never
- * enter nodeObjects. Their positions are documented in HuskyWorldLayout for
- * McCartney's future progression nodes.
- */
+type Id = MapNodeId | "igloo";
+/** Painterly landmarks: no legacy vector scenery is loaded by this renderer. */
 export class Landmarks {
-  private map = new Map<MapNodeId | "igloo", Phaser.GameObjects.Container>();
+  private map = new Map<Id, Phaser.GameObjects.Container>();
   private bridgeRepaired = false;
-
   constructor(private scene: Phaser.Scene) {}
-
   buildAll(): void {
-    const defs: Record<MapNodeId | "igloo", LandmarkDef> = {
-      start: { key: "lm-trailhead", scale: 1.0, yOff: -10, idle: "none" },
-      math1: { key: "lm-bridge-broken", scale: 1.0, yOff: -8, idle: "none" },
-      fork: { key: "lm-fork-sign", scale: 1.0, yOff: -10, idle: "sway" },
-      safe: { key: "lm-shelter", scale: 1.0, yOff: -8, idle: "glow" },
-      challenge: { key: "lm-ice-cave", scale: 1.0, yOff: -6, idle: "twinkle" },
-      goal: { key: "lm-race-gate", scale: 1.0, yOff: -10, idle: "sway" },
-      igloo: { key: "lm-igloo-discovered", scale: 1.0, yOff: -4, idle: "twinkle" },
-    };
-
-    (Object.keys(defs) as Array<MapNodeId | "igloo">).forEach((id) => {
-      const def = defs[id];
-      const pos =
-        id === "igloo"
-          ? { x: SCENERY_SPOTS.igloo.x, y: SCENERY_SPOTS.igloo.y }
-          : id === "fork" ? FUTURE_NODE_SPOTS.forest : NODE_POSITIONS[id as MapNodeId];
-      const c = this.scene.add.container(pos.x, pos.y + def.yOff).setDepth(6);
-
-      // soft ground shadow anchors the landmark in the world
-      const shadow = this.scene.add.ellipse(0, 52 * def.scale, 120 * def.scale, 22 * def.scale, 0x9db8d6, 0.35);
-      const img = this.scene.add.image(0, 0, def.key).setScale(def.scale);
-      img.setData("landmark-img", true);
-      c.add([shadow, img]);
-
-      this.applyIdle(c, img, def);
-
-      // gameplay nodes start hidden until revealed; the igloo is handled separately
-      if (id !== "igloo") {
-        c.setVisible(false);
-        c.setAlpha(0.96);
-      } else {
-        c.setVisible(false);
-      }
-      this.map.set(id, c);
-    });
-
-    // visibility is owned by HuskyScene (mapNodes reveal state)
-    this.map.get("start")?.setAlpha(1);
-
-    this.buildScenery();
-  }
-
-  private applyIdle(
-    c: Phaser.GameObjects.Container,
-    img: Phaser.GameObjects.Image,
-    def: Pick<LandmarkDef, "idle" | "scale">,
-  ): void {
-    if (def.idle === "sway") {
-      this.scene.tweens.add({
-        targets: img,
-        angle: 1.6,
-        duration: 2400,
-        yoyo: true,
-        repeat: -1,
-        ease: "Sine.inOut",
-      });
-    } else if (def.idle === "glow") {
-      const glow = this.scene.add.image(0, 6, "soft-blob").setTint(0xffd97a).setScale(1.6).setAlpha(0.35);
-      c.add(glow);
-      c.sendToBack(glow);
-      this.scene.tweens.add({
-        targets: glow,
-        alpha: { from: 0.28, to: 0.45 },
-        duration: 1800,
-        yoyo: true,
-        repeat: -1,
-        ease: "Sine.inOut",
-      });
-    } else if (def.idle === "twinkle") {
-      const tw = this.scene.add.image(30 * def.scale, -58 * def.scale, "sparkle").setScale(0.5).setAlpha(0);
-      c.add(tw);
-      this.scene.tweens.add({
-        targets: tw,
-        alpha: { from: 0, to: 0.9 },
-        scale: { from: 0.35, to: 0.65 },
-        duration: 1400,
-        yoyo: true,
-        repeat: -1,
-        ease: "Sine.inOut",
-        delay: Phaser.Math.Between(0, 1200),
-      });
-    }
-  }
-
-  /**
-   * Visual-only scenery. Modular by design: each piece marks an intended
-   * future location (see HuskyWorldLayout.FUTURE_NODE_SPOTS). Not interactive.
-   */
-  private buildScenery(): void {
-    const defs: SceneryDef[] = [
-      // Snow Pass: painterly blocked arch (clears when the pass opens)
-      { key: "lm-snowpass", x: SCENERY_SPOTS.snowPassArch.x, y: SCENERY_SPOTS.snowPassArch.y, scale: 1.0, depth: 5, alpha: 1, idle: "none" },
-      // Fallen Tree: painterly blocked state (visual anchor for the encounter)
-      { key: "lm-fallentree", x: SCENERY_SPOTS.waterfallOverlook.x, y: SCENERY_SPOTS.waterfallOverlook.y, scale: 0.9, depth: 5, alpha: 1, idle: "none" },
+    createPremiumProps(this.scene);
+    const defs: Array<[Id, string, number, number, string]> = [
+      ["start", "lm-trailhead", 260, 245, "Trailhead"], ["math1", "lm-bridge-broken", 360, 285, "Broken bridge"],
+      ["fork", "lm-fork-sign", 180, 191, "Whisper Forest"], ["safe", "ip-fl-safe", 500, 242, "Frozen Lake"],
+      ["challenge", "lm-ice-cave", 320, 248, "Ice Cave"], ["goal", "lm-race-gate", 280, 273, "Race Camp"],
+      ["igloo", "lm-igloo-hidden", 300, 214, ""],
     ];
-
-    for (const def of defs) {
-      const img = this.scene.add.image(def.x, def.y, def.key)
-        .setScale(def.scale)
-        .setDepth(def.depth)
-        .setAlpha(def.alpha);
-      if (def.idle === "sway") {
-        this.scene.tweens.add({
-          targets: img, angle: 1.4, duration: 2600, yoyo: true, repeat: -1, ease: "Sine.inOut",
-        });
-      } else if (def.idle === "float") {
-        this.scene.tweens.add({
-          targets: img, y: def.y - 14, duration: 1800, yoyo: true, repeat: -1, ease: "Sine.inOut",
-        });
-        this.scene.tweens.add({
-          targets: img, angle: 8, duration: 2400, yoyo: true, repeat: -1, ease: "Sine.inOut",
-        });
-      }
+    for (const [id, key, w, h, title] of defs) {
+      const raw = id === "igloo" ? SCENERY_SPOTS.igloo : id === "fork" ? FUTURE_NODE_SPOTS.forest : NODE_POSITIONS[id];
+      const pos = polishPosition({ ...raw, id: id === "challenge" ? "ice-cave" : id === "igloo" ? "secret-igloo" : id });
+      const c = this.scene.add.container(pos.x, pos.y).setDepth(11).setVisible(false);
+      const image = this.scene.add.image(0, id === "math1" ? 26 : id === "safe" ? 35 : 14, "premium-props",key).setDisplaySize(w,h).setOrigin(.5,id === "math1" || id === "safe" ? .5 : 1).setData("landmark-img",true);
+      c.add(image);
+      if (title) c.add(this.scene.add.text(0, id === "math1" ? 140 : 34, title, {
+        fontFamily: "Georgia", fontSize: "14px", color: "#fff1ce", stroke: "#213c4b", strokeThickness: 4,
+      }).setOrigin(0.5));
+      this.map.set(id, c);
     }
   }
-
-  get(id: MapNodeId | "igloo"): Phaser.GameObjects.Container | undefined {
-    return this.map.get(id);
+  get(id: Id): Phaser.GameObjects.Container | undefined { return this.map.get(id); }
+  setIglooState(state: "hidden" | "discovered" | "glow"): void {
+    const img = this.map.get("igloo")?.list.find(o => o.getData?.("landmark-img")) as Phaser.GameObjects.Image | undefined;
+    img?.setTexture("premium-props",`lm-igloo-${state}`).setDisplaySize(300,214);
   }
-
-  /** Math solved at the bridge: swap broken -> fixed with a celebration. */
-  repairBridge(): void {
+  repairBridge(animate = true): void {
     if (this.bridgeRepaired) return;
     this.bridgeRepaired = true;
-    const c = this.map.get("math1");
-    if (!c) return;
-
-    const broken = c.list.find((o) => o.getData?.("landmark-img") === true) as
-      | Phaser.GameObjects.Image
-      | undefined;
-    const oldImg = broken ?? (c.list[1] as Phaser.GameObjects.Image);
-
-    // sparkle burst over the bridge
-    for (let i = 0; i < 14; i++) {
-      const s = this.scene.add.image(
-        c.x + Phaser.Math.Between(-80, 80),
-        c.y + Phaser.Math.Between(-60, 30),
-        "sparkle",
-      ).setScale(0.4).setDepth(14);
-      this.scene.tweens.add({
-        targets: s,
-        y: s.y - Phaser.Math.Between(30, 70),
-        alpha: 0,
-        scale: 0.9,
-        duration: Phaser.Math.Between(600, 1000),
-        delay: Phaser.Math.Between(0, 300),
-        onComplete: () => s.destroy(),
-      });
-    }
-
-    this.scene.tweens.add({
-      targets: oldImg,
-      alpha: 0,
-      scaleX: 0.9,
-      scaleY: 0.9,
-      duration: 420,
-      ease: "Sine.in",
-      onComplete: () => {
-        oldImg.destroy();
-        const fixed = this.scene.add.image(0, 0, "lm-bridge-fixed").setScale(0.6).setAlpha(0);
-        c.add(fixed);
-        this.scene.tweens.add({
-          targets: fixed,
-          scale: 1.15,
-          alpha: 1,
-          duration: 650,
-          ease: "Back.out",
-        });
-      },
+    const img = this.map.get("math1")?.list.find(o => o.getData?.("landmark-img")) as Phaser.GameObjects.Image | undefined;
+    if (!img) return;
+    if (!animate) { img.setTexture("premium-props","lm-bridge-fixed").setDisplaySize(360,285); return; }
+    img.setTexture("premium-props","lm-bridge-repairing").setDisplaySize(360,285);
+    this.scene.tweens.add({ targets: img, alpha: 0.7, duration: 300, yoyo: true, repeat: 1 });
+    this.scene.time.delayedCall(1150, () => {
+      if (img.active) img.setTexture("premium-props","lm-bridge-fixed").setDisplaySize(360,285).setAlpha(1);
     });
   }
-
-  get repaired(): boolean {
-    return this.bridgeRepaired;
+  addBridgeForeground():void {
+    if(this.scene.children.getByName("bridge-front-edge"))return;
+    clippedForeground(this.scene,"bridge-front-edge","premium-props","lm-bridge-fixed",640,413.5,360,285,
+      [[640,640],[690,618],[760,598],[820,582],[880,562],[950,540],[1000,550],[1000,700],[640,700]]).setName("bridge-front-edge");
   }
+
+  get repaired(): boolean { return this.bridgeRepaired; }
 }

@@ -84,6 +84,8 @@ export interface BreedRewardDefinition {
   points: MasteryPointsConfig;
   /** Mastery points needed for the golden sticker (after normal is earned). */
   goldenThreshold: number;
+  /** Some breeds award gold for completing their reading quiz instead of points. */
+  goldenUnlock?: "quiz";
 }
 
 /** Minimal storage interface — structurally identical to AdventurePersistence's. */
@@ -267,7 +269,7 @@ export class BreedRewardState {
   }
 
   pointsToGolden(): number {
-    return Math.max(0, this.def.goldenThreshold - this.masteryPoints());
+    return this.def.goldenUnlock === "quiz" ? Math.round(3 * (1-this.quizMastery)) : Math.max(0, this.def.goldenThreshold - this.masteryPoints());
   }
 
   // ------------------------------------------------------------ internals
@@ -290,7 +292,7 @@ export class BreedRewardState {
     if (
       !this.goldenStickerUnlocked &&
       this.normalStickerUnlocked &&
-      this.masteryPoints() >= this.def.goldenThreshold
+      (this.def.goldenUnlock === "quiz" ? this.quizMastery === 1 : this.masteryPoints() >= this.def.goldenThreshold)
     ) {
       this.goldenStickerUnlocked = true;
       golden = "newly-unlocked";
@@ -300,7 +302,7 @@ export class BreedRewardState {
       normalSticker: normal,
       goldenSticker: golden,
       masteryPoints: pts,
-      pointsToGolden: Math.max(0, this.def.goldenThreshold - pts),
+      pointsToGolden: this.pointsToGolden(),
     };
   }
 

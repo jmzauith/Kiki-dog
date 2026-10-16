@@ -1,3 +1,6 @@
+import { HuskyGraduation } from "../systems/HuskyGraduation";
+import { showHuskyGraduation } from "../visuals/HuskyGraduation";
+import { showStickerAlbum } from "../visuals/Collectibles";
 import { playGame } from "../visuals/PlayfulGames";
 import { enterIgloo, offerIglooBonus, showGoldenBone, showCollectibleReward } from "../visuals/Collectibles";
 import { awardGoldenBone, hasGoldenBone } from "../systems/TreasureCollection";
@@ -1003,12 +1006,17 @@ export class HuskyScene extends Phaser.Scene {
 
     await depth("pick-favorite-moment","husky-reward","What an adventure!","Bolt gives Kiki a friendly nuzzle. What was your favorite moment?",[{id:"bridge",label:"Mending the bridge"},{id:"exploring",label:"Exploring the mountain"},{id:"race",label:"Racing with Bolt"}],"race-backdrop");
     finishPolishRun(); showPlaytestStats();
+    const quiz = new HuskyGraduation(gameStore());
+    const newGold = !quiz.passed;
+    if (newGold) await showHuskyGraduation(quiz);
     const rewards = syncHuskyProgress(this.adventure, gameStore());
     if (this.adventure.isComplete("snow-cache")) awardGoldenBone(gameStore());
     this.kiki.container.setVisible(false);
-    const choice = await showCollectibleReward({unlocked:this.adventure.stickerUnlocked,
+    const presentation = {unlocked:this.adventure.stickerUnlocked,
       golden:rewards.goldenStickerUnlocked,bone:hasGoldenBone(gameStore()),mastery:rewards.masteryPoints(),
-      turns:this.adventure.raceTurns,secrets:[...this.adventure.secretsFound].filter(s=>!s.startsWith("revealed:")).length});
+      turns:this.adventure.raceTurns,secrets:[...this.adventure.secretsFound].filter(s=>!s.startsWith("revealed:")).length};
+    if (newGold) await showStickerAlbum(presentation,true);
+    const choice = await showCollectibleReward(presentation);
     if(choice === "replay") { this.scene.restart({fresh:true}); return; }
     this.kiki.container.setVisible(true);
     this.prompt=undefined; this.busy=false; this.highlightForwardChoices();

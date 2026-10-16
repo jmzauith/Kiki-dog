@@ -1,3 +1,4 @@
+import { HuskyGraduation } from "../HuskyGraduation";
 import { describe, it, expect } from "vitest";
 import { AdventureProgress } from "../AdventureState";
 import { HUSKY_ADVENTURE } from "../HuskyAdventure";
@@ -24,6 +25,20 @@ describe("Husky integration bridge", () => {
     expect({ ...adventure.toJSON(), savedAt: 0 }).toEqual({ ...before, savedAt: 0 });
     expect(b.getItem("reward:husky")).toBeNull();
     expect(JSON.parse(a.getItem("collection")!).breeds.husky.normalStickerUnlocked).toBe(true);
+  });
+  it("quiz completion reaches the saved reward and collection; old point gold cannot bypass it", () => {
+    const store=memoryStore();
+    const adventure=new AdventureProgress(HUSKY_ADVENTURE);
+    adventure.chosenRoute="safe";
+    for(const id of ["trailhead","broken-bridge","forest","frozen-lake","fallen-tree","snow-pass","summit-camp","sled-race"]) adventure.completeEncounter(id);
+    adventure.raceCompleted=true;
+    store.setItem("collection",JSON.stringify({breeds:{husky:{goldenStickerUnlocked:true}}}));
+    expect(syncHuskyProgress(adventure,store).goldenStickerUnlocked).toBe(false);
+    expect(JSON.parse(store.getItem("collection")!).breeds.husky.goldenStickerUnlocked).toBe(false);
+    const quiz=new HuskyGraduation(store);
+    while(quiz.question) quiz.answer(quiz.question.correctIndex);
+    expect(syncHuskyProgress(adventure,store).goldenStickerUnlocked).toBe(true);
+    expect(JSON.parse(store.getItem("collection")!).breeds.husky.quizMastery).toBe(1);
   });
   it("does not award a normal sticker for an incomplete adventure or revealed-only secrets", () => {
     const adventure = new AdventureProgress(HUSKY_ADVENTURE);

@@ -12,17 +12,8 @@
  *   secrets:        secret-igloo, snow-cache
  *   race:           sled-race
  *
- * GOLDEN HUSKY tuning (must stay earnable by a 9-year-old):
- *   Max realistic mastery ≈ 19 points; threshold is 8 (≈42%).
- *   Example paths to 8:
- *     - Brave explorer (challenge route): Ice Cave shortcut 3 + Ice Cave
- *       hard math 1 + Secret Igloo 3 + 2 Turbo race turns 2 = 9 ✓
- *     - Careful explorer (safe route): Secret Igloo 3 + Bone Cache 2 +
- *       Igloo hard math 1 + 2 Turbo turns 2 = 8 ✓
- *     - Replayer: replay 1 + both secrets 5 + 2 Turbo turns 2 = 8 ✓
- *   No path requires perfection: wrong answers never subtract, retries are
- *   free, and points come from curiosity (secrets, shortcuts) rather than
- *   flawless play.
+ * Golden Husky now requires the completed adventure and three correct breed
+ * quiz answers. Exploration points remain recorded but do not replace learning.
  */
 import type { BreedRewardDefinition } from "./BreedRewards";
 
@@ -60,4 +51,5 @@ export const HUSKY_REWARD_DEF: BreedRewardDefinition = {
   },
 
   goldenThreshold: 8,
+  goldenUnlock: "quiz",
 };

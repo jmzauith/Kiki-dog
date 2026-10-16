@@ -75,7 +75,7 @@ describe("husky normal sticker", () => {
 });
 
 describe("golden husky", () => {
-  it("brave explorer path: challenge route + igloo + turbos → golden", () => {
+  it("brave explorer path: challenge route + igloo + turbos does not bypass quiz", () => {
     const s = fresh();
     s.setRoute("challenge");
     s.recordRequired("broken-bridge");
@@ -87,11 +87,12 @@ describe("golden husky", () => {
     s.recordSecretFound("secret-igloo"); // 3 → 7 total
     const r = s.recordRaceWon(2); // +2 → 9 ≥ 8
     expect(r.normalSticker).toBe("newly-unlocked");
-    expect(r.goldenSticker).toBe("newly-unlocked");
-    expect(s.masteryPoints()).toBe(9);
+    expect(r.goldenSticker).toBe("locked");
+    expect(s.recordQuizMastery(1).goldenSticker).toBe("newly-unlocked");
+    expect(s.masteryPoints()).toBe(12);
   });
 
-  it("careful explorer path: safe route + both secrets + turbos → golden", () => {
+  it("careful explorer path: safe route + both secrets + turbos does not bypass quiz", () => {
     const s = fresh();
     s.setRoute("safe");
     s.recordRequired("broken-bridge");
@@ -104,10 +105,11 @@ describe("golden husky", () => {
     s.recordChallengeMathSuccess("secret-igloo"); // 1 → 6
     const r = s.recordRaceWon(2); // +2 turbo → 8
     expect(r.normalSticker).toBe("newly-unlocked");
-    expect(r.goldenSticker).toBe("newly-unlocked");
+    expect(r.goldenSticker).toBe("locked");
+    expect(s.recordQuizMastery(1).goldenSticker).toBe("newly-unlocked");
   });
 
-  it("replayer path: replay + secrets + turbos → golden", () => {
+  it("replayer path: replay + secrets + turbos does not bypass quiz", () => {
     const s = fresh();
     s.setRoute("safe");
     s.recordRequired("broken-bridge");
@@ -120,7 +122,8 @@ describe("golden husky", () => {
     s.recordRaceWon(2); // +2 → 7
     const r = s.recordReplay(); // +1 → 8
     expect(r.normalSticker).toBe("already-unlocked");
-    expect(r.goldenSticker).toBe("newly-unlocked");
+    expect(r.goldenSticker).toBe("locked");
+    expect(s.recordQuizMastery(1).goldenSticker).toBe("newly-unlocked");
   });
 
   it("double-reporting a race win never inflates turbo points", () => {
@@ -143,7 +146,7 @@ describe("golden husky", () => {
     const s = completeChallengeAdventure();
     expect(s.masteryPoints()).toBe(0);
     expect(s.goldenStickerUnlocked).toBe(false);
-    expect(s.pointsToGolden()).toBe(8);
+    expect(s.pointsToGolden()).toBe(3);
   });
 });
 

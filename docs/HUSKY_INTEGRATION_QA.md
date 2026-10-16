@@ -1,3 +1,5 @@
+> **Documentation status — historical record; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Preserved original scope, results and provenance; not final-build acceptance.
+
 # Husky integrated vertical slice verification
 
 Date: 2026-10-07. Branch: `integration/husky-verified-slice`.

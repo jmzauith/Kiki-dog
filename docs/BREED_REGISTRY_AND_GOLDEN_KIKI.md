@@ -1,3 +1,5 @@
+> **Documentation status — current specification; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Registry/reusable collection design remains a specification, not proof that every breed or endgame is playable. Husky now uses the three-answer finale rule; old global-storage examples and eight-point Husky eligibility are superseded by [reward rules](HUSKY_REWARD_RULES.md) and [profile storage](PLAYER_PROFILES_AVATARS_AND_SAVES.md).
+
 # Breed Registry & Golden Kiki — plain-English guide
 
 ## The final 12 breeds

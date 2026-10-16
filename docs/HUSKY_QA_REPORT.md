@@ -1,3 +1,5 @@
+> **Documentation status — historical record; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Historical tests and examples only. Current CI builds but does not run Vitest. Global/session-storage examples do not describe the live profile-scoped durable contract. See [current storage](PLAYER_PROFILES_AVATARS_AND_SAVES.md).
+
 # Husky QA Report — Snowy Peaks vertical slice
 
 **Agent:** McCartney (QA / systems-reliability / playtesting)

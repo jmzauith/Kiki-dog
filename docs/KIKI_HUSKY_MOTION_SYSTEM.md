@@ -1,3 +1,5 @@
+> **Documentation status — historical record; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Historical articulated package delivery. Exploration now displays complete-character preview frames, with the constructed rig body hidden; package presence is not visible motion acceptance. See [current motion/art](HUSKY_ART_AND_DEPTH_STATUS.md).
+
 # Kiki & Husky Production Motion System
 
 **Status:** production motion system — assets + semantic API + this spec.

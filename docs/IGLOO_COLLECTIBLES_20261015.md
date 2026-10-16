@@ -1,3 +1,5 @@
+> **Documentation status — current implementation report; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). 3228f9d: focused igloo, treasure, album and reload checks. Full routes belong to the earlier puzzle delivery; recovery checks were focused. Golden eligibility changed afterward.
+
 # Igloo and gold-foil collectibles — 15 October 2026
 
 ## Implemented

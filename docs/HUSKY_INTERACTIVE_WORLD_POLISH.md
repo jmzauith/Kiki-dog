@@ -1,3 +1,5 @@
+> **Documentation status — design proposal; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Proposed behavior is not an implementation checklist; reconcile against current rules and remaining work.
+
 # Husky Interactive World Polish — Interaction Manifest
 
 **Branch:** `harrison/husky-interactive-world-polish`

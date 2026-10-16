@@ -1,3 +1,5 @@
+> **Documentation status — historical record; classified 16 October 2026.** [Current-build index](../HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](../HUSKY_REMAINING_WORK.md). Preserved original scope, results and provenance; not final-build acceptance.
+
 > Historical preview audit. Current integration status and remaining work: [Husky Final Polish](HUSKY_FINAL_POLISH.md).
 
 # Snowy Peaks playable visual preview

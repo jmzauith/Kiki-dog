@@ -1,3 +1,5 @@
+> **Documentation status — design proposal; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Technical integration proposal with delivered files: all 14 textures and 13 JSON files exist. Only part is used live; see the [exact integration matrix](HUSKY_ART_AND_DEPTH_STATUS.md).
+
 # Snowy Peaks Playable Depth System
 
 **Branch:** `harrison/snowy-peaks-playable-depth-system`

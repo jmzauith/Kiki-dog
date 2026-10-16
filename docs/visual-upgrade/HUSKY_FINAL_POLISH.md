@@ -1,3 +1,5 @@
+> **Documentation status — historical record; classified 16 October 2026.** [Current-build index](../HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](../HUSKY_REMAINING_WORK.md). Preserved original scope, results and provenance; not final-build acceptance.
+
 # Husky Final Polish integration — 8 October 2026
 
 Playable integration branch: `integration/husky-final-polish`. Main was not merged or changed. This is a local integration checkout; no remote push or PR creation is claimed.

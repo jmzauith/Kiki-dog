@@ -1,17 +1,18 @@
 # Kiki Dog Adventure
 
-Phaser 4 + TypeScript migration of Kiki's Dog Adventure.
+> **Start here: [Husky current-build documentation](docs/HUSKY_CURRENT_BUILD.md).** Current implementation report, audited 16 October 2026. It separates the latest development build, deployed build, existing validation and remaining work.
 
-## First milestone
+Phaser 4 + TypeScript adventure with Snowy Peaks exploration, two routes, puzzles, a Bolt sled race, breed reading/quiz and a collectible sticker album.
 
-The current prototype intentionally focuses only on the Husky gameplay foundation:
+The audited development baseline is `feature/husky-playful-minigames` at `f2ede75037c3466e7fddfe4556636863c80d94eb`. Pages still deploys `integration/husky-premium-polish` at `6411c6fa36ff827465be15aeef96119237990378`; the newer features are not in that recorded deployment. Documentation-only commits do not change this gameplay baseline.
 
-1. Kiki starts at Snowy Peaks.
-2. A math encounter opens the trail.
-3. New map sections reveal progressively.
-4. A fork offers a safe route or a harder shortcut.
-5. Kiki visibly walks to the selected destination.
-6. The map contains only one playable Kiki object.
+- [Rules and rewards](docs/HUSKY_REWARD_RULES.md)
+- [Delivery and validation evidence](docs/HUSKY_DELIVERY_EVIDENCE.md)
+- [Art and depth integration](docs/HUSKY_ART_AND_DEPTH_STATUS.md)
+- [Prioritized remaining work](docs/HUSKY_REMAINING_WORK.md)
+- [Document classification and historical records](docs/HUSKY_DOCUMENT_REGISTER.md)
+
+There is no consolidated fresh full-route acceptance report for the final combined development build. Historical screenshots, test counts and timings apply only to the builds identified in the evidence ledger.
 
 ## Run locally
 
@@ -26,4 +27,4 @@ npm run dev
 npm run build
 ```
 
-The HTML v6 game remains a design/reference build. New gameplay development should happen in Phaser/TypeScript.
+The HTML v6 game remains a design/reference build. New gameplay development happens in Phaser/TypeScript.

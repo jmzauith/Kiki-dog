@@ -1,3 +1,5 @@
+> **Documentation status — current implementation report; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). 9b5d451: focused recovery/practice checks, not a fresh full-route acceptance.
+
 # Math feedback and competitive race recovery
 
 - First wrong answer: visible retry text and counting hint, one attempt remains.

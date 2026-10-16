@@ -1,3 +1,5 @@
+> **Documentation status — current implementation report; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). f2ede75: focused finale and reload checks on completed profiles, not full fresh combined routes. “Canonical gold-foil” below does not establish approval of the generated preview.
+
 # Husky breed finale — 15 October 2026
 
 After the completed adventure and Bolt race, the player reads three paragraphs about Siberian Huskies and answers exactly three questions: sled work, double coat, and origin. Every answer is in the reading. Incorrect answers show an explanation and allow another choice; reading can be reopened. Correct answers persist individually per player. All three correct answers earn gold, including after retries, without requiring optional exploration points. Race and math rules are unchanged.

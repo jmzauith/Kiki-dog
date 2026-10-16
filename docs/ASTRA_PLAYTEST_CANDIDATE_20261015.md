@@ -1,3 +1,5 @@
+> **Documentation status — historical record; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Preserved original scope, results and provenance; not final-build acceptance.
+
 # Husky playtest candidate — 15 October 2026
 
 This report supersedes the unfinished browser acceptance section of ASTRA_RECOVERY_20261015.md. Main was not merged or changed. The build is ready for João's feedback on the complete playable flow; the premium art backlog below remains open.

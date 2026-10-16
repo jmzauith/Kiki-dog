@@ -1,3 +1,5 @@
+> **Documentation status — current implementation report; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). d440ea1: full routes after puzzles; later systems were not yet present.
+
 # Snowy Peaks playable mini-games — ages 8–11
 
 Branch: `feature/husky-playful-minigames`. Based on the preserved local premium-polish candidate `baee0a57e99506d624181d0d8ac013fe294740e8`. No main merge.

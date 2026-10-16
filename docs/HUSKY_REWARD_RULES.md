@@ -1,108 +1,37 @@
-# Husky Reward Rules
+# Current Husky gameplay and reward rules
 
-How stickers work in Kiki's Dog Adventure — written for humans, not just code.
-The logic lives in `src/systems/BreedRewards.ts` (reusable model) with the
-Husky's specific numbers in `src/systems/HuskyRewards.ts`.
+> **Current specification**, audited against `f2ede75037c3466e7fddfe4556636863c80d94eb` on 16 October 2026. [Current-build index](HUSKY_CURRENT_BUILD.md). The [original eight-point specification](https://github.com/jmzauith/Kiki-dog/blob/f2ede75037c3466e7fddfe4556636863c80d94eb/docs/HUSKY_REWARD_RULES.md) is historical, not the live gold rule.
 
-## The two stickers
+## Adventure and required math
 
-Every dog breed in the game has **two** stickers:
+The live adventure uses [HuskyAdventure](../src/systems/HuskyAdventure.ts), [HuskyScene](../src/scenes/HuskyScene.ts) and [RaceScene](../src/scenes/RaceScene.ts). Always-required reward encounters are Broken Bridge, Forest and Summit Gate; safe adds Frozen Lake and Fallen Tree, challenge adds Ice Cave. The live graph also sequences trailhead, Snow Pass and race access. Secrets are optional and cannot replace required progression.
 
-1. **Normal sticker** (the Husky) — the "you finished the adventure!" sticker.
-2. **Golden sticker** (the Golden Husky) — the "you truly mastered it" sticker
-   for curious players who explore, retry, and find secrets.
+A clean, uninterrupted run asks three exploration math problems (bridge, lake **or** cave, summit) and three successful race math stages: **six baseline math problems**. Replacement questions, failed turns or interrupted encounters increase presentations. The three breed-finale questions are reading comprehension, not additional math. Optional igloo bonus is now tic-tac-toe, not hard math.
 
-## Normal Husky sticker rules
+## Wrong math and race recovery
 
-To earn the normal Husky sticker, a player must:
+First wrong answer shows retry text/counting help with one attempt left. The second shows the worked multiplication answer as repeated addition; acknowledging it leads to a different question. The world encounter stays incomplete until a correct answer, while earlier adventure progress is retained. Reload does not preserve the exact question or wrong-attempt count.
 
-- **Finish every required encounter** on the route they chose:
-  - Always required: Broken Bridge, Whisper Forest, Summit Gate
-  - Safe trail: Frozen Lake, Fallen Tree
-  - Ice shortcut: Ice Cave
-- **Win the sled race.**
+The race uses five spaces and competitive Bolt (`RaceProgressState(5, true)`), unlike the generic model's forgiving default. Correct Steady gives Kiki +1, correct Turbo +2; one wrong then correct still earns the chosen movement. After the first two successful stages Bolt normally moves +1. Three successful stages lead to the physical final-sprint beat, filling remaining Kiki distance.
 
-That's it. In particular:
+Two misses forfeit one attempted turn: Kiki gets no movement, Bolt advances +1, and the same pace receives a replacement question if Bolt has not won. Completed race mini-game beats stay complete. Bolt reaching five spaces causes defeat; there is no free sprint, new race completion or new sticker on that loss. Earlier earned collectibles are not revoked by losing a later race.
 
-- **Optional challenges never block the normal sticker.** The Secret Igloo
-  and the Bone Cache are wonderful to find, but a player who never finds them
-  still earns the Husky sticker. Secrets are treats, not taxes.
-- **Wrong answers never block it either.** A wrong answer just means "try
-  again" — progress is never taken away.
-- The sticker can't be earned early or out of order. Finishing two encounters
-  and jumping to the race (the old shortcut) earns nothing.
+**Race again** clears the race checkpoint and restarts positions, successful-stage count, attempts and turbo count. It retains the mountain adventure, player identity, earlier rewards, quiz/bone collection and completed mini-game IDs in the run log; it is not a full stage replay. Race totals stored on victory count attempted turns, including forfeits in that race; successful stages remain three. Checkpoints persist positions, successful stages, attempts and turbos. Old checkpoints without attempts fall back to successful turns. See [persistence](PLAYER_PROFILES_AVATARS_AND_SAVES.md) for reload boundaries.
 
-## Golden Husky rules
+## Normal and Golden Husky
 
-The Golden Husky is earned with **mastery points**. Different discoveries and
-achievements give points:
+Normal Husky requires route-required adventure completion plus a race win. The adventure sticker flag/event is set before the reading finale; it does not require secrets or quiz mastery. The current UI then guides an unfinished reader through the finale before the reward choices.
 
-| What the player does | Points |
-|---|---|
-| Find the Secret Igloo | 3 |
-| Find the Bone Cache | 2 |
-| Brave the Ice Cave shortcut | 3 |
-| Clear a hard-math encounter (each unique one) | 1 (max 3) |
-| Win a race turn with Turbo (each) | 1 (max 3) |
-| Breed quiz mastery (coming later) | up to 3 |
-| Finish the whole adventure again (replay) | 1 (max 2) |
+**Golden Husky requires the completed adventure/race and all three correct live-finale answers, including retries.** The fixed questions are sled work, double coat and Siberian origin. Each correct answer saves immediately. Wrong answers explain and retry; first-try perfection is not required. A previously completed finale is not forced again after reload or Play again.
 
-**Golden Husky needs 8 points** — and the normal Husky sticker first.
+[HuskyGraduation](../src/systems/HuskyGraduation.ts) stores the three correct IDs. [HuskyProgressBridge](../src/systems/HuskyProgressBridge.ts) records quiz mastery 1 after they are all present. [HuskyRewards](../src/systems/HuskyRewards.ts) selects `goldenUnlock: "quiz"`; [BreedRewards](../src/systems/BreedRewards.ts) still requires normal eligibility. Exploration points and the old threshold value remain in reusable data but **eight points do not unlock Husky gold**. Existing points-based Husky gold flags are re-derived under the quiz rule; the collection mirror is corrected accordingly. No auto-award of quiz answers is made.
 
-Three example paths a 9-year-old might take:
+## Collectibles, album and replay
 
-- **The brave explorer** takes the Ice Cave shortcut (3), beats its hard
-  math (1), finds the Secret Igloo (3), and wins 2 race turns with Turbo
-  (2) → **9 points** ✓
-- **The careful explorer** takes the safe trail, finds both secrets (3 + 2),
-  beats the igloo's hard math (1), and wins 2 Turbo turns (2) → **8 points** ✓
-- **The replayer** finishes once, replays (1), finds both secrets (5), and
-  wins 2 Turbo turns (2) → **8 points** ✓
+Bone hunt completion grants `husky:golden-bone:v1 = earned`; the reward screen also grants it for a saved completed snow-cache encounter. It is independent of the three quiz answers and survives Play again.
 
-### Why this is fair for a 9-year-old
+After a newly completed finale the album unfolds and the square gold-foil Husky sticker settles into slot 001. Reduced-motion mode disables those animations. The album has two pages and twelve breed slots; only Husky is populated by this UI. Both normal and master-edition representations reuse the same foil image; gold has the Master badge/border. This is not twelve delivered breed illustrations or the playable Golden Kiki ending.
 
-- **No perfection required.** The threshold (8) is less than half of the
-  maximum (~19). A child who is curious *or* persistent *or* a mix of both
-  can get there.
-- **Wrong answers cost nothing.** Points are only ever added, never taken
-  away. Retrying is always safe.
-- **Repeating the same thing doesn't farm points.** Finding the same secret
-  twenty times counts once — mastery means breadth, not grinding.
-- **Golden can never unlock by accident.** It requires the normal sticker
-  first, so there's no surprise golden sticker halfway through a first play.
-- **Replays are safe.** Playing again adds a small bonus but can never
-  corrupt or reset existing progress.
+Keep exploring retains the completed run and re-enables optional exploration; completed igloo revisits replay memory without duplicate completion rewards. Play again resets the adventure, race checkpoint and run interaction/telemetry state, while keeping reward/collection data, finale answers and Golden Bone. It does not reset player identity. The reusable `recordReplay()` API exists but the live scene does not call it: do not promise a newly accrued replay mastery point.
 
-## How this scales to future breeds
-
-The whole system is **data, not code**. Each new breed (Corgi, Poodle, …)
-ships one small definition file like `HuskyRewards.ts` that lists:
-
-- which encounters are required (per route),
-- which secrets and bonus challenges exist and what they're worth,
-- the point values/caps and the golden threshold.
-
-The same `BreedRewardState` class drives every breed, each with its own
-save slot, so breeds never interfere with each other. When the breed quiz
-arrives later, it plugs into the existing `quizMastery` hook — no redesign
-needed.
-
-## For the scene integrator (Lennon)
-
-The scenes never decide stickers — they just report events:
-
-- Forest choice made → `setRoute("safe" | "challenge")`
-- Required encounter finished → `recordRequired(encounterId)`
-- Race won → `recordRaceWon(turbosWon)`
-- Secret discovered → `recordSecretFound(secretId)`
-- Bonus challenge done → `recordBonusChallenge(challengeId)`
-- Hard math cleared → `recordChallengeMathSuccess(encounterId)`
-- (later) quiz finished → `recordQuizMastery(score01)`
-- Adventure finished again → `recordReplay()`
-
-Each call returns what *newly* unlocked (`newly-unlocked` vs
-`already-unlocked` vs `locked`), so the reward screen knows exactly what to
-celebrate. Save with `saveRewards(HUSKY_REWARD_KEY, state)` after events
-(same sessionStorage approach as adventure progress); load on scene start
-with `loadRewards(...)`, which safely returns `null` for corrupt/foreign
-saves.
+The twelve-normal-sticker / Ultimate Corgi Quiz / Golden Kiki system remains a separate future endgame. [Registry contract](BREED_REGISTRY_AND_GOLDEN_KIKI.md) must not be confused with the live Husky finale.

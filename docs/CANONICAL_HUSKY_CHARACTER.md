@@ -1,3 +1,5 @@
+> **Documentation status — current specification; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Identity and proportions remain the current specification. The older natural-color/gold-border reward treatment below is superseded for the active foil preview, without claiming final art approval. See [current art status](HUSKY_ART_AND_DEPTH_STATUS.md).
+
 # Canonical Husky Character
 
 **Status:** canonical — approved character for the Snowy Peaks adventure (replaces the old flat-vector Husky).

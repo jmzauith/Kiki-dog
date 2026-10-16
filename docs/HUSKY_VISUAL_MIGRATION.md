@@ -1,3 +1,5 @@
+> **Documentation status — historical record; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Historical asset-package delivery, not proof that every supplied state/depth asset is rendered. Current replacements and unused assets are distinguished in [art status](HUSKY_ART_AND_DEPTH_STATUS.md).
+
 # Husky Visual Migration Manifest
 
 **Branch:** `harrison/husky-complete-visual-migration`

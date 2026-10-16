@@ -1,3 +1,4 @@
+import { isPlayfulId, playGame } from "./PlayfulGames";
 import { complete, completed, record } from "../systems/PolishRun";
 import { HUSKY_INTERACTIONS } from "../systems/HuskyInteractions";
 import "./husky-depth.css";
@@ -8,6 +9,11 @@ export async function depth(id:string,node:string,title:string,body:string,optio
   if(completed(id)) return "";
   const spec=HUSKY_INTERACTIONS.find(i=>i.id===id);
   record("interaction-started",node,{interactionId:id,kind:spec?.kind??mode});
+  if (isPlayfulId(id)) {
+    const choice = await playGame(id,()=>record("hint-shown",node,{interactionId:id}));
+    complete(id,node,choice);
+    return choice;
+  }
   return new Promise(resolve=>{
     const overlay=document.createElement("div"); overlay.className="husky-depth";
     overlay.setAttribute("role","dialog"); overlay.setAttribute("aria-modal","true"); overlay.setAttribute("aria-label",title);

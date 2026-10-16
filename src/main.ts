@@ -5,7 +5,8 @@ import { HuskyScene } from "./scenes/HuskyScene";
 import { RaceScene } from "./scenes/RaceScene";
 
 const inspection = import.meta.env.DEV && new URLSearchParams(location.search).has("composition");
-const game = (inspection ? Promise.resolve() : choosePlayer()).then(() => new Phaser.Game({
+const gameLab = import.meta.env.DEV && new URLSearchParams(location.search).has("games");
+const game = gameLab ? import("./visuals/GameLab").then(m=>m.showGameLab()) : (inspection ? Promise.resolve() : choosePlayer()).then(() => new Phaser.Game({
   type: Phaser.AUTO,
   parent: "app",
   backgroundColor: "#dff3ff",

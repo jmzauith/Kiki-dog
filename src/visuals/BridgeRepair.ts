@@ -7,20 +7,22 @@ import { bridgePath } from "./HuskyTerrain";
 export function repairBridgeInWorld(scene:Phaser.Scene,status:Phaser.GameObjects.Text):Promise<void> {
   if(completed("bridge-repair-kit")) return Promise.resolve();
   record("interaction-started","broken-bridge",{interactionId:"bridge-repair-kit",kind:"drag-to-target"});
-  status.setText("Drag each board onto a glowing gap — or tap board, then gap.");
+  status.setText("Match each board’s length to its gap. Drag it there, or tap the board and then the gap.");
   const points=bridgePath().slice(1,4);
   return new Promise(resolve=>{
     const objects:Phaser.GameObjects.GameObject[]=[];
-    const hud=document.createElement("div"); hud.className="bridge-access";
+    const hud=document.createElement("div"); hud.className="bridge-access spatial-access";
     hud.setAttribute("role","group");hud.setAttribute("aria-label","Repair the bridge");
     document.body.append(hud);
     let selected=-1,finished=false;
     const fitted=new Set<number>();
     const occupied=new Set<number>();
-    const gaps=points.map(p=>scene.add.ellipse(p.x,p.y,54,19,0xffd878,0.5).setAngle(-23).setDepth(12).setInteractive({useHandCursor:true}));
-    const boards=points.map((_,i)=>scene.add.image(660+i*38,610,"wood-panel").setDisplaySize(58,22).setDepth(17).setInteractive({draggable:true,useHandCursor:true}));
+    const sizes=[76,54,36];
+    const gaps=points.map((p,i)=>scene.add.ellipse(p.x,p.y,sizes[i],19,0xffd878,0.5).setAngle(-23).setDepth(12).setInteractive({useHandCursor:true}));
+    const boards=points.map((_,i)=>scene.add.image(660+i*38,610,"wood-panel").setDisplaySize(sizes[i],22).setDepth(17).setInteractive({draggable:true,useHandCursor:true}));
     const fit=(i:number)=>{
       if(finished||selected<0||occupied.has(i)||fitted.has(selected))return;
+      if(selected!==i){status.setText("That board does not fit. Match its length to the glowing gap.");return;}
       const board=boards[selected];fitted.add(selected);occupied.add(i);const p=points[i];
       board.disableInteractive();board.setDepth(12);
       scene.tweens.add({targets:board,x:p.x,y:p.y,angle:-23,duration:180});gaps[i].disableInteractive().setAlpha(0);

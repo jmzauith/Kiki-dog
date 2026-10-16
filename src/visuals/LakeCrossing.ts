@@ -1,3 +1,4 @@
+import { playGame } from "./PlayfulGames";
 import Phaser from "phaser";
 import { RingoKikiMover } from "../systems/RingoKikiMover";
 import { CharacterMotion } from "../motion/CharacterMotion";
@@ -9,8 +10,9 @@ import { TERRAIN_PATHS } from "./HuskyTerrain";
 export async function crossLakeInWorld(scene:Phaser.Scene,kiki:CharacterMotion,mover:RingoKikiMover,status:Phaser.GameObjects.Text):Promise<void> {
   if(completed("cross-stones"))return;
   record("interaction-started","frozen-lake",{interactionId:"cross-stones",kind:"choose-path"});
+  await playGame("lake-path-puzzle",()=>record("hint-shown","frozen-lake",{interactionId:"cross-stones"}));
   const points=TERRAIN_PATHS.lake.walkPath.points.slice(1);
-  status.setText("Follow the pale, solid ice. Dark cracks mean a safer detour.");
+  status.setText("You found the safe path — Kiki follows your route across the ice.");
   const cracks=scene.add.image(1800,590,"dl-ice-cracks").setDisplaySize(270,100).setDepth(13).setAlpha(.6);
   const hud=document.createElement("div");hud.className="bridge-access";hud.setAttribute("role","group");hud.setAttribute("aria-label","Frozen Lake stepping stones");document.body.append(hud);
   const objects:Phaser.GameObjects.GameObject[]=[cracks];let busy=false,step=0;
@@ -30,6 +32,10 @@ export async function crossLakeInWorld(scene:Phaser.Scene,kiki:CharacterMotion,m
     };
     safe.forEach((s,i)=>{s.on("pointerdown",()=>{void visit(i);});const b=document.createElement("button");b.textContent=["Near shore ice","Pale middle ice","Far bank ice","Leave the lake"][i];b.onclick=()=>{void visit(i);};buttons.push(b);hud.append(b);});
     const warn=()=>{if(busy)return;status.setText("A crack! Kiki tests it and chooses the solid ice nearby.");kiki.react("unsure");cracks.setAlpha(1);record("micro-decision-made","frozen-lake",{choiceId:"avoid-cracked-ice"});};
+    // The solved board earns a continuous world crossing instead of another word-button task.
+    const follow = async () => { for (let i=0;i<points.length;i++) await visit(i); };
+    hud.style.display="none";
+    scene.time.delayedCall(250,()=>{void follow();});
     risky.on("pointerdown",warn);const b=document.createElement("button");b.textContent="Inspect dark cracked ice";b.onclick=warn;hud.append(b);
     const cleanup=()=>{hud.remove();objects.forEach(o=>o.destroy());};scene.events.once("shutdown",cleanup);
   });

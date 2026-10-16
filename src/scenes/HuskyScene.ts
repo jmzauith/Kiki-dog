@@ -593,10 +593,10 @@ export class HuskyScene extends Phaser.Scene {
       await depth("igloo-fact",id,"Expedition badge earned","Huskies have a thick double coat that helps keep them warm. The old map points toward Race Camp.",[{id:"continue",label:"Pack the badge"}],"lm-igloo-glow");
       const accepted = await this.offerBonusChallenge(
         "Someone left a bonus challenge inside!",
-        "Try the bonus math for Golden Husky progress?",
+        "Play a bonus strategy game for Golden Husky progress?",
       );
       if (accepted) {
-        await this.runMathEncounter("challenge", "Igloo Bonus Challenge ★", "secret-igloo");
+        await depth("igloo-bonus-game", id, "Bolt’s rematch", "A friendly strategy challenge.", [], "lm-igloo-glow");
         this.adventure.recordBonusChallenge();
         this.status.setText("Bonus challenge complete! Golden progress +1");
       }

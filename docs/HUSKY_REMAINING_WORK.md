@@ -1,34 +1,32 @@
 # Reconciled Husky remaining work
 
-> **Current implementation report / planning backlog**, 16 October 2026, baseline `f2ede75037c3466e7fddfe4556636863c80d94eb`. [Current-build index](HUSKY_CURRENT_BUILD.md). Owner labels follow existing roles, not evidence that tasks have been assigned or completed. This is the single active backlog; lists in historical reports are snapshots.
+> **Current implementation report / single active backlog — 16 October 2026.** Candidate gameplay `85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e`. [Current build](HUSKY_CURRENT_BUILD.md), [Astra report and exact evidence](HUSKY_FINAL_GAME_FEEL.md). Owners are role recommendations, not evidence of assignment.
 
-| Priority | Owner | Remaining task / acceptance boundary |
+**Known P0 gameplay blockers: none observed in Astra’s runs.** Safe and Challenge completed during the pass, followed by a Safe replay and focused checks after small fixes. Independent destructive QA and family review are still release gates; do not merge main automatically.
+
+| Priority | Owner | Remaining work / acceptance boundary |
 |---|---|---|
-| P0 — next-phase acceptance | Lennon / Astra | Fresh complete safe and challenge runs on the combined build, including race→reading→quiz→album→replay and reload. Exercise losses/rematches in normal durable profiles; record exact SHA and attributable evidence. No consolidated final acceptance currently exists |
-| P1 | Lennon + McCartney | Align stale live strings with delivered games and quiz gold: igloo bonus still says “Golden progress +1” and offers “Golden Husky progress” although its points do not unlock gold; other scene copy still describes replaced buttons/objects. Documentation-only audit leaves code untouched |
-| P1 | Lennon + McCartney | Save edge cases: new finale/bone keys absent from generic breed-reset helper; write-quota errors, same-profile concurrent tabs, partial-interaction/replay/checkpoint matrix. Preserve per-profile isolation |
-| P1 | McCartney + João | Supervised ages 8–11 playtest and clean adult fast-play timing; tune memory, strategy, spatial puzzles and brief race boards based on observations. Six baseline math problems is not a cap after retries |
-| P1 | Lennon + McCartney | Extend/clarify telemetry: run ends before reading/quiz/album and ignores later optional event recording. Counters/timing must cover intended experience without reinterpreting old logs |
-| P1 | Ringo | Production complete-body gait, turn, three-quarter/back, arrival, terrain and secondary motion; retain locked identity/taillessness. Do not re-enable exposed sliced rigs merely because API/package exists |
-| P1 | Harrison + Lennon | Integrate/reconcile supplied depth pack against active panorama and landmarks; entrance occlusion, far/mid parallax, elevation, rail/paw alignment, true-alpha suitability. 14 assets/13 JSON present, only partial runtime use |
-| P1 | Harrison + Ringo + Lennon | Matching perspective for sled/rider and richer terrain/race response, camera and finish celebration. Current race uses staged shots and separate boards |
-| P1 | Harrison + McCartney + Lennon | Bespoke illustrated puzzle pieces and world reactions; separate igloo inspectables if desired; physical cave entry. Preserve delivered games, do not revert to prompt-only interactions |
-| P1 | Harrison + Lennon | Distinct landmark state exports where premium atlas aliases hidden/revealed or blocked/cleared to one frame; lake/shore staging and contact remain production review work |
-| P1 | Ringo + João | Review the exact gold-foil illustration and book presentation for approval; maintain character identity. Eleven other breed images, full album navigation/cover and Golden Kiki ending remain future scope, not implied by twelve empty slots |
-| P1 | Lennon | Touch/mobile/Chromebook and keyboard/accessibility checks; production base-path asset loading. Existing root-relative DOM/CSS paths deserve Pages-specific verification. No fresh device/deployed acceptance established |
-| P2 | Lennon | Bundle/public-asset audit, old files and redundant preloads, release labels. Current build workflow does not run Vitest; any workflow change requires a separate implementation task. No deletion/deployment change authorized by this docs audit |
-| P2 | Harrison / Ringo / McCartney | Crystal sounds, footsteps/ambient/reward audio and coordinated effects; characterize what is placeholder versus authored |
-| P2 / future phase | Team + João | Avatar builder, eleven additional worlds/breed sticker sets, full collection and Ultimate Corgi Quiz/Golden Kiki UI. Reusable logic is not shipped gameplay |
+| P0 release gate | Roady + João | Independent QA of the frozen candidate and family review. Astra’s run matrix spans implementation and focused final fixes, not two fresh uninterrupted runs begun after final SHA freeze. Verify new-child navigation and whether the slice is an acceptable quality template |
+| P1 | McCartney + João | Supervised ages 8–11 difficulty/pacing review and clean adult fast-play measurement; measure tutorial against 45–75 s goal. Existing timing includes tools/hints/inspection and telemetry excludes the finale |
+| P1 | Ringo | Production complete-body turn, three-quarter/back, arrival and terrain frames, independent secondary motion/blink. Current intact eight-frame gait/idle refinements are active; do not re-expose sliced rigs |
+| P1 | Harrison + Lennon | Reconcile depth pack with panorama, true-alpha entrance/foreground occlusion, far/mid parallax and elevation. All 14 images/13 JSON exist; only partial runtime integration. Physical cave/igloo entry and precise production rail/paw alignment remain |
+| P1 | Harrison + Ringo + Lennon | Matching race rider/sled perspective and richer opponent/terrain response. Modest tilt, bounce, zoom and settle delivered; four staged paintings and separate race boards remain |
+| P1 | Harrison + McCartney | Further bespoke puzzle props/world reactions where justified. Painterly five-difference pair and authored vector game pieces delivered; most puzzles still use boards, not direct manipulation of world objects |
+| P1 | Lennon | Actual touch/tablet/phone/Chromebook validation, narrow viewport/reduced-motion checks and production base-path asset loading. Pointer capture/tap alternatives and larger targets exist; desktop mouse tests are not physical touch acceptance |
+| P1 | Lennon + McCartney | Save failures/quota/concurrent same-profile tabs and exhaustive cancel/reload matrix. Generic breed-reset helper still omits newer finale/Bone keys; do not use it to simulate a clean first-time profile. Use a new QA profile |
+| P1 | Lennon + McCartney | Telemetry scope: include intended post-race learning/album duration and tutorial interaction if required; current counters use legacy kind labels for some replaced games. Do not reinterpret old logs |
+| P1 | Ringo + Harrison + João | Approve exact active foil/puzzle/replacement art. No canonical redesign performed. New album cover/page/placement is implemented; eleven breed artworks and full multi-spread navigation remain future work |
+| P2 | Lennon | Bundle/public asset audit, unused historical preloads/styles and sustained frame/memory profiling. Current JS ~1.885 MB with existing chunk warning; two puzzle PNGs add ~6.5 MB. No measured Chromebook budget yet |
+| P2 | Harrison / Ringo / McCartney | Final audio for footsteps, crystal echo, snow, bridge, race and paper; existing semantic hooks do not supply sound assets |
+| P2 | Lennon + McCartney | Tutorial replay setting and per-mechanic guidance familiarity if family testing warrants it. Current tutorial key is per profile; guidance weakens after completed Husky finale |
+| P2 / future | Team + João | Eleven remaining worlds/breed sets, avatar builder, full collection/Golden Kiki ending. Empty album slots and reusable APIs do not imply delivered gameplay |
 
-## Delivered items that must not remain marked wholly missing
+## Delivered — retain these distinctions
 
-- Varied mini-games: delivered across the map and race; custom production illustrations/world-space integration remain partial.
-- Igloo interior: restored and enter/play/exit/revisit checked; physical doorway travel and inspectable props remain partial.
-- Golden Bone: award and persistent collection delivered; broader inventory UI is not implied.
-- Album: two-page twelve-slot Husky presentation delivered; eleven breed artworks and broader navigation remain pending.
-- Breed finale: three paragraphs and three retry-friendly questions integrated; gold gated on completion, not eight exploration points.
-- Wrong-answer recovery: worked explanations/new questions, Bolt loss and rematch delivered; normal-profile consolidated final race/reload acceptance remains pending.
-- Complete-character walk/idle: replacement frames visible, not missing; production animation approval remains pending.
-- Depth source package: all required files present, integration/visual acceptance remains partial.
-
-No P0 label here asserts a newly observed gameplay failure. It denotes missing final acceptance before the next release decision. Deployment still targets the older integration branch; changing it is a separate user decision, not an action in this task.
+- Varied games, igloo interior/memory/bonus, Golden Bone, fixed breed finale, retry explanations, loss/rematch and profile persistence are integrated and exercised in this pass.
+- Exact three-slot bridge, snap/invalid return, connected repair/crossing and reload have live checks; final asset approval is separate.
+- Important minigame platform emoji art was replaced; authored SVG and abstract game symbols remain. Two painted comparison scenes were played. Do not broadly label all bespoke artwork missing or all art final.
+- Adaptive fading paw guidance is visible after the final renderer correction; no permanent dotted route. First-time usability still needs a child who does not know the map.
+- Tutorial and album presentation are reusable and integrated. New-profile packing and persistence, cover/placement, reward reload and replay were observed; mobile and reduced-motion setting remain unverified.
+- Stale “Golden progress +1” bonus copy and success feedback were corrected in code. Remaining narrative labels in source/telemetry are not evidence that old prompt-only games are live.
+- No deployment change is included. Main remains untouched. Candidate readiness for Roady is not permission to release.

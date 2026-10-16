@@ -1,6 +1,6 @@
 # Husky documentation register
 
-> **Current implementation report**, classified 16 October 2026 against `f2ede75037c3466e7fddfe4556636863c80d94eb`. [Start at the current-build index](HUSKY_CURRENT_BUILD.md).
+> **Current implementation report**, updated 16 October 2026 for final game-feel `85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e`. [Start at the current-build index](HUSKY_CURRENT_BUILD.md).
 
 “Current specification” describes the audited contract or a narrowly scoped canonical identity. “Current implementation report” is evidence with an explicit build/scope, not universal acceptance. “Design proposal” describes intended work. “Historical record” preserves earlier results and provenance. Prominent banners override old present-tense claims; historical bodies are retained rather than made to look freshly tested.
 
@@ -8,6 +8,9 @@ The current rules/storage/quiz documents replace obsolete examples; each links t
 
 | Document | Classification | Authority / limit |
 |---|---|---|
+| [HUSKY_FINAL_GAME_FEEL.md](HUSKY_FINAL_GAME_FEEL.md) | current implementation report | Exact code identity, run scope, reusable systems, art provenance and Roady handoff. |
+| [HUSKY_BUILD_AUDIT_20261016.md](HUSKY_BUILD_AUDIT_20261016.md) | historical record | Pre-polish documentation-only audit; original no-new-testing boundary preserved. |
+| [Final game-feel evidence](qa/final-game-feel/README.md) | current implementation report | Screenshot/telemetry provenance and capture boundaries. |
 | [README](../README.md) | current implementation report | Entry point; development/deployment distinction. |
 | [ASTRA_PLAYTEST_CANDIDATE_20261015.md](ASTRA_PLAYTEST_CANDIDATE_20261015.md) | historical record | Preserved original scope, results and provenance; not final-build acceptance. |
 | [ASTRA_RECOVERY_20261015.md](ASTRA_RECOVERY_20261015.md) | historical record | Preserved original scope, results and provenance; not final-build acceptance. |
@@ -40,11 +43,11 @@ The current rules/storage/quiz documents replace obsolete examples; each links t
 | [visual-upgrade/IMAGE_DESIGN_BACKLOG.md](visual-upgrade/IMAGE_DESIGN_BACKLOG.md) | historical record | Preserved original scope, results and provenance; not final-build acceptance. |
 | [visual-upgrade/INTEGRATION_NOTES.md](visual-upgrade/INTEGRATION_NOTES.md) | historical record | Preserved original scope, results and provenance; not final-build acceptance. |
 | [HUSKY_DOCUMENT_REGISTER.md](HUSKY_DOCUMENT_REGISTER.md) | current implementation report | This exhaustive Markdown/inventory register. |
-| [ASSET_INVENTORY.csv](visual-upgrade/ASSET_INVENTORY.csv) | current implementation report | All 283 tracked assets; static integration classification, not new visual acceptance. |
+| [ASSET_INVENTORY.csv](visual-upgrade/ASSET_INVENTORY.csv) | current implementation report | All 285 tracked assets; static integration classification, not new visual acceptance. |
 | [ASSET_INVENTORY_PRE_RECONCILIATION.csv](visual-upgrade/ASSET_INVENTORY_PRE_RECONCILIATION.csv) | historical record | Content-preserved prior 134-row inventory; old missing/replacement labels are not today's backlog. |
 
 ## Missing historical handoffs
 
 Some preserved prose names `STICKER_VISUAL_SYSTEM.md`, `docs/visual-reset/round2/`, or external agent handoffs that are not present in this checkout. They are historical provenance references, not available authoritative documents or actionable links. Do not reconstruct approval from them. Use the current art report, canonical identity reference and actual delivered assets; request original material if its exact content becomes necessary.
 
-No gameplay acceptance was performed for this classification. Existing 490-test results belong to the finale delivery; no current documentation label refreshes their date or scope.
+The original classification was documentation-only. The later final game-feel report records new 497-test results and browser run scope; it does not refresh dates or acceptance claims in historical records.

@@ -4,7 +4,7 @@
 
 Phaser 4 + TypeScript adventure with Snowy Peaks exploration, two routes, puzzles, a Bolt sled race, breed reading/quiz and a collectible sticker album.
 
-The audited development baseline is `feature/husky-playful-minigames` at `f2ede75037c3466e7fddfe4556636863c80d94eb`. Pages still deploys `integration/husky-premium-polish` at `6411c6fa36ff827465be15aeef96119237990378`; the newer features are not in that recorded deployment. Documentation-only commits do not change this gameplay baseline.
+The latest candidate is `feature/husky-final-game-feel` at `85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e` (gameplay SHA; following documentation commits do not change it). See the [final game-feel report and Roady handoff](docs/HUSKY_FINAL_GAME_FEEL.md). Pages still targets the older integration build at `6411c6fa36ff827465be15aeef96119237990378`; deployment and main are unchanged.
 
 - [Rules and rewards](docs/HUSKY_REWARD_RULES.md)
 - [Delivery and validation evidence](docs/HUSKY_DELIVERY_EVIDENCE.md)
@@ -12,7 +12,7 @@ The audited development baseline is `feature/husky-playful-minigames` at `f2ede7
 - [Prioritized remaining work](docs/HUSKY_REMAINING_WORK.md)
 - [Document classification and historical records](docs/HUSKY_DOCUMENT_REGISTER.md)
 
-There is no consolidated fresh full-route acceptance report for the final combined development build. Historical screenshots, test counts and timings apply only to the builds identified in the evidence ledger.
+Safe and Challenge were completed during this pass, with focused follow-up checks after the last small fixes. The report states exact build scope; independent QA and family review remain pending. Historical evidence applies only to its identified build.
 
 ## Run locally
 

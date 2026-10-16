@@ -1,55 +1,47 @@
 # Husky current-build index
 
-> **Current implementation report / documentation entry point. Audited 16 October 2026 (America/Chicago).** This index describes the development baseline below. It is not a new gameplay acceptance report. No tests, game sessions, save operations or deployments were run for this documentation audit.
+> **Current implementation report / entry point — 16 October 2026.** Latest candidate: [Astra final game-feel report and Roady handoff](HUSKY_FINAL_GAME_FEEL.md). This separates implementation, browser evidence and remaining production review.
 
 ## Baseline and deployment
 
-| Identity | Audited value |
+| Identity | Current value |
 |---|---|
-| Active development branch | `feature/husky-playful-minigames` |
-| Development gameplay SHA | [`f2ede75037c3466e7fddfe4556636863c80d94eb`](https://github.com/jmzauith/Kiki-dog/commit/f2ede75037c3466e7fddfe4556636863c80d94eb) |
-| Last gameplay delivery | 15 October 2026, 20:50:58 America/Chicago (GitHub UTC timestamp is 16 October 01:50:58) |
-| Local equivalent HEAD before this docs change | `2b5b6939391bbcb8e9680ffba40c308f06b40fa2` |
-| Exact shared local/remote file tree | `0f7eac0d632f86f28152624fab86ff6af50078e6` — checked against GitHub Git commit metadata and local Git |
-| Integration branch | `integration/husky-premium-polish` at `6411c6fa36ff827465be15aeef96119237990378` |
-| Comparison at audit | Development is **4 commits ahead, 0 behind**, merge base is the integration SHA |
-| Pages source and latest successful deployment run | Integration branch; [run 38778839637](https://github.com/jmzauith/Kiki-dog/actions/runs/38778839637) reports success at `6411c6f` |
-| Workflow | [deploy.yml](../.github/workflows/deploy.yml) triggers on integration pushes and explicitly checks out integration, including manual dispatch |
+| Candidate branch | `feature/husky-final-game-feel` |
+| Final gameplay SHA | [`85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e`](https://github.com/jmzauith/Kiki-dog/commit/85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e) |
+| Local equivalent | `5edc6af8249f18b2cc30ddab832badcf80ab771c` |
+| Exact shared tree | `98c2788f1ff23460891431b225c123d68b5e499e` |
+| Starting remote docs / underlying gameplay | `d45ba8620b9e7dddc5b89b0488726a83cca7b855` / `f2ede75037c3466e7fddfe4556636863c80d94eb` on `feature/husky-playful-minigames` |
+| Integration / recorded Pages deployment | `integration/husky-premium-polish` at `6411c6fa36ff827465be15aeef96119237990378`; [last recorded successful run](https://github.com/jmzauith/Kiki-dog/actions/runs/38778839637) |
+| Deployment configuration | [deploy.yml](../.github/workflows/deploy.yml) still targets integration; unchanged. Candidate is not deployed by this workflow |
+| Local playtest | `http://127.0.0.1:5177/?playtest=1` while the Vite server is running; normal profile-scoped durable saves |
 
-The latest development features below are **not deployed by that workflow**. The latest recorded successful Pages deployment is the older integration build; served browser bytes were not independently inspected in this docs-only audit. A localhost URL does not identify a commit by itself. No deployment configuration was changed. GitHub publication used connector-created commits, explaining different local and remote SHAs despite identical trees. Local worktree was clean; no reset, pull, rebase or branch replacement was performed. A later documentation-only commit on the same branch does not change this gameplay baseline.
+A following documentation/evidence commit does not change this gameplay identity. Local/GitHub SHAs differ because publication uses connector-created commits; their trees were compared. Main was not merged. Deployed browser bytes were not retested. The [previous documentation audit](HUSKY_BUILD_AUDIT_20261016.md) preserves the earlier four-commits-ahead comparison and evidence gap at that time.
 
-## Read these first
+## Authoritative references
 
-- [Current gameplay and reward rules](HUSKY_REWARD_RULES.md)
-- [Live finale versus reusable quiz engine](BREED_FACTS_QUIZ_SYSTEM.md)
-- [Profile-scoped durable storage and replay contract](PLAYER_PROFILES_AVATARS_AND_SAVES.md)
-- [Active art, motion, depth and complete asset inventory](HUSKY_ART_AND_DEPTH_STATUS.md)
-- [Family requests, exact deliveries and evidence](HUSKY_DELIVERY_EVIDENCE.md)
-- [One remaining-work list](HUSKY_REMAINING_WORK.md)
-- [Document classification register](HUSKY_DOCUMENT_REGISTER.md) — every repository Markdown document and asset inventory, including superseded proposals/reports
+- [Final game-feel changes, reusable systems, validation and Roady instructions](HUSKY_FINAL_GAME_FEEL.md)
+- [Gameplay and reward rules](HUSKY_REWARD_RULES.md)
+- [Live three-question finale versus generic quiz engine](BREED_FACTS_QUIZ_SYSTEM.md)
+- [Profile storage, replay and migration](PLAYER_PROFILES_AVATARS_AND_SAVES.md)
+- [Canonical direction, active art and depth](HUSKY_ART_AND_DEPTH_STATUS.md)
+- [Family requests and delivery ledger](HUSKY_DELIVERY_EVIDENCE.md)
+- [Single prioritized remaining-work list](HUSKY_REMAINING_WORK.md)
+- [Document classifications](HUSKY_DOCUMENT_REGISTER.md)
 
-Current source behavior wins over old design prose. Current specifications describe this audited implementation; historical delivery reports remain evidence for their own builds, not promises about today's complete experience.
+Current source behavior wins over historical design prose. Old screenshots and counts remain scoped to their own deliveries.
 
 ## Implemented and integrated
 
-Nickname creation/selection and isolated player saves; continuous Snowy Peaks exploration; repaired bridge traversal; safe route via lake/tree or challenge route via cave; advice choices and optional igloo/bone discovery; summit, Race Camp and Bolt race; wrong-answer recovery and competitive loss/rematch; breed reading and quiz; gold-foil reward/album and Golden Bone persistence are wired into the live Husky flow.
+Profile creation/selection; continuous Snowy Peaks exploration; adaptive fading paw guidance; first-profile packing lesson; map rotation; live three-slot bridge repair/crossing; illustrated five differences; Safe lake/path/tree or Challenge cave; Snow Pass memory; optional igloo interior/memory/bonus and Golden Bone hunt; nine-lantern summit; camp strategy/equipment; Bolt race with physical beats, worked math recovery, loss/rematch; breed reading/quiz; reusable animated foil album.
 
-| Area | Actual playable implementation | Important boundary |
-|---|---|---|
-| Trailhead / forest | Six-tile trail rotation; five differences; route/advice choices | Boards use CSS/SVG/symbols; dialogue remains text choices |
-| Bridge | Math then three size-matched plank placements, live repair and crossing | Ground/rail fit is adapted preview geometry, not acceptance of every frame |
-| Safe route | Lake safe-path puzzle then world crossing; six overlapping branches removed in order | Not the old five-tap tree; bespoke production pieces still pending |
-| Challenge | Crystal sequence rounds of 3, 4, 5 plus cave math | Crystal audio and physical cave-entry staging remain incomplete |
-| Snow Pass / summit | Growing marker-memory sequences; nine connected lantern puzzle; summit math | Some legacy copy still describes older interactions |
-| Igloo | Painted interior, six-pair memory, optional Bolt tic-tac-toe, explicit exit; revisit memory | Interior is a DOM scene transition, not animated travel through the doorway; separate inspectable lantern/map/nook art is not wired |
-| Bone cache | Three-bone scent-distance hunt; permanent Golden Bone award | Gold collectible is separate from breed sticker eligibility |
-| Camp / race | Bolt tic-tac-toe, optional equipment matching; launch timing, slalom, paddling, finish stars | Race boards do not continuously steer the physical sled; four staged race paintings |
-| Finish | Favorite moment, three reading paragraphs, three fixed questions, opening album and sticker placement | Finale is not the random first-attempt-scored generic quiz; only Husky art is populated in twelve slots |
+Golden Husky requires a completed adventure/race and three correct fixed breed-finale answers, including retries. Eight exploration mastery points are not the live gold gate. Replay retains finale, sticker, Golden Bone and tutorial completion while resetting the adventure/race/run interactions. `tutorial:trail:v1` is a new relative profile-scoped durable key. No reward eligibility or existing save schema was otherwise redesigned in this pass.
 
-## Evidence and acceptance boundary
+Complete-character frames still render exploration; the articulated package is not newly exposed. Improved stride/idle/turn/camera behavior is not a claim that new ear/blink/three-quarter animations exist. Two new painterly comparison images and authored SVG pieces replace important minigame emoji art. Bridge/lake actions affect the live scene; most other puzzles remain boards. Race uses staged scenery. All 14 depth assets and 13 depth JSON files remain present, with partial integration.
 
-The [delivery ledger](HUSKY_DELIVERY_EVIDENCE.md) gives exact SHAs, report links and screenshot/log links. Full safe/challenge playthroughs exist after the **puzzle pass (`d440ea1`)**. Later math recovery (`9b5d451`), igloo/collectibles (`3228f9d`) and finale (`f2ede75`) have focused checks. **There is no consolidated fresh two-route acceptance report for the final combined `f2ede75` build.** The next phase must not treat this index, the old “ready” handoffs, or successful unit tests as that acceptance.
+## Browser evidence and acceptance
 
-Latest recorded automated result: **490 tests / 33 files, TypeScript and production build passed** in the 15 October finale delivery. This was not rerun for documentation. Earlier counts of 106/383/426/449/455/470/480/484/486 belong to their respective snapshots. Existing Vite bundle warning remains. Current workflow inspection shows build.yml installs and builds; it does **not** run Vitest despite older QA prose claiming that it did.
+Astra personally completed Safe and Challenge during this pass, including optional interactions, race loss/reload/rematch, reading/quiz retry and partial reload, album/reward persistence and replay. A second Safe replay covered the final guidance/bridge changes, and the last branch-feedback text change received a focused save-free board check. See the [exact run matrix](HUSKY_FINAL_GAME_FEEL.md#browser-validated--honest-build-scope): **these are not two uninterrupted fresh runs begun after freezing the final SHA**. Independent Roady QA and family quality review remain pending. No known P0 gameplay blocker was observed; this is a review candidate, not final release acceptance.
 
-No current adult fast-play benchmark, child-duration measurement, touch/Chromebook acceptance, exhaustive depth integration acceptance, or production-art sign-off is established. Historic QA timings include inspection/tool overhead. Current telemetry ends before breed reading/quiz/album, so it cannot measure that complete final experience.
+Final automated result: **497 tests / 34 files**, TypeScript and production build passed on the final gameplay tree. Existing bundle-size warning remains. Historical 490 and earlier counts are not current results.
+
+Challenge telemetry: 6 math, 22 completed non-math interactions, 2 discoveries, 3 race turns, 4 beats, 11m42 total including inspection overhead. Safe replay: 6 math, 18 interactions, 0 new discoveries, 3 turns/4 beats; long pause-contaminated duration. These are not adult fast-play benchmarks; telemetry ends before the reading/quiz/album. Physical touch/tablet/Chromebook, reduced-motion setting, long-run performance and production-art approval remain unverified.

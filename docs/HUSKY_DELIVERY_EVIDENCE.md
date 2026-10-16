@@ -1,6 +1,12 @@
 # Husky delivery and evidence ledger
 
-> **Current implementation report**, documentation audit 16 October 2026. [Current-build index](HUSKY_CURRENT_BUILD.md). Existing evidence only; no gameplay acceptance or tests rerun in this audit.
+> **Current implementation report**, documentation audit 16 October 2026. [Current-build index](HUSKY_CURRENT_BUILD.md). The original reconciliation below preserves prior evidence. The final game-feel entry adds new browser/testing evidence.
+
+## Final game-feel candidate — 16 October
+
+[Complete report and run matrix](HUSKY_FINAL_GAME_FEEL.md), branch `feature/husky-final-game-feel`. Main polish `7df684fc779e4aa679dc1699783244f51901d1fd`; final gameplay `85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e`. 497 tests / 34 files, TypeScript/build pass. Safe and Challenge completed during implementation; final Safe replay and focused guidance/bridge/branch-feedback checks followed. Loss/rematch, partial quiz reload, reward/album reload and replay observed. This supersedes the earlier “no combined-route evidence” gap for the development pass, but does not claim two fresh uninterrupted runs after final commit freeze. Roady/family review remains pending.
+
+[New evidence folder](qa/final-game-feel/README.md) separates initial/intermediate captures, final follow-ups and telemetry. No earlier screenshot/count/timing is relabeled as current.
 
 ## Family request mapping
 
@@ -45,4 +51,4 @@ Puzzle-pass logs recorded safe 14m48s total / 12m20s active and challenge 8m59s 
 
 ## Still unverified
 
-Fresh final combined safe + challenge routes including race loss/rematch and durable checkpoint reload, replay then race then quiz/album, rapid input, wrong answers across the full sequence, production Pages base-path behavior, mobile/touch/Chromebook performance, full keyboard/accessibility coverage, and child difficulty/timing. No fresh final-build acceptance is inferred from earlier screenshots or test counts. See the [prioritized backlog](HUSKY_REMAINING_WORK.md).
+The new pass above exercised durable loss/rematch, route completion, quiz/album/reload and replay. Remaining: independent QA of the frozen commit, exhaustive rapid/cancel/reload and wrong-input matrix, production Pages base-path behavior, physical touch/mobile/Chromebook performance, reduced-motion setting and child difficulty/tutorial timing. No two fresh uninterrupted routes begun after final commit freeze, clean adult benchmark or production-art approval is claimed. See [remaining work](HUSKY_REMAINING_WORK.md).

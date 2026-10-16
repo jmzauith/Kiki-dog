@@ -1,3 +1,6 @@
+import { playGame } from "../visuals/PlayfulGames";
+import { enterIgloo, offerIglooBonus, showGoldenBone, showCollectibleReward } from "../visuals/Collectibles";
+import { awardGoldenBone, hasGoldenBone } from "../systems/TreasureCollection";
 import { explainMath } from "../visuals/MathExplanation";
 import { crossLakeInWorld } from "../visuals/LakeCrossing";
 import { bridgePath, TERRAIN_PATHS } from "../visuals/HuskyTerrain";
@@ -476,7 +479,7 @@ export class HuskyScene extends Phaser.Scene {
     // Discovered secrets shimmer until tapped (they don't move Kiki).
     for (const [id, obj] of this.nodeObjects) {
       const def = this.nodeDefs.get(id);
-      if (!def?.secret || this.adventure.isComplete(id) || !obj.visible) continue;
+      if (!def?.secret || (this.adventure.isComplete(id) && id !== "secret-igloo") || !obj.visible) continue;
       if (!this.adventure.isUnlocked(id)) continue;
       this.bounceNode(obj, 0xffd24d);
       this.enableLandmark(obj,()=>this.discoverSecret(id));
@@ -576,7 +579,13 @@ export class HuskyScene extends Phaser.Scene {
 
   /** A secret discovery doesn't move Kiki — she investigates in place. */
   private async discoverSecret(id: string): Promise<void> {
-    if (this.busy || this.adventure.isComplete(id)) return;
+    if (this.busy || (this.adventure.isComplete(id) && id !== "secret-igloo")) return;
+    if (id === "secret-igloo" && this.adventure.isComplete(id)) {
+      this.busy=true;this.disableAllNodes();this.clearHighlights();
+      const leave = await enterIgloo();
+      await playGame("search-igloo-objects");
+      await leave();this.busy=false;this.highlightForwardChoices();return;
+    }
     this.busy = true;
     this.disableAllNodes();
     this.clearHighlights();
@@ -590,21 +599,24 @@ export class HuskyScene extends Phaser.Scene {
       this.status.setText("You found the Secret Igloo!");
       this.sparkleBurst(node.x, node.y);
       await this.delay(900);
+      const leaveIgloo = await enterIgloo();
       await depth("search-igloo-objects",id,"Inside the secret igloo","An explorer left three treasures. Find them all to earn an expedition badge.",[{id:"lantern",label:"Expedition lantern"},{id:"map",label:"Paw-stamped map"},{id:"nook",label:"Hidden reward nook"}],"lm-igloo-glow","search");
       await depth("igloo-fact",id,"Expedition badge earned","Huskies have a thick double coat that helps keep them warm. The old map points toward Race Camp.",[{id:"continue",label:"Pack the badge"}],"lm-igloo-glow");
-      const accepted = await this.offerBonusChallenge(
-        "Someone left a bonus challenge inside!",
-        "Play a bonus strategy game for Golden Husky progress?",
-      );
+      const accepted = await offerIglooBonus();
       if (accepted) {
         await depth("igloo-bonus-game", id, "Bolt’s rematch", "A friendly strategy challenge.", [], "lm-igloo-glow");
         this.adventure.recordBonusChallenge();
         this.status.setText("Bonus challenge complete! Golden progress +1");
       }
+      await leaveIgloo();
     } else {
       this.status.setText("You found Kiki's hidden bone cache!");
       this.sparkleBurst(node.x, node.y);
       await depth("uncover-bone-cache",id,"A buried surprise","Brush away the snow to uncover Kiki’s hidden bone cache.",[{id:"sniff",label:"Follow the scent"},{id:"bone",label:"Wiggle the bone"},{id:"dig",label:"Dig up the stash"}],"lm-bonecache-hidden","search");
+      awardGoldenBone(gameStore());
+      this.adventure.completeEncounter(id);
+      this.saveProgress();
+      await showGoldenBone();
     }
     record("discovery-found",id,{discoveryId:id});
     if (id === "secret-igloo") this.landmarks.setIglooState("glow");
@@ -992,49 +1004,14 @@ export class HuskyScene extends Phaser.Scene {
     await depth("pick-favorite-moment","husky-reward","What an adventure!","Bolt gives Kiki a friendly nuzzle. What was your favorite moment?",[{id:"bridge",label:"Mending the bridge"},{id:"exploring",label:"Exploring the mountain"},{id:"race",label:"Racing with Bolt"}],"race-backdrop");
     finishPolishRun(); showPlaytestStats();
     const rewards = syncHuskyProgress(this.adventure, gameStore());
-    const c = this.add.container(640, 360).setDepth(100);
-    const plate = this.add.image(0, 0, "preview-race").setDisplaySize(1280, 720);
-    const shade = this.add.rectangle(0, 0, 1280, 720, 0x102a3e, 0.48);
-    const panel = this.add.graphics();
-    panel.fillStyle(0x142e40, 0.94).lineStyle(3, 0xe7c36e, 1);
-    panel.fillRoundedRect(-85, -260, 665, 520, 28);
-    panel.strokeRoundedRect(-85, -260, 665, 520, 28);
-    const hero = this.add.image(-335, -65, "husky-friendship");
-    hero.setScale(Math.min(395 / hero.width, 260 / hero.height));
-    const title = this.add.text(245, -198, unlocked ? "Husky sticker earned!" : "Race complete!", {
-      fontFamily: "Georgia", fontSize: "38px", color: "#ffdf95", align: "center",
-    }).setOrigin(0.5);
-    const recap = this.add.text(245, -125, "Bridge mended. Mountain explored.\nA new friend at the finish line.", {
-      fontFamily: "Arial", fontSize: "21px", color: "#e5f1f6", align: "center", lineSpacing: 7,
-    }).setOrigin(0.5);
-    const stats = this.add.text(245, -22,
-      `Encounters: ${this.adventure.completed.size}  ·  Secrets: ${[...this.adventure.secretsFound].filter(s => !s.startsWith("revealed:")).length}\nRace: ${this.adventure.raceTurns} turns · ${this.adventure.raceTurbos} turbo\nAlbum: 1 of 12 · Golden Husky: ${rewards.masteryPoints()} / 8`, {
-      fontFamily: "Arial", fontSize: "19px", color: "#bdd7e6", align: "center", lineSpacing: 10,
-    }).setOrigin(0.5);
-    const husky = this.add.image(-335, 170, rewards.goldenStickerUnlocked ? "husky-sticker-golden" : "husky-sticker-final");
-    const stickerScale = Math.min(145 / husky.width, 160 / husky.height);
-    husky.setScale(stickerScale);
-    const stickerName = this.add.text(-335, 270, rewards.goldenStickerUnlocked ? "GOLDEN HUSKY" : "HUSKY", {
-      fontFamily: "Georgia", fontSize: "18px", color: "#fff3cd",
-    }).setOrigin(0.5);
-    c.add([plate, shade, panel, hero, title, recap, stats, husky, stickerName]);
+    if (this.adventure.isComplete("snow-cache")) awardGoldenBone(gameStore());
     this.kiki.container.setVisible(false);
-    const mkBtn = (y: number, label: string, cb: () => void) => {
-      const bg = woodButton(this, 245, y, 350, 60);
-      const text = this.add.text(245, y, label, { fontFamily: "Arial", fontStyle: "bold", fontSize: "21px", color: "#fff3d6" }).setOrigin(0.5);
-      bg.once("pointerdown", cb);
-      c.add([bg, text]);
-    };
-    mkBtn(110, "Play again", () => this.scene.restart({ fresh: true }));
-    mkBtn(190, "Keep exploring", () => {
-      c.destroy(true);
-      this.kiki.container.setVisible(true);
-      this.prompt = undefined;
-      this.busy = false;
-      this.highlightForwardChoices();
-    });
-    this.pinOverlay(c);
-    this.prompt = c;
+    const choice = await showCollectibleReward({unlocked:this.adventure.stickerUnlocked,
+      golden:rewards.goldenStickerUnlocked,bone:hasGoldenBone(gameStore()),mastery:rewards.masteryPoints(),
+      turns:this.adventure.raceTurns,secrets:[...this.adventure.secretsFound].filter(s=>!s.startsWith("revealed:")).length});
+    if(choice === "replay") { this.scene.restart({fresh:true}); return; }
+    this.kiki.container.setVisible(true);
+    this.prompt=undefined; this.busy=false; this.highlightForwardChoices();
   }
 
   // ------------------------------------------------------------------- cleanup

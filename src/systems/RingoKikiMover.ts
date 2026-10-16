@@ -88,7 +88,8 @@ export class RingoKikiMover {
     // Establish direction before acceleration; never travel backwards while a turn
     // waits behind a previous stop/reaction transition.
     const initialTangent=spec.curve.getTangent(spec.fromT??0);
-    this.motion.setFacing(initialTangent.x*((spec.toT??1)>=(spec.fromT??0)?1:-1)>=0?1:-1);
+    const startingDirection=initialTangent.x*((spec.toT??1)>=(spec.fromT??0)?1:-1)>=0?1:-1;
+    this.motion.turnTo(startingDirection);
     // Anticipation squash, then accelerate into the gait.
     this.motion.transitionTo(GAIT_MOTION[gait]);
 
@@ -133,7 +134,8 @@ export class RingoKikiMover {
         t: toT,
         duration,
         ease: "Sine.inOut",
-        delay: 180,
+        delay: 340,
+        onStart:()=>this.motion.setFacing(startingDirection),
         onUpdate: () => {
           const t = proxy.t;
           const pos = spec.curve.getPoint(t, this.tmpPoint);

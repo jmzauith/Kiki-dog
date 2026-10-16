@@ -390,6 +390,7 @@ export class RaceScene extends Phaser.Scene {
     const curve=new Phaser.Curves.Spline(points.map(p=>new Phaser.Math.Vector2(p.x,p.y)));
     const dog=rival?this.rivalChar:this.kikiChar;
     const proxy={t:0};
+    if(!rival)this.tweens.add({targets:this.cameras.main,zoom:turbo?1.035:1.015,duration:400,ease:"Sine.out"});
     if(turbo)this.createTurboBurst(racer.x,racer.y);
     return new Promise(resolve=>this.tweens.add({
       targets:proxy,t:1,duration:turbo?1500:2000,ease:"Sine.inOut",
@@ -399,12 +400,14 @@ export class RaceScene extends Phaser.Scene {
         if(rival){point.x-=75*(1-proxy.t);point.y+=35*(1-proxy.t);}
         const scale=Phaser.Math.Linear(points[0].scale,points[2].scale,t)*(rival?0.9:1);
         racer.setPosition(point.x,point.y).setScale(scale);
+        const weight=Math.sin(proxy.t*Math.PI);
+        racer.setAngle((this.shot===1?-4:1.4)*weight+Math.sin(proxy.t*35)*weight*(this.shot===2?1.4:.45));
         dog.setFacing(tangent.x<0?"left":"right");
         (racer.list[0] as Phaser.GameObjects.Image).setFlipX(tangent.x<0);
         // Snow comes from the runner contact, not the dog's body.
         this.createSnowPuff(point.x-35*scale,point.y+70*scale);
       },
-      onComplete:()=>resolve(),
+      onComplete:()=>{this.tweens.add({targets:racer,angle:0,duration:220,ease:"Sine.out"});if(!rival)this.tweens.add({targets:this.cameras.main,zoom:1,duration:650,ease:"Sine.out"});resolve();},
     }));
   }
 

@@ -1,3 +1,5 @@
+import { firstTrailTutorial } from "../visuals/FirstTrailTutorial";
+import { TrailGuidance } from "../visuals/TrailGuidance";
 import { HuskyGraduation } from "../systems/HuskyGraduation";
 import { showHuskyGraduation } from "../visuals/HuskyGraduation";
 import { showStickerAlbum } from "../visuals/Collectibles";
@@ -72,6 +74,7 @@ export class HuskyScene extends Phaser.Scene {
   private kiki!: CharacterMotion;
   private footfx!: FootFX;
   private mover!: RingoKikiMover;
+  private guidance?: TrailGuidance;
   private landmarks!: Landmarks;
   private markers!: AdventureMarkers;
   private fog!: DiscoveryFog;
@@ -130,6 +133,8 @@ export class HuskyScene extends Phaser.Scene {
     this.buildMarkers();
     this.buildFog();
     this.buildKiki();
+    this.guidance = new TrailGuidance(this);
+    this.events.once("shutdown",()=>this.guidance?.clear());
     this.buildIglooOccluders();
     this.buildResetButton();
 
@@ -152,6 +157,8 @@ export class HuskyScene extends Phaser.Scene {
     }
     this.time.delayedCall(450, async () => {
       this.busy = true;
+      await firstTrailTutorial(this.events);
+      if (!this.scene.isActive()) return;
       await depth("inspect-trail-sign","trailhead","A mountain adventure","Explore the trail sign. Bolt is waiting at Race Camp!",[{id:"paw-map",label:"Read the paw map"},{id:"kiki-sniff",label:"Let Kiki sniff"}],"lm-trailhead");
       this.busy = false; this.highlightForwardChoices();
     });
@@ -300,6 +307,11 @@ export class HuskyScene extends Phaser.Scene {
 
   update(time: number, delta: number): void {
     this.kiki?.update(time, delta);
+    this.guidance?.update(delta);
+    if(this.mover?.isMoving){
+      const camera=this.cameras.main,target=-this.kiki.getFacing()*85;
+      camera.followOffset.x=Phaser.Math.Linear(camera.followOffset.x,target,Math.min(1,delta/450));
+    }
     this.footfx?.update(time, delta);
   }
 
@@ -442,6 +454,7 @@ export class HuskyScene extends Phaser.Scene {
   // ------------------------------------------------------------- progression
 
   private highlightForwardChoices(): void {
+    this.guidance?.clear();
     this.clearHighlights();
     if (this.busy) return;
 
@@ -474,6 +487,7 @@ export class HuskyScene extends Phaser.Scene {
       if (!nodeObj) continue;
       this.bounceNode(nodeObj, choice.kind === "challenge" ? 0xffd24d : 0xffffff);
       this.enableLandmark(nodeObj,()=>this.travelTo(choice.to));
+      this.guidance?.add(this.kiki,nodeObj,new HuskyGraduation(gameStore()).passed);
       for(const hint of this.children.list.filter(o=>o.getData("route-arrow") && (o as Phaser.GameObjects.Image).x === nodeObj.x)) {
         hint.setInteractive({useHandCursor:true}).once("pointerdown",()=>this.travelTo(choice.to));
       }
@@ -486,6 +500,7 @@ export class HuskyScene extends Phaser.Scene {
       if (!this.adventure.isUnlocked(id)) continue;
       this.bounceNode(obj, 0xffd24d);
       this.enableLandmark(obj,()=>this.discoverSecret(id));
+      this.guidance?.add(this.kiki,obj,new HuskyGraduation(gameStore()).passed,true);
     }
 
     const first = forward.find((c) => this.nodeById(c.to).encounter !== "race");
@@ -519,7 +534,7 @@ export class HuskyScene extends Phaser.Scene {
     nodeObj.setAlpha(1);
     const cue=this.add.ellipse(nodeObj.x,nodeObj.y+16,65,12,0xffdf9a,.25)
       .setDepth(12).setData("route-arrow",true);
-    this.tweens.add({targets:cue,alpha:.5,duration:900,yoyo:true,repeat:-1});
+    this.tweens.add({targets:cue,alpha:.5,duration:1800,yoyo:true,repeat:1});
   }
 
   /** The Summit Gate becomes the race launcher once its encounter is done. */
@@ -549,6 +564,7 @@ export class HuskyScene extends Phaser.Scene {
 
   private async travelTo(toId: string): Promise<void> {
     if (this.busy) return;
+    this.guidance?.clear();
     this.busy = true;
     this.setupCamera();
     this.disableAllNodes();
@@ -609,7 +625,7 @@ export class HuskyScene extends Phaser.Scene {
       if (accepted) {
         await depth("igloo-bonus-game", id, "Bolt’s rematch", "A friendly strategy challenge.", [], "lm-igloo-glow");
         this.adventure.recordBonusChallenge();
-        this.status.setText("Bonus challenge complete! Golden progress +1");
+        this.status.setText("Bonus challenge complete! Another friendly victory");
       }
       await leaveIgloo();
     } else {
@@ -797,12 +813,14 @@ export class HuskyScene extends Phaser.Scene {
     const start=points[0];
     this.status.setText("Kiki spots the missing boards…");
     await this.mover.walk({curve:new Phaser.Curves.QuadraticBezier(new Phaser.Math.Vector2(this.kiki.x,this.kiki.y),new Phaser.Math.Vector2(430,550),new Phaser.Math.Vector2(start.x,start.y)),gait:"trot",terrain:"normal-snow",arrivalReaction:"surprised"});
-    await this.runMathEncounter("normal", "Each gap needs new boards. How many boards should Kiki collect?", "broken-bridge");
+    await this.runMathEncounter("normal", "Count the repair supplies with Kiki. Then fit the three missing bridge boards.", "broken-bridge");
     await repairBridgeInWorld(this,this.status);
     this.landmarks.repairBridge(false);
     this.status.setText("The bridge is fixed — careful paws across the deck!");
     this.landmarks.addBridgeForeground();
+    this.tweens.add({targets:this.cameras.main,zoom:1.04,duration:700,ease:"Sine.inOut"});
     await this.mover.walk({curve:new Phaser.Curves.Spline(points.map(p=>new Phaser.Math.Vector2(p.x,p.y))),scalePoints:points,gait:"careful",terrain:"bridge",arrivalReaction:"proud"});
+    this.tweens.add({targets:this.cameras.main,zoom:1,duration:850,ease:"Sine.inOut"});
     this.adventure.currentNodeId = "broken-bridge";
     this.adventure.completeEncounter("broken-bridge");
 
@@ -1025,6 +1043,7 @@ export class HuskyScene extends Phaser.Scene {
   // ------------------------------------------------------------------- cleanup
 
   private clearHighlights(): void {
+    this.guidance?.clear();
     this.redrawAllEdges();
 
     for (const [id, node] of this.nodeObjects) {

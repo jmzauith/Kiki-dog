@@ -336,7 +336,7 @@ export class CharacterMotion {
       if(distance>0.02 && distance<80) {
         // Frame phase follows distance travelled, so slow approaches cannot moonwalk.
         const previousFrame=Math.floor(this.strideDistance/8)%8;
-        this.strideDistance+=distance;
+        this.strideDistance+=distance/Math.max(.5,Math.abs(this.container.scaleX));
         const frame=Math.floor(this.strideDistance/8)%8;
         this.setBodyFrame(frame);
         if(frame!==previousFrame && (frame===0 || frame===4)) {
@@ -346,6 +346,11 @@ export class CharacterMotion {
       } else if(!isLocomotion(this.motion)) this.setIntactPose("idle");
       // Keep the paws on the terrain; the full frames supply their own body bob.
       this.intactPose.setPosition(0, Math.min(0,this.rootState.y*.35));
+      if(distance<.02 && !isLocomotion(this.motion)) {
+        // Complete silhouette stays intact. Quiet breathing pivots at the paws.
+        this.intactPose.scaleY*=1+Math.sin(_time*.0018)*.006;
+        this.intactPose.setAngle(Math.sin(_time*.00055)*.35);
+      } else this.intactPose.setAngle(0);
     }
   }
 

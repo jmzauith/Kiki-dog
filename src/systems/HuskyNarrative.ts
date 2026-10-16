@@ -75,7 +75,7 @@ export const HUSKY_NARRATIVE: AdventureNarrativeDefinition = {
       kikiReaction: "curious",
       math: {
         template:
-          "The bridge needs {a} rows of {b} boards. How many boards does Kiki need?",
+          "The repair kit has {a} bags of {b} nails. How many nails are packed?",
         flavor: "board-counting",
       },
       hints: {

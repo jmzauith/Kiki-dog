@@ -6,7 +6,7 @@ export function choosePlayer(): Promise<void> {
   return new Promise((resolve) => {
     const gate = document.createElement("section");
     gate.className = "player-start";
-    gate.innerHTML = `<div class="start-card"><div class="eyebrow">KIKI'S DOG ADVENTURE · VISUAL PREVIEW</div>
+    gate.innerHTML = `<div class="start-card"><div class="eyebrow">KIKI'S DOG ADVENTURE</div>
       <h1>Adventure awaits.</h1><p>Who is exploring Snowy Peaks?</p>
       <div class="player-list"></div><form><label for="nickname">Create an adventurer</label>
       <div class="create-row"><input id="nickname" name="nickname" maxlength="24" placeholder="Your nickname" required autocomplete="off"><button>Create & play</button></div>

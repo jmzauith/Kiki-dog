@@ -8,6 +8,7 @@ export function preloadPreviewArt(scene: Phaser.Scene): void {
 }
 
 export function previewBadge(scene: Phaser.Scene): void {
+  if(!import.meta.env.DEV || !new URLSearchParams(location.search).has("composition"))return;
   scene.add.text(24, 92, "SNOWY PEAKS · POLISH BUILD", {
     fontFamily: "Arial", fontSize: "11px", color: "#fff3ce",
     backgroundColor: "#132b3ed9", padding: { x: 12, y: 7 },

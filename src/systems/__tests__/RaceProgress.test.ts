@@ -198,3 +198,32 @@ describe("configurable race length (Husky: 3–5 turns)", () => {
     expect(r.finish).toBe(5);
   });
 });
+
+describe("competitive Husky race", () => {
+  it("missed turns leave Kiki still and let Bolt win", () => {
+    const race = new RaceProgressState(5, true);
+    for (let i = 0; i < 5; i++) race.rivalMove();
+    expect(race.kiki).toBe(0);
+    expect(race.rival).toBe(5);
+    expect(race.over).toBe(true);
+    expect(race.playerMove("turbo")).toBe(0);
+    expect(race.rivalMove()).toBe(0);
+  });
+  it("correct answers can still win before Bolt", () => {
+    const race = new RaceProgressState(5, true);
+    race.playerMove("turbo"); race.rivalMove();
+    race.playerMove("turbo"); race.rivalMove();
+    race.playerMove("steady");
+    expect(race.kiki).toBe(5);
+    expect(race.rivalMove()).toBe(0);
+    expect(race.rival).toBe(2);
+  });
+  it("a rematch resets a defeat", () => {
+    const race = new RaceProgressState(5, true);
+    for (let i = 0; i < 5; i++) race.rivalMove();
+    race.reset();
+    expect(race.over).toBe(false);
+    expect(race.rival).toBe(0);
+    expect(race.playerMove("steady")).toBe(1);
+  });
+});

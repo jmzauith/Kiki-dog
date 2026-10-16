@@ -3,7 +3,8 @@ import { defaultLocalStore, memoryStore, ProfileScopedStore } from "./ProfileSto
 
 const baseStore = defaultLocalStore() ?? memoryStore();
 export const profiles = new ProfileRegistry(baseStore);
-let activeStore: ProfileScopedStore | null = null;
+let activeStore: ProfileScopedStore | null = import.meta.env.DEV && new URLSearchParams(location.search).has("racepractice")
+  ? new ProfileScopedStore(memoryStore(), "race-practice") : null;
 export const HUSKY_GAME_SAVE_KEY = "adventure:husky";
 
 /** Freeze the selected namespace for this run; another tab cannot switch it. */

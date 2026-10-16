@@ -82,3 +82,15 @@ describe("MathEngine difficulty ranges", () => {
     expect(normalMax).toBeLessThanOrEqual(81);
   });
 });
+
+it("replacement problems differ from the failed problem at either difficulty", () => {
+  for (const difficulty of ["normal", "challenge"] as const) {
+    let previous = engine.nextQuestion(difficulty);
+    for (let i = 0; i < 500; i++) {
+      const next = engine.nextQuestion(difficulty, previous.prompt);
+      expect(next.prompt).not.toBe(previous.prompt);
+      expect(next.answers).toContain(next.correct);
+      previous = next;
+    }
+  }
+});

@@ -1,3 +1,4 @@
+import { explainMath } from "../visuals/MathExplanation";
 import { crossLakeInWorld } from "../visuals/LakeCrossing";
 import { bridgePath, TERRAIN_PATHS } from "../visuals/HuskyTerrain";
 import { repairBridgeInWorld } from "../visuals/BridgeRepair";
@@ -948,14 +949,21 @@ export class HuskyScene extends Phaser.Scene {
           this.prompt = undefined;
           resolve(true);
         } else {
-          // Wrong answers never remove progress: a shake, a retry, and
-          // after two misses a small hint. No punishment loops.
           wrongCount += 1;
-          if(wrongCount === 2) record("hint-shown");
-          this.cameras.main.shake(120, 0.004);
+          hintLabel.setText("Not quite — try once more. " + q.hint);
+          this.status.setText("Not quite — you have one more try.");
           label.setColor("#ffdddd");
-          this.time.delayedCall(280, () => label.setColor("#ffffff"));
-          if (wrongCount >= 2 && q.hint) hintLabel.setText(`💡 ${q.hint}`);
+          if (wrongCount >= 2) {
+            resolved = true;
+            record("hint-shown");
+            c.destroy(true); this.prompt = undefined;
+            void explainMath(q, "Your adventure progress is safe. Let’s try a different problem.", "Try a new problem").then(() => {
+              this.status.setText("A fresh problem — take your time.");
+              const next = this.math.nextQuestion(q.difficulty, q.prompt);
+              record("math-asked", undefined, {required:true});
+              this.showMathPrompt(next, "A fresh problem — you can do this!", resolve);
+            });
+          }
         }
       });
       c.add([btn, label]);

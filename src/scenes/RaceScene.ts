@@ -1,5 +1,6 @@
+import { explainMath } from "../visuals/MathExplanation";
 import { depth } from "../visuals/HuskyDepth";
-import { record } from "../systems/PolishRun";
+import { completed, record } from "../systems/PolishRun";
 import { preloadPolishProps, woodButton } from "../visuals/PolishArt";
 import { gameStore, HUSKY_GAME_SAVE_KEY } from "../systems/PlayContext";
 import { preloadPreviewArt, previewBadge } from "../visuals/PreviewArt";
@@ -20,9 +21,11 @@ const HUSKY_RACE_FINISH = 5;
 
 export class RaceScene extends Phaser.Scene {
   private math = new MathEngine();
-  private race = new RaceProgressState(HUSKY_RACE_FINISH);
+  private race = new RaceProgressState(HUSKY_RACE_FINISH, true);
   private busy = false;
   private turns = 0;
+  private attempts = 0;
+  private previousQuestion?: string;
   private turbos = 0;
   private kiki!: Phaser.GameObjects.Container;
   private kikiChar!: KikiCharacter;
@@ -50,6 +53,8 @@ export class RaceScene extends Phaser.Scene {
     this.race.reset();
     this.busy = false;
     this.turns = 0;
+    this.attempts = 0;
+    this.previousQuestion = undefined;
     this.turbos = 0;
     this.prompt = undefined;
 
@@ -85,13 +90,15 @@ export class RaceScene extends Phaser.Scene {
     this.setRaceShot(0);
     try {
       const checkpoint = JSON.parse(gameStore().getItem("husky:race-checkpoint") ?? "null");
-      if(checkpoint && Number.isInteger(checkpoint.turns) && checkpoint.turns >= 0 && checkpoint.turns <= 3 && Number.isInteger(checkpoint.kiki) && checkpoint.kiki >= 0 && checkpoint.kiki <= this.race.finish && Number.isInteger(checkpoint.rival) && checkpoint.rival >= 0 && checkpoint.rival < this.race.finish) {
+      if(checkpoint && Number.isInteger(checkpoint.turns) && checkpoint.turns >= 0 && checkpoint.turns <= 3 && Number.isInteger(checkpoint.kiki) && checkpoint.kiki >= 0 && checkpoint.kiki <= this.race.finish && Number.isInteger(checkpoint.rival) && checkpoint.rival >= 0 && checkpoint.rival <= this.race.finish) {
         this.turns=checkpoint.turns; this.turbos=checkpoint.turbos;
+        this.attempts=Number.isInteger(checkpoint.attempts) ? checkpoint.attempts : checkpoint.turns;
         this.race.kiki=checkpoint.kiki; this.race.rival=checkpoint.rival;
         this.setRaceShot(Math.min(this.turns,3));
       }
     } catch { /* Optional checkpoint corruption must not block play. */ }
-    if(this.turns >= 3) { this.busy=true; void this.finalSprint(); }
+    if(this.race.rival >= this.race.finish) { this.busy=true; void this.loseRace(); }
+    else if(this.turns >= 3) { this.busy=true; void this.finalSprint(); }
     else this.showPaceChoices();
   }
 
@@ -202,15 +209,29 @@ export class RaceScene extends Phaser.Scene {
       {id:"deep-snow",title:"Deep powder",body:"Help Kiki paddle through the soft snow!",options:[{id:"1",label:"Paddle left"},{id:"2",label:"Paddle right"},{id:"3",label:"Push through"}],mode:"ordered" as const},
     ];
     const beat = beats[this.turns];
-    this.setRaceShot(this.turns);
+    if (this.shot !== this.turns) this.setRaceShot(this.turns);
     this.rivalChar.setPose(this.turns === 1 ? "leaning-turn" : this.turns === 2 ? "deep-snow" : "race-fast");
     this.kikiChar.setPose(this.turns === 1 ? "race-lean" : this.turns === 2 ? "race-hit" : "race-steady");
+    const firstBeat = !completed(`race-${beat.id}`);
     await depth(`race-${beat.id}`,"sled-race",beat.title,beat.body,beat.options,"race-backdrop",beat.mode);
-    record("race-beat","sled-race",{beatId:beat.id});
+    if (firstBeat) record("race-beat","sled-race",{beatId:beat.id});
     const success = await this.askMath(mode === "turbo" ? "challenge" : "normal", mode);
+    this.attempts += 1;
+    record("race-turn","sled-race",{turn:this.attempts,mode,correct:success});
+    if (!success) {
+      this.race.rivalMove();
+      this.saveCheckpoint();
+      this.status.setText(`Kiki stays put. Bolt moves ahead! Bolt: ${this.race.rival}/${this.race.finish}`);
+      await this.moveRivalAhead();
+      if (this.race.rival >= this.race.finish) { await this.loseRace(); return; }
+      // Keep the selected pace and serve a fresh problem; completed mini-games
+      // remain completed. No movement or free final sprint is earned by a miss.
+      this.busy = false;
+      await this.beginTurn(mode);
+      return;
+    }
     if (success) {
       this.turns += 1;
-      record("race-turn","sled-race",{turn:this.turns,mode});
       if (mode === "turbo") this.turbos += 1;
       this.race.playerMove(mode);
       this.saveCheckpoint();
@@ -228,13 +249,44 @@ export class RaceScene extends Phaser.Scene {
     this.saveCheckpoint();
     await this.moveRacer(this.rival, this.race.rival, false);
 
+    if (this.race.rival >= this.race.finish) { await this.loseRace(); return; }
     this.busy = false;
     this.status.setText("Choose your pace");
     this.choiceGroup?.setVisible(true);
   }
 
+  private moveRivalAhead(): Promise<void> {
+    const points = RACE_TERRAIN[this.shot];
+    const curve = new Phaser.Curves.Spline(points.map(p=>new Phaser.Math.Vector2(p.x,p.y)));
+    const t = .35 + .6 * this.race.rival / this.race.finish;
+    const point = curve.getPoint(t);
+    this.rivalChar.setPose("race-fast");
+    return new Promise(resolve => this.tweens.add({targets:this.rival,x:point.x,y:point.y,
+      scale:Phaser.Math.Linear(points[0].scale,points[2].scale,t)*.9,
+      duration:1600,ease:"Sine.inOut",onComplete:()=>resolve()}));
+  }
+
+  private async loseRace(): Promise<void> {
+    this.busy = true;
+    this.choiceGroup?.destroy(true);
+    this.status.setText("BOLT WINS — try another race!");
+    this.rivalChar.setPose("celebrate");
+    const overlay = document.createElement("div"); overlay.className="kiki-game-overlay";
+    overlay.setAttribute("role","dialog"); overlay.setAttribute("aria-modal","true"); overlay.setAttribute("aria-label","Bolt wins this race");
+    const panel=document.createElement("section"); panel.className="kiki-game-panel";
+    const title=document.createElement("h2");title.textContent="Bolt wins this race!";
+    const copy=document.createElement("p");copy.textContent="Missed math turns let Bolt reach the finish first. Your mountain progress is safe. Ready for a rematch?";
+    const footer=document.createElement("footer"),retry=document.createElement("button");
+    retry.className="game-continue";retry.textContent="Race again";
+    retry.onkeydown=e=>{if(e.key==="Tab"){e.preventDefault();retry.focus();}};
+    retry.onclick=()=>{overlay.remove();gameStore().removeItem("husky:race-checkpoint");this.scene.restart();};
+    footer.append(retry);panel.append(title,copy,footer);overlay.append(panel);document.body.append(overlay);retry.focus();
+    this.events.once("shutdown",()=>overlay.remove());
+    // A defeat never marks the race complete or awards a sticker.
+  }
+
   private saveCheckpoint(): void {
-    gameStore().setItem("husky:race-checkpoint",JSON.stringify({turns:this.turns,turbos:this.turbos,kiki:this.race.kiki,rival:this.race.rival}));
+    gameStore().setItem("husky:race-checkpoint",JSON.stringify({turns:this.turns,attempts:this.attempts,turbos:this.turbos,kiki:this.race.kiki,rival:this.race.rival}));
   }
 
   private async finalSprint(): Promise<void> {
@@ -251,7 +303,8 @@ export class RaceScene extends Phaser.Scene {
     mode: MoveMode,
   ): Promise<boolean> {
     return new Promise((resolve) => {
-      const q = this.math.nextQuestion(difficulty);
+      const q = this.math.nextQuestion(difficulty, this.previousQuestion);
+      this.previousQuestion = q.prompt;
       record("math-asked","sled-race",{required:true});
       this.showMathPrompt(q, mode, resolve);
     });
@@ -278,7 +331,8 @@ export class RaceScene extends Phaser.Scene {
     }).setOrigin(0.5);
     c.add([shade, panel, header, prompt]);
 
-    const hint = this.add.text(0, 195, "", { fontFamily: "Arial", fontSize: "18px", color: "#d2e4ee" }).setOrigin(0.5);
+    const hint = this.add.text(0, 240, "", { fontFamily: "Arial", fontSize: "19px", color: "#ffffff", backgroundColor:"#142e40", padding:{x:12,y:8}, align:"center", wordWrap:{width:590} }).setOrigin(0.5);
+    hint.setVisible(false);
     c.add(hint);
     let wrongCount = 0;
     let resolved = false;
@@ -304,11 +358,15 @@ export class RaceScene extends Phaser.Scene {
           resolve(true);
         } else {
           wrongCount += 1;
-          if(wrongCount === 2) record("hint-shown","sled-race");
-          if (wrongCount >= 2 && q.hint) hint.setText(q.hint);
-          this.cameras.main.shake(150, 0.005);
+          hint.setVisible(true).setText("Not quite — one more try. " + q.hint);
+          this.status.setText("Not quite — try again.");
           label.setColor("#ffd6d6");
-          this.time.delayedCall(260, () => label.setColor("#ffffff"));
+          if (wrongCount >= 2) {
+            resolved = true;
+            record("hint-shown","sled-race");
+            c.destroy(true); this.prompt = undefined;
+            void explainMath(q, "Two missed answers: Kiki stays here and Bolt takes a turn.", "Watch Bolt’s turn").then(() => resolve(false));
+          }
         }
       });
       c.add([btn, label]);
@@ -382,7 +440,7 @@ export class RaceScene extends Phaser.Scene {
 
   private async finishRace(): Promise<void> {
     gameStore().removeItem("husky:race-checkpoint");
-    markRaceComplete(HUSKY_GAME_SAVE_KEY, HUSKY_ADVENTURE, { turns: this.turns, turbos: this.turbos }, gameStore());
+    markRaceComplete(HUSKY_GAME_SAVE_KEY, HUSKY_ADVENTURE, { turns: this.attempts, turbos: this.turbos }, gameStore());
     this.choiceGroup?.destroy(true);
     this.kikiChar.setIdlePose("race-celebrate");
     this.kikiChar.setPose("race-celebrate");
@@ -430,14 +488,14 @@ export class RaceScene extends Phaser.Scene {
 
     AdventureEvents.emitRaceComplete({
       adventureId: HUSKY_ADVENTURE.id,
-      turns: this.turns,
+      turns: this.attempts,
       turbos: this.turbos,
     });
 
     const c = this.add.container(640, 470).setDepth(40);
     const label = this.add.text(
       0, 0,
-      `Kiki wins in ${this.turns} turns!`,
+      `Kiki wins in ${this.attempts} turns!`,
       {
         fontFamily: "Georgia",
         fontSize: "28px",

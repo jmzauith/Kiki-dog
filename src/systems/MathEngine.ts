@@ -37,9 +37,10 @@ const uniqueAnswers = (correct: number, candidates: number[]): number[] => {
 };
 
 export class MathEngine {
-  nextQuestion(difficulty: MathQuestion["difficulty"] = "normal"): MathQuestion {
-    const a = difficulty === "challenge" ? between(6, 12) : between(2, 9);
+  nextQuestion(difficulty: MathQuestion["difficulty"] = "normal", previousPrompt?: string): MathQuestion {
+    let a = difficulty === "challenge" ? between(6, 12) : between(2, 9);
     const b = difficulty === "challenge" ? between(4, 9) : between(2, 9);
+    if (`${a} × ${b} = ?` === previousPrompt) a = a === (difficulty === "challenge" ? 12 : 9) ? (difficulty === "challenge" ? 6 : 2) : a + 1;
     const correct = a * b;
 
     return {

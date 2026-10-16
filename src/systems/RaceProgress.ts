@@ -2,7 +2,7 @@
  * Pure, UI-free model of the sled-race rules.
  *
  * Extracted from RaceScene so the progression math (steady = 1 space,
- * turbo = 2 spaces, rival capped below the finish, single victory) is
+ * turbo = 2 spaces, optional competitive rival, single victory) is
  * unit-testable and cannot be accidentally broken by visual changes.
  * The scene owns one instance and mirrors its values to the track visuals.
  */
@@ -19,13 +19,13 @@ export class RaceProgressState {
   kiki = 0;
   rival = 0;
 
-  constructor(finish = 6) {
+  constructor(finish = 6, readonly competitive = false) {
     this.finish = finish;
   }
 
-  /** True once Kiki has reached the finish. Sticky: never unsets. */
+  /** True when a racer allowed to win reaches the finish. */
   get over(): boolean {
-    return this.kiki >= this.finish;
+    return this.kiki >= this.finish || (this.competitive && this.rival >= this.finish);
   }
 
   /**
@@ -42,13 +42,13 @@ export class RaceProgressState {
   }
 
   /**
-   * Advance the rival one space. The rival is deliberately capped one space
-   * below the finish so a young player always wins the race eventually;
-   * this is a design decision, not a bug.
+   * Advance the rival one space. Competitive Husky races allow Bolt to win.
+   * Legacy callers retain their capped, forgiving rival behavior.
    */
   rivalMove(): number {
+    if (this.competitive && this.over) return 0;
     const before = this.rival;
-    this.rival = Math.min(this.finish - 1, this.rival + 1);
+    this.rival = Math.min(this.competitive ? this.finish : this.finish - 1, this.rival + 1);
     return this.rival - before;
   }
 

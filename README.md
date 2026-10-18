@@ -1,10 +1,10 @@
 # Kiki Dog Adventure
 
-> **Start here: [Husky current-build documentation](docs/HUSKY_CURRENT_BUILD.md).** Current implementation report, audited 16 October 2026. It separates the latest development build, deployed build, existing validation and remaining work.
+> **Start here: [Husky current-build documentation](docs/HUSKY_CURRENT_BUILD.md).** Current implementation report, updated 17 October 2026. It separates the latest development build, deployed build, existing validation and remaining work.
 
 Phaser 4 + TypeScript adventure with Snowy Peaks exploration, two routes, puzzles, a Bolt sled race, breed reading/quiz and a collectible sticker album.
 
-The latest candidate is `feature/husky-final-game-feel` at `85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e` (gameplay SHA; following documentation commits do not change it). See the [final game-feel report and Roady handoff](docs/HUSKY_FINAL_GAME_FEEL.md). Pages still targets the older integration build at `6411c6fa36ff827465be15aeef96119237990378`; deployment and main are unchanged.
+The latest candidate is `feature/husky-final-refinement` at `7a9f741fe705f919f06c29e291718c6c443aa892` (frozen gameplay SHA; following documentation commits do not change code). See the [refinement report and Roady handoff](docs/HUSKY_FINAL_REFINEMENT.md). It is ready for independent QA and family review, not certified as the final production template. Pages still targets the older integration branch; deployment and main are unchanged.
 
 - [Rules and rewards](docs/HUSKY_REWARD_RULES.md)
 - [Delivery and validation evidence](docs/HUSKY_DELIVERY_EVIDENCE.md)

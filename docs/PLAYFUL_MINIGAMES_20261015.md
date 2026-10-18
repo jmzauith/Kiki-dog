@@ -1,3 +1,5 @@
+> **Latest implementation:** [Final refinement and reusable-mechanic audit](HUSKY_FINAL_REFINEMENT.md). Lantern sequence memory replaces Lights-Out; painted equipment/branches, enterable Yeti practice and natural-color gold-framed reward are now live. Original delivery evidence below remains historical.
+
 > **Later implementation:** [Final game-feel pass](HUSKY_FINAL_GAME_FEEL.md) replaces important emoji visuals, adds illustrated comparison scenes, pointer dragging, feedback and compact race finish. The original report below remains evidence for its original puzzle-pass build.
 
 > **Documentation status — current implementation report; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). d440ea1: full routes after puzzles; later systems were not yet present.

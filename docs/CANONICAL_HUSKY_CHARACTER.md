@@ -1,4 +1,4 @@
-> **Documentation status — current specification; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Identity and proportions remain the current specification. The older natural-color/gold-border reward treatment below is superseded for the active foil preview, without claiming final art approval. See [current art status](HUSKY_ART_AND_DEPTH_STATUS.md).
+> **Documentation status — current specification; classified 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md) · [Reconciled remaining work](HUSKY_REMAINING_WORK.md). Identity and proportions remain the current specification. The 17 October family brief explicitly restores natural-color Husky with gold frame/foil; the exact replacement image remains pending final art approval. See [current art status](HUSKY_ART_AND_DEPTH_STATUS.md).
 
 # Canonical Husky Character
 

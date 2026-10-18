@@ -1,6 +1,6 @@
 # Husky documentation register
 
-> **Current implementation report**, updated 16 October 2026 for final game-feel `85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e`. [Start at the current-build index](HUSKY_CURRENT_BUILD.md).
+> **Current implementation report**, updated 17 October 2026 for refinement `7a9f741fe705f919f06c29e291718c6c443aa892`. [Start at the current-build index](HUSKY_CURRENT_BUILD.md).
 
 “Current specification” describes the audited contract or a narrowly scoped canonical identity. “Current implementation report” is evidence with an explicit build/scope, not universal acceptance. “Design proposal” describes intended work. “Historical record” preserves earlier results and provenance. Prominent banners override old present-tense claims; historical bodies are retained rather than made to look freshly tested.
 
@@ -8,7 +8,9 @@ The current rules/storage/quiz documents replace obsolete examples; each links t
 
 | Document | Classification | Authority / limit |
 |---|---|---|
-| [HUSKY_FINAL_GAME_FEEL.md](HUSKY_FINAL_GAME_FEEL.md) | current implementation report | Exact code identity, run scope, reusable systems, art provenance and Roady handoff. |
+| [HUSKY_FINAL_REFINEMENT.md](HUSKY_FINAL_REFINEMENT.md) | current implementation report | Frozen code, exact run scope, audit and Roady handoff. |
+| [Refinement evidence](qa/final-refinement/README.md) | current implementation report | Build-scoped captures and telemetry. |
+| [HUSKY_FINAL_GAME_FEEL.md](HUSKY_FINAL_GAME_FEEL.md) | historical record | Exact code identity, run scope, reusable systems, art provenance and Roady handoff. |
 | [HUSKY_BUILD_AUDIT_20261016.md](HUSKY_BUILD_AUDIT_20261016.md) | historical record | Pre-polish documentation-only audit; original no-new-testing boundary preserved. |
 | [Final game-feel evidence](qa/final-game-feel/README.md) | current implementation report | Screenshot/telemetry provenance and capture boundaries. |
 | [README](../README.md) | current implementation report | Entry point; development/deployment distinction. |
@@ -16,7 +18,7 @@ The current rules/storage/quiz documents replace obsolete examples; each links t
 | [ASTRA_RECOVERY_20261015.md](ASTRA_RECOVERY_20261015.md) | historical record | Preserved original scope, results and provenance; not final-build acceptance. |
 | [BREED_FACTS_QUIZ_SYSTEM.md](BREED_FACTS_QUIZ_SYSTEM.md) | current specification | Audited baseline and current contract; see linked source/evidence. |
 | [BREED_REGISTRY_AND_GOLDEN_KIKI.md](BREED_REGISTRY_AND_GOLDEN_KIKI.md) | current specification | Registry/reusable collection design remains a specification, not proof that every breed or endgame is playable. Husky now uses the three-answer finale rule; old global-storage examples and eight-point Husky eligibility are superseded by [reward rules](HUSKY_REWARD_RULES.md) and [profile storage](PLAYER_PROFILES_AVATARS_AND_SAVES.md). |
-| [CANONICAL_HUSKY_CHARACTER.md](CANONICAL_HUSKY_CHARACTER.md) | current specification | Identity and proportions remain the current specification. The older natural-color/gold-border reward treatment below is superseded for the active foil preview, without claiming final art approval. See [current art status](HUSKY_ART_AND_DEPTH_STATUS.md). |
+| [CANONICAL_HUSKY_CHARACTER.md](CANONICAL_HUSKY_CHARACTER.md) | current specification | Identity and proportions remain the current specification. The latest family brief restores natural-color dog / gold frame direction; exact replacement art approval remains pending. See [current art status](HUSKY_ART_AND_DEPTH_STATUS.md). |
 | [HUSKY_ART_AND_DEPTH_STATUS.md](HUSKY_ART_AND_DEPTH_STATUS.md) | current implementation report | Audited baseline and current contract; see linked source/evidence. |
 | [HUSKY_BREED_FINALE_20261015.md](HUSKY_BREED_FINALE_20261015.md) | current implementation report | f2ede75: focused finale and reload checks on completed profiles, not full fresh combined routes. “Canonical gold-foil” below does not establish approval of the generated preview. |
 | [HUSKY_CURRENT_BUILD.md](HUSKY_CURRENT_BUILD.md) | current implementation report | Audited baseline and current contract; see linked source/evidence. |

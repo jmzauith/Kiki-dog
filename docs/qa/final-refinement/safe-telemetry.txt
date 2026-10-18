@@ -1,0 +1,903 @@
+Browser tab: 2, Title: "Kiki Dog Adventure", URL: "http://127.0.0.1:5177/?playtest=1".
+1 AXWebArea Kiki Dog Adventure, URL: 127.0.0.1:5177/?playtest=1
+	2 button Refinement Safe · Switch player
+	19 container playtest-stats
+		20 button (expanded) Local playtest results, Secondary Actions: Collapse
+			21 text Local playtest results
+		22 text {
+  "events": [
+    {
+      "type": "run-started",
+      "atMs": 1792294389230
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1792294419233
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1792294514595
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792294525294,
+      "nodeId": "trailhead",
+      "detail": {
+        "interactionId": "inspect-trail-sign",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792294537004,
+      "nodeId": "trailhead",
+      "detail": {
+        "interactionId": "inspect-trail-sign",
+        "choice": "paw-map"
+      }
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1792294543109,
+      "nodeId": "broken-bridge"
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1792294545373,
+      "nodeId": "broken-bridge",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1792294554706,
+      "detail": {
+        "correct": false
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1792294554952,
+      "detail": {
+        "correct": false
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792294554953
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1792294560521,
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1792294572111
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1792294583339
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1792294591521,
+      "nodeId": "broken-bridge"
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1792294593775,
+      "nodeId": "broken-bridge",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1792294601109,
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792294601111,
+      "nodeId": "broken-bridge",
+      "detail": {
+        "interactionId": "bridge-repair-kit",
+        "kind": "drag-to-target"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792294617298,
+      "nodeId": "broken-bridge",
+      "detail": {
+        "interactionId": "bridge-repair-kit",
+        "choice": "bridge-repaired"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1792294622314,
+      "nodeId": "broken-bridge"
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1792294633815,
+      "nodeId": "forest"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792294635157,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "sniff-pawprints",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792294651264,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "sniff-pawprints",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792294651264,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "advice-forest-noise",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792294656443,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "advice-forest-noise",
+        "choice": "check-it-out"
+      }
+    },
+    {
+      "type": "advice-choice-made",
+      "atMs": 1792294656443,
+      "nodeId": "forest",
+      "detail": {
+        "choiceId": "check-it-out"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792294656443,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "forest-hare",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792294661393,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "forest-hare",
+        "choice": "clue"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792294666168,
+      "nodeId": "forest",
+      "detail": {
+        "interactionId": "choose-route",
+        "choice": "safe"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1792294666177,
+      "nodeId": "forest"
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1792294696169
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1792294708303
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1792294708305,
+      "nodeId": "frozen-lake"
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1792294712435,
+      "nodeId": "frozen-lake",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1792294738128,
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792294738139,
+      "nodeId": "frozen-lake",
+      "detail": {
+        "interactionId": "cross-stones",
+        "kind": "choose-path"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792294764963,
+      "nodeId": "frozen-lake",
+      "detail": {
+        "interactionId": "cross-stones",
+        "choice": "solid-ice"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1792294765863,
+      "nodeId": "frozen-lake"
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1792294781969,
+      "nodeId": "fallen-tree"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792294783614,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree",
+        "kind": "multi-tap-clear"
+      }
+    },
+    {
+      "type": "idle-started",
+      "atMs": 1792294811970
+    },
+    {
+      "type": "idle-ended",
+      "atMs": 1792294872403
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1792294889049,
+      "nodeId": "fallen-tree"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792294890684,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree",
+        "kind": "multi-tap-clear"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792294909043,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792294910173,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792294911432,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792294912483,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792294913593,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792294914733,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792294923284,
+      "nodeId": "fallen-tree",
+      "detail": {
+        "interactionId": "clear-fallen-tree",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1792294923285,
+      "nodeId": "fallen-tree"
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1792294942994,
+      "nodeId": "snow-pass"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792294946164,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "follow-trail-markers",
+        "kind": "ordered-tap"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792294969034,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "follow-trail-markers"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295005065,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "follow-trail-markers",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295005065,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "advice-igloo-mound",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295015925,
+      "nodeId": "snow-pass",
+      "detail": {
+        "interactionId": "advice-igloo-mound",
+        "choice": "peek"
+      }
+    },
+    {
+      "type": "advice-choice-made",
+      "atMs": 1792295015926,
+      "nodeId": "snow-pass",
+      "detail": {
+        "choiceId": "peek"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1792295017028,
+      "nodeId": "snow-pass"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295041005,
+      "nodeId": "snow-cache",
+      "detail": {
+        "interactionId": "uncover-bone-cache",
+        "kind": "search-hidden"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792295055909,
+      "nodeId": "snow-cache",
+      "detail": {
+        "interactionId": "uncover-bone-cache"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792295058134,
+      "nodeId": "snow-cache",
+      "detail": {
+        "interactionId": "uncover-bone-cache"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792295060094,
+      "nodeId": "snow-cache",
+      "detail": {
+        "interactionId": "uncover-bone-cache"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295071506,
+      "nodeId": "snow-cache",
+      "detail": {
+        "interactionId": "uncover-bone-cache",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "discovery-found",
+      "atMs": 1792295083355,
+      "nodeId": "snow-cache",
+      "detail": {
+        "discoveryId": "snow-cache"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295109599,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "search-igloo-objects",
+        "kind": "search-hidden"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792295121224,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "search-igloo-objects"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295142502,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "search-igloo-objects",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295142502,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "igloo-fact",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295151705,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "igloo-fact",
+        "choice": "continue"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295160721,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "igloo-bonus-game",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295182035,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "interactionId": "igloo-bonus-game",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "discovery-found",
+      "atMs": 1792295191123,
+      "nodeId": "secret-igloo",
+      "detail": {
+        "discoveryId": "secret-igloo"
+      }
+    },
+    {
+      "type": "encounter-entered",
+      "atMs": 1792295200286,
+      "nodeId": "summit-camp"
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1792295201711,
+      "nodeId": "summit-camp",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1792295220521,
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295220525,
+      "nodeId": "summit-camp",
+      "detail": {
+        "interactionId": "summit-ice",
+        "kind": "search"
+      }
+    },
+    {
+      "type": "hint-shown",
+      "atMs": 1792295249459,
+      "nodeId": "summit-camp",
+      "detail": {
+        "interactionId": "summit-ice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295276644,
+      "nodeId": "summit-camp",
+      "detail": {
+        "interactionId": "summit-ice",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295276644,
+      "nodeId": "summit-camp",
+      "detail": {
+        "interactionId": "summit-view",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295287856,
+      "nodeId": "summit-camp",
+      "detail": {
+        "interactionId": "summit-view",
+        "choice": "camp"
+      }
+    },
+    {
+      "type": "encounter-exited",
+      "atMs": 1792295288652,
+      "nodeId": "summit-camp"
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295307022,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "greet-bolt",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295328304,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "greet-bolt",
+        "choice": "wave"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295328304,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "advice-race-ready",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295338012,
+      "nodeId": "race-camp",
+      "detail": {
+        "interactionId": "advice-race-ready",
+        "choice": "race-now"
+      }
+    },
+    {
+      "type": "advice-choice-made",
+      "atMs": 1792295338013,
+      "nodeId": "race-camp",
+      "detail": {
+        "choiceId": "race-now"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295367912,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-downhill",
+        "kind": "timing"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295395083,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-downhill",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1792295395083,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "downhill"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1792295395084,
+      "nodeId": "sled-race",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1792295406247,
+      "nodeId": "sled-race",
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "race-turn",
+      "atMs": 1792295406249,
+      "nodeId": "sled-race",
+      "detail": {
+        "turn": 1,
+        "mode": "steady",
+        "correct": true
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295425788,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-icy-turn",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295460297,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-icy-turn",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1792295460298,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "icy-turn"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1792295460299,
+      "nodeId": "sled-race",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1792295481332,
+      "nodeId": "sled-race",
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "race-turn",
+      "atMs": 1792295481336,
+      "nodeId": "sled-race",
+      "detail": {
+        "turn": 2,
+        "mode": "turbo",
+        "correct": true
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295502124,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-deep-snow",
+        "kind": "ordered"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295528020,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-deep-snow",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1792295528020,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "deep-snow"
+      }
+    },
+    {
+      "type": "math-asked",
+      "atMs": 1792295528021,
+      "nodeId": "sled-race",
+      "detail": {
+        "required": true
+      }
+    },
+    {
+      "type": "math-answered",
+      "atMs": 1792295538200,
+      "nodeId": "sled-race",
+      "detail": {
+        "correct": true
+      }
+    },
+    {
+      "type": "race-turn",
+      "atMs": 1792295538202,
+      "nodeId": "sled-race",
+      "detail": {
+        "turn": 3,
+        "mode": "steady",
+        "correct": true
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295540210,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-final-sprint",
+        "kind": "choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295561773,
+      "nodeId": "sled-race",
+      "detail": {
+        "interactionId": "race-final-sprint",
+        "choice": "solved"
+      }
+    },
+    {
+      "type": "race-beat",
+      "atMs": 1792295561773,
+      "nodeId": "sled-race",
+      "detail": {
+        "beatId": "final-sprint"
+      }
+    },
+    {
+      "type": "interaction-started",
+      "atMs": 1792295584031,
+      "nodeId": "husky-reward",
+      "detail": {
+        "interactionId": "pick-favorite-moment",
+        "kind": "inspect-choice"
+      }
+    },
+    {
+      "type": "interaction-completed",
+      "atMs": 1792295606413,
+      "nodeId": "husky-reward",
+      "detail": {
+        "interactionId": "pick-favorite-moment",
+        "choice": "race"
+      }
+    },
+    {
+      "type": "run-ended",
+      "atMs": 1792295606415
+    }
+  ],
+  "summary": {
+    "totalMs": 1217185,
+    "idleMs": 179157,
+    "activeMs": 1038028,
+    "mathAsked": 8,
+    "mathAnsweredCorrect": 6,
+    "hintsShown": 13,
+    "interactionsCompleted": 23,
+    "adviceChoicesMade": [
+      "check-it-out",
+      "peek",
+      "race-now"
+    ],
+    "microDecisionsMade": 0,
+    "discoveriesFound": [
+      "snow-cache",
+      "secret-igloo"
+    ],
+    "raceTurns": 3,
+    "raceBeats": 4,
+    "encountersVisited": [
+      "broken-bridge",
+      "forest",
+      "frozen-lake",
+      "fallen-tree",
+      "snow-pass",
+      "summit-camp"
+    ]
+  }
+}
+	5 container Husky sticker earned
+		6 container
+			7 image Natural-color Husky in a gold-foil frame
+			8 container
+				9 text 001 HUSKY ★ MASTER ★
+			10 text YOUR DOG COLLECTION · No. 001
+			11 heading A Golden Husky masterpiece!, Value: 1
+				12 text A Golden Husky masterpiece!
+			13 text Your Husky belongs in the album — a shining memory of Snowy Peaks. 3 race turns · 2 discoveries · Breed quiz complete · 3 / 3
+			14 image Golden bone collected
+			15 text Golden Bone collected
+			16 button Open my sticker album
+			17 button Keep exploring
+			18 button Play again
+
+The focused UI element is 20 button (expanded) Local playtest results, Secondary Actions: Collapse

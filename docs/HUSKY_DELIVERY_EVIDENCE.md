@@ -2,6 +2,14 @@
 
 > **Current implementation report**, documentation audit 16 October 2026. [Current-build index](HUSKY_CURRENT_BUILD.md). The original reconciliation below preserves prior evidence. The final game-feel entry adds new browser/testing evidence.
 
+## Final refinement candidate — 17 October
+
+[Refinement report and exact scope](HUSKY_FINAL_REFINEMENT.md), branch `feature/husky-final-refinement`, frozen GitHub code `7a9f741fe705f919f06c29e291718c6c443aa892`, local `60a9913c1f1d498e6f1949399065255b85335ee6`, shared tree `6241586687bd534792645e47abd959c9ea9d8ccd`. 498 tests / 34 files, TypeScript/build pass. [Evidence index](qa/final-refinement/README.md).
+
+The 17 October attached brief adds explicit natural-color Husky/gold-frame direction, varied replay math, intuitive lantern replacement, painted minigame art and friendly Yeti practice. It is a new refinement request, not a retroactive fourth theme in the original three-theme mapping below. Implementation commits locally: 778bded (main changes), 0e59a87 (warm-up recovery), bb0b626 (painted branch), 5ad1030 (difficulty/lantern state), 60a9913 (cave framing). Published aggregate 7edfb6b followed by 7a9f741; equal trees verified.
+
+Initial Safe plus optional content spans implementation checkpoints. Challenge covers the combined systems, Yeti and race loss/rematch, quiz retry/partial reload/album/reward reload; a CSS-only Yeti framing correction occurred during it. A subsequent full Safe replay traversed entirely on final code, with six required math, retained quiz/Bone and reload. These are not two fresh new-profile routes started after freeze. Timings are tool-assisted QA, not adult benchmarks. Remaining independent QA/child/touch/art acceptance is explicit in the report.
+
 ## Final game-feel candidate — 16 October
 
 [Complete report and run matrix](HUSKY_FINAL_GAME_FEEL.md), branch `feature/husky-final-game-feel`. Main polish `7df684fc779e4aa679dc1699783244f51901d1fd`; final gameplay `85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e`. 497 tests / 34 files, TypeScript/build pass. Safe and Challenge completed during implementation; final Safe replay and focused guidance/bridge/branch-feedback checks followed. Loss/rematch, partial quiz reload, reward/album reload and replay observed. This supersedes the earlier “no combined-route evidence” gap for the development pass, but does not claim two fresh uninterrupted runs after final commit freeze. Roady/family review remains pending.

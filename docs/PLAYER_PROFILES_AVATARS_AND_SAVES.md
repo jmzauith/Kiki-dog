@@ -1,6 +1,6 @@
 # Current player profiles, replay and durable saves
 
-> **Current specification**, updated 16 October 2026 against final game-feel `85e801b0fd8bc45b9b9505f68bdb19ff7e5bab0e`. [Current-build index](HUSKY_CURRENT_BUILD.md). [Original profile-system design](https://github.com/jmzauith/Kiki-dog/blob/f2ede75037c3466e7fddfe4556636863c80d94eb/docs/PLAYER_PROFILES_AVATARS_AND_SAVES.md) retains the broader API proposal.
+> **Current specification**, updated 17 October 2026 against refinement `7a9f741fe705f919f06c29e291718c6c443aa892`. [Current-build index](HUSKY_CURRENT_BUILD.md). [Original profile-system design](https://github.com/jmzauith/Kiki-dog/blob/f2ede75037c3466e7fddfe4556636863c80d94eb/docs/PLAYER_PROFILES_AVATARS_AND_SAVES.md) retains the broader API proposal.
 
 ## Live selection and storage
 
@@ -20,6 +20,7 @@ Root keys: `kiki:v1:profiles` and `kiki:v1:active-profile`. Every live relative 
 | `husky:breed-finale:v1` | JSON array of correct fixed finale question IDs | Retained; passed quiz skipped |
 | `husky:golden-bone:v1` | Literal `earned` after treasure hunt / completed-cache backfill | Retained |
 | `tutorial:trail:v1` | Literal `complete` from first trail packing lesson, after Let’s explore | Retained; tutorial skipped |
+| `math:history:v1` | Last 120 fact IDs plus ordinal, shared by adventure/race/Yeti MathEngine via scoped store; corrupt/blocked storage falls back to memory | Retained; reduces repeat sequences |
 | `meta:last-breed` | `husky`, written at player selection | Retained |
 
 The live Husky does not write generic `knowledge:husky`, `kiki-dog-quiz-husky-v1` or a global adventure/reward key. Standalone helper defaults mentioning sessionStorage are legacy APIs, not the scene contract. Live example (after player selection):
@@ -52,3 +53,5 @@ Old **profile-scoped** point-based Golden Husky flags are recomputed by BreedRew
 The reusable `resetBreedProgress` helper currently removes only adventure/reward/knowledge keys. It does **not** clear the new finale, bone, race checkpoint, run log or collection rollup; it is not a complete live Husky reset contract. Profile-wide namespace deletion has broader behavior, but no new reset/delete UI was added in the final game-feel pass. The only new relative save key in that pass is tutorial completion. Save formats vary: do not claim every key contains a versioned JSON envelope (the bone is a string and finale an array).
 
 Development-only `?games=1`, `?composition=...` and `?racepractice=1` have separate inspection/practice behavior; race practice uses an ephemeral scoped memory store. They are not evidence that a normal profile completed a route. Existing validation and gaps are in the [evidence ledger](HUSKY_DELIVERY_EVIDENCE.md).
+
+Yeti practice is optional and transient: three correct varied questions, no race penalty. Correct practice count and active question are not saved. Declining/finishing returns to the required cave encounter. The refinement pass adds only `math:history:v1`; no global save migration or family-save deletion was performed.

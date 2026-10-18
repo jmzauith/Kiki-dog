@@ -1,3 +1,5 @@
+> **Historical implementation report — superseded by [the 17 October refinement candidate](HUSKY_FINAL_REFINEMENT.md).** Results and images below describe their original builds.
+
 # Astra Husky final game-feel candidate
 
 > **Current implementation report and Roady handoff — 16 October 2026.** [Current-build index](HUSKY_CURRENT_BUILD.md). This is a candidate for independent QA and family review, not production-art approval or a main release.

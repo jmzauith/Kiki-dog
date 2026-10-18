@@ -20,7 +20,7 @@ type MoveMode = "steady" | "turbo";
 const HUSKY_RACE_FINISH = 5;
 
 export class RaceScene extends Phaser.Scene {
-  private math = new MathEngine();
+  private math = new MathEngine(gameStore);
   private race = new RaceProgressState(HUSKY_RACE_FINISH, true);
   private busy = false;
   private turns = 0;
@@ -319,17 +319,18 @@ export class RaceScene extends Phaser.Scene {
     const shade = this.add.rectangle(0, 0, 1280, 720, 0x10263a, 0.25);
     const panel = this.add.rectangle(0, 0, 630, 430, 0x142e40, 0.96)
       .setStrokeStyle(7, mode === "turbo" ? 0xc2a1de : 0xe7c36e, 1);
-    const header = this.add.text(0, -160, mode === "turbo" ? "TURBO MATH ★" : "STEADY MATH", {
+    const header = this.add.text(0, -178, mode === "turbo" ? "TURBO MATH ★" : "STEADY MATH", {
       fontFamily: "Georgia",
       fontSize: "30px",
       color: mode === "turbo" ? "#dfc5ff" : "#ffe3a5",
     }).setOrigin(0.5);
-    const prompt = this.add.text(0, -82, q.prompt, {
+    const prompt = this.add.text(0, -65, q.prompt, {
       fontFamily: "Georgia",
-      fontSize: "58px",
+      fontSize: "46px",
       color: "#fff1d4",
     }).setOrigin(0.5);
-    c.add([shade, panel, header, prompt]);
+    const story = this.add.text(0, -132, q.story ?? "", {fontFamily:"Arial",fontSize:"16px",color:"#ffffff",align:"center",wordWrap:{width:570}}).setOrigin(0.5);
+    c.add([shade, panel, header, story, prompt]);
 
     const hint = this.add.text(0, 240, "", { fontFamily: "Arial", fontSize: "19px", color: "#ffffff", backgroundColor:"#142e40", padding:{x:12,y:8}, align:"center", wordWrap:{width:590} }).setOrigin(0.5);
     hint.setVisible(false);

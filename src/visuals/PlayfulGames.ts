@@ -1,6 +1,6 @@
 import { pointerDrag } from "./PointerDrag";
 import { gameArt } from "./GameArt";
-import { boardResult, boltMove, lightSolution, makeLights, Mark, pathStep, scentDistance, shuffled, toggleLights } from "../systems/PlayfulPuzzles";
+import { boardResult, boltMove,   Mark, pathStep, scentDistance, shuffled } from "../systems/PlayfulPuzzles";
 import "./playful-games.css";
 
 export const PLAYFUL_GAMES = {
@@ -11,7 +11,7 @@ export const PLAYFUL_GAMES = {
   "follow-trail-markers": ["Remember the mountain trail", "Watch the markers light up, then repeat their order. Three trails to remember!", "sequence"],
   "cave-crystals": ["Crystal echoes", "Watch the crystals glow. Repeat three growing patterns.", "crystals"],
   "clear-fallen-tree": ["Untangle the branches", "Move the branches to the woodpile. A branch can move only when nothing lies over it.", "branches"],
-  "summit-ice": ["The nine lantern gate", "Light all nine lanterns. Each lantern also switches its neighbours above, below, left and right.", "lights"],
+  "summit-ice": ["Lantern Trail Memory", "Watch the lanterns glow, then tap them in the same order. Three rounds: 3, 4, then 5 lights.", "lanterns"],
   "greet-bolt": ["Paws versus snowflakes", "You are paws. Make a line of three! A win or a draw earns Bolt’s friendship.", "tictactoe"],
   "inspect-sled": ["Pack the racing sled", "Match each piece of equipment to its outline. Choose a piece, then its space — or drag it there.", "packing"],
   "race-downhill": ["Ready, set, glide!", "Catch the moving paw inside the gold zone three times to launch your sled.", "timing"],
@@ -34,7 +34,9 @@ const symbols=["🐾","🌲","🏔️","⛺","❄️","🦴"];
 
 /** A board is an actual game, not a list of completion buttons. The underlying
  * scene remains mounted; only the calling encounter awards progression. */
-export function playGame(id:PlayfulId, onHint?:()=>void):Promise<string> {
+export async function playGame(id:PlayfulId, onHint?:()=>void):Promise<string> {
+  const assets=["winter-equipment-atlas.png",...(id==="clear-fallen-tree"?["fallen-branch.png"]:[]),...(id==="sniff-pawprints"?["snowy-differences-original.png","snowy-differences-changed.png"]:[])];
+  await Promise.all(assets.map(async name=>{const img=new Image();img.src=`assets/puzzles/${name}`;await img.decode().catch(()=>undefined);}));
   const [title,instructions,kind]=PLAYFUL_GAMES[id];
   return new Promise(resolve=>{
     const previous=document.activeElement as HTMLElement|null;
@@ -75,7 +77,7 @@ function build(b:Board,kind:string):void {
     case "difference":return differences(b);
     case "tictactoe":return ticTacToe(b);
     case "branches":return branches(b);
-    case "lights":return lights(b);
+    case "lanterns":return sequence(b,false,true);
     case "map":return map(b);
     case "packing":return packing(b);
     case "lake":return lake(b);
@@ -87,7 +89,7 @@ function build(b:Board,kind:string):void {
 }
 
 function memory(b:Board):void {
-  const deck=shuffled([...symbols,...symbols]);let first=-1,locked=false,pairs=0,moves=0;const matched=new Set<number>();
+  const gear=["🧤","🪢","🔔","🧣","🥾","🛷"];const deck=shuffled([...gear,...gear]);let first=-1,locked=false,pairs=0,moves=0;const matched=new Set<number>();
   b.area.classList.add("grid-four");
   const cards=deck.map((glyph,i)=>{const card=b.button(`Face-down card ${i+1}`,"❄");card.className="memory-card";card.onclick=()=>{
     if(locked||matched.has(i)||first===i)return;
@@ -111,8 +113,8 @@ function bones(b:Board):void {
   gameArt(b.score,"0 / 3 bones · numbers are walking steps");
   b.hint(()=>{const i=hidden.find(j=>!found.has(j))!;gameArt(b.status,`Kiki smells a bone in row ${Math.floor(i/4)+1}.`);});
 }
-function sequence(b:Board,crystals:boolean):void {
-  const glyphs=crystals?["◆","⬟","▲","●"]:symbols.slice(0,4);const names=crystals?["Blue diamond","Purple crystal","Amber triangle","Pink pearl"]:["Paw","Pine","Mountain","Camp"];
+function sequence(b:Board,crystals:boolean,lanterns=false):void {
+  const glyphs=lanterns?["☀","☀","☀","☀"]:crystals?["◆","⬟","▲","●"]:symbols.slice(0,4);const names=lanterns?["Blue lantern","Purple lantern","Amber lantern","Pink lantern"]:crystals?["Blue diamond","Purple crystal","Amber triangle","Pink pearl"]:["Paw","Pine","Mountain","Camp"];
   const pattern=Array.from({length:5},()=>Math.floor(Math.random()*4));let stage=0,index=0,showing=false;
   b.area.classList.add("sequence-board");
   const pads=glyphs.map((glyph,i)=>{const pad=b.button(names[i],glyph);pad.className=`sequence-pad tone-${i}`;pad.onclick=()=>{if(showing)return;pad.classList.add("lit");b.later(()=>pad.classList.remove("lit"),250);
@@ -134,13 +136,6 @@ function ticTacToe(b:Board):void {
   gameArt(b.score,"You 🐾 · Bolt ❄ · A draw counts too!");
   b.hint(()=>{if(busy)return;const swapped=board.map(m=>m==="paw"?"snow":m==="snow"?"paw":null);const move=boltMove(swapped);if(move>=0){cells[move].classList.add("hinted");gameArt(b.status,"Try the glowing square. Look for two in a row!");b.later(()=>cells[move].classList.remove("hinted"),2000);}});
 }
-function lights(b:Board):void {
-  let state=makeLights(shuffled([0,1,2,3,4,5,6,7,8]).slice(0,3));let moves=0;
-  b.area.classList.add("grid-three");
-  const render=()=>{cells.forEach((c,i)=>{gameArt(c,state[i]?"☀":"☾");c.classList.toggle("lit",state[i]);c.setAttribute("aria-label",`Lantern ${i+1}, ${state[i]?"lit":"dark"}`);});gameArt(b.score,`${state.filter(Boolean).length} / 9 lanterns · ${moves} moves`);};
-  const cells=state.map((_,i)=>{const c=b.button(`Lantern ${i+1}`,"");c.className="lantern";c.onclick=()=>{state=toggleLights(state,i);moves++;render();if(state.every(Boolean))b.win();};return c;});render();
-  b.hint(()=>{const solution=lightSolution(state);if(solution.length){const c=cells[solution[0]];c.classList.add("hinted");gameArt(b.status,`Try lantern ${solution[0]+1}. ${solution.length} moves can light them all.`);b.later(()=>c.classList.remove("hinted"),2200);}});
-}
 function map(b:Board):void {
   // A six-tile hairpin trail: enter top-left, turn down, leave bottom-left.
   const target=[0,0,0,0,0,1];let rotations=target.map(t=>(t+1+Math.floor(Math.random()*3))%4);
@@ -154,7 +149,7 @@ function branches(b:Board):void {
   const remaining=new Set([0,1,2,3,4,5]);const order=shuffled([0,1,2,3,4,5]);
   b.area.classList.add("branch-board");
   const pile=b.button("Place branch in woodpile","WOODPILE  🪵");pile.className="woodpile";let selected=-1;
-  const branches=order.map((id,layer)=>{const branch=b.button(`Branch ${id+1}`,"");branch.className="branch-piece";branch.style.cssText=`top:${12+layer*10}%;left:${8+(layer%2)*10}%;transform:rotate(${layer%2?18:-18}deg);z-index:${layer+1}`;branch.innerHTML='<svg viewBox="0 0 300 35" aria-hidden="true"><path d="M12 20L285 15M90 18L70 2M180 17L215 32" fill="none" stroke="#2a1d13" stroke-width="19" stroke-linecap="round"/><path d="M12 16L285 11M90 14L70 2" fill="none" stroke="#b9854e" stroke-width="10" stroke-linecap="round"/></svg>';
+  const branches=order.map((id,layer)=>{const branch=b.button(`Branch ${id+1}`,"");branch.className="branch-piece";branch.style.cssText=`top:${12+layer*10}%;left:${8+(layer%2)*10}%;transform:rotate(${layer%2?18:-18}deg);z-index:${layer+1}`;branch.innerHTML='<img src="assets/puzzles/fallen-branch.png" alt="" aria-hidden="true" draggable="false">';
     branch.onclick=()=>{if(!remaining.has(id))return;const top=[...order].reverse().find(j=>remaining.has(j));if(top!==id){gameArt(b.status,"That branch is underneath another. Find the one lying on top.");return;}selected=id;branch.classList.add("selected");gameArt(b.status,"Now move it to the woodpile.");};
     pointerDrag(branch,()=>{branch.click();return selected===id;},()=>[pile],()=>move());return branch;});
   const move=()=>{if(selected<0)return;remaining.delete(selected);branches[order.indexOf(selected)].remove();selected=-1;gameArt(b.score,`${6-remaining.size} / 6 branches cleared`);gameArt(pile,"🪵 ".repeat(6-remaining.size));gameArt(b.status,"Safely stacked! Find the next branch on top.");if(!remaining.size)b.win();};

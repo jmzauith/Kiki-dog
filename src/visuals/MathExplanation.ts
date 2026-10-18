@@ -13,7 +13,8 @@ export function explainMath(q: MathQuestion, consequence: string, nextLabel: str
     answer.textContent = q.prompt.replace("?", String(q.correct));
     const operands = q.prompt.match(/(\d+) × (\d+)/);
     const explanation = document.createElement("p");
-    if (operands) {
+    if (q.explanation) explanation.textContent = q.explanation;
+    else if (operands) {
       const a = Number(operands[1]), b = Number(operands[2]);
       explanation.textContent = `${a} groups of ${b} means adding ${b}, ${a} times: ${Array(a).fill(b).join(" + ")} = ${q.correct}.`;
     } else explanation.textContent = q.hint;

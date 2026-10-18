@@ -1,96 +1,18 @@
-import { describe, expect, it } from "vitest";
-import { MathEngine } from "../MathEngine";
-
-const engine = new MathEngine();
-const ITERATIONS = 500;
-
-function parsePrompt(prompt: string): { a: number; b: number } {
-  const m = prompt.match(/^(\d+) × (\d+) = \?$/);
-  expect(m, `prompt format unexpected: ${prompt}`).not.toBeNull();
-  return { a: Number(m![1]), b: Number(m![2]) };
-}
-
-describe.each(["normal", "challenge"] as const)("MathEngine (%s)", (difficulty) => {
-  it("returns exactly 4 answers", () => {
-    for (let i = 0; i < ITERATIONS; i++) {
-      expect(engine.nextQuestion(difficulty).answers).toHaveLength(4);
-    }
-  });
-
-  it("answers are unique", () => {
-    for (let i = 0; i < ITERATIONS; i++) {
-      const { answers } = engine.nextQuestion(difficulty);
-      expect(new Set(answers).size).toBe(4);
-    }
-  });
-
-  it("contains the correct answer exactly once", () => {
-    for (let i = 0; i < ITERATIONS; i++) {
-      const q = engine.nextQuestion(difficulty);
-      expect(q.answers.filter((a) => a === q.correct)).toHaveLength(1);
-    }
-  });
-
-  it("prompt operands multiply to the correct answer", () => {
-    for (let i = 0; i < ITERATIONS; i++) {
-      const q = engine.nextQuestion(difficulty);
-      const { a, b } = parsePrompt(q.prompt);
-      expect(a * b).toBe(q.correct);
-    }
-  });
-
-  it("all answers are positive", () => {
-    for (let i = 0; i < ITERATIONS; i++) {
-      const { answers } = engine.nextQuestion(difficulty);
-      for (const a of answers) expect(a).toBeGreaterThan(0);
-    }
-  });
-
-  it("reports the requested difficulty", () => {
-    for (let i = 0; i < ITERATIONS; i++) {
-      expect(engine.nextQuestion(difficulty).difficulty).toBe(difficulty);
-    }
-  });
+import { describe, expect, it, vi } from "vitest";
+import { MathEngine, MATH_HISTORY_KEY } from "../MathEngine";
+import { memoryStore, scopedStoreFor } from "../ProfileStore";
+describe.each(["normal","challenge"] as const)("Varied math: %s",difficulty=>{
+ it("always has four distinct positive choices and one correct answer",()=>{const engine=new MathEngine();for(let i=0;i<500;i++){const q=engine.nextQuestion(difficulty);expect(q.answers).toHaveLength(4);expect(new Set(q.answers).size).toBe(4);expect(q.answers.filter(a=>a===q.correct)).toHaveLength(1);expect(q.answers.every(a=>Number.isInteger(a)&&a>0)).toBe(true);}});
+ it("equations and missing numbers are arithmetically valid",()=>{const engine=new MathEngine();for(let i=0;i<500;i++){const q=engine.nextQuestion(difficulty);const parts=q.prompt.replace('?',String(q.correct)).match(/^(\d+) ([+−×÷]) (\d+) = (\d+)$/)!;expect(parts).not.toBeNull();const a=+parts[1],b=+parts[3],result=+parts[4];expect(parts[2]==='+'?a+b:parts[2]==='−'?a-b:parts[2]==='×'?a*b:a/b).toBe(result);expect(result).toBeLessThanOrEqual(difficulty==='normal'?81:108);}});
+ it("covers all four operations with gentle exact division",()=>{const engine=new MathEngine();const qs=Array.from({length:21},()=>engine.nextQuestion(difficulty));expect(new Set(qs.map(q=>q.operation)).size).toBe(4);for(const q of qs.filter(q=>q.operation==='÷')){expect(Number.isInteger(q.correct)).toBe(true);expect(q.correct).toBeLessThanOrEqual(difficulty==='normal'?9:12);}});
+ it("does not repeat facts in a normal adventure-sized run",()=>{const engine=new MathEngine();const qs=Array.from({length:30},()=>engine.nextQuestion(difficulty));expect(new Set(qs.map(q=>q.fact)).size).toBe(qs.length);});
 });
+it("reload/replay retains history and profiles stay isolated",()=>{const base=memoryStore(),a=scopedStoreFor(base,'a'),b=scopedStoreFor(base,'b');const first=new MathEngine(()=>a);const facts=Array.from({length:15},()=>first.nextQuestion().fact);const reloaded=new MathEngine(()=>a);for(let i=0;i<15;i++)expect(facts).not.toContain(reloaded.nextQuestion().fact);expect(b.getItem(MATH_HISTORY_KEY)).toBeNull();expect(a.getItem(MATH_HISTORY_KEY)).not.toBeNull();});
+it("terminates with a fixed random source and avoids the previous prompt",()=>{vi.spyOn(Math,'random').mockReturnValue(0);try{const engine=new MathEngine();let previous='';for(let i=0;i<100;i++){const q=engine.nextQuestion('normal',previous);expect(q.prompt).not.toBe(previous);previous=q.prompt;}}finally{vi.restoreAllMocks();}});
+it("malformed history and blocked storage cannot stop play",()=>{const store=memoryStore();store.setItem(MATH_HISTORY_KEY,'{broken');expect(new MathEngine(()=>store).nextQuestion().answers).toHaveLength(4);const blocked={...store,setItem(){throw Error('quota');}};expect(new MathEngine(()=>blocked).nextQuestion().answers).toHaveLength(4);});
+it("first bridge warm-up never begins with multiplication or division",()=>{const engine=new MathEngine();for(let i=0;i<30;i++)expect(['+','−']).toContain(engine.nextQuestion('normal',undefined,{warmup:true}).operation);});
+it("Yeti can request three distinct operations from the shared engine",()=>{const engine=new MathEngine();expect((['+','−','×'] as const).map(operation=>engine.nextQuestion('normal',undefined,{operation}).operation)).toEqual(['+','−','×']);});
+it("each generated format supplies an explanation and a matching story",()=>{const engine=new MathEngine();for(let i=0;i<40;i++){const q=engine.nextQuestion();expect(q.explanation).toContain(String(q.correct));expect(q.story?.length).toBeGreaterThan(10);expect(q.hint.length).toBeGreaterThan(10);}});
+it("a normal practice answer stays within the opening-world number range",()=>{const engine=new MathEngine();for(let i=0;i<200;i++)expect(engine.nextQuestion().correct).toBeLessThanOrEqual(81);});
 
-describe("MathEngine difficulty ranges", () => {
-  it("normal questions use operands 2..9", () => {
-    for (let i = 0; i < ITERATIONS; i++) {
-      const { a, b } = parsePrompt(engine.nextQuestion("normal").prompt);
-      expect(a).toBeGreaterThanOrEqual(2);
-      expect(a).toBeLessThanOrEqual(9);
-      expect(b).toBeGreaterThanOrEqual(2);
-      expect(b).toBeLessThanOrEqual(9);
-    }
-  });
-
-  it("challenge questions use harder operands than normal", () => {
-    let normalMax = 0;
-    let challengeMin = Infinity;
-    for (let i = 0; i < ITERATIONS; i++) {
-      const n = parsePrompt(engine.nextQuestion("normal").prompt);
-      const c = parsePrompt(engine.nextQuestion("challenge").prompt);
-      normalMax = Math.max(normalMax, n.a * n.b);
-      challengeMin = Math.min(challengeMin, c.a * c.b);
-      expect(c.a).toBeGreaterThanOrEqual(6);
-      expect(c.a).toBeLessThanOrEqual(12);
-      expect(c.b).toBeGreaterThanOrEqual(4);
-      expect(c.b).toBeLessThanOrEqual(9);
-    }
-    // Challenge products should reach higher than anything normal produces.
-    expect(challengeMin).toBeGreaterThanOrEqual(24);
-    expect(normalMax).toBeLessThanOrEqual(81);
-  });
-});
-
-it("replacement problems differ from the failed problem at either difficulty", () => {
-  for (const difficulty of ["normal", "challenge"] as const) {
-    let previous = engine.nextQuestion(difficulty);
-    for (let i = 0; i < 500; i++) {
-      const next = engine.nextQuestion(difficulty, previous.prompt);
-      expect(next.prompt).not.toBe(previous.prompt);
-      expect(next.answers).toContain(next.correct);
-      previous = next;
-    }
-  }
-});
+it("challenge addition/subtraction have a higher operand floor",()=>{const engine=new MathEngine();for(const operation of ['+','−'] as const)for(let i=0;i<40;i++){const q=engine.nextQuestion('challenge',undefined,{operation});const left=Number(q.prompt.split(' ')[0]);expect(left).toBeGreaterThanOrEqual(12);expect(q.explanation).toBeTruthy();}});

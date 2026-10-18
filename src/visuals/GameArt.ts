@@ -22,8 +22,9 @@ shapes['☀']='<path d="M18 17H46L50 52H14Z" fill="#e8b858"/><path d="M23 17V9Q3
 shapes['☾']=shapes['☀'].replace('#e8b858','#506573').replace('#fff4b8','#8fa0a5');
 for(const [token,colour] of [['◆','#6ca9c6'],['⬟','#a287c4'],['▲','#d4b06a'],['●','#c88f9f']])shapes[token]=`<path d="M24 6L42 12L54 39L32 58L10 39Z" fill="${colour}"/><path d="M24 6L20 35L32 58L40 34L42 12M10 39L20 35L40 34L54 39" fill="none" stroke="#e4eff0"/>`;
 shapes['❄️']=shapes['❄'];shapes['👣']=shapes['🐾'];
+const painted:Record<string,number>={'🐾':0,'👣':0,'🌲':1,'🏔️':2,'⛺':3,'❄':4,'❄️':4,'🦴':5,'🪵':6,'🧤':7,'🪢':8,'🔔':9,'🧣':10,'🥾':11,'🛷':12,'🛶':13,'💡':14,'☀':14,'☾':14,'◆':15,'⬟':15,'▲':15,'●':15};
 const tokens=Object.keys(shapes).sort((a,b)=>b.length-a.length);
 export function gameArt(target:HTMLElement,text:string):void {
  target.replaceChildren();
- while(text){const key=tokens.find(k=>text.startsWith(k));if(key){const span=document.createElement('span');span.className='game-piece-art';span.setAttribute('aria-hidden','true');span.innerHTML=`<svg viewBox="0 0 64 64" fill="#b18448" stroke="#513d2b" stroke-width="2" stroke-linejoin="round">${shapes[key]}</svg>`;target.append(span);text=text.slice(key.length);}else{let n=1;while(n<text.length&&!tokens.some(k=>text.startsWith(k,n)))n++;target.append(document.createTextNode(text.slice(0,n)));text=text.slice(n);}}
+ while(text){const key=tokens.find(k=>text.startsWith(k));if(key){const span=document.createElement('span');span.className='game-piece-art';span.setAttribute('aria-hidden','true');if(key in painted){const i=painted[key];span.classList.add('painted-piece');span.style.backgroundPosition=`${(i%4)*100/3}% ${Math.floor(i/4)*100/3}%`;}else span.innerHTML=`<svg viewBox="0 0 64 64" fill="#b18448" stroke="#513d2b" stroke-width="2" stroke-linejoin="round">${shapes[key]}</svg>`;target.append(span);text=text.slice(key.length);}else{let n=1;while(n<text.length&&!tokens.some(k=>text.startsWith(k,n)))n++;target.append(document.createTextNode(text.slice(0,n)));text=text.slice(n);}}
 }

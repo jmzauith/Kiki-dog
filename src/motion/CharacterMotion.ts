@@ -331,6 +331,7 @@ export class CharacterMotion {
     this.writeParts();
     if(this.intactPose) {
       const {x,y}=this.container;
+      const horizontalStep=this.previousPosition ? x-this.previousPosition.x : 0;
       const distance=this.previousPosition ? Math.hypot(x-this.previousPosition.x,y-this.previousPosition.y) : 0;
       this.previousPosition={x,y};
       if(distance>0.02 && distance<80) {
@@ -350,7 +351,7 @@ export class CharacterMotion {
         // Complete silhouette stays intact. Quiet breathing pivots at the paws.
         this.intactPose.scaleY*=1+Math.sin(_time*.0018)*.006;
         this.intactPose.setAngle(Math.sin(_time*.00055)*.35);
-      } else this.intactPose.setAngle(0);
+      } else this.intactPose.setAngle(Phaser.Math.Clamp(horizontalStep*this.facing*.35,-1.5,1.5));
     }
   }
 

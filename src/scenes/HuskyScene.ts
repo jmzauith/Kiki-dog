@@ -1,3 +1,4 @@
+import { visitYetiCave } from "../visuals/YetiCave";
 import { firstTrailTutorial } from "../visuals/FirstTrailTutorial";
 import { TrailGuidance } from "../visuals/TrailGuidance";
 import { HuskyGraduation } from "../systems/HuskyGraduation";
@@ -68,7 +69,7 @@ type RouteVisual = {
  * dedicated art yet get lightweight placeholder markers (AdventureMarkers).
  */
 export class HuskyScene extends Phaser.Scene {
-  private math = new MathEngine();
+  private math = new MathEngine(gameStore);
   private adventure!: AdventureProgress;
   private nodeDefs = new Map<string, AdventureNodeDef>();
   private kiki!: CharacterMotion;
@@ -90,6 +91,7 @@ export class HuskyScene extends Phaser.Scene {
   }
 
   preload(): void {
+    this.load.image("repair-plank", "assets/premium/bridge-repair-plank.png");
     preloadPreviewArt(this);
     HuskyCharacter.preload(this);
     preloadMotion(this);
@@ -661,7 +663,7 @@ export class HuskyScene extends Phaser.Scene {
 
       case "math-normal":
       case "math-challenge": {
-        if(node.id === "ice-cave") await depth("cave-crystals",node.id,"Listen to the ice cave","Tap the three crystals to hear the trail echo through the mountain.",[{id:"low",label:"Low crystal"},{id:"mid",label:"Middle crystal"},{id:"high",label:"High crystal"}],"lm-ice-cave","search");
+        if(node.id === "ice-cave") await visitYetiCave(this.events);
         const difficulty = node.mathDifficulty ?? "normal";
         const titles: Record<string, string> = {
           "frozen-lake": "Which stones are safe? Solve to light the way!",
@@ -915,13 +917,9 @@ export class HuskyScene extends Phaser.Scene {
 
   private runMathEncounter(difficulty: "normal" | "challenge", title: string, nodeId?: string): Promise<boolean> {
     return new Promise((resolve) => {
-      const q = this.math.nextQuestion(difficulty);
+      const q = this.math.nextQuestion(difficulty, undefined, {warmup:nodeId === "broken-bridge"});
       record("math-asked",nodeId,{required:nodeId !== "secret-igloo"});
-      const story = HUSKY_NARRATIVE.encounters.find(e => e.nodeId === nodeId);
-      const operands = q.prompt.match(/(\d+) × (\d+)/);
-      const fill = (text: string) => text.replaceAll("{a}", operands?.[1] ?? "").replaceAll("{b}", operands?.[2] ?? "");
-      const heading = story?.math ? fill(story.math.template) : title;
-      if (story?.hints?.hints[0]) q.hint = fill(story.hints.hints[0]);
+      const heading = q.story ?? title;
       this.showMathPrompt(q, heading, resolve);
     });
   }
@@ -992,9 +990,9 @@ export class HuskyScene extends Phaser.Scene {
             c.destroy(true); this.prompt = undefined;
             void explainMath(q, "Your adventure progress is safe. Let’s try a different problem.", "Try a new problem").then(() => {
               this.status.setText("A fresh problem — take your time.");
-              const next = this.math.nextQuestion(q.difficulty, q.prompt);
+              const next = this.math.nextQuestion(q.difficulty, q.prompt, {warmup:q.warmup});
               record("math-asked", undefined, {required:true});
-              this.showMathPrompt(next, "A fresh problem — you can do this!", resolve);
+              this.showMathPrompt(next, next.story ?? "A fresh problem — you can do this!", resolve);
             });
           }
         }
